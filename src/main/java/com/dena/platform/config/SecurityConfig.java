@@ -21,20 +21,11 @@ import javax.annotation.Resource;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Resource(name = "denaUserDetailServiceImpl")
-    private UserDetailsService userDetailsService;
 
     @Resource(name = "denaPasswordEncoder")
     private PasswordEncoder denaPasswordEncoder;
 
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(denaPasswordEncoder);
 
-        return provider;
-    }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
