@@ -3,19 +3,20 @@ package com.dena.platform.core.entity;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import java.util.UUID;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
  */
 @MappedSuperclass
-public class BaseLongIdEntity implements BaseEntity<Long> {
+public class BaseUuiddEntity implements BaseEntity<UUID> {
     @Id
     @Column(name = "ID")
-    protected Long id;
+    protected UUID id;
 
 
     @Override
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 }
