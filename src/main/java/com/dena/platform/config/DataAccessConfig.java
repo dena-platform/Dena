@@ -11,7 +11,7 @@ import javax.sql.DataSource;
 
 
 /**
- * @auther Javad Alimohammadi<bs.alimohammadi@yahoo.com>
+ * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
  */
 @Configuration
 public class DataAccessConfig {

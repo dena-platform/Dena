@@ -9,7 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
- * @auther Javad Alimohammadi<bs.alimohammadi@yahoo.com>
+ * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
  */
 @Configuration
 public class ApplicationContextConfig {

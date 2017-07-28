@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import javax.annotation.Resource;
 
 /**
- * @auther Javad Alimohammadi<bs.alimohammadi@yahoo.com>
+ * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
  */
 
 @Configuration
