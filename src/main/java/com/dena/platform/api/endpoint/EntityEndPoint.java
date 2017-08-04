@@ -17,6 +17,7 @@ public class EntityEndPoint {
 
     @RequestMapping
     public void addEntity(HttpServletRequest request) {
+
     }
 
     
