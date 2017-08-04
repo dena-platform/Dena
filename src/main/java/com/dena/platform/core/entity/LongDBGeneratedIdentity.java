@@ -1,16 +1,14 @@
 package com.dena.platform.core.entity;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Entity with int identity generated value
  *
  * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
  */
-public class LongDBGeneratedIdentity<E extends Number> extends BaseDBGeneratedIdentity<Long> {
+@MappedSuperclass
+public abstract class LongDBGeneratedIdentity<E extends Number> extends BaseDBGeneratedIdentity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
