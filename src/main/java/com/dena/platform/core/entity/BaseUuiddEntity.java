@@ -20,3 +20,4 @@ public class BaseUuiddEntity implements BaseEntity<UUID> {
         return id;
     }
 }
+                                        
