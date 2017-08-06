@@ -1,5 +1,6 @@
 package com.dena.platform.api.endpoint;
 
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +16,7 @@ public class EntityEndPoint {
     public final static String API_PATH = "/v1/";
 
 
-    @RequestMapping
+    @PostMapping
     public void addEntity(HttpServletRequest request) {
 
     }
