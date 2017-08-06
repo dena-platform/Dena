@@ -6,5 +6,9 @@ package com.dena.platform.api;
 
 public class EntityDTO {
 
+    private String entityId;
+
     private String entityType;
+
+    
 }
