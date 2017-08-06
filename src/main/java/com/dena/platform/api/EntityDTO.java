@@ -11,6 +11,7 @@ public class EntityDTO {
     @JsonProperty("entity_id")
     private String entityId;
 
+    @JsonProperty("entity_type")
     private String entityType;
 
 
