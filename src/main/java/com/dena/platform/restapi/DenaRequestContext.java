@@ -1,5 +1,6 @@
 package com.dena.platform.restapi;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
@@ -19,11 +20,13 @@ public class DenaRequestContext {
 
 
     public boolean isPostRequest() {
-
+        //todo complete me
+        return false;
     }
 
     public boolean isGetRequest() {
-
+        //todo complete me
+        return false;
     }
 
     public HttpServletRequest getRequest() {
@@ -33,7 +36,7 @@ public class DenaRequestContext {
     public String getRequestBody() {
         if (StringUtils.isBlank(requestBody)) {
             try {
-                requestBody = request.getReader().lines().collect(Collectors.joining());
+                requestBody = IOUtils.toString(request.getReader());
             } catch (Exception ex) {
                 log.error("Can not read request body", ex);
                 throw new RuntimeException("Can not read request body", ex);

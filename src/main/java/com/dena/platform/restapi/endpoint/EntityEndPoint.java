@@ -1,6 +1,7 @@
 package com.dena.platform.restapi.endpoint;
 
 import com.dena.platform.restapi.EntityDTO;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

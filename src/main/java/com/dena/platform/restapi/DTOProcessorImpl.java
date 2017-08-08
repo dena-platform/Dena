@@ -12,6 +12,5 @@ public class DTOProcessorImpl implements DTOProcessor {
 
     @Override
     public void processDTO(HttpServletRequest request) {
-        IOUtils.toString(request.getReader());
     }
 }
