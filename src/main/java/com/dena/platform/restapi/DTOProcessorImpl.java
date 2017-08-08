@@ -10,5 +10,6 @@ public class DTOProcessorImpl implements DTOProcessor {
 
     @Override
     public void processDTO(DenaRequestContext denaRequestContext) {
+
     }
 }
