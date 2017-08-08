@@ -1,6 +1,8 @@
-package com.dena.platform.api.endpoint;
+package com.dena.platform.restapi.endpoint;
 
+import com.dena.platform.restapi.EntityDTO;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,10 +19,11 @@ public class EntityEndPoint {
 
 
     @PostMapping
-    public void addEntity(HttpServletRequest request) {
+    public void saveEntity(HttpServletRequest request) {
+
+        System.out.println(request);
 
     }
 
-    
 
 }
