@@ -2,8 +2,6 @@ package com.dena.platform.restapi;
 
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
  */
@@ -11,6 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 public class DTOProcessorImpl implements DTOProcessor {
 
     @Override
-    public void processDTO(HttpServletRequest request) {
+    public void processDTO(DenaRequestContext denaRequestContext) {
     }
 }

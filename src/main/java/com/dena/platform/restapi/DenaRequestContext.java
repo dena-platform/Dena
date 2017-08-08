@@ -3,9 +3,9 @@ package com.dena.platform.restapi;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.stream.Collectors;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -20,13 +20,11 @@ public class DenaRequestContext {
 
 
     public boolean isPostRequest() {
-        //todo complete me
-        return false;
+        return RequestMethod.POST.name().equals(request.getMethod());
     }
 
     public boolean isGetRequest() {
-        //todo complete me
-        return false;
+        return RequestMethod.GET.name().equals(request.getMethod());
     }
 
     public HttpServletRequest getRequest() {
