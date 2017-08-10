@@ -20,7 +20,6 @@ public class RestEntityProcessorImpl implements RestEntityProcessor {
         String requestBody = denaRequestContext.getRequestBody();
         EntityDTO entityDTO = JSONMapper.createObjectFromJSON(requestBody, EntityDTO.class);
 
-
     }
 
     private Class<?> findEntityType(EntityDTO entityDTO) {
@@ -28,5 +27,5 @@ public class RestEntityProcessorImpl implements RestEntityProcessor {
         return DenaEntityMapping.getKlass(className);
     }
 
-    
+
 }

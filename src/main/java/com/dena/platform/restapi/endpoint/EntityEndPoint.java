@@ -18,7 +18,7 @@ public class EntityEndPoint {
 
     public final static String API_PATH = "/v1/";
 
-    @Resource(name = "denaDTOProcessor")
+    @Resource(name = "denaRestEntityProcessorImpl")
     private RestEntityProcessor restEntityProcessor;
 
     @PostMapping
