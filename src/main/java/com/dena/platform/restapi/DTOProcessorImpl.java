@@ -18,7 +18,7 @@ public class DTOProcessorImpl implements DTOProcessor {
     public void processDTO(DenaRequestContext denaRequestContext) {
         String requestBody = denaRequestContext.getRequestBody();
         EntityDTO entityDTO = JSONMapper.createObjectFromJSON(requestBody, EntityDTO.class);
-        findEntityType(entityDTO);
+        System.out.println(findEntityType(entityDTO));
     }
 
     private Class<?> findEntityType(EntityDTO entityDTO) {
@@ -31,7 +31,7 @@ public class DTOProcessorImpl implements DTOProcessor {
             throw new RuntimeException("Can not find class", ex);
         }
 
-
     }
+
 
 }
