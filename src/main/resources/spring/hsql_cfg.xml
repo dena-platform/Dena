@@ -11,7 +11,7 @@
                         <prop key="server.database.0">mem:DENA_PLATFORM</prop>
                         <prop key="server.dbname.0">DENA_PLATFORM</prop>
                         <prop key="server.no_system_exit">true</prop>
-                        <prop key="server.port">9001</prop>
+                        <prop key="server.port">9002</prop>
                     </props>
                 </constructor-arg>
             </bean>

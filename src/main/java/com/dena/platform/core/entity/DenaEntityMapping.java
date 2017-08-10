@@ -9,7 +9,7 @@ import java.util.Map;
  */
 public enum DenaEntityMapping {
     BaseLongIdEntity(BaseLongIdEntity.class.getSimpleName(), BaseLongIdEntity.class),
-    BaseUuiddEntity(BaseUuiddEntity.class.getSimpleName(), BaseUuiddEntity.class);
+    BaseUuiddEntity(BaseUuidEntity.class.getSimpleName(), BaseUuidEntity.class);
 
     private String name;
     private Class<? extends BaseEntity> klass;
