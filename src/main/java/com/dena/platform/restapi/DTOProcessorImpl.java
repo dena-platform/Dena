@@ -2,6 +2,7 @@ package com.dena.platform.restapi;
 
 import com.dena.platform.common.web.JSONMapper;
 import com.dena.platform.core.entity.BaseEntity;
+import com.dena.platform.core.entity.DenaEntityMapping;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +24,7 @@ public class DTOProcessorImpl implements DTOProcessor {
 
     private Class<?> findEntityType(EntityDTO entityDTO) {
         String className = entityDTO.getEntityType();
-
-        try {
-            Class<?> aClass = Class.forName(className);
-            return aClass;
-        } catch (ClassNotFoundException ex) {
-            throw new RuntimeException("Can not find class", ex);
-        }
-
+        return DenaEntityMapping.getKlass(className);
     }
 
 
