@@ -14,11 +14,13 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class RestEntityProcessorImpl implements RestEntityProcessor {
     private final static Logger log = getLogger(RestEntityProcessorImpl.class);
 
+
     @Override
-    public void processDTO(DenaRequestContext denaRequestContext) {
+    public void processRestRequest(DenaRequestContext denaRequestContext) {
         String requestBody = denaRequestContext.getRequestBody();
         EntityDTO entityDTO = JSONMapper.createObjectFromJSON(requestBody, EntityDTO.class);
-        System.out.println(findEntityType(entityDTO));
+
+
     }
 
     private Class<?> findEntityType(EntityDTO entityDTO) {
@@ -26,5 +28,5 @@ public class RestEntityProcessorImpl implements RestEntityProcessor {
         return DenaEntityMapping.getKlass(className);
     }
 
-
+    
 }
