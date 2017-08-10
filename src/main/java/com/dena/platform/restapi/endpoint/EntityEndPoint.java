@@ -1,6 +1,6 @@
 package com.dena.platform.restapi.endpoint;
 
-import com.dena.platform.restapi.DTOProcessor;
+import com.dena.platform.restapi.RestEntityProcessor;
 import com.dena.platform.restapi.DenaRequestContext;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +19,12 @@ public class EntityEndPoint {
     public final static String API_PATH = "/v1/";
 
     @Resource(name = "denaDTOProcessor")
-    private DTOProcessor dtoProcessor;
+    private RestEntityProcessor restEntityProcessor;
 
     @PostMapping
     public void saveEntity(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-        dtoProcessor.processDTO(denaRequestContext);
+        restEntityProcessor.processDTO(denaRequestContext);
 
     }
 
