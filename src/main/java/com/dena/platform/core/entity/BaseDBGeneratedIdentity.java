@@ -9,7 +9,7 @@ import javax.persistence.MappedSuperclass;
 /**
  * This is base entity for generating database identifier
  * <p>
- * <p> Borrowed from cuba pla project which is licensed under the Apache License, Version 2.0.
+ * <p> Borrowed from cuba platform project which is licensed under the Apache License, Version 2.0.
  * See http://www.apache.org/licenses/LICENSE-2.0.
  */
 @MappedSuperclass
