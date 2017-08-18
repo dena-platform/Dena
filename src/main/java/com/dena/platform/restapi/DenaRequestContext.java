@@ -20,11 +20,11 @@ public class DenaRequestContext {
 
 
     public boolean isPostRequest() {
-        return RequestMethod.POST.name().equals(request.getMethod());
+        return RequestMethod.POST.name().equalsIgnoreCase(request.getMethod());
     }
 
     public boolean isGetRequest() {
-        return RequestMethod.GET.name().equals(request.getMethod());
+        return RequestMethod.GET.name().equalsIgnoreCase(request.getMethod());
     }
 
     public HttpServletRequest getRequest() {
