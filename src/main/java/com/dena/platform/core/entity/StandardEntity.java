@@ -11,6 +11,6 @@ package com.dena.platform.core.entity;
  */
 
 
-public class StandardEntity extends BaseUuidEntity{
+public class StandardEntity extends BaseUuidEntity {
 
 }
