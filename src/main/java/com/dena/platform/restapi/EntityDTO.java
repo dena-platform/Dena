@@ -10,7 +10,9 @@ import java.util.Set;
  */
 
 public class EntityDTO {
-
+    /**
+     *
+     */
     @JsonProperty("entity_id")
     private String entityId;
 

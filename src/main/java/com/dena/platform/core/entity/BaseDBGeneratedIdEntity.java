@@ -13,7 +13,7 @@ import javax.persistence.MappedSuperclass;
  * See http://www.apache.org/licenses/LICENSE-2.0.
  */
 @MappedSuperclass
-public abstract class BaseDBGeneratedIdentity<T extends Number> implements BaseEntity<T> {
+public abstract class BaseDBGeneratedIdEntity<T extends Number> implements BaseEntity<T> {
 
     @Override
     public T getId() {

@@ -8,7 +8,7 @@ import javax.persistence.*;
  * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
  */
 @MappedSuperclass
-public abstract class LongDBGeneratedIdentity extends BaseDBGeneratedIdentity<Long> {
+public abstract class LongDBGeneratedIdentity extends BaseDBGeneratedIdEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
