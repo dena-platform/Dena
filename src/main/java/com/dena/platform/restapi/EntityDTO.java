@@ -10,17 +10,21 @@ import java.util.Set;
  */
 
 public class EntityDTO {
-    /**
-     *
-     */
+
     @JsonProperty("entity_id")
     private String entityId;
 
     @JsonProperty(value = "entity_type", required = true)
     private String entityType;
 
+    @JsonProperty(value = "table_name", required = true)
+    private String tableName;
 
-    private Set<String> addationalProperty = new HashSet<>();
+    @JsonProperty(value = "app_name", required = true)
+    private String appName;
+
+    @JsonProperty(value = "operation_type", required = true)
+    private String operationType;
 
     public String getEntityId() {
         return entityId;
@@ -36,5 +40,29 @@ public class EntityDTO {
 
     public void setEntityType(String entityType) {
         this.entityType = entityType;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    public String getOperationType() {
+        return operationType;
+    }
+
+    public void setOperationType(String operationType) {
+        this.operationType = operationType;
+    }
+
+    public String getAppName() {
+        return appName;
+    }
+
+    public void setAppName(String appName) {
+        this.appName = appName;
     }
 }
