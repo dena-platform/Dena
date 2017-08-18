@@ -2,7 +2,9 @@ package com.dena.platform.restapi;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -25,6 +27,8 @@ public class EntityDTO {
 
     @JsonProperty(value = "operation_type", required = true)
     private String operationType;
+
+    private Map<String, Object> allPropertis = new HashMap<>();
 
     public String getEntityId() {
         return entityId;
@@ -64,5 +68,13 @@ public class EntityDTO {
 
     public void setAppName(String appName) {
         this.appName = appName;
+    }
+
+    public Map<String, Object> getAllPropertis() {
+        return allPropertis;
+    }
+
+    public void setAllPropertis(Map<String, Object> allPropertis) {
+        this.allPropertis = allPropertis;
     }
 }
