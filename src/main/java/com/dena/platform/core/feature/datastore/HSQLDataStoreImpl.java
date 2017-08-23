@@ -1,5 +1,6 @@
 package com.dena.platform.core.feature.datastore;
 
+import com.dena.platform.common.persistense.HSQL.HSQLUtils;
 import com.dena.platform.restapi.EntityDTO;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class HSQLDataStoreImpl implements DenaDataStore {
     @Override
     public void storeObject(EntityDTO entityDTO) {
-
+        HSQLUtils.createTableIfNotExist();
     }
 
     @Override
