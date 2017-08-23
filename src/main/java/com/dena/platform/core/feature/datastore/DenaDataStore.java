@@ -6,7 +6,9 @@ import com.dena.platform.restapi.EntityDTO;
  * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
  */
 
-public interface DataStore {
+public interface DenaDataStore {
     void storeObject(EntityDTO entityDTO);
-    
+
+    EntityDTO findObject(long objectId);
+
 }

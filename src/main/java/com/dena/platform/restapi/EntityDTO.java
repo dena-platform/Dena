@@ -13,17 +13,17 @@ import java.util.Set;
 
 public class EntityDTO {
 
+    @JsonProperty(value = "app_name", required = true)
+    private String appName;
+
+    @JsonProperty(value = "table_name", required = true)
+    private String tableName;
+
     @JsonProperty("entity_id")
     private String entityId;
 
     @JsonProperty(value = "entity_type", required = true)
     private String entityType;
-
-    @JsonProperty(value = "table_name", required = true)
-    private String tableName;
-
-    @JsonProperty(value = "app_name", required = true)
-    private String appName;
 
     @JsonProperty(value = "operation_type", required = true)
     private String operationType;
