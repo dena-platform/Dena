@@ -19,12 +19,12 @@ public class HSQLUtils {
     public static void createTableIfNotExist(String tableName) throws SQLException, ClassNotFoundException {
         Optional<Connection> connection = makeConnection();
 
-
+        // todo: can use optional in better manner
         if (connection.isPresent()) {
             if (!isTableExist(connection.get(), tableName)) {
                 createTable(connection.get(), tableName);
             }
-
+            closeConnection(connection.get());
         }
     }
 
@@ -35,7 +35,6 @@ public class HSQLUtils {
         try {
             Class.forName("org.hsqldb.jdbc.JDBCDriver");
             Connection connection = DriverManager.getConnection(HSQL_CONNECTION_URL, userName, password);
-
             return Optional.of(connection);
         } catch (final Exception ex) {
             log.error("Exception in connecting to database", ex);
