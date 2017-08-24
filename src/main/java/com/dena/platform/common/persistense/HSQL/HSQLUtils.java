@@ -66,9 +66,10 @@ public class HSQLUtils {
     }
 
     private static void createTable(Connection connection, String tableName) throws SQLException {
-        log.debug("Creating table [{}]", tableName);
         Statement statement = connection.createStatement();
-        statement.executeUpdate("CREATE TABLE " + tableName);
+        //todo: change id column
+        statement.executeUpdate("CREATE TABLE " + tableName + " (id INTEGER NOT NULL PRIMARY KEY)");
+        log.debug("Table [{}] created successfully.", tableName);
 
     }
 

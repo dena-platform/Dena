@@ -25,8 +25,13 @@ public class EntityEndPoint {
 
     @PostMapping
     public void saveEntity(HttpServletRequest request) {
-        DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-        restEntityProcessor.processRestRequest(denaRequestContext);
+
+        try {
+            DenaRequestContext denaRequestContext = new DenaRequestContext(request);
+            restEntityProcessor.processRestRequest(denaRequestContext);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }
