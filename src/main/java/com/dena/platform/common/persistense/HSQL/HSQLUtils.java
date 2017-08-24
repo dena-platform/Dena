@@ -1,11 +1,10 @@
 package com.dena.platform.common.persistense.HSQL;
 
+import com.dena.platform.common.utils.java8Utils.LambdaWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
+import java.sql.*;
 import java.util.Optional;
 
 /**
@@ -17,23 +16,60 @@ public class HSQLUtils {
 
     private final static String HSQL_CONNECTION_URL = "jdbc:hsqldb:mem:DENA_PLATFORM";
 
-    public static void createTableIfNotExist() {
-        makeConnection();
+    public static void createTableIfNotExist(String tableName) throws SQLException, ClassNotFoundException {
+        Optional<Connection> connection = makeConnection();
+
+
+        if (connection.isPresent()) {
+            if (!isTableExist(connection.get(), tableName)) {
+                createTable(connection.get(), tableName);
+            }
+
+        }
     }
 
-    private static Optional<Connection> makeConnection() {
+    private static Optional<Connection> makeConnection() throws SQLException, ClassNotFoundException {
         String userName = "sa";
         String password = "";
 
         try {
             Class.forName("org.hsqldb.jdbc.JDBCDriver");
             Connection connection = DriverManager.getConnection(HSQL_CONNECTION_URL, userName, password);
-            DatabaseMetaData dbMetaData = connection.getMetaData();
-            log.info(dbMetaData.getDatabaseProductName());
+
             return Optional.of(connection);
-        } catch (Exception ex) {
-            log.error("exception in connecting to database", ex);
-            return Optional.empty();
+        } catch (final Exception ex) {
+            log.error("Exception in connecting to database", ex);
+            throw ex;
         }
     }
+
+    private static void closeConnection(Connection connection) throws SQLException {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            log.error("Error in closing connection", e);
+            throw e;
+        }
+    }
+
+    private static boolean isTableExist(Connection connection, String tableName) throws SQLException {
+        DatabaseMetaData dbm = connection.getMetaData();
+        // check if "employee" table is there
+        ResultSet tables = dbm.getTables(null, null, tableName, null);
+        if (tables.next()) {
+            log.info("table [{}] exist", tableName);
+            return true;
+        } else {
+            log.info("table [{}] not exist", tableName);
+            return false;
+        }
+    }
+
+    private static void createTable(Connection connection, String tableName) throws SQLException {
+        log.debug("Creating table [{}]", tableName);
+        Statement statement = connection.createStatement();
+        statement.executeUpdate("CREATE TABLE " + tableName);
+
+    }
+
 }
