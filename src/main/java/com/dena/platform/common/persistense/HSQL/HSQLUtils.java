@@ -19,13 +19,16 @@ public class HSQLUtils {
     public static void createTableIfNotExist(String tableName) throws SQLException, ClassNotFoundException {
         Optional<Connection> connection = makeConnection();
 
-        // todo: can use optional in better manner
-        if (connection.isPresent()) {
-            if (!isTableExist(connection.get(), tableName)) {
-                createTable(connection.get(), tableName);
-            }
-            closeConnection(connection.get());
-        }
+
+        connection.ifPresent(
+                LambdaWrapper.uncheckedConsumer(conn ->{
+                    if (!isTableExist(conn, tableName)) {
+                        createTable(conn, tableName);
+                    }
+                }
+        ));
+
+
     }
 
     private static Optional<Connection> makeConnection() throws SQLException, ClassNotFoundException {
