@@ -25,7 +25,6 @@ public class HSQLUtils {
                     }
                 }
         );
-
         connection
                 .ifPresent(connectionConsumer
                         .andThen(LambdaWrapper.uncheckedConsumer(HSQLUtils::closeConnection)));
