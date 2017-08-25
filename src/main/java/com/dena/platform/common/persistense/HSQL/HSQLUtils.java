@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
@@ -16,18 +17,18 @@ public class HSQLUtils {
 
     private final static String HSQL_CONNECTION_URL = "jdbc:hsqldb:mem:DENA_PLATFORM";
 
-    public static void createTableIfNotExist(String tableName) throws SQLException, ClassNotFoundException {
+    public static void createTableIfNotExist(final String tableName) throws SQLException, ClassNotFoundException {
         Optional<Connection> connection = makeConnection();
-
-
-        connection.ifPresent(
-                LambdaWrapper.uncheckedConsumer(conn ->{
+        Consumer<Connection> connectionConsumer = LambdaWrapper.uncheckedConsumer(conn -> {
                     if (!isTableExist(conn, tableName)) {
                         createTable(conn, tableName);
                     }
                 }
-        ));
+        );
 
+        connection
+                .ifPresent(connectionConsumer
+                        .andThen(LambdaWrapper.uncheckedConsumer(HSQLUtils::closeConnection)));
 
     }
 
@@ -59,10 +60,10 @@ public class HSQLUtils {
         // check if "employee" table is there
         ResultSet tables = dbm.getTables(null, null, tableName, null);
         if (tables.next()) {
-            log.info("table [{}] exist", tableName);
+            log.debug("table [{}] exist", tableName);
             return true;
         } else {
-            log.info("table [{}] not exist", tableName);
+            log.debug("table [{}] not exist", tableName);
             return false;
         }
     }
