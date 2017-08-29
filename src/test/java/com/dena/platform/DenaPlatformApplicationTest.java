@@ -7,17 +7,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class DenaPlatformApplicationTest{
+public class DenaPlatformApplicationTest {
 
     @Test
     public void contextLoads() {
 
     }
 
-  
-
     @Test
-    public void rename_for_table(){
+    public void rename_for_table() {
 
     }
 
