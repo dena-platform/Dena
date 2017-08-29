@@ -14,4 +14,11 @@ public class DenaPlatformApplicationTest{
 
     }
 
+  
+
+    @Test
+    public void rename_for_table(){
+
+    }
+
 }
