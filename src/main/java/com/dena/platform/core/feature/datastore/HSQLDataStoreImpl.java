@@ -19,6 +19,7 @@ public class HSQLDataStoreImpl implements DenaDataStore {
     public void storeObject(EntityDTO entityDTO) {
         try {
             HSQLUtils.createTableIfNotExist(entityDTO.getTableName());
+            HSQLUtils.storeObjectToTable();
 
 
         } catch (SQLException | ClassNotFoundException e) {

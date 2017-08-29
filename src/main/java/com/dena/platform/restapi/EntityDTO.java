@@ -1,17 +1,18 @@
 package com.dena.platform.restapi;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
  */
-
 public class EntityDTO {
+    private Map<String, Object> notMappedProperties = new HashMap<>();
 
     @JsonProperty(value = "app_name", required = true)
     private String appName;
@@ -27,8 +28,6 @@ public class EntityDTO {
 
     @JsonProperty(value = "operation_type", required = true)
     private String operationType;
-
-    private Map<String, Object> allPropertis = new HashMap<>();
 
     public String getEntityId() {
         return entityId;
@@ -70,11 +69,13 @@ public class EntityDTO {
         this.appName = appName;
     }
 
-    public Map<String, Object> getAllPropertis() {
-        return allPropertis;
+    @JsonAnySetter
+    public void addProperty(String name, Object value) {
+        if (!StringUtils.isBlank(name) && value != null) {
+            notMappedProperties.put(name, value);
+        }
+
     }
 
-    public void setAllPropertis(Map<String, Object> allPropertis) {
-        this.allPropertis = allPropertis;
-    }
+
 }

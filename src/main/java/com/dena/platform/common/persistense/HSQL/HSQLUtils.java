@@ -31,6 +31,10 @@ public class HSQLUtils {
 
     }
 
+    public static void storeObjectToTable() {
+
+    }
+
     private static Optional<Connection> makeConnection() throws SQLException, ClassNotFoundException {
         String userName = "sa";
         String password = "";
