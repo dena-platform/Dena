@@ -14,8 +14,13 @@ import java.util.List;
 public class JSONMapper {
     private final static ObjectMapper JSON_MAPPER = new ObjectMapper();
 
-    public static <T> String createJSONFromObject(final T object) throws JsonProcessingException {
-        return JSON_MAPPER.writeValueAsString(object);
+    public static <T> String createJSONFromObject(final T object) {
+        try {
+            return JSON_MAPPER.writeValueAsString(object);
+        } catch (JsonProcessingException ex) {
+            String errMessage = String.format("Error in converting from Class [%s] to JSON", object.getClass().getSimpleName());
+            throw new RestInputInvalidException(errMessage);
+        }
     }
 
     public static <T> List<T> createObjectsFromJSON(final String jsonString, final Class<T> classType) throws IOException {

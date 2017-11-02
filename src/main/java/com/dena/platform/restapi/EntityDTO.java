@@ -1,6 +1,7 @@
 package com.dena.platform.restapi;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.StringUtils;
@@ -11,8 +12,9 @@ import java.util.Map;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class EntityDTO {
-    private Map<String, Object> notMappedProperties = new HashMap<>();
+    public Map<String, Object> notMappedProperties = new HashMap<>();
 
     @JsonProperty(value = "app_name", required = true)
     private String appName;

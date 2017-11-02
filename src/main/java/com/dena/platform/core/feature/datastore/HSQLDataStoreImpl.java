@@ -1,6 +1,7 @@
 package com.dena.platform.core.feature.datastore;
 
 import com.dena.platform.common.persistense.HSQL.HSQLUtils;
+import com.dena.platform.common.web.JSONMapper;
 import com.dena.platform.restapi.EntityDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,7 @@ public class HSQLDataStoreImpl implements DenaDataStore {
     public void storeObject(EntityDTO entityDTO) {
         try {
             HSQLUtils.createTableIfNotExist(entityDTO.getTableName());
-            HSQLUtils.storeObjectToTable();
+            HSQLUtils.storeObjectInTable(entityDTO.getTableName(), Integer.valueOf(entityDTO.getEntityId()), entityDTO.notMappedProperties);
 
 
         } catch (SQLException | ClassNotFoundException e) {

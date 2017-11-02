@@ -7,7 +7,8 @@ import java.util.function.Consumer;
  */
 
 public class LambdaWrapper {
-    public static <T> Consumer<T> uncheckedConsumer(UncheckedConsumer<T> consumer) {
+    public static <T> Consumer<T> uncheckedConsumer(UncheckedConsumer<T> consumer) throws RuntimeException
+    {
         return t -> {
             try {
                 consumer.accept(t);
@@ -15,7 +16,5 @@ public class LambdaWrapper {
                 throw new RuntimeException(ex);
             }
         };
-
     }
-
 }
