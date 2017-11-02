@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Locale;
 
 /**
- * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
+ * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 @Service("denaMessageUtils")
 public final class DenaMessageUtils implements ApplicationContextAware {

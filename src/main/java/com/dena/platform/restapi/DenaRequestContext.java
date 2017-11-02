@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
- * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
+ * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 public class DenaRequestContext {
     private final static Logger log = getLogger(DenaRequestContext.class);

@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
- * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
+ * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 @Service("denaRestEntityProcessorImpl")
 public class RestEntityProcessorImpl implements RestEntityProcessor {

@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
+ * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 public class EntityDTO {
     private Map<String, Object> notMappedProperties = new HashMap<>();

@@ -3,7 +3,7 @@ package com.dena.platform.core.entity;
 import javax.persistence.MappedSuperclass;
 
 /**
- * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
+ * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 
 /**

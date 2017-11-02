@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
+ * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 public class JSONMapper {
     private final static ObjectMapper JSON_MAPPER = new ObjectMapper();

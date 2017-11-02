@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.sql.SQLException;
 
 /**
- * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
+ * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 @Service("denaHSQLDataStoreImpl")
 public class HSQLDataStoreImpl implements DenaDataStore {

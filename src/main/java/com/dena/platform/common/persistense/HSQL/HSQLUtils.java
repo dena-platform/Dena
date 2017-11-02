@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
- * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
+ * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 
 public class HSQLUtils {

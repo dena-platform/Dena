@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
+ * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 public enum DenaEntityMapping {
     BaseLongIdEntity(BaseLongIdEntity.class.getSimpleName(), BaseLongIdEntity.class),
