@@ -1,14 +1,11 @@
 package com.dena.platform.common.persistense.HSQL;
 
-import com.dena.platform.common.utils.java8Utils.LambdaWrapper;
 import com.dena.platform.common.web.JSONMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.Map;
-import java.util.Optional;
-import java.util.function.Consumer;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
@@ -20,41 +17,25 @@ public class HSQLUtils {
     private final static String HSQL_CONNECTION_URL = "jdbc:hsqldb:mem:DENA_PLATFORM";
 
     public static void createTableIfNotExist(final String tableName) throws SQLException, ClassNotFoundException {
-        Optional<Connection> connection = makeConnection();
-        Consumer<Connection> connectionConsumer = LambdaWrapper.uncheckedConsumer(conn -> {
-                    if (!isTableExist(conn, tableName)) {
-                        createTable(conn, tableName);
-                    }
-                }
-        );
-        connection
-                .ifPresent(connectionConsumer
-                        .andThen(LambdaWrapper.uncheckedConsumer(HSQLUtils::closeConnection)));
+        if (!isTableExist(tableName)) {
+            createTable(tableName);
+        }
 
     }
 
     public static void storeObjectInTable(String tableName, Integer id, Map<String, Object> properties) throws SQLException, ClassNotFoundException {
-        Optional<Connection> connection = makeConnection();
-        Consumer<Connection> connectionConsumer = LambdaWrapper.uncheckedConsumer(conn -> {
-                    insertRecord(conn, tableName, id, JSONMapper.createJSONFromObject(properties));
-                }
-        );
-
-        connection
-                .ifPresent(connectionConsumer
-                        .andThen(LambdaWrapper.uncheckedConsumer(HSQLUtils::closeConnection)));
-
+        insertRecord(tableName, id, JSONMapper.createJSONFromObject(properties));
 
     }
 
-    private static Optional<Connection> makeConnection() throws SQLException, ClassNotFoundException {
+    private static Connection makeConnection() throws SQLException, ClassNotFoundException {
         String userName = "sa";
         String password = "";
 
         try {
             Class.forName("org.hsqldb.jdbc.JDBCDriver");
             Connection connection = DriverManager.getConnection(HSQL_CONNECTION_URL, userName, password);
-            return Optional.of(connection);
+            return connection;
         } catch (final Exception ex) {
             log.error("Exception in connecting to database", ex);
             throw ex;
@@ -70,32 +51,42 @@ public class HSQLUtils {
         }
     }
 
-    private static boolean isTableExist(Connection connection, String tableName) throws SQLException {
+    private static boolean isTableExist(String tableName) throws SQLException, ClassNotFoundException {
+        Connection connection = makeConnection();
         DatabaseMetaData dbm = connection.getMetaData();
-        // check if "employee" table is there
+
+        // check if 'tableName' exist in database
         ResultSet tables = dbm.getTables(null, null, tableName, null);
-        if (tables.next()) {
+        boolean isTableExist = tables.next();
+
+        if (isTableExist) {
             log.debug("table [{}] exist", tableName);
-            return true;
         } else {
             log.debug("table [{}] not exist", tableName);
-            return false;
         }
+
+        closeConnection(connection);
+        return isTableExist;
+
     }
 
-    private static void createTable(Connection connection, String tableName) throws SQLException {
+    private static void createTable(String tableName) throws SQLException, ClassNotFoundException {
+        Connection connection = makeConnection();
         Statement statement = connection.createStatement();
 
         String createTableStatement = String.format("CREATE TABLE \"%s\" (ID INTEGER NOT NULL PRIMARY KEY , DATA varchar(200))", tableName);
         statement.executeUpdate(createTableStatement);
+        closeConnection(connection);
         log.debug("Table [{}] created successfully.", tableName);
 
     }
 
-    private static void insertRecord(Connection connection, String tableName, Integer id, String value) throws SQLException {
+    private static void insertRecord(String tableName, Integer id, String value) throws SQLException, ClassNotFoundException {
+        Connection connection = makeConnection();
         Statement statement = connection.createStatement();
         String insertStatement = String.format("INSERT INTO \"%s\" (ID , DATA) VALUES (%d , '%s')", tableName, id, value);
         statement.executeUpdate(insertStatement);
+        closeConnection(connection);
         log.debug("statement [{}] executed successfully.", insertStatement);
 
     }
