@@ -1,8 +1,7 @@
 package com.dena.platform.core.feature.datastore;
 
 import com.dena.platform.common.persistense.HSQL.HSQLUtils;
-import com.dena.platform.common.web.JSONMapper;
-import com.dena.platform.restapi.EntityDTO;
+import com.dena.platform.core.EntityDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,8 @@ public class HSQLDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public EntityDTO findObject(long objectId) {
+    public EntityDTO findObject(Integer objectId) {
+
         return null;
     }
 

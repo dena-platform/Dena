@@ -2,6 +2,8 @@ package com.dena.platform.restapi.endpoint;
 
 import com.dena.platform.restapi.DenaRequestContext;
 import com.dena.platform.restapi.RestEntityProcessor;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,18 +24,19 @@ public class EntityEndPoint {
     private RestEntityProcessor restEntityProcessor;
 
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void saveEntity(HttpServletRequest request) {
 
-        try {
-            DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-            restEntityProcessor.processRestRequest(denaRequestContext);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        DenaRequestContext denaRequestContext = new DenaRequestContext(request);
+        restEntityProcessor.processRestRequest(denaRequestContext);
 
     }
 
+    @GetMapping
+    public String findEntity(HttpServletRequest request) {
+        DenaRequestContext denaRequestContext = new DenaRequestContext(request);
+        restEntityProcessor.processRestRequest(denaRequestContext);
 
+        return null;
+    }
 }

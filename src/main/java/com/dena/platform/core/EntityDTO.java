@@ -1,4 +1,4 @@
-package com.dena.platform.restapi;
+package com.dena.platform.core;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -23,7 +23,7 @@ public class EntityDTO {
     private String tableName;
 
     @JsonProperty("entity_id")
-    private String entityId;
+    private Integer entityId;
 
     @JsonProperty(value = "entity_type", required = true)
     private String entityType;
@@ -31,11 +31,11 @@ public class EntityDTO {
     @JsonProperty(value = "operation_type", required = true)
     private String operationType;
 
-    public String getEntityId() {
+    public Integer getEntityId() {
         return entityId;
     }
 
-    public void setEntityId(String entityId) {
+    public void setEntityId(Integer entityId) {
         this.entityId = entityId;
     }
 

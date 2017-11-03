@@ -1,5 +1,6 @@
 package com.dena.platform.restapi;
 
+import com.dena.platform.core.OperationType;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -42,6 +43,7 @@ public class DenaRequestContext {
         }
         return requestBody;
     }
+
 
     public DenaRequestContext(HttpServletRequest request) {
         this.request = request;

@@ -1,10 +1,13 @@
 package com.dena.platform.common.persistense.HSQL;
 
 import com.dena.platform.common.web.JSONMapper;
+import com.dena.platform.core.EntityDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,6 +28,10 @@ public class HSQLUtils {
 
     public static void storeObjectInTable(String tableName, Integer id, Map<String, Object> properties) throws SQLException, ClassNotFoundException {
         insertRecord(tableName, id, JSONMapper.createJSONFromObject(properties));
+
+    }
+
+    public String findObjectInTable(Integer id) {
 
     }
 
@@ -88,6 +95,24 @@ public class HSQLUtils {
         statement.executeUpdate(insertStatement);
         closeConnection(connection);
         log.debug("statement [{}] executed successfully.", insertStatement);
+
+    }
+
+    private static List<EntityDTO> findRecord(String tableName, Integer id) throws SQLException, ClassNotFoundException {
+        List<EntityDTO> result = new ArrayList<>();
+        Connection connection = makeConnection();
+        String findStatement = String.format("SELECT DATA FROM  \"%s\" WHERE ID=?", tableName);
+        PreparedStatement statement = connection.prepareStatement(findStatement);
+        statement.setInt(1, id);
+
+        ResultSet resultSet = statement.executeQuery(findStatement);
+
+        while (resultSet.next()) {
+            
+        }
+
+        closeConnection(connection);
+        log.debug("statement [{}] executed successfully.", findStatement);
 
     }
 
