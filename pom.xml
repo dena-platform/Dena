@@ -26,6 +26,7 @@
         <apache-commons-lang>3.4</apache-commons-lang>
         <apache-commons-collection>4.1</apache-commons-collection>
         <apache-common-validator>1.6</apache-common-validator>
+        <apache-commons-io>2.5</apache-commons-io>
     </properties>
 
     <dependencies>
@@ -75,7 +76,7 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.5</version>
+            <version>${apache-commons-io}</version>
         </dependency>
 
         <!-- **********************************************************************

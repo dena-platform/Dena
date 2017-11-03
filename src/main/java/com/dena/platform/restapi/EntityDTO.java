@@ -79,5 +79,15 @@ public class EntityDTO {
 
     }
 
-
+    @Override
+    public String toString() {
+        return "EntityDTO{" +
+                "notMappedProperties=" + notMappedProperties +
+                ", appName='" + appName + '\'' +
+                ", tableName='" + tableName + '\'' +
+                ", entityId='" + entityId + '\'' +
+                ", entityType='" + entityType + '\'' +
+                ", operationType='" + operationType + '\'' +
+                '}';
+    }
 }
