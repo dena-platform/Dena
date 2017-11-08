@@ -1,3 +1,3 @@
 Object Mapping
-Object structure fromat client format:
+Object structure format client format:
 
