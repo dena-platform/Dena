@@ -2,6 +2,7 @@ package com.dena.platform.common.persistense.HSQL;
 
 import com.dena.platform.common.web.JSONMapper;
 import com.dena.platform.core.EntityDTO;
+import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +33,7 @@ public class HSQLUtils {
     }
 
     public String findObjectInTable(Integer id) {
-
+        throw new NotImplementedException("This method not implemented yet");
     }
 
     private static Connection makeConnection() throws SQLException, ClassNotFoundException {
@@ -99,20 +100,21 @@ public class HSQLUtils {
     }
 
     private static List<EntityDTO> findRecord(String tableName, Integer id) throws SQLException, ClassNotFoundException {
-        List<EntityDTO> result = new ArrayList<>();
-        Connection connection = makeConnection();
-        String findStatement = String.format("SELECT DATA FROM  \"%s\" WHERE ID=?", tableName);
-        PreparedStatement statement = connection.prepareStatement(findStatement);
-        statement.setInt(1, id);
-
-        ResultSet resultSet = statement.executeQuery(findStatement);
-
-        while (resultSet.next()) {
-            
-        }
-
-        closeConnection(connection);
-        log.debug("statement [{}] executed successfully.", findStatement);
+//        List<EntityDTO> result = new ArrayList<>();
+//        Connection connection = makeConnection();
+//        String findStatement = String.format("SELECT DATA FROM  \"%s\" WHERE ID=?", tableName);
+//        PreparedStatement statement = connection.prepareStatement(findStatement);
+//        statement.setInt(1, id);
+//
+//        ResultSet resultSet = statement.executeQuery(findStatement);
+//
+//        while (resultSet.next()) {
+//
+//        }
+//
+//        closeConnection(connection);
+//        log.debug("statement [{}] executed successfully.", findStatement);
+        throw new NotImplementedException("This method not implemented yet");
 
     }
 
