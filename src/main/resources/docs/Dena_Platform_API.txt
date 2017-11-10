@@ -17,7 +17,7 @@ Request Body:
   }
 
 ======================================================================================================================================================
-Delete Relations (With All Child)
+Delete Relation (With All Child)
 Method:
   DELETE
 
@@ -34,7 +34,7 @@ Request Body:
   }
 
 ======================================================================================================================================================
-Delete Relations With Specified Child Object
+Delete Relation With Specified Child Object
 Method:
   DELETE
 
