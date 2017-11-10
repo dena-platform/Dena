@@ -1,0 +1,51 @@
+Delete Object
+
+Delete One Object
+Method:
+  DELETE
+
+URL:
+  /v1/<application-id>/<type-name>/<object-id>/
+
+Request Body:
+  None
+
+  Return Value:
+  {
+   "deletion_time" : timestamp in milliseconds,
+   "deleted_item_count" : number of deleted object(s)
+  }
+
+======================================================================================================================================================
+Delete Relations (With All Child)
+Method:
+  DELETE
+
+URL:
+  /v1/<application-id>/<type-name-1>/<object-id-1>/relation/<type-name-2>/
+
+Request Body:
+  None
+
+  Return Value:
+  {
+   "deletion_time" : timestamp in milliseconds,
+   "deleted_item_count" : number of deleted object(s)
+  }
+
+======================================================================================================================================================
+Delete Relations With Specified Child Object
+Method:
+  DELETE
+
+URL:
+  /v1/<application-id>/<type-name-1>/<object-id-1>/relation/<type-name-2>/<object-id-2>/
+
+Request Body:
+  None
+
+  Return Value:
+  {
+   "deletion_time" : timestamp in milliseconds,
+   "deleted_item_count" : number of deleted object(s)
+  }
