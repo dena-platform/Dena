@@ -1,7 +1,7 @@
 package com.dena.platform.common.persistense;
 
 /**
- * Author: Javad Alimohammadi Email:bc_alimohammadi@yahoo.com
+ * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 public interface TableGeneratorParameter {
     String GENERATOR_NAME = "ID_GENERATOR";

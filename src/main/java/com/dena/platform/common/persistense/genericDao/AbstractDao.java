@@ -8,7 +8,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 /**
- * Author: Javad Alimohammadi Email:bc_alimohammadi@yahoo.com
+ * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 public abstract class AbstractDao<T> implements DAO<T> {
 

@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
- * Author: Javad Alimohammadi Email:bc_alimohammadi@yahoo.com
+ * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 
 @Embeddable

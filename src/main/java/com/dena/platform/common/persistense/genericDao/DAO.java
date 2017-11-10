@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Author: Javad Alimohammadi Email:bc_alimohammadi@yahoo.com
+ * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 public interface DAO<T> {
 
