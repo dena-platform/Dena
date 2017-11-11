@@ -4,12 +4,13 @@
 
 ## Storing Object ##
 
+Method: POST
 
+URL: /v1/<application-id>/<type-name>
+
+Request Body: 
 
     {
-      "app_id": "dena_qa"
-      "object_id": "asdad6876876",
-      "type": "question",
       "related_objects": [
         {
           "id": "123123",
@@ -23,22 +24,47 @@
         }
       ]
     }
-    
-
-----------
-## Updating Object ##
-
-Method: PUT
-
-URL: /v1/<application-id>/<type-name>
-
-Request Body: None
 
 Return Value:
 
       {
        "deletion_time" : timestamp in milliseconds,
        "deleted_item_count" : number of deleted object(s)
+      }
+
+    
+
+----------
+## Updating Object ##
+if there is a new field or new relation add to existing field or relation. if field is exist then update field. 
+
+Method: PUT
+
+URL: /v1/<application-id>/<type-name>/<object-id>
+
+Request Body: 
+
+    {
+      "related_objects": [
+        {
+          "id": "123123",
+          "type": "para"
+        }
+      ],
+      "object_values": [
+        {
+          "field1": "javad",
+          "field2": "developer"
+        }
+      ]
+    }
+
+Return Value:
+
+      {
+       "update_time" : timestamp in milliseconds,
+       "update_item_count" : number of deleted object(s),
+	   ""	
       }
 
 
