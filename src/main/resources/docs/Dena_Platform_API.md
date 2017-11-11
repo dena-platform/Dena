@@ -2,7 +2,7 @@
 
 ----------
 
-## Storeing Object ##
+## Storing Object ##
 
 
 
@@ -27,26 +27,24 @@
 
 ----------
 
-Delete Object
+## Delete Object ##
 
-Delete One Object
-Method:
-  DELETE
+**Delete One Object**
 
-URL:
-  /v1/<application-id>/<type-name>/<object-id>
+Method: DELETE
 
-Request Body:
-  None
+URL: /v1/<application-id>/<type-name>/<object-id>
+
+Request Body: None
 
   Return Value:
-  {
-   "deletion_time" : timestamp in milliseconds,
-   "deleted_item_count" : number of deleted object(s)
-  }
+      {
+       "deletion_time" : timestamp in milliseconds,
+       "deleted_item_count" : number of deleted object(s)
+      }
 
-======================================================================================================================================================
-Delete Bulk Objects
+----------
+**Delete Bulk Objects**
 
 Method:
   DELETE
