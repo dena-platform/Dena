@@ -26,6 +26,23 @@
     
 
 ----------
+## Updating Object ##
+
+Method: PUT
+
+URL: /v1/<application-id>/<type-name>
+
+Request Body: None
+
+Return Value:
+
+      {
+       "deletion_time" : timestamp in milliseconds,
+       "deleted_item_count" : number of deleted object(s)
+      }
+
+
+----------
 
 ## Delete Object ##
 
