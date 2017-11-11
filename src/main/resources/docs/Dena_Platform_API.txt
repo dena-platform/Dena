@@ -28,7 +28,7 @@ Method:
   DELETE
 
 URL:
-  /v1/<application-id>/<type-name>/<object-id>/
+  /v1/<application-id>/<type-name>/<object-id>
 
 Request Body:
   None
@@ -45,7 +45,7 @@ Method:
   DELETE
 
 URL:
-  /v1/<application-id>/<type-name-1>/<object-id-1>/relation/<type-name-2>/
+  /v1/<application-id>/<type-name-1>/<object-id-1>/relation/<type-name-2>
 
 Request Body:
   None
@@ -62,7 +62,7 @@ Method:
   DELETE
 
 URL:
-  /v1/<application-id>/<type-name-1>/<object-id-1>/relation/<type-name-2>/<object-id-2>/
+  /v1/<application-id>/<type-name-1>/<object-id-1>/relation/<type-name-2>/<object-id-2>
 
 Request Body:
   None
