@@ -40,6 +40,24 @@ Request Body:
   }
 
 ======================================================================================================================================================
+Delete Bulk Objects
+
+Method:
+  DELETE
+
+URL:
+  /v1/<application-id>/<type-name>/<object-id-1=id1>,<object-id=2>
+
+Request Body:
+  None
+
+  Return Value:
+  {
+   "deletion_time" : timestamp in milliseconds,
+   "deleted_item_count" : number of deleted object(s)
+  }
+
+======================================================================================================================================================
 Delete Relation (With All Child)
 Method:
   DELETE
