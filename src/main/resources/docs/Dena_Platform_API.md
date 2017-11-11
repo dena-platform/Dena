@@ -37,7 +37,8 @@ URL: /v1/<application-id>/<type-name>/<object-id>
 
 Request Body: None
 
-  Return Value:
+Return Value:
+
       {
        "deletion_time" : timestamp in milliseconds,
        "deleted_item_count" : number of deleted object(s)
@@ -46,22 +47,20 @@ Request Body: None
 ----------
 **Delete Bulk Objects**
 
-Method:
-  DELETE
+Method: DELETE
 
-URL:
-  /v1/<application-id>/<type-name>/<object-id-1=id1>,<object-id=2>
+URL: /v1/<application-id>/<type-name>/<object-id-1=id1>,<object-id=2>
 
-Request Body:
-  None
+Request Body: None
 
-  Return Value:
-  {
-   "deletion_time" : timestamp in milliseconds,
-   "deleted_item_count" : number of deleted object(s)
-  }
+Return Value:
 
-======================================================================================================================================================
+      {
+       "deletion_time" : timestamp in milliseconds,
+       "deleted_item_count" : number of deleted object(s)
+      }
+
+----------
 Delete Relation (With All Child)
 Method:
   DELETE
