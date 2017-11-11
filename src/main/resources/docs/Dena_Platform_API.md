@@ -1,27 +1,31 @@
-# Storeing Object #
+# Working With Object #
 
 ----------
 
-{
-  "app_id": "dena_qa"
-  "object_id": "asdad6876876",
-  "type": "question",
-  "related_objects": [
-    {
-      "id": "123123",
-      "type": "para"
-    }
-  ],
-  "object_values": [
-    {
-      "field1": "javad",
-      "field2": "developer"
-    }
-  ]
-}
+## Storeing Object ##
 
 
-************************************
+
+    {
+      "app_id": "dena_qa"
+      "object_id": "asdad6876876",
+      "type": "question",
+      "related_objects": [
+        {
+          "id": "123123",
+          "type": "para"
+        }
+      ],
+      "object_values": [
+        {
+          "field1": "javad",
+          "field2": "developer"
+        }
+      ]
+    }
+    
+
+----------
 
 Delete Object
 
