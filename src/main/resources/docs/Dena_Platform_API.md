@@ -61,35 +61,35 @@ Return Value:
       }
 
 ----------
-Delete Relation (With All Child)
-Method:
-  DELETE
+**Delete Relation (With All Child)**
 
-URL:
-  /v1/<application-id>/<type-name-1>/<object-id-1>/relation/<type-name-2>
+Method: DELETE
 
-Request Body:
-  None
+URL: /v1/<application-id>/<type-name-1>/<object-id-1>/relation/<type-name-2>
 
-  Return Value:
-  {
-   "deletion_time" : timestamp in milliseconds,
-   "deleted_item_count" : number of deleted object(s)
-  }
+Request Body: None
 
-======================================================================================================================================================
-Delete Relation With Specified Child Object
-Method:
-  DELETE
+Return Value:
 
-URL:
-  /v1/<application-id>/<type-name-1>/<object-id-1>/relation/<type-name-2>/<object-id-2>
+      {
+       "deletion_time" : timestamp in milliseconds,
+       "deleted_item_count" : number of deleted object(s)
+      }
 
-Request Body:
-  None
+----------
+**Delete Relation With Specified Child Object**
 
-  Return Value:
-  {
-   "deletion_time" : timestamp in milliseconds,
-   "deleted_item_count" : number of deleted object(s)
-  }
+Method: DELETE
+
+URL: /v1/<application-id>/<type-name-1>/<object-id-1>/relation/<type-name-2>/<object-id-2>
+
+Request Body: None
+
+Return Value:
+
+      {
+       "deletion_time" : timestamp in milliseconds,
+       "deleted_item_count" : number of deleted object(s)
+      }
+
+----------
