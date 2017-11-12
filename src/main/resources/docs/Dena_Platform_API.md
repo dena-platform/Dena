@@ -134,14 +134,14 @@ Return Value:
       "update_item_count": 10,
       "object_values": [
          {
-          "object_id": "232986544",
-          "field3": "javad",
-         "field4": "developer"
+           "object_id": "232986544",
+           "field3": "javad",
+           "field4": "developer"
          },
-        {
-            "object_id": "232986544",
+         {
+           "object_id": "232986544",
            "field5": "javad54",
-          "field6": "developer312"
+           "field6": "developer312"
          }
       ]
     }
