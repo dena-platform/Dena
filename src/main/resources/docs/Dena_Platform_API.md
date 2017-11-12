@@ -36,28 +36,90 @@ Return Value:
 
 ----------
 ## Updating Object ##
-if there is a new field or new relation add to existing field or relation. if field is exist then update field. 
+
+**Update One Object**
+
+if there is a new field or new relation add to existing fields or relations. if field is exist then update field. 
 
 Method: PUT
 
 URL: /v1/<application-id>/<type-name>/<object-id>
+
+Headers::application/json
 
 Request Body: 
 
     {
       "related_objects": [
         {
-          "id": "123123",
-          "type": "para"
+          "id": "123234123",
+          "type": "Customer"
         }
       ],
       "object_values": [
         {
-          "field1": "javad",
-          "field2": "developer"
+          "field3": "javad",
+          "field4": "developer"
         }
       ]
     }
+
+Return Value:
+
+      {
+       "update_time" : timestamp in milliseconds,
+       "update_item_count" : number of deleted object(s),
+	   ""	
+      }
+
+----------
+
+**Update Bulk Object**
+
+if there is a new field or new relation add to existing fields or relations. if field is exist then update field. 
+
+Method: PUT
+
+URL: /v1/<application-id>/bulk/<type-name>
+
+Headers::application/json
+
+Request Body: 
+
+    [
+     {
+       "object_id":"232342424234",
+       "related_objects": [
+         {
+           "id": "123234123",
+           "type": "Customer"
+         }
+       ],
+       "object_values": [
+         {
+           "field3": "javad",
+           "field4": "developer"
+         }
+       ]
+     },
+     {
+       "object_id":"2323424243424",
+       "related_objects": [
+         {
+           "id": "123234123",
+           "type": "Customer"
+         }
+       ],
+       "object_values": [
+         {
+           "field5": "javad",
+           "field6": "developer"
+         }
+       ]
+     },
+
+
+]
 
 Return Value:
 
