@@ -35,11 +35,13 @@ Return Value:
     
 
 ----------
-## Updating Object ##
+## Updating Objects ##
 
 **Update One Object**
 
 if there is a new field or new relation add to existing fields or relations. if field is exist then update field. 
+
+return updated object(s) with all field except its reference to other object. 
 
 Method: PUT
 
@@ -85,6 +87,8 @@ Return Value:
 **Update Bulk Objects**
 
 if there is a new field or new relation add to existing fields or relations. if field is exist then update field. 
+
+return updated object(s) with all field except its reference to other object.
 
 Method: PUT
 
@@ -149,7 +153,7 @@ Return Value:
 
 ----------
 
-## Delete Object ##
+## Delete Objects ##
 
 **Delete One Object**
 
