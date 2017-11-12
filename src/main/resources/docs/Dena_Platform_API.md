@@ -58,8 +58,10 @@ Request Body:
       ],
       "object_values": [
         {
-          "field3": "javad",
-          "field4": "developer"
+          "object_id": "232342424234",
+          "field3": "new value",
+          "field4": "developer",
+          "new_field":"field" 
         }
       ]
     }
@@ -68,13 +70,19 @@ Return Value:
 
       {
        "update_time" : timestamp in milliseconds,
-       "update_item_count" : number of deleted object(s),
-	   ""	
+       "update_item_count" : number of updated object(s),
+  	   "object_values": [
+         {
+           "field3": "new value",
+           "field4": "developer",
+           "new_field":"field" 
+         }
+      	]
       }
 
 ----------
 
-**Update Bulk Object**
+**Update Bulk Objects**
 
 if there is a new field or new relation add to existing fields or relations. if field is exist then update field. 
 
@@ -117,18 +125,27 @@ Request Body:
          }
        ]
      },
-
-
-]
+	]
 
 Return Value:
 
-      {
-       "update_time" : timestamp in milliseconds,
-       "update_item_count" : number of deleted object(s),
-	   ""	
-      }
-
+    {
+      "update_time": 46313132,
+      "update_item_count": 10,
+      "object_values": [
+         {
+          "object_id": "232986544",
+          "field3": "javad",
+         "field4": "developer"
+         },
+        {
+            "object_id": "232986544",
+           "field5": "javad54",
+          "field6": "developer312"
+         }
+      ]
+    }
+    
 
 ----------
 
