@@ -219,3 +219,11 @@ Return Value:
       }
 
 ----------
+## Count Object ##
+We can count number of objects three way:
+
+
+1. Object count for an relation
+2. Object count for a type
+2. Object count using query (TO-DO)
+
