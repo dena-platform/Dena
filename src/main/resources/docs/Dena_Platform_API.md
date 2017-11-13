@@ -495,7 +495,7 @@ Optional Parameter
 
 - **itempPerPage**: item per page. default is 50.
 - **page**: starting page of result(start with 0). default is 0.
-- **where**: see  search object section 
+- **where**: see search object section 
 
 
  
@@ -532,7 +532,7 @@ Optional Parameter
 
 - **itempPerPage**: item per page. default is 50.
 - **page**: starting page of result(start with 0). default is 0.
-- **where**: see  search object section 
+- **where**: see search object section 
 
 
  
