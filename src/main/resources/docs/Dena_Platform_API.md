@@ -227,3 +227,18 @@ We can count number of objects three way:
 2. Object count for a type
 2. Object count using query (TO-DO)
 
+
+**Object Count For An Relation**
+
+Method: GET
+
+URL: /v1/<application-id>/<type-name-1>/relation/<type-name-2>
+
+Request Body: None
+
+Return Value:
+
+      {
+       "count" : number of item retrived
+      }
+
