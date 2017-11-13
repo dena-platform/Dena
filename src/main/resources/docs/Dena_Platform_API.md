@@ -485,17 +485,20 @@ Return Value:
     }
 
 
-**Read Objects By Type**
+**Read Objects By Type Supporting Search Clause**
 
 Method: GET
 
-URL: /v1/<application-id>/<type-name>?itempPerPage=50&page=4
+URL: /v1/<application-id>/<type-name>?itempPerPage=50&page=4&where=???
 
 Optional Parameter
 
-itempPerPage: item per page. default is 50.
-page: starting page of result(start with 0). default is 0.
+- **itempPerPage**: item per page. default is 50.
+- **page**: starting page of result(start with 0). default is 0.
+- **where**: see  search object section 
 
+
+ 
 Request Body: None
 
 Return Value:
@@ -519,6 +522,41 @@ Return Value:
     }
 
 
+**Read Object By Relation Supporting Search Clause**
+
+Method: GET
+
+URL: /v1/<application-id>/<type-name-1>/relation/<type-name-2>?itempPerPage=50&page=4&where=???
+
+Optional Parameter
+
+- **itempPerPage**: item per page. default is 50.
+- **page**: starting page of result(start with 0). default is 0.
+- **where**: see  search object section 
+
+
+ 
+Request Body: None
+
+Return Value:
+
+    {
+      "count": 50,
+      "total_page":30,
+      "page":4,
+      "object_values": [
+        {
+          "object_id": "232986544",
+          "field3": "javad",
+          "field4": "developer"
+        },
+         {
+           "object_id": "232986554",
+           "field5": "javad54",
+           "field6": "developer312"
+         }
+      ]
+    }
 
 ----------
 ## Search Object ##
