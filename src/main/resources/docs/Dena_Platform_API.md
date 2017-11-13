@@ -2,7 +2,9 @@
 
 ----------
 
-## Storing Object ##
+## Create Object ##
+
+**Create Single Object**
 
 Method: POST
 
@@ -28,11 +30,22 @@ Request Body:
 Return Value:
 
       {
-       "deletion_time" : timestamp in milliseconds,
-       "deleted_item_count" : number of deleted object(s)
+       "creation_timestamp" : timestamp in milliseconds,
+       "count" : number of created object(s),
+       "URI":"/<type-name>/<object-id>", 
+       "object_values": [
+        {
+          "object_id": "232342424234",
+          "field1": "javad",
+          "field2": "developer"
+        }
+       ] 
       }
 
-    
+
+**Create Bulk Objects**
+
+<TO-DO>    
 
 ----------
 ## Updating Objects ##
