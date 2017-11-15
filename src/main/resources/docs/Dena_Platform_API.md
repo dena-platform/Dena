@@ -5,6 +5,7 @@
 ## Create Object ##
 
 **Create Single Object**
+Relation specifies in related_objects field. 
 
 Method: POST
 
@@ -32,7 +33,7 @@ Return Value:
       {
        "creation_timestamp" : timestamp in milliseconds,
        "count" : number of created object(s),
-       "URI":"/<type-name>/<object-id>", 
+       "URI":"/<type-name>/<object-ids>", 
        "object_values": [
         {
           "object_id": "232342424234",
@@ -199,7 +200,10 @@ Return Value:
       }
 
 ----------
-**Delete Relation (With All Child)**
+**Delete Relation With Type**
+
+This only delete relation between parent and child and do not remove child.
+
 
 Method: DELETE
 
@@ -215,7 +219,7 @@ Return Value:
       }
 
 ----------
-**Delete Relation With Specified Child Object**
+**Delete Relation With Specified Child Objects**
 
 Method: DELETE
 
@@ -371,7 +375,7 @@ Method: GET
 URL: /v1/<application-id>/<type-name>
 
 Request Body: None
-
+                                     1
 Return Value:
 
       {
