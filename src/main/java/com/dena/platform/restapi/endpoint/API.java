@@ -17,12 +17,15 @@ public class API {
 
     public final static String API_PATH = "/v1/";
 
+    public static final String APP_ID = "app-id";
+    public static final String TYPE_NAME = "type-name";
+
     @Resource(name = "denaRestEntityProcessorImpl")
     private RestEntityProcessor restEntityProcessor;
 
 
     @PostMapping(path = "{app-id}/{type-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public void createObject(HttpServletRequest request) {
+    public void createObjects(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         restEntityProcessor.processRestRequest(denaRequestContext);
     }

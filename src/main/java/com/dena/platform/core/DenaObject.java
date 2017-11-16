@@ -1,6 +1,7 @@
 package com.dena.platform.core;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
@@ -12,10 +13,16 @@ import java.util.List;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class DenaObject {
 
-    @JsonProperty(value = "related_objects", required = true)
+    @JsonIgnore
+    private String appName;
+
+    @JsonIgnore
+    private String typeName;
+
+    @JsonProperty(value = "related_objects")
     private List<HashMap> relatedObjects;
 
-    @JsonProperty(value = "object_values", required = true)
+    @JsonProperty(value = "object_values")
     private List<HashMap> objectsValue;
 
 
@@ -35,11 +42,21 @@ public class DenaObject {
         this.objectsValue = objectsValue;
     }
 
-    @Override
-    public String toString() {
-        return "EntityDTO{" +
-                "relatedObjects=" + relatedObjects +
-                ", objectsValue=" + objectsValue +
-                '}';
+    public String getAppName() {
+        return appName;
+    }
+
+    public void setAppName(String appName) {
+        this.appName = appName;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 }
+
+

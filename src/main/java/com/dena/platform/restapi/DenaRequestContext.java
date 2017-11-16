@@ -1,12 +1,14 @@
 package com.dena.platform.restapi;
 
-import com.dena.platform.core.OperationType;
+import com.dena.platform.restapi.endpoint.API;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -18,6 +20,7 @@ public class DenaRequestContext {
 
     private HttpServletRequest request;
     private String requestBody;
+    private Map pathVariables;
 
 
     public boolean isPostRequest() {
@@ -44,8 +47,16 @@ public class DenaRequestContext {
         return requestBody;
     }
 
+    public String getAppName() {
+        return pathVariables.get(API.APP_ID).toString();
+    }
+
+    public String getTypeName() {
+        return pathVariables.get(API.TYPE_NAME).toString();
+    }
 
     public DenaRequestContext(HttpServletRequest request) {
         this.request = request;
+        pathVariables = (Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
     }
 }
