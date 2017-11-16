@@ -12,6 +12,11 @@ Method: POST
 
 URL: /v1/<application-id>/<type-name>
 
+Headers:
+
+Content-Type:application/json
+
+
 Request Body: 
 
     {
@@ -61,7 +66,9 @@ Method: PUT
 
 URL: /v1/<application-id>/<type-names>/<object-id>
 
-Headers::application/json
+Headers:
+
+Content-Type:application/json
 
 Request Body: 
 
@@ -108,7 +115,10 @@ Method: PUT
 
 URL: /v1/<application-id>/<type-names>
 
-Headers::application/json
+Headers:
+
+Content-Type:application/json
+
 
 Request Body: 
 
