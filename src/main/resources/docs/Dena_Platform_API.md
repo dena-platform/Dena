@@ -10,7 +10,7 @@ Relation specifies in related_objects field.
 
 Method: POST
 
-URL: /v1/<application-id>/<type-name>
+URL: /v1/<application-id>/<type-names>
 
 Headers:
 
