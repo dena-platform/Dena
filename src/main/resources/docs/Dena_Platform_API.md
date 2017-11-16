@@ -5,6 +5,7 @@
 ## Create Object ##
 
 **Create Single Object**
+
 Relation specifies in related_objects field. 
 
 Method: POST
