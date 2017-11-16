@@ -55,11 +55,11 @@ Return Value:
 
 if there is a new field or new relation add to existing fields or relations. if field is exist then update field. 
 
-return updated object(s) with all field except its reference to other object. 
+return updated object(s) with all field except its references to other object. 
 
 Method: PUT
 
-URL: /v1/<application-id>/<type-name>/<object-id>
+URL: /v1/<application-id>/<type-names>/<object-id>
 
 Headers::application/json
 
@@ -106,7 +106,7 @@ return updated object(s) with all field except its reference to other object.
 
 Method: PUT
 
-URL: /v1/<application-id>/bulk/<type-name>
+URL: /v1/<application-id>/<type-names>
 
 Headers::application/json
 
@@ -173,7 +173,7 @@ Return Value:
 
 Method: DELETE
 
-URL: /v1/<application-id>/<type-name>/<object-id>
+URL: /v1/<application-id>/<type-names>/<object-id>
 
 Request Body: None
 
@@ -189,7 +189,7 @@ Return Value:
 
 Method: DELETE
 
-URL: /v1/<application-id>/<type-name>/<object-id-1=id1>,<object-id=2>
+URL: /v1/<application-id>/<type-names>/<object-id-1=id1>,<object-id=2>
 
 Request Body: None
 
@@ -208,7 +208,7 @@ This only delete relation between parent and child and do not remove child.
 
 Method: DELETE
 
-URL: /v1/<application-id>/<type-name-1>/<object-id-1>/relation/<type-name-2>
+URL: /v1/<application-id>/<type-names-1>/<object-id-1>/relation/<type-names-2>
 
 Request Body: None
 
@@ -224,7 +224,7 @@ Return Value:
 
 Method: DELETE
 
-URL: /v1/<application-id>/<type-name-1>/<object-id-1>/relation/<type-name-2>/<object-id-2>
+URL: /v1/<application-id>/<type-names-1>/<object-id-1>/relation/<type-names-2>/<object-id-2>
 
 Request Body: None
 
@@ -248,7 +248,7 @@ In this case this method return only one object.
 
 Method: GET
 
-URL: /v1/<application-id>/<type-name>/<object-id>
+URL: /v1/<application-id>/<type-names>/<object-id>
 
 Request Body: None
 
@@ -307,7 +307,7 @@ Return Value:
 
 Method: GET
 
-URL: /v1/<application-id>/<type-name-1>/relation/<type-name-2>?itempPerPage=50&page=4&where=???
+URL: /v1/<application-id>/<type-names-1>/relation/<type-names-2>?itempPerPage=50&page=4&where=???
 
 Optional Parameter
 
@@ -359,7 +359,7 @@ We can count number of objects three way:
 
 Method: GET
 
-URL: /v1/<application-id>/<type-name-1>/relation/<type-name-2>
+URL: /v1/<application-id>/<type-names-1>/relation/<type-names-2>
 
 Request Body: None
 
@@ -373,7 +373,7 @@ Return Value:
 
 Method: GET
 
-URL: /v1/<application-id>/<type-name>
+URL: /v1/<application-id>/<type-names>
 
 Request Body: None
                                      1
