@@ -1,14 +1,14 @@
 package com.dena.platform.core.feature.datastore;
 
-import com.dena.platform.core.EntityDTO;
+import com.dena.platform.core.DenaObject;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 
 public interface DenaDataStore {
-    void storeObject(EntityDTO entityDTO);
+    void storeObject(DenaObject denaObject);
 
-    EntityDTO findObject(Integer objectId);
+    DenaObject findObject(Integer objectId);
 
 }

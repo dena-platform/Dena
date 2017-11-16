@@ -1,7 +1,7 @@
 package com.dena.platform.core.feature.datastore;
 
 import com.dena.platform.common.persistense.HSQL.HSQLUtils;
-import com.dena.platform.core.EntityDTO;
+import com.dena.platform.core.DenaObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -16,20 +16,20 @@ public class HSQLDataStoreImpl implements DenaDataStore {
     private final static Logger log = LoggerFactory.getLogger(HSQLDataStoreImpl.class);
 
     @Override
-    public void storeObject(EntityDTO entityDTO) {
-        try {
-            HSQLUtils.createTableIfNotExist(entityDTO.getTableName());
-            HSQLUtils.storeObjectInTable(entityDTO.getTableName(), Integer.valueOf(entityDTO.getEntityId()), entityDTO.notMappedProperties);
-
-
-        } catch (SQLException | ClassNotFoundException e) {
-            log.error("Error in storing object [{}]", entityDTO);
-            throw new DataStoreException(e);
-        }
+    public void storeObject(DenaObject denaObject) {
+//        try {
+//            HSQLUtils.createTableIfNotExist(denaObject.getTableName());
+//            HSQLUtils.storeObjectInTable(denaObject.getTableName(), Integer.valueOf(denaObject.getEntityId()), denaObject.notMappedProperties);
+//
+//
+//        } catch (SQLException | ClassNotFoundException e) {
+//            log.error("Error in storing object [{}]", denaObject);
+//            throw new DataStoreException(e);
+//        }
     }
 
     @Override
-    public EntityDTO findObject(Integer objectId) {
+    public DenaObject findObject(Integer objectId) {
 
         return null;
     }

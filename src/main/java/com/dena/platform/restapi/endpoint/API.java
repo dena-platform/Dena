@@ -3,10 +3,7 @@ package com.dena.platform.restapi.endpoint;
 import com.dena.platform.restapi.DenaRequestContext;
 import com.dena.platform.restapi.RestEntityProcessor;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 @RestController
-@RequestMapping(EntityEndPoint.API_PATH)
-public class EntityEndPoint {
+@RequestMapping(value = API.API_PATH, produces = {MediaType.APPLICATION_JSON_VALUE})
+public class API {
 
     public final static String API_PATH = "/v1/";
 
@@ -24,13 +21,12 @@ public class EntityEndPoint {
     private RestEntityProcessor restEntityProcessor;
 
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public void saveEntity(HttpServletRequest request) {
-
+    @PostMapping(path = "{app-id}/{type-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void createObject(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         restEntityProcessor.processRestRequest(denaRequestContext);
-
     }
+
 
     @GetMapping
     public String findEntity(HttpServletRequest request) {

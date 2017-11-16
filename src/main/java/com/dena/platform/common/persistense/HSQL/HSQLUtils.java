@@ -1,13 +1,12 @@
 package com.dena.platform.common.persistense.HSQL;
 
 import com.dena.platform.common.web.JSONMapper;
-import com.dena.platform.core.EntityDTO;
+import com.dena.platform.core.DenaObject;
 import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -99,7 +98,7 @@ public class HSQLUtils {
 
     }
 
-    private static List<EntityDTO> findRecord(String tableName, Integer id) throws SQLException, ClassNotFoundException {
+    private static List<DenaObject> findRecord(String tableName, Integer id) throws SQLException, ClassNotFoundException {
 //        List<EntityDTO> result = new ArrayList<>();
 //        Connection connection = makeConnection();
 //        String findStatement = String.format("SELECT DATA FROM  \"%s\" WHERE ID=?", tableName);
