@@ -1,9 +1,12 @@
 package com.dena.platform.common.persistense.MongoDB;
 
+import com.dena.platform.core.DenaObject;
+import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 import org.springframework.util.Assert;
-
-import java.sql.SQLException;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
@@ -16,10 +19,16 @@ public class MongoDBUtils {
         this.mongoClient = mongoClient;
     }
 
-
-    public static void createDataBaseIfNotExist(final String databaseName) {
+    public static MongoDatabase createDataBaseIfNotExist(final String databaseName) {
         Assert.notNull(mongoClient, "MongoClient should not be null");
         mongoClient.getDatabase(databaseName);
+
+    }
+
+    public static void createDocument(MongoDatabase mongoDatabase, String collectionName, Document document) {
+        mongoDatabase
+                .getCollection(collectionName)
+                .insertOne(document);
 
     }
 

@@ -23,7 +23,7 @@ public class DenaObject {
     private List<HashMap> relatedObjects;
 
     @JsonProperty(value = "object_values")
-    private List<HashMap> objectsValue;
+    private List<HashMap<String, ?>> objectsValues;
 
 
     public List<HashMap> getRelatedObjects() {
@@ -34,12 +34,12 @@ public class DenaObject {
         this.relatedObjects = relatedObjects;
     }
 
-    public List<HashMap> getObjectsValue() {
-        return objectsValue;
+    public List<HashMap<String, ?>> getObjectsValues() {
+        return objectsValues;
     }
 
-    public void setObjectsValue(List<HashMap> objectsValue) {
-        this.objectsValue = objectsValue;
+    public void setObjectsValues(List<HashMap<String, ?>>) {
+        this.objectsValues = objectsValues;
     }
 
     public String getAppName() {

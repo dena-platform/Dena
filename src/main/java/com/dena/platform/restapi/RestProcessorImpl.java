@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+import java.util.List;
+
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
@@ -27,10 +29,10 @@ public class RestProcessorImpl implements RestEntityProcessor {
         // Creating new object
         if (denaRequestContext.isPostRequest()) {
             String requestBody = denaRequestContext.getRequestBody();
-            DenaObject denaObject = JSONMapper.createObjectFromJSON(requestBody, DenaObject.class);
+            List<DenaObject> denaObject = JSONMapper.createObjectFromJSON(requestBody, List.class);
             denaObject.setAppName(denaRequestContext.getAppName());
             denaObject.setTypeName(denaRequestContext.getTypeName());
-            denaDataStore.storeObject(denaObject);
+            denaDataStore.storeObjects(denaObject);
         }
 
     }

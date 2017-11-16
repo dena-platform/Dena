@@ -20,31 +20,29 @@ Content-Type:application/json
 Request Body: 
 
     {
+      "field1": "javad",
+      "field2": "developer",
       "related_objects": [
-        {
-          "id": "123123",
-          "type": "para"
-        }
-      ],
-      "object_values": [
-        {
-          "field1": "javad",
-          "field2": "developer"
-        }
+    	 {
+      	  "id": "123123",
+      	  "type": "para"
+    	 }
       ]
     }
+
 
 Return Value:
 
       {
        "creation_timestamp" : timestamp in milliseconds,
        "count" : number of created object(s),
-       "URI":"/<type-name>/<object-ids>", 
-       "object_values": [
+       "objects": [
         {
+          "URI":"/<type-name>/<object-ids>",
           "object_id": "232342424234",
           "field1": "javad",
           "field2": "developer"
+          
         }
        ] 
       }
@@ -73,19 +71,13 @@ Content-Type:application/json
 Request Body: 
 
     {
+      "field1": "javad",
+      "field2": "developer",
       "related_objects": [
-        {
-          "id": "123234123",
-          "type": "Customer"
-        }
-      ],
-      "object_values": [
-        {
-          "object_id": "232342424234",
-          "field3": "new value",
-          "field4": "developer",
-          "new_field":"field" 
-        }
+    	 {
+      	  "id": "123123",
+      	  "type": "para"
+    	 }
       ]
     }
 
@@ -94,8 +86,9 @@ Return Value:
       {
        "update_time" : timestamp in milliseconds,
        "update_item_count" : number of updated object(s),
-  	   "object_values": [
+  	   "objects": [
          {
+           "object_id":"232342424234",
            "field3": "new value",
            "field4": "developer",
            "new_field":"field" 
@@ -105,7 +98,7 @@ Return Value:
 
 ----------
 
-**Update Bulk Objects**
+**Bulk Update Objects**
 
 if there is a new field or new relation add to existing fields or relations. if field is exist then update field. 
 
@@ -123,53 +116,46 @@ Content-Type:application/json
 Request Body: 
 
     [
-     {
-       "object_id":"232342424234",
-       "related_objects": [
-         {
-           "id": "123234123",
-           "type": "Customer"
-         }
-       ],
-       "object_values": [
-         {
-           "field3": "javad",
-           "field4": "developer"
-         }
-       ]
-     },
-     {
-       "object_id":"2323424243424",
-       "related_objects": [
-         {
-           "id": "123234123",
-           "type": "Customer"
-         }
-       ],
-       "object_values": [
-         {
-           "field5": "javad",
-           "field6": "developer"
-         }
-       ]
-     },
-	]
+      {
+        "object_id":"2323424242001",
+        "field3": "javad",
+        "field4": "developer",
+        "related_objects": [
+    	   {
+      	    "id": "123123",
+      	    "type": "para"
+    	   }
+        ]
+      },
+      {
+        "object_id":"2323424242002",
+        "field5": "javad1",
+        "field6": "developer2",
+        "related_objects": [
+      	 {
+        	  "id": "123123",
+        	  "type": "para"
+      	 }
+        ]
+     }
+
+    ]
 
 Return Value:
 
     {
       "update_time": 46313132,
-      "update_item_count": 10,
-      "object_values": [
+      "update_item_count": 2,
+      "objects": [
          {
-           "object_id": "232986544",
+           "object_id": "2323424242001",
            "field3": "javad",
            "field4": "developer"
          },
          {
-           "object_id": "232986544",
-           "field5": "javad54",
-           "field6": "developer312"
+           "object_id": "2323424242002",
+           "field5": "javad1",
+           "field6": "developer2"
          }
       ]
     }
@@ -266,7 +252,7 @@ Return Value:
 
     {
       "count": 1,
-      "object_values": [
+      "objects": [
         {
           "object_id": "232986544",
           "field3": "javad",
@@ -298,7 +284,7 @@ Return Value:
       "count": 50,
       "total_page":30,
       "page":4,
-      "object_values": [
+      "objects": [
         {
           "object_id": "232986544",
           "field3": "javad",
@@ -335,7 +321,7 @@ Return Value:
       "count": 50,
       "total_page":30,
       "page":4,
-      "object_values": [
+      "objects": [
         {
           "object_id": "232986544",
           "field3": "javad",
@@ -386,7 +372,7 @@ Method: GET
 URL: /v1/<application-id>/<type-names>
 
 Request Body: None
-                                     1
+                                     
 Return Value:
 
       {
