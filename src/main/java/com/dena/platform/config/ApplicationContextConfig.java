@@ -11,11 +11,13 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 @Configuration
 public class ApplicationContextConfig {
 
+
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:messages");
-        messageSource.setCacheSeconds(1);
+        messageSource.setCacheSeconds("messages.cacheSeconds");
+        messageSource.setUseCodeAsDefaultMessage("messages.useCodeAsDefaultMessage");
         return messageSource;
     }
 }
