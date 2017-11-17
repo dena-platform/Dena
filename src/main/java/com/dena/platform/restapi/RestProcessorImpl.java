@@ -29,7 +29,7 @@ public class RestProcessorImpl implements RestEntityProcessor {
         // Creating new object
         if (denaRequestContext.isPostRequest()) {
             String requestBody = denaRequestContext.getRequestBody();
-            List<DenaObject> denaObjects = JSONMapper.createObjectsFromJSON(requestBody, DenaObject.class);
+            List<DenaObject> denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
 
             denaObjects.forEach(denaObject -> {
                 denaObject.setTypeName(denaRequestContext.getTypeName());

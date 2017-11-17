@@ -26,7 +26,7 @@ public class JSONMapper {
         }
     }
 
-    public static <T> List<T> createObjectsFromJSON(final String jsonString, final Class<T> classType) throws InputInvalidException {
+    public static <T> List<T> createListObjectsFromJSON(final String jsonString, final Class<T> classType) throws InputInvalidException {
         try {
             return JSON_MAPPER.readValue(jsonString, TypeFactory.defaultInstance().constructCollectionType(List.class, classType));
         } catch (IOException ex) {
