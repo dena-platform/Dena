@@ -31,15 +31,14 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public void storeObjects(List<DenaObject> denaObject, String appName, String typeName) {
+    public void storeObjects(List<DenaObject> denaObjects, String appName, String typeName) {
         List<Document> documentList = new ArrayList<>();
         MongoDatabase mongoDatabase = MongoDBUtils.createDataBaseIfNotExist(appName);
 
-        denaObject.forEach(denaObject1 -> {
-            Document document = Document.parse(JSONMapper.createJSONFromObject(denaObject1));
+        denaObjects.forEach(denaObject -> {
+            Document document = Document.parse(JSONMapper.createJSONFromObject(denaObject));
             documentList.add(document);
         });
-
 
         MongoDBUtils.createDocument(mongoDatabase, typeName, documentList);
 

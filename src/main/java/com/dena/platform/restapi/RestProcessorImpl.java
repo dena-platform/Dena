@@ -2,6 +2,7 @@ package com.dena.platform.restapi;
 
 import com.dena.platform.common.web.JSONMapper;
 import com.dena.platform.core.DenaObject;
+import com.dena.platform.core.DenaRequestContext;
 import com.dena.platform.core.feature.datastore.DenaDataStore;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class RestProcessorImpl implements RestEntityProcessor {
 
     @Override
     public void processRestRequest(DenaRequestContext denaRequestContext) {
+
 
         // Creating new object
         if (denaRequestContext.isPostRequest()) {

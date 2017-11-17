@@ -1,6 +1,6 @@
 package com.dena.platform.restapi.endpoint;
 
-import com.dena.platform.restapi.DenaRequestContext;
+import com.dena.platform.core.DenaRequestContext;
 import com.dena.platform.restapi.RestEntityProcessor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

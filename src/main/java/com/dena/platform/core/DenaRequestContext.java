@@ -1,4 +1,4 @@
-package com.dena.platform.restapi;
+package com.dena.platform.core;
 
 import com.dena.platform.restapi.endpoint.API;
 import org.apache.commons.io.IOUtils;
