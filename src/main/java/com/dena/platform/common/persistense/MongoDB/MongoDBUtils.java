@@ -6,13 +6,19 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
+
+import java.util.List;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 
 public class MongoDBUtils {
+    private final static Logger log = LoggerFactory.getLogger(MongoDBUtils.class);
+
     private static MongoClient mongoClient;
 
     public MongoDBUtils(MongoClient mongoClient) {
@@ -21,15 +27,16 @@ public class MongoDBUtils {
 
     public static MongoDatabase createDataBaseIfNotExist(final String databaseName) {
         Assert.notNull(mongoClient, "MongoClient should not be null");
-        mongoClient.getDatabase(databaseName);
+        return mongoClient.getDatabase(databaseName);
 
     }
 
-    public static void createDocument(MongoDatabase mongoDatabase, String collectionName, Document document) {
+    public static void createDocument(MongoDatabase mongoDatabase, String collectionName, List<? extends Document> document) {
         mongoDatabase
                 .getCollection(collectionName)
-                .insertOne(document);
+                .insertMany(document);
 
+        log.info("Creating document [{}] successfully", document);
     }
 
 

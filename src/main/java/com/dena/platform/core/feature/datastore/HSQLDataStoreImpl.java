@@ -15,7 +15,7 @@ public class HSQLDataStoreImpl implements DenaDataStore {
     private final static Logger log = LoggerFactory.getLogger(HSQLDataStoreImpl.class);
 
     @Override
-    public void storeObjects(List<DenaObject> denaObject) {
+    public void storeObjects(List<DenaObject> denaObject, String appName, String typeName) {
 //        try {
 //            HSQLUtils.createTableIfNotExist(denaObject.getTableName());
 //            HSQLUtils.storeObjectInTable(denaObject.getTableName(), Integer.valueOf(denaObject.getEntityId()), denaObject.notMappedProperties);

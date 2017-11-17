@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 public interface DenaDataStore {
-    void storeObjects(List<DenaObject> denaObject);
+    void storeObjects(List<DenaObject> denaObject, String appName, String typeName);
 
     DenaObject findObject(Integer objectId);
 

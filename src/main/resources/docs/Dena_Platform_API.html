@@ -297,22 +297,18 @@ img {
 <p><strong>Create Single Object</strong></p>
 <p>Relation specifies in related_objects field. </p>
 <p>Method: POST</p>
-<p>URL: /v1/&lt;application-id&gt;/&lt;type-name&gt;</p>
+<p>URL: /v1/&lt;application-id&gt;/&lt;type-names&gt;</p>
 <p>Headers:</p>
 <p>Content-Type:application/json</p>
 <p>Request Body: </p>
 <pre><code>{
+  &quot;field1&quot;: &quot;javad&quot;,
+  &quot;field2&quot;: &quot;developer&quot;,
   &quot;related_objects&quot;: [
-    {
+     {
       &quot;id&quot;: &quot;123123&quot;,
       &quot;type&quot;: &quot;para&quot;
-    }
-  ],
-  &quot;object_values&quot;: [
-    {
-      &quot;field1&quot;: &quot;javad&quot;,
-      &quot;field2&quot;: &quot;developer&quot;
-    }
+     }
   ]
 }
 </code></pre>
@@ -321,12 +317,13 @@ img {
 <pre><code>  {
    &quot;creation_timestamp&quot; : timestamp in milliseconds,
    &quot;count&quot; : number of created object(s),
-   &quot;URI&quot;:&quot;/&lt;type-name&gt;/&lt;object-ids&gt;&quot;, 
-   &quot;object_values&quot;: [
+   &quot;objects&quot;: [
     {
+      &quot;URI&quot;:&quot;/&lt;type-name&gt;/&lt;object-ids&gt;&quot;,
       &quot;object_id&quot;: &quot;232342424234&quot;,
       &quot;field1&quot;: &quot;javad&quot;,
       &quot;field2&quot;: &quot;developer&quot;
+
     }
    ] 
   }
@@ -345,19 +342,13 @@ img {
 <p>Content-Type:application/json</p>
 <p>Request Body: </p>
 <pre><code>{
+  &quot;field1&quot;: &quot;javad&quot;,
+  &quot;field2&quot;: &quot;developer&quot;,
   &quot;related_objects&quot;: [
-    {
-      &quot;id&quot;: &quot;123234123&quot;,
-      &quot;type&quot;: &quot;Customer&quot;
-    }
-  ],
-  &quot;object_values&quot;: [
-    {
-      &quot;object_id&quot;: &quot;232342424234&quot;,
-      &quot;field3&quot;: &quot;new value&quot;,
-      &quot;field4&quot;: &quot;developer&quot;,
-      &quot;new_field&quot;:&quot;field&quot; 
-    }
+     {
+      &quot;id&quot;: &quot;123123&quot;,
+      &quot;type&quot;: &quot;para&quot;
+     }
   ]
 }
 </code></pre>
@@ -366,8 +357,9 @@ img {
 <pre><code>  {
    &quot;update_time&quot; : timestamp in milliseconds,
    &quot;update_item_count&quot; : number of updated object(s),
-   &quot;object_values&quot;: [
+   &quot;objects&quot;: [
      {
+       &quot;object_id&quot;:&quot;232342424234&quot;,
        &quot;field3&quot;: &quot;new value&quot;,
        &quot;field4&quot;: &quot;developer&quot;,
        &quot;new_field&quot;:&quot;field&quot; 
@@ -377,7 +369,7 @@ img {
 </code></pre>
 
 <hr />
-<p><strong>Update Bulk Objects</strong></p>
+<p><strong>Bulk Update Objects</strong></p>
 <p>if there is a new field or new relation add to existing fields or relations. if field is exist then update field. </p>
 <p>return updated object(s) with all field except its reference to other object.</p>
 <p>Method: PUT</p>
@@ -386,53 +378,46 @@ img {
 <p>Content-Type:application/json</p>
 <p>Request Body: </p>
 <pre><code>[
- {
-   &quot;object_id&quot;:&quot;232342424234&quot;,
-   &quot;related_objects&quot;: [
+  {
+    &quot;object_id&quot;:&quot;2323424242001&quot;,
+    &quot;field3&quot;: &quot;javad&quot;,
+    &quot;field4&quot;: &quot;developer&quot;,
+    &quot;related_objects&quot;: [
+       {
+        &quot;id&quot;: &quot;123123&quot;,
+        &quot;type&quot;: &quot;para&quot;
+       }
+    ]
+  },
+  {
+    &quot;object_id&quot;:&quot;2323424242002&quot;,
+    &quot;field5&quot;: &quot;javad1&quot;,
+    &quot;field6&quot;: &quot;developer2&quot;,
+    &quot;related_objects&quot;: [
      {
-       &quot;id&quot;: &quot;123234123&quot;,
-       &quot;type&quot;: &quot;Customer&quot;
+          &quot;id&quot;: &quot;123123&quot;,
+          &quot;type&quot;: &quot;para&quot;
      }
-   ],
-   &quot;object_values&quot;: [
-     {
-       &quot;field3&quot;: &quot;javad&quot;,
-       &quot;field4&quot;: &quot;developer&quot;
-     }
-   ]
- },
- {
-   &quot;object_id&quot;:&quot;2323424243424&quot;,
-   &quot;related_objects&quot;: [
-     {
-       &quot;id&quot;: &quot;123234123&quot;,
-       &quot;type&quot;: &quot;Customer&quot;
-     }
-   ],
-   &quot;object_values&quot;: [
-     {
-       &quot;field5&quot;: &quot;javad&quot;,
-       &quot;field6&quot;: &quot;developer&quot;
-     }
-   ]
- },
+    ]
+ }
+
 ]
 </code></pre>
 
 <p>Return Value:</p>
 <pre><code>{
   &quot;update_time&quot;: 46313132,
-  &quot;update_item_count&quot;: 10,
-  &quot;object_values&quot;: [
+  &quot;update_item_count&quot;: 2,
+  &quot;objects&quot;: [
      {
-       &quot;object_id&quot;: &quot;232986544&quot;,
+       &quot;object_id&quot;: &quot;2323424242001&quot;,
        &quot;field3&quot;: &quot;javad&quot;,
        &quot;field4&quot;: &quot;developer&quot;
      },
      {
-       &quot;object_id&quot;: &quot;232986544&quot;,
-       &quot;field5&quot;: &quot;javad54&quot;,
-       &quot;field6&quot;: &quot;developer312&quot;
+       &quot;object_id&quot;: &quot;2323424242002&quot;,
+       &quot;field5&quot;: &quot;javad1&quot;,
+       &quot;field6&quot;: &quot;developer2&quot;
      }
   ]
 }
@@ -503,7 +488,7 @@ img {
 <p>Return Value:</p>
 <pre><code>{
   &quot;count&quot;: 1,
-  &quot;object_values&quot;: [
+  &quot;objects&quot;: [
     {
       &quot;object_id&quot;: &quot;232986544&quot;,
       &quot;field3&quot;: &quot;javad&quot;,
@@ -528,7 +513,7 @@ img {
   &quot;count&quot;: 50,
   &quot;total_page&quot;:30,
   &quot;page&quot;:4,
-  &quot;object_values&quot;: [
+  &quot;objects&quot;: [
     {
       &quot;object_id&quot;: &quot;232986544&quot;,
       &quot;field3&quot;: &quot;javad&quot;,
@@ -558,7 +543,7 @@ img {
   &quot;count&quot;: 50,
   &quot;total_page&quot;:30,
   &quot;page&quot;:4,
-  &quot;object_values&quot;: [
+  &quot;objects&quot;: [
     {
       &quot;object_id&quot;: &quot;232986544&quot;,
       &quot;field3&quot;: &quot;javad&quot;,
@@ -597,9 +582,8 @@ img {
 <p><strong>Object Count For Type</strong></p>
 <p>Method: GET</p>
 <p>URL: /v1/&lt;application-id&gt;/&lt;type-names&gt;</p>
-<p>Request Body: None
-                                     1
-Return Value:</p>
+<p>Request Body: None</p>
+<p>Return Value:</p>
 <pre><code>  {
    &quot;count&quot; : number of item retrived
   }

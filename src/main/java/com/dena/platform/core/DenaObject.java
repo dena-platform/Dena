@@ -1,45 +1,36 @@
 package com.dena.platform.core;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE)
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class DenaObject {
+    private Map<String, Object> fields = new HashMap<>();
 
-    @JsonIgnore
+    @JsonProperty("app_name")
     private String appName;
 
-    @JsonIgnore
+    @JsonProperty("type_name")
     private String typeName;
 
     @JsonProperty(value = "related_objects")
-    private List<HashMap> relatedObjects;
-
-    @JsonProperty(value = "object_values")
-    private List<HashMap<String, ?>> objectsValues;
+    private List<HashMap<String, ?>> relatedObjects;
 
 
-    public List<HashMap> getRelatedObjects() {
+    public List<HashMap<String, ?>> getRelatedObjects() {
         return relatedObjects;
     }
 
-    public void setRelatedObjects(List<HashMap> relatedObjects) {
+    public void setRelatedObjects(List<HashMap<String, ?>> relatedObjects) {
         this.relatedObjects = relatedObjects;
-    }
-
-    public List<HashMap<String, ?>> getObjectsValues() {
-        return objectsValues;
-    }
-
-    public void setObjectsValues(List<HashMap<String, ?>>) {
-        this.objectsValues = objectsValues;
     }
 
     public String getAppName() {
@@ -56,6 +47,23 @@ public class DenaObject {
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
+    }
+
+    @JsonAnySetter
+    public void addProperty(String name, Object value) {
+        if (StringUtils.isNoneBlank(name) && value != null) {
+            fields.put(name, value);
+        }
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getProperty() {
+        return fields;
+    }
+
+
+    public Map<String, Object> getFields() {
+        return fields;
     }
 }
 
