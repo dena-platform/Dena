@@ -3,8 +3,8 @@ package com.dena.platform.common.exception;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
-public class InputInvalidException extends RuntimeException {
-    public InputInvalidException(String message) {
+public class InvalidFormatException extends RuntimeException {
+    public InvalidFormatException(String message) {
         super(message);
     }
 }

@@ -1,6 +1,6 @@
 package com.dena.platform.common.web;
 
-import com.dena.platform.common.exception.InputInvalidException;
+import com.dena.platform.common.exception.InvalidFormatException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -17,34 +17,34 @@ import java.util.List;
 public class JSONMapper {
     private final static ObjectMapper JSON_MAPPER = new ObjectMapper().enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 
-    public static <T> String createJSONFromObject(final T object) throws InputInvalidException {
+    public static <T> String createJSONFromObject(final T object) throws InvalidFormatException {
         try {
             return JSON_MAPPER.writeValueAsString(object);
         } catch (JsonProcessingException ex) {
             String errMessage = String.format("Error in converting from Class [%s] to JSON", object.getClass().getSimpleName());
-            throw new InputInvalidException(errMessage);
+            throw new InvalidFormatException(errMessage);
         }
     }
 
-    public static <T> List<T> createListObjectsFromJSON(final String jsonString, final Class<T> classType) throws InputInvalidException {
+    public static <T> List<T> createListObjectsFromJSON(final String jsonString, final Class<T> classType) throws InvalidFormatException {
         try {
             return JSON_MAPPER.readValue(jsonString, TypeFactory.defaultInstance().constructCollectionType(List.class, classType));
         } catch (IOException ex) {
             String errMessage = String.format("Error in converting from JSON [%s] to class [%s]", jsonString, classType);
-            throw new InputInvalidException(errMessage);
+            throw new InvalidFormatException(errMessage);
         }
     }
 
-    public static <T> T createObjectFromJSON(final String jsonString, final Class<T> classType) throws InputInvalidException {
+    public static <T> T createObjectFromJSON(final String jsonString, final Class<T> classType) throws InvalidFormatException {
         try {
             return JSON_MAPPER.readValue(jsonString, classType);
         } catch (IOException ex) {
             String errMessage = String.format("Error in converting from JSON [%s] to class [%s]", jsonString, classType);
-            throw new InputInvalidException(errMessage);
+            throw new InvalidFormatException(errMessage);
         }
     }
 
-    public static HashMap<String, Object> createMapFromJSON(final String jsonString) throws InputInvalidException {
+    public static HashMap<String, Object> createMapFromJSON(final String jsonString) throws InvalidFormatException {
         HashMap<String, Object> map;
         try {
             map = JSON_MAPPER.readValue(jsonString, new TypeReference<HashMap<String, Object>>() {
@@ -52,7 +52,7 @@ public class JSONMapper {
             return map;
         } catch (IOException ex) {
             String errMessage = String.format("Error in converting from JSON [%s] to class [%s]", jsonString, HashMap.class);
-            throw new InputInvalidException(errMessage);
+            throw new InvalidFormatException(errMessage);
         }
 
     }
