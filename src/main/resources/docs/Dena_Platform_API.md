@@ -379,7 +379,16 @@ Return Value:
        "count" : number of item retrived
       }
 
-
+----------
+## Error Response ##
+When error occurred in service then the following json return
+ 
+    {
+      "status":400,
+      "error_code":123,
+      "message":"Parameter is invalid"
+    
+    }
 
 
 
