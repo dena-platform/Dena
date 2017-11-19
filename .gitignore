@@ -26,4 +26,4 @@ log/
 target/
 
 
-/docs/~$*.docx
+**/~$cument.docx
