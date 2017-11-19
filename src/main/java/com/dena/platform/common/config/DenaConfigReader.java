@@ -3,16 +3,19 @@ package com.dena.platform.common.config;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 @Component("denaConfigReader")
 public class DenaConfigReader {
-    @Resource
+
+
     private static Environment env;
 
+
+    public void setEnv(Environment env) {
+        DenaConfigReader.env = env;
+    }
 
     public static String readProperty(String povertyName) {
         return readProperty(povertyName, "");
@@ -36,6 +39,14 @@ public class DenaConfigReader {
 
     public static long readLongProperty(String povertyName, long defaultValue) {
         return env.getProperty(povertyName, Long.class, defaultValue);
+    }
+
+    public static int readIntProperty(String povertyName) {
+        return readIntProperty(povertyName, 0);
+    }
+
+    public static int readIntProperty(String povertyName, int defaultValue) {
+        return env.getProperty(povertyName, Integer.class, defaultValue);
     }
 
 

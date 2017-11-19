@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ErrorResponse {
     @JsonProperty("status")
     private int status;
@@ -17,7 +18,7 @@ public class ErrorResponse {
     private String errorCode;
 
     @JsonProperty("message")
-    private String message;
+    private List<String> message;
 
     public int getStatus() {
         return status;
@@ -27,11 +28,11 @@ public class ErrorResponse {
         this.status = status;
     }
 
-    public String getMessage() {
+    public List<String> getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(List<String> message) {
         this.message = message;
     }
 
@@ -46,7 +47,7 @@ public class ErrorResponse {
     public static final class ErrorResponseBuilder {
         private int status;
         private String errorCode;
-        private String message;
+        private List<String> message;
 
         private ErrorResponseBuilder() {
         }
@@ -60,7 +61,7 @@ public class ErrorResponse {
             return this;
         }
 
-        public ErrorResponseBuilder withMessage(String message) {
+        public ErrorResponseBuilder withMessage(List<String> message) {
             this.message = message;
             return this;
         }

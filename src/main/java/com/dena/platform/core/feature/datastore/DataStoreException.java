@@ -7,11 +7,4 @@ import com.dena.platform.common.exception.DenaException;
  */
 
 public class DataStoreException extends DenaException {
-    public DataStoreException(String message) {
-        super(message);
-    }
-
-    public DataStoreException(Throwable ex) {
-        super(ex);
-    }
 }
