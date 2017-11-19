@@ -4,7 +4,6 @@ import com.dena.platform.restapi.ErrorResponse;
 import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -43,5 +42,24 @@ public class DenaRestExceptionMapper {
 
         return errorResponse;
     }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    public ErrorResponse handleDenaRestException(HttpServletRequest request, HttpServletResponse response, Exception ex) {
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+
+        final Locale locale = Locale.getDefault();
+
+        String message = messageSource.getMessage(ErrorCodes.GENERAL.getMessageCode(), null, locale);
+
+        ErrorResponse errorResponse = ErrorResponse.ErrorResponseBuilder.anErrorResponse()
+                .withStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
+                .withErrorCode(ErrorCodes.GENERAL.getErrorCode())
+                .withMessages(message)
+                .build();
+
+        return errorResponse;
+    }
+
 
 }
