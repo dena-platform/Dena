@@ -27,7 +27,6 @@ public class RestProcessorImpl implements RestEntityProcessor {
     @Override
     public void processRestRequest(DenaRequestContext denaRequestContext) {
 
-
         // Creating new object
         if (denaRequestContext.isPostRequest()) {
             String requestBody = denaRequestContext.getRequestBody();
