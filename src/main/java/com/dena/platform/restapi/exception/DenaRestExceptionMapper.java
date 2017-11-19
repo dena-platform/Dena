@@ -1,7 +1,6 @@
 package com.dena.platform.restapi.exception;
 
 import com.dena.platform.restapi.ErrorResponse;
-import com.dena.platform.restapi.exception.DenaRestException;
 import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -39,7 +37,7 @@ public class DenaRestExceptionMapper {
         ErrorResponse errorResponse = ErrorResponse.ErrorResponseBuilder.anErrorResponse()
                 .withStatus(ex.getStatusCode())
                 .withErrorCode(ex.getErrorCode())
-                .withMessage(errorMessage)
+                .withMessages(errorMessage)
                 .build();
 
         return errorResponse;

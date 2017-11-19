@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 @RestController
-@RequestMapping(value = API.API_PATH, produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value = API.API_PATH, produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class API {
 
     public final static String API_PATH = "/v1/";
@@ -28,7 +28,7 @@ public class API {
     private RestEntityProcessor restEntityProcessor;
 
 
-    @PostMapping(path = "{app-id}/{type-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(path = "{app-id}/{type-name}")
     public void createObjects(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         try {

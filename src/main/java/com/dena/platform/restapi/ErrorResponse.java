@@ -60,7 +60,7 @@ public class ErrorResponse {
             return this;
         }
 
-        public ErrorResponseBuilder withMessage(List<String> message) {
+        public ErrorResponseBuilder withMessages(List<String> message) {
             this.message = message;
             return this;
         }
