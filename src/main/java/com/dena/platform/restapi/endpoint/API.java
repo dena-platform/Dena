@@ -3,6 +3,7 @@ package com.dena.platform.restapi.endpoint;
 import com.dena.platform.core.DenaRequestContext;
 import com.dena.platform.restapi.RestEntityProcessor;
 import com.dena.platform.restapi.exception.DenaRestException;
+import com.dena.platform.restapi.exception.DenaRestException.DenaRestExceptionBuilder;
 import com.dena.platform.restapi.exception.ErrorCodes;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -34,10 +35,10 @@ public class API {
             restEntityProcessor.processRestRequest(denaRequestContext);
 
         } catch (Exception ex) {
-            throw DenaRestException.DenaRestExceptionBuilder.aDenaRestException()
+            throw DenaRestExceptionBuilder.aDenaRestException()
                     .withStatusCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
                     .withErrorCode(ErrorCodes.GENERAL.getErrorCode())
-                    .addMessage(ErrorCodes.GENERAL.getMessageCode(), null)
+                    .addMessageCode(ErrorCodes.GENERAL.getMessageCode(), null)
                     .build();
         }
     }

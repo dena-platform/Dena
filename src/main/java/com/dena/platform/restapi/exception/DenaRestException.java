@@ -64,7 +64,7 @@ public class DenaRestException extends RuntimeException {
         }
 
 
-        public DenaRestExceptionBuilder addMessage(String messageKey, Object[] params) {
+        public DenaRestExceptionBuilder addMessageCode(String messageKey, Object[] params) {
             messages.put(messageKey, params);
             return this;
         }
