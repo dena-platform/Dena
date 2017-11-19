@@ -1,12 +1,15 @@
 package com.dena.platform.restapi.endpoint;
 
+import com.dena.platform.common.exception.InvalidFormatException;
 import com.dena.platform.core.DenaRequestContext;
 import com.dena.platform.restapi.RestEntityProcessor;
-import com.dena.platform.restapi.exception.DenaRestException;
 import com.dena.platform.restapi.exception.DenaRestException.DenaRestExceptionBuilder;
 import com.dena.platform.restapi.exception.ErrorCodes;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -34,12 +37,13 @@ public class API {
         try {
             restEntityProcessor.processRestRequest(denaRequestContext);
 
-        } catch (Exception ex) {
+        } catch (InvalidFormatException ex) {
             throw DenaRestExceptionBuilder.aDenaRestException()
-                    .withStatusCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
-                    .withErrorCode(ErrorCodes.GENERAL.getErrorCode())
-                    .addMessageCode(ErrorCodes.GENERAL.getMessageCode(), null)
+                    .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
+                    .withErrorCode(ErrorCodes.INVALID_REQUEST.getErrorCode())
+                    .addMessageCode(ErrorCodes.INVALID_REQUEST.getMessageCode(), null)
                     .build();
+
         }
     }
 

@@ -1,5 +1,6 @@
 package com.dena.platform.restapi;
 
+import com.dena.platform.common.exception.InvalidFormatException;
 import com.dena.platform.common.web.JSONMapper;
 import com.dena.platform.core.DenaObject;
 import com.dena.platform.core.DenaRequestContext;

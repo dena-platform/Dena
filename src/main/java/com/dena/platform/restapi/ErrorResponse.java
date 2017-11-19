@@ -2,7 +2,9 @@ package com.dena.platform.restapi;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.collections4.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,7 +48,7 @@ public class ErrorResponse {
     public static final class ErrorResponseBuilder {
         private int status;
         private String errorCode;
-        private List<String> message;
+        private List<String> messages = new ArrayList<>();
 
         private ErrorResponseBuilder() {
         }
@@ -61,9 +63,15 @@ public class ErrorResponse {
         }
 
         public ErrorResponseBuilder withMessages(List<String> message) {
-            this.message = message;
+            this.messages = message;
             return this;
         }
+
+        public ErrorResponseBuilder withMessages(String message) {
+            this.messages.add(message);
+            return this;
+        }
+
 
         public ErrorResponseBuilder withErrorCode(String errorCode) {
             this.errorCode = errorCode;
@@ -74,7 +82,7 @@ public class ErrorResponse {
             ErrorResponse errorResponse = new ErrorResponse();
             errorResponse.setStatus(status);
             errorResponse.setErrorCode(errorCode);
-            errorResponse.setMessages(message);
+            errorResponse.setMessages(messages);
             return errorResponse;
         }
     }
