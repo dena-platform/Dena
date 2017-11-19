@@ -23,12 +23,12 @@ public class DenaRestExceptionMapper {
     public ErrorResponse handleDenaRestException(HttpServletRequest request, HttpServletResponse response, DenaRestException ex) {
         response.setStatus(ex.getStatusCode());
 
-        String message=
+        
 
         ErrorResponse errorResponse = ErrorResponse.ErrorResponseBuilder.anErrorResponse()
                 .withStatus(ex.getStatusCode())
-                .withErrorCode()
-                .withMessage()
+                .withErrorCode(ex.getMessageCode())
+                .withMessage(ex.getMessage())
                 .build();
 
 
