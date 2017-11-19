@@ -385,7 +385,7 @@ When error occurred in service then the following json return
  
     {
       "status":400,
-      "error_code":123,
+      "error_code":"123",
       "messages":["Parameter is invalid", "Relation can not be empty"]
     
     }

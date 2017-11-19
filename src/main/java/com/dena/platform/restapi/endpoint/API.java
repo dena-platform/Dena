@@ -2,11 +2,14 @@ package com.dena.platform.restapi.endpoint;
 
 import com.dena.platform.core.DenaRequestContext;
 import com.dena.platform.restapi.RestEntityProcessor;
+import com.dena.platform.restapi.exception.DenaRestException;
+import com.dena.platform.restapi.exception.ErrorCodes;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
@@ -27,7 +30,16 @@ public class API {
     @PostMapping(path = "{app-id}/{type-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void createObjects(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-        restEntityProcessor.processRestRequest(denaRequestContext);
+        try {
+            restEntityProcessor.processRestRequest(denaRequestContext);
+
+        } catch (Exception ex) {
+            throw DenaRestException.DenaRestExceptionBuilder.aDenaRestException()
+                    .withStatusCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
+                    .withErrorCode(ErrorCodes.GENERAL.getErrorCode())
+                    .addMessage(ErrorCodes.GENERAL.getMessageCode(), null)
+                    .build();
+        }
     }
 
 

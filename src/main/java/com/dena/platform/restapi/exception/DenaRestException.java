@@ -74,6 +74,7 @@ public class DenaRestException extends RuntimeException {
             denaRestException.statusCode = this.statusCode;
             denaRestException.locale = this.locale;
             denaRestException.messages = this.messages;
+            denaRestException.errorCode = this.errorCode;
             return denaRestException;
         }
     }
