@@ -23,7 +23,7 @@ public class ApplicationContextConfig {
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename("classpath:messages");
+        messageSource.setBasename("classpath:messages/ErrorCodeMessages");
         messageSource.setCacheSeconds(messageCacheSeconds);
         messageSource.setUseCodeAsDefaultMessage(useCodeAsDefaultMessage);
         return messageSource;
