@@ -25,5 +25,5 @@ crashlytics-build.properties
 log/
 target/
 
-
+# Microsoft word temp files
 **/~$cument.docx
