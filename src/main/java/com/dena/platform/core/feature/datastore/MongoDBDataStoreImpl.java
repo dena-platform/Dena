@@ -5,6 +5,7 @@ import com.dena.platform.common.web.JSONMapper;
 import com.dena.platform.core.DenaObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
+import org.apache.commons.collections4.CollectionUtils;
 import org.bson.Document;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         MongoDatabase mongoDatabase = MongoDBUtils.createDataBaseIfNotExist(appName);
 
         denaObjects.forEach(denaObject -> {
+
             Document document = Document.parse(JSONMapper.createJSONFromObject(denaObject));
             documentList.add(document);
         });
@@ -47,5 +49,14 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     @Override
     public DenaObject findObject(Integer objectId) {
         return null;
+    }
+
+
+    private boolean isRelationValid(DenaObject denaObject) {
+        if (CollectionUtils.isNotEmpty(denaObject.getRelatedObjects())) {
+            denaObject.getRelatedObjects().stream().filter(relation -> {
+                
+            }).findAny();
+        }
     }
 }
