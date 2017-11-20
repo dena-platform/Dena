@@ -36,7 +36,7 @@ public class MongoDBUtils {
                 .getCollection(collectionName)
                 .insertMany(document);
 
-        log.info("Creating document [{}] successfully", document);
+        log.info("Creating document(s) [{}] successfully", document);
     }
 
 
