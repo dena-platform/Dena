@@ -10,7 +10,7 @@ Relation specifies in related_objects field.
 
 Method: POST
 
-URL: /v1/<application-id>/<type-names>
+URL: /v1/objects
 
 Headers:
 
@@ -20,6 +20,8 @@ Content-Type:application/json
 Request Body: 
 
     {
+      "app_id":"app1",
+	  "type_name":"a",	
       "field1": "javad",
       "field2": "developer",
       "related_objects": [
@@ -34,6 +36,8 @@ Request Body:
 Return Value:
 
       {
+       "app_id":"app1",
+	   "type_name":"a",
        "creation_timestamp" : timestamp in milliseconds,
        "count" : number of created object(s),
        "objects": [
@@ -62,7 +66,7 @@ return updated object(s) with all field except its references to other object.
 
 Method: PUT
 
-URL: /v1/<application-id>/<type-names>/<object-id>
+URL: /v1/objects
 
 Headers:
 
@@ -71,6 +75,9 @@ Content-Type:application/json
 Request Body: 
 
     {
+      "app_id":"app1",
+	  "type_name":"a",
+      "object_id":"6543213584", 
       "field1": "javad",
       "field2": "developer",
       "related_objects": [
@@ -84,6 +91,8 @@ Request Body:
 Return Value:
 
       {
+       "app_id":"app1",
+       "type_name":"a",
        "update_time" : timestamp in milliseconds,
        "update_item_count" : number of updated object(s),
   	   "objects": [
@@ -106,7 +115,7 @@ return updated object(s) with all field except its reference to other object.
 
 Method: PUT
 
-URL: /v1/<application-id>/<type-names>
+URL: /v1/objects
 
 Headers:
 
@@ -117,6 +126,8 @@ Request Body:
 
     [
       {
+	    "app_id":"app1",
+	    "type_name":"a",
         "object_id":"2323424242001",
         "field3": "javad",
         "field4": "developer",
@@ -128,6 +139,8 @@ Request Body:
         ]
       },
       {
+	    "app_id":"app1",
+        "type_name":"a",
         "object_id":"2323424242002",
         "field5": "javad1",
         "field6": "developer2",
@@ -144,6 +157,8 @@ Request Body:
 Return Value:
 
     {
+      "app_id":"app1",
+	  "type_name":"a",
       "update_time": 46313132,
       "update_item_count": 2,
       "objects": [
