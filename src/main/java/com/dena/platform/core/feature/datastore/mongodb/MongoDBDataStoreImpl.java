@@ -45,7 +45,9 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             return CollectionUtils.isNotEmpty(denaObject1.getRelatedObjectsId());
         }).map(denaObject1 -> {
             return denaObject1.getRelatedObjectsId();
-        }).collect(Collectors.toList());
+        }).flatMap(strings -> {
+            strings.stream();
+        })
 
         return true;
     }
