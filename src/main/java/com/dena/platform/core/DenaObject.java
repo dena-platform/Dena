@@ -22,15 +22,15 @@ public class DenaObject {
     private String typeName;
 
     @JsonProperty(value = "related_objects")
-    private List<HashMap<String, ?>> relatedObjects;
+    private List<String> relatedObjectsId;
 
 
-    public List<HashMap<String, ?>> getRelatedObjects() {
-        return relatedObjects;
+    public List<String> getRelatedObjectsId() {
+        return relatedObjectsId;
     }
 
-    public void setRelatedObjects(List<HashMap<String, ?>> relatedObjects) {
-        this.relatedObjects = relatedObjects;
+    public void setRelatedObjectsId(List<String> relatedObjectsId) {
+        this.relatedObjectsId = relatedObjectsId;
     }
 
     public String getAppName() {
