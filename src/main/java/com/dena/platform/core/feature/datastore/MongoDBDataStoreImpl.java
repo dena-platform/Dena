@@ -55,7 +55,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     private boolean isRelationValid(DenaObject denaObject) {
         if (CollectionUtils.isNotEmpty(denaObject.getRelatedObjects())) {
             denaObject.getRelatedObjects().stream().filter(relation -> {
-                
+                    
             }).findAny();
         }
     }
