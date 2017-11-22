@@ -25,6 +25,7 @@ Request Body:
       "related_objects": [
     	 {
       	  "id": "123123",
+      	  "type": "para"
     	 }
       ]
     }
@@ -74,7 +75,8 @@ Request Body:
       "field2": "developer",
       "related_objects": [
     	 {
-      	  "id": "123123"
+      	  "id": "123123",
+      	  "type": "para"
     	 }
       ]
     }
@@ -121,6 +123,7 @@ Request Body:
         "related_objects": [
     	   {
       	    "id": "123123",
+      	    "type": "para"
     	   }
         ]
       },
@@ -131,6 +134,7 @@ Request Body:
         "related_objects": [
       	 {
         	  "id": "123123",
+        	  "type": "para"
       	 }
         ]
      }
@@ -181,7 +185,7 @@ Return Value:
 
 Method: DELETE
 
-URL: /v1/<application-id>/<type-names>/<object-id-1=id1>,<object-id=id2>
+URL: /v1/<application-id>/<type-names>/<object-id-1=id1>,<object-id=2>
 
 Request Body: None
 
