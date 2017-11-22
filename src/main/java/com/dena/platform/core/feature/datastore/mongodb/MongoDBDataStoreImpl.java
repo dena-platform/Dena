@@ -1,18 +1,16 @@
-package com.dena.platform.core.feature.datastore;
+package com.dena.platform.core.feature.datastore.mongodb;
 
-import com.dena.platform.common.persistense.MongoDB.MongoDBUtils;
 import com.dena.platform.common.web.JSONMapper;
 import com.dena.platform.core.DenaObject;
-import com.mongodb.MongoClient;
+import com.dena.platform.core.feature.datastore.DenaDataStore;
 import com.mongodb.client.MongoDatabase;
 import org.apache.commons.collections4.CollectionUtils;
 import org.bson.Document;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
@@ -20,16 +18,6 @@ import java.util.List;
 
 @Service("denaMongoDBDataStoreImpl")
 public class MongoDBDataStoreImpl implements DenaDataStore {
-
-    @Resource
-    private MongoClient mongoClient;
-
-    @PostConstruct
-    public void init() {
-        // initialize MongoDBUtils
-        MongoDBUtils mongoDBUtils = new MongoDBUtils(mongoClient);
-
-    }
 
     @Override
     public void storeObjects(List<DenaObject> denaObjects, String appName, String typeName) {
@@ -52,11 +40,13 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
 
-    private boolean isRelationValid(DenaObject denaObject) {
-        if (CollectionUtils.isNotEmpty(denaObject.getRelatedObjects())) {
-            denaObject.getRelatedObjects().stream().filter(relation -> {
-                    
-            }).findAny();
-        }
+    private boolean isRelationValid(MongoDatabase mongoDatabase, List<DenaObject> denaObject) {
+        List<List<String>> list = denaObject.stream().filter(denaObject1 -> {
+            return CollectionUtils.isNotEmpty(denaObject1.getRelatedObjectsId());
+        }).map(denaObject1 -> {
+            return denaObject1.getRelatedObjectsId();
+        }).collect(Collectors.toList());
+
+        return true;
     }
 }

@@ -1,13 +1,12 @@
-package com.dena.platform.common.persistense.MongoDB;
+package com.dena.platform.core.feature.datastore.mongodb;
 
-import com.dena.platform.core.DenaObject;
-import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
-import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -15,12 +14,14 @@ import java.util.List;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
-
+@Component
 public class MongoDBUtils {
     private final static Logger log = LoggerFactory.getLogger(MongoDBUtils.class);
 
+
     private static MongoClient mongoClient;
 
+    @Autowired
     public MongoDBUtils(MongoClient mongoClient) {
         this.mongoClient = mongoClient;
     }
@@ -37,6 +38,10 @@ public class MongoDBUtils {
                 .insertMany(document);
 
         log.info("Creating document(s) [{}] successfully", document);
+    }
+
+    public static Document findDocumentById(MongoDatabase mongoDatabase, String id) {
+        mongoDatabase.coll
     }
 
 
