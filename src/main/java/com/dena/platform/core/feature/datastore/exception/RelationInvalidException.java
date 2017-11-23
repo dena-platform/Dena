@@ -3,14 +3,12 @@ package com.dena.platform.core.feature.datastore.exception;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
-
-public class DataStoreException extends RuntimeException {
-    public DataStoreException(String message) {
+public class RelationInvalidException extends RuntimeException {
+    public RelationInvalidException(String message) {
         super(message);
     }
 
-    public DataStoreException(String message, Throwable cause) {
+    public RelationInvalidException(String message, Throwable cause) {
         super(message, cause);
     }
-
 }
