@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 public class MongoDBUtils {
     private final static Logger log = LoggerFactory.getLogger(MongoDBUtils.class);
 
-
     private static MongoClient mongoClient;
 
     @Autowired

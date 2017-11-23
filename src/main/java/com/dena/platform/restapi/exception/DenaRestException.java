@@ -37,6 +37,7 @@ public class DenaRestException extends RuntimeException {
         private int statusCode;
         private String errorCode;
         private Locale locale;
+        private Throwable cause;
 
         private Map<String, Object[]> messages = new HashMap<>();
 
@@ -69,12 +70,20 @@ public class DenaRestException extends RuntimeException {
             return this;
         }
 
+        public DenaRestExceptionBuilder withCause(Throwable cause) {
+            this.cause = cause;
+            return this;
+        }
+
+
+
         public DenaRestException build() {
             DenaRestException denaRestException = new DenaRestException();
             denaRestException.statusCode = this.statusCode;
             denaRestException.locale = this.locale;
             denaRestException.messages = this.messages;
             denaRestException.errorCode = this.errorCode;
+            denaRestException.initCause(cause);
             return denaRestException;
         }
     }
