@@ -36,7 +36,7 @@ public class DenaObject {
     }
 
     @JsonAnyGetter
-    public Map<String, Object> getProperty() {
+    public Map<String, Object> getAllFields() {
         return fields;
     }
 
