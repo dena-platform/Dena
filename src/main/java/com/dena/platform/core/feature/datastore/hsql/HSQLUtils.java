@@ -1,7 +1,7 @@
 package com.dena.platform.core.feature.datastore.hsql;
 
 import com.dena.platform.common.web.JSONMapper;
-import com.dena.platform.core.DenaObject;
+import com.dena.platform.core.dto.DenaObject;
 import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

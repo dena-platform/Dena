@@ -1,6 +1,6 @@
 package com.dena.platform.core.feature.datastore;
 
-import com.dena.platform.core.DenaObject;
+import com.dena.platform.core.dto.DenaObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

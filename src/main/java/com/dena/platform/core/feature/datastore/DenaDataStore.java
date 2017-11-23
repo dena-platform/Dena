@@ -1,6 +1,6 @@
 package com.dena.platform.core.feature.datastore;
 
-import com.dena.platform.core.DenaObject;
+import com.dena.platform.core.dto.DenaObject;
 
 import java.util.List;
 

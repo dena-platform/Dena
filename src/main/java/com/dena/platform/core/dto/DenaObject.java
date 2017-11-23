@@ -1,4 +1,4 @@
-package com.dena.platform.core;
+package com.dena.platform.core.dto;
 
 import com.fasterxml.jackson.annotation.*;
 import org.apache.commons.lang3.StringUtils;
@@ -22,15 +22,15 @@ public class DenaObject {
     private String typeName;
 
     @JsonProperty(value = "related_objects")
-    private List<String> relatedObjectsId;
+    private List<RelatedObject> relatedObjects;
 
 
-    public List<String> getRelatedObjectsId() {
-        return relatedObjectsId;
+    public List<RelatedObject> getRelatedObjects() {
+        return relatedObjects;
     }
 
-    public void setRelatedObjectsId(List<String> relatedObjectsId) {
-        this.relatedObjectsId = relatedObjectsId;
+    public void setRelatedObjects(List<RelatedObject> relatedObjects) {
+        this.relatedObjects = relatedObjects;
     }
 
     public String getAppName() {
@@ -65,6 +65,8 @@ public class DenaObject {
     public Map<String, Object> getFields() {
         return fields;
     }
+
+
 }
 
 
