@@ -2,15 +2,19 @@ package com.dena.platform.core.feature.datastore.mongodb;
 
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.dto.RelatedObject;
-import com.dena.platform.core.feature.datastore.DataStoreException;
 import com.dena.platform.core.feature.datastore.DenaDataStore;
+import com.dena.platform.core.feature.datastore.exception.RelationInvalidException;
+import com.dena.platform.core.feature.datastore.exception.DataStoreException;
 import com.mongodb.client.MongoDatabase;
 import org.apache.commons.collections4.CollectionUtils;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
@@ -20,14 +24,15 @@ import java.util.*;
 public class MongoDBDataStoreImpl implements DenaDataStore {
 
     @Override
-    public void storeObjects(List<DenaObject> denaObjects, String appName, String typeName) throws DataStoreException {
+    public void storeObjects(List<DenaObject> denaObjects, String appName, String typeName) {
         List<Document> documentList = new ArrayList<>();
+
         MongoDatabase mongoDatabase = MongoDBUtils.createDataBaseIfNotExist(appName);
 
 
         denaObjects.forEach(denaObject -> {
             if (!isRelationValid(mongoDatabase, denaObject.getRelatedObjects())) {
-                throw new DataStoreException("Relation is invalid");
+                throw new RelationInvalidException("Relation(s) is invalid");
             }
 
             Document document = new Document();
@@ -43,7 +48,6 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         });
 
         MongoDBUtils.createDocument(mongoDatabase, typeName, documentList);
-
     }
 
     @Override
@@ -58,7 +62,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             return true;
         }
         return relatedObjectList.stream().anyMatch(relatedObject ->
-                MongoDBUtils.findDocumentById(mongoDatabase, relatedObject.getTypeName(), relatedObject.getRelatedObjectId()) == null);
+                MongoDBUtils.findDocumentById(mongoDatabase, relatedObject.getTypeName(), relatedObject.getRelatedObjectId()) != null);
     }
 
     private Map<String, List<ObjectId>> getRelation(DenaObject denaObject) {

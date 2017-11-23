@@ -1,6 +1,8 @@
 package com.dena.platform.restapi.exception;
 
 import com.dena.platform.restapi.ErrorResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
  */
 @ControllerAdvice
 public class DenaRestExceptionMapper {
+    private final static Logger log = LoggerFactory.getLogger(DenaRestExceptionMapper.class);
 
     @Resource(name = "messageSource")
     private MessageSource messageSource;
@@ -51,6 +54,10 @@ public class DenaRestExceptionMapper {
         final Locale locale = Locale.getDefault();
 
         String message = messageSource.getMessage(ErrorCodes.GENERAL.getMessageCode(), null, locale);
+
+        if (ex.getCause() != null) {
+            log.error("An error occurred invoking a REST service.", ex.getCause());
+        }
 
         ErrorResponse errorResponse = ErrorResponse.ErrorResponseBuilder.anErrorResponse()
                 .withStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
