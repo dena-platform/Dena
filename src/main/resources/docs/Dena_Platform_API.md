@@ -58,7 +58,7 @@ Return Value:
 
 if there is a new field or new relation add to existing fields or relations. if field is exist then update field. 
 
-return updated object(s) with all field except its references to other object. 
+return updated object(s) with all field except its references to other objects. 
 
 Method: PUT
 
