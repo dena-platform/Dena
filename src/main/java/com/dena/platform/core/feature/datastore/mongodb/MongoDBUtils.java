@@ -1,7 +1,9 @@
 package com.dena.platform.core.feature.datastore.mongodb;
 
 import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
@@ -40,8 +45,11 @@ public class MongoDBUtils {
         log.info("Creating document(s) [{}] successfully", document);
     }
 
-    public static Document findDocumentById(MongoDatabase mongoDatabase, String id) {
-        mongoDatabase.coll
+    public static Document findDocumentById(MongoDatabase mongoDatabase, String collectionName, String id) {
+        return mongoDatabase.getCollection(collectionName)
+                .find(Filters.eq("_id", id))
+                .first();
+
     }
 
 

@@ -1,7 +1,7 @@
 package com.dena.platform.restapi;
 
 import com.dena.platform.common.web.JSONMapper;
-import com.dena.platform.core.DenaObject;
+import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.DenaRequestContext;
 import com.dena.platform.core.feature.datastore.DenaDataStore;
 import org.slf4j.Logger;

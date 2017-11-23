@@ -25,7 +25,7 @@ Request Body:
       "related_objects": [
     	 {
       	  "id": "123123",
-      	  "type": "denaObject"
+      	  "type": "denaObjects"
     	 }
       ]
     }
