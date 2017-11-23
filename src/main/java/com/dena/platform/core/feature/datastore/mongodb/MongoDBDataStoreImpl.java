@@ -24,30 +24,33 @@ import java.util.Map;
 public class MongoDBDataStoreImpl implements DenaDataStore {
 
     @Override
-    public void storeObjects(List<DenaObject> denaObjects, String appName, String typeName) {
+    public void storeObjects(List<DenaObject> denaObjects, String appName, String typeName) throws DataStoreException {
         List<Document> documentList = new ArrayList<>();
 
-        MongoDatabase mongoDatabase = MongoDBUtils.createDataBaseIfNotExist(appName);
+        try {
+            MongoDatabase mongoDatabase = MongoDBUtils.createDataBaseIfNotExist(appName);
+
+            denaObjects.forEach(denaObject -> {
+                if (!isRelationValid(mongoDatabase, denaObject.getRelatedObjects())) {
+                    throw new RelationInvalidException("Relation(s) is invalid");
+                }
+
+                Document document = new Document();
+                document.put("app_name", denaObject.getAppName());
+                document.put("type_name", denaObject.getTypeName());
+                document.putAll(denaObject.getFields());
 
 
-        denaObjects.forEach(denaObject -> {
-            if (!isRelationValid(mongoDatabase, denaObject.getRelatedObjects())) {
-                throw new RelationInvalidException("Relation(s) is invalid");
-            }
+                if (CollectionUtils.isNotEmpty(denaObject.getRelatedObjects())) {
+                    document.putAll(getRelation(denaObject));
+                }
+                documentList.add(document);
+            });
 
-            Document document = new Document();
-            document.put("app_name", denaObject.getAppName());
-            document.put("type_name", denaObject.getTypeName());
-            document.putAll(denaObject.getFields());
-
-
-            if (CollectionUtils.isNotEmpty(denaObject.getRelatedObjects())) {
-                document.putAll(getRelation(denaObject));
-            }
-            documentList.add(document);
-        });
-
-        MongoDBUtils.createDocument(mongoDatabase, typeName, documentList);
+            MongoDBUtils.createDocument(mongoDatabase, typeName, documentList);
+        } catch (Exception ex) {
+            throw new DataStoreException("Error in storing object", ex);
+        }
     }
 
     @Override
