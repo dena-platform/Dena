@@ -24,10 +24,9 @@ import java.util.Map;
 @Service("denaMongoDBDataStoreImpl")
 public class MongoDBDataStoreImpl implements DenaDataStore {
 
-    private static final String ID = "_id";
 
     @Override
-    public void storeObjects(final List<DenaObject> denaObjects, final String appName, final String typeName) throws DataStoreException {
+    public List<DenaObject> storeObjects(final List<DenaObject> denaObjects, final String appName, final String typeName) throws DataStoreException {
         List<Document> documentList = new ArrayList<>();
 
         try {
@@ -39,7 +38,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 }
                 Document document = new Document();
                 String objectId = ObjectId.get().toHexString();
-                document.put(ID, objectId);
+                document.put(MongoDBUtils.ID, objectId);
                 document.put("app_name", appName);
                 document.put("type_name", pluralTypeName);
                 document.put("URI", DataStoreUtils.makeURIForResource(pluralTypeName, objectId));
