@@ -5,6 +5,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class MongoDBUtils {
 
     public static Document findDocumentById(MongoDatabase mongoDatabase, String collectionName, String id) {
         return mongoDatabase.getCollection(collectionName)
-                .find(Filters.eq("_id", id))
+                .find(Filters.eq("_id", new ObjectId(id)))
                 .first();
 
     }
