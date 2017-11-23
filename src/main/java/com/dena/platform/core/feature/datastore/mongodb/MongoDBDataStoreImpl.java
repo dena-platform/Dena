@@ -64,8 +64,14 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         if (CollectionUtils.isEmpty(relatedObjectList)) {
             return true;
         }
-        return relatedObjectList.stream().anyMatch(relatedObject ->
-                MongoDBUtils.findDocumentById(mongoDatabase, relatedObject.getTypeName(), relatedObject.getRelatedObjectId()) != null);
+        try {
+            return relatedObjectList.stream().anyMatch(relatedObject ->
+                    MongoDBUtils.findDocumentById(mongoDatabase, relatedObject.getTypeName(), relatedObject.getRelatedObjectId()) != null);
+        } catch (Exception ex) {
+            // in case of invalid object id this exception occurred
+            // nothing
+            return false;
+        }
     }
 
     private Map<String, List<ObjectId>> getRelation(DenaObject denaObject) {
