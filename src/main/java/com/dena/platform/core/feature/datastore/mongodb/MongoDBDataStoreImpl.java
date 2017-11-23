@@ -36,11 +36,11 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 }
 
                 Document document = new Document();
-                document.put("app_name", denaObject.getAppName());
-                document.put("type_name", denaObject.getTypeName());
+                document.put("app_name", appName);
+                document.put("type_name", typeName);
                 document.putAll(denaObject.getFields());
 
-
+                // add relation
                 if (CollectionUtils.isNotEmpty(denaObject.getRelatedObjects())) {
                     document.putAll(getRelation(denaObject));
                 }

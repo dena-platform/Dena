@@ -29,6 +29,9 @@ public class DenaRestExceptionMapper {
     @ResponseBody
     public ErrorResponse handleDenaRestException(HttpServletRequest request, HttpServletResponse response, DenaRestException ex) {
         response.setStatus(ex.getStatusCode());
+        if (ex.getCause() != null) {
+            log.error("An error occurred invoking a REST service.", ex.getCause());
+        }
 
         final Locale locale = ex.getLocale() == null ? Locale.getDefault() : ex.getLocale();
 

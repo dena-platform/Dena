@@ -38,12 +38,12 @@ public class API {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         try {
             restEntityProcessor.processRestRequest(denaRequestContext);
-
         } catch (InvalidFormatException ex) {
             throw DenaRestExceptionBuilder.aDenaRestException()
                     .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
                     .withErrorCode(ErrorCodes.INVALID_REQUEST.getErrorCode())
                     .addMessageCode(ErrorCodes.INVALID_REQUEST.getMessageCode(), null)
+                    .withCause(ex.getCause())
                     .build();
 
         } catch (DataStoreException ex) {
@@ -52,14 +52,16 @@ public class API {
                         .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
                         .withErrorCode(ErrorCodes.RELATION_INVALID_EXCEPTION.getErrorCode())
                         .addMessageCode(ErrorCodes.RELATION_INVALID_EXCEPTION.getMessageCode(), null)
+                        .withCause(ex.getCause())
                         .build();
             }
 
-            
+
             throw DenaRestExceptionBuilder.aDenaRestException()
                     .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
                     .withErrorCode(ErrorCodes.GENERAL_DATA_STORE_EXCEPTION.getErrorCode())
                     .addMessageCode(ErrorCodes.GENERAL_DATA_STORE_EXCEPTION.getMessageCode(), null)
+                    .withCause(ex.getCause())
                     .build();
         }
     }

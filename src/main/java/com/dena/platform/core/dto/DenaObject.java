@@ -15,12 +15,6 @@ import java.util.Map;
 public class DenaObject {
     private Map<String, Object> fields = new HashMap<>();
 
-    @JsonProperty("app_name")
-    private String appName;
-
-    @JsonProperty("type_name")
-    private String typeName;
-
     @JsonProperty(value = "related_objects")
     private List<RelatedObject> relatedObjects;
 
@@ -33,21 +27,6 @@ public class DenaObject {
         this.relatedObjects = relatedObjects;
     }
 
-    public String getAppName() {
-        return appName;
-    }
-
-    public void setAppName(String appName) {
-        this.appName = appName;
-    }
-
-    public String getTypeName() {
-        return typeName;
-    }
-
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
-    }
 
     @JsonAnySetter
     public void addProperty(String name, Object value) {
