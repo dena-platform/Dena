@@ -34,7 +34,6 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 if (!isRelationValid(mongoDatabase, denaObject.getRelatedObjects())) {
                     throw new RelationInvalidException("Relation(s) is invalid");
                 }
-
                 Document document = new Document();
                 document.put("app_name", appName);
                 document.put("type_name", typeName);
@@ -68,7 +67,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             return relatedObjectList.stream().anyMatch(relatedObject ->
                     MongoDBUtils.findDocumentById(mongoDatabase, relatedObject.getTypeName(), relatedObject.getRelatedObjectId()) != null);
         } catch (Exception ex) {
-            // in case of invalid object id this exception occurred
+            // in case of invalid object id
             // nothing
             return false;
         }
