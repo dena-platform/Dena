@@ -25,13 +25,13 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
 
     @Override
-    public List<DenaObject> storeObjects(final List<DenaObject> denaObjects, final String appName, final String typeName) throws DataStoreException {
+    public void storeObjects(final List<DenaObject> denaObjects, String appName, String typeName) throws DataStoreException {
         List<Document> documentList = new ArrayList<>();
 
         try {
+            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
+
             denaObjects.forEach(denaObject -> {
-                MongoDatabase mongoDatabase = MongoDBUtils.createDataBaseIfNotExist(appName);
-                String pluralTypeName = DataStoreUtils.makeTypeNamePlural(typeName);
 
                 if (!isRelationValid(mongoDatabase, denaObject.getRelatedObjects())) {
                     throw new RelationInvalidException("Relation(s) is invalid");
@@ -39,11 +39,11 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
                 Document document = new Document();
                 String objectId = ObjectId.get().toHexString();
-                document.put(MongoDBUtils.ID, objectId);
-                document.put("app_name", denaObject.getAppName());
-                document.put("type_name", denaObject.getTypeName());
-                document.put("URI", DataStoreUtils.makeURIForResource(pluralTypeName, objectId));
+                denaObject.setObjectId(objectId);
 
+                document.put(MongoDBUtils.ID, objectId);
+                document.put("app_name", appName);
+                document.put("type_name", typeName);
                 document.putAll(denaObject.getFields());
 
                 // add relation

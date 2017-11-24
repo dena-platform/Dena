@@ -10,7 +10,7 @@ import java.util.List;
  */
 
 public interface DenaDataStore {
-    List<DenaObject> storeObjects(List<DenaObject> denaObject, String appName, String typeName) throws DataStoreException;
+    void storeObjects(List<DenaObject> denaObject, String appName, String typeName) throws DataStoreException;
 
     DenaObject findObject(Integer objectId);
 

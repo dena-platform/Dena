@@ -15,18 +15,11 @@ import java.util.Map;
 public class DenaObject {
     private Map<String, Object> fields = new HashMap<>();
 
+    @JsonProperty(value = "object_id")
+    private String objectId;
 
     @JsonProperty(value = "related_objects")
     private List<RelatedObject> relatedObjects;
-
-    private String id;
-
-    private String appName;
-
-    private String typeName;
-
-    private String resourceURI;
-
 
     public List<RelatedObject> getRelatedObjects() {
         return relatedObjects;
@@ -54,40 +47,12 @@ public class DenaObject {
         return fields;
     }
 
-    public String getAppName() {
-        return appName;
+    public String getObjectId() {
+        return objectId;
     }
 
-    public void setAppName(String appName) {
-        this.appName = appName;
-    }
-
-    public String getTypeName() {
-        return typeName;
-    }
-
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
-    }
-
-    public String getResourceURI() {
-        return resourceURI;
-    }
-
-    public void setResourceURI(String resourceURI) {
-        this.resourceURI = resourceURI;
-    }
-
-    public String getTypeNamePlural() {
-        if (!typeName.endsWith("s")) {
-            return typeName + "s";
-        } else {
-            return typeName;
-        }
-    }
-
-    public String getURIForResource() {
-        return "/" + typeName + "/" + id;
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 }
 

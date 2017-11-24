@@ -32,9 +32,10 @@ public class MongoDBUtils {
         this.mongoClient = mongoClient;
     }
 
-    public static MongoDatabase createDataBaseIfNotExist(final String databaseName) {
+    public static MongoDatabase getDataBase(final String databaseName) {
         Assert.notNull(mongoClient, "MongoClient should not be null");
         return mongoClient.getDatabase(databaseName);
+
 
     }
 

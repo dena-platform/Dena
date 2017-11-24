@@ -25,24 +25,13 @@ public class RestProcessorImpl implements RestEntityProcessor {
 
     @Override
     public void processRestRequest(DenaRequestContext denaRequestContext) {
+        String requestBody = denaRequestContext.getRequestBody();
 
         // Creating new object
         if (denaRequestContext.isPostRequest()) {
-            List<DenaObject> denaObjects = makeDenaObjects(denaRequestContext);
-            denaDataStore.storeObjects(denaObjects, denaRequestContext.getAppName(), denaRequestContext.getTypeName());
+            List<DenaObject> denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
+            denaDataStore.storeObjects(denaObjects, denaRequestContext.getAppName(), denaRequestContext.getPluralTypeName());
         }
-
-    }
-
-    private List<DenaObject> makeDenaObjects(DenaRequestContext denaRequestContext) {
-        String requestBody = denaRequestContext.getRequestBody();
-        List<DenaObject> denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
-
-        denaObjects.forEach(denaObject -> {
-            String pluralTypeName = denaObject.getTypeNamePlural();
-            denaObject.setAppName(denaRequestContext.getAppName());
-            denaObject.setTypeName(pluralTypeName);
-        });
 
     }
 
