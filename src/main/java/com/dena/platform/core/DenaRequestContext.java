@@ -1,5 +1,6 @@
 package com.dena.platform.core;
 
+import com.dena.platform.common.utils.DenaObjectUtils;
 import com.dena.platform.restapi.endpoint.API;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -51,8 +52,9 @@ public class DenaRequestContext {
         return pathVariables.get(API.APP_ID).toString();
     }
 
-    public String getTypeName() {
-        return pathVariables.get(API.TYPE_NAME).toString();
+    public String getPluralTypeName() {
+        String pluralTypeName = DenaObjectUtils.getTypeNamePlural(pathVariables.get(API.TYPE_NAME).toString());
+        return pluralTypeName;
     }
 
     public DenaRequestContext(HttpServletRequest request) {
