@@ -26,6 +26,8 @@ public class MongoDBUtils {
     private static MongoClient mongoClient;
 
     public static final String ID = "_id";
+    public static final String APP_NAME = "app_name";
+    public static final String TYPE_NAME = "type_name";
 
     @Autowired
     public MongoDBUtils(MongoClient mongoClient) {

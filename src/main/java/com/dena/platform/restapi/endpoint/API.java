@@ -55,8 +55,6 @@ public class API {
                         .withCause(ex.getCause())
                         .build();
             }
-
-
             throw DenaRestExceptionBuilder.aDenaRestException()
                     .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
                     .withErrorCode(ErrorCodes.GENERAL_DATA_STORE_EXCEPTION.getErrorCode())
