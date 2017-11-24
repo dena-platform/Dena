@@ -25,7 +25,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
 
     @Override
-    public void storeObjects(final List<DenaObject> denaObjects, String appName, String typeName) throws DataStoreException {
+    public void storeObjects(final List<DenaObject> denaObjects, final String appName, final String typeName) throws DataStoreException {
         List<Document> documentList = new ArrayList<>();
 
         try {
