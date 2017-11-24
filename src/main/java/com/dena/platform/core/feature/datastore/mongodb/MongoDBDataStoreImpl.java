@@ -37,13 +37,13 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                     throw new RelationInvalidException("Relation(s) is invalid");
                 }
 
-                Document document = new Document();
                 String objectId = ObjectId.get().toHexString();
                 denaObject.setObjectId(objectId);
 
+                Document document = new Document();
+                document.put(MongoDBUtils.APP_NAME, appName);
+                document.put(MongoDBUtils.TYPE_NAME, typeName);
                 document.put(MongoDBUtils.ID, objectId);
-                document.put("app_name", appName);
-                document.put("type_name", typeName);
                 document.putAll(denaObject.getFields());
 
                 // add relation
