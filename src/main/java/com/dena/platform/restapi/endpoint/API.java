@@ -8,6 +8,7 @@ import com.dena.platform.restapi.RestEntityProcessor;
 import com.dena.platform.restapi.exception.DenaRestException.DenaRestExceptionBuilder;
 import com.dena.platform.restapi.exception.ErrorCodes;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,10 +35,11 @@ public class API {
 
 
     @PostMapping(path = "{app-id}/{type-name}")
-    public void createObjects(HttpServletRequest request) {
+    public ResponseEntity createObjects(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         try {
-            restEntityProcessor.processRestRequest(denaRequestContext);
+            return restEntityProcessor.processRestRequest(denaRequestContext);
+
         } catch (InvalidFormatException ex) {
             throw DenaRestExceptionBuilder.aDenaRestException()
                     .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
