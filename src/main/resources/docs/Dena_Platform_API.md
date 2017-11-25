@@ -34,7 +34,7 @@ Request Body:
 Return Value:
 
       {
-       "creation_timestamp" : timestamp in milliseconds,
+       "timestamp" : timestamp in milliseconds,
        "count" : number of created object(s),
        "objects": [
         {
@@ -84,8 +84,8 @@ Request Body:
 Return Value:
 
       {
-       "update_time" : timestamp in milliseconds,
-       "update_item_count" : number of updated object(s),
+       "timestamp" : timestamp in milliseconds,
+       "count" : number of updated object(s),
   	   "objects": [
          {
            "object_id":"232342424234",
@@ -144,8 +144,8 @@ Request Body:
 Return Value:
 
     {
-      "update_time": 46313132,
-      "update_item_count": 2,
+      "timestamp": timestamp in milliseconds,
+      "count":number of updated object(s),
       "objects": [
          {
            "object_id": "2323424242001",
@@ -176,8 +176,8 @@ Request Body: None
 Return Value:
 
       {
-       "deletion_time" : timestamp in milliseconds,
-       "deleted_item_count" : number of deleted object(s)
+       "timestamp" : timestamp in milliseconds,
+       "count" : number of deleted object(s)
       }
 
 ----------
@@ -192,8 +192,8 @@ Request Body: None
 Return Value:
 
       {
-       "deletion_time" : timestamp in milliseconds,
-       "deleted_item_count" : number of deleted object(s)
+       "timestamp" : timestamp in milliseconds,
+       "count" : number of deleted object(s)
       }
 
 ----------
@@ -211,8 +211,8 @@ Request Body: None
 Return Value:
 
       {
-       "deletion_time" : timestamp in milliseconds,
-       "deleted_item_count" : number of deleted object(s)
+       "timestamp" : timestamp in milliseconds,
+       "count" : number of deleted object(s)
       }
 
 ----------
@@ -227,8 +227,8 @@ Request Body: None
 Return Value:
 
       {
-       "deletion_time" : timestamp in milliseconds,
-       "deleted_item_count" : number of deleted object(s)
+       "timestamp" : timestamp in milliseconds,
+       "count" : number of deleted object(s)
       }
 
 ----------
@@ -251,6 +251,7 @@ Request Body: None
 Return Value:
 
     {
+      "timestamp" : timestamp in milliseconds,
       "count": 1,
       "objects": [
         {
@@ -281,6 +282,7 @@ Request Body: None
 Return Value:
 
     {
+      "timestamp" : timestamp in milliseconds,
       "count": 50,
       "total_page":30,
       "page":4,
@@ -318,6 +320,7 @@ Request Body: None
 Return Value:
 
     {
+      "timestamp" : timestamp in milliseconds,
       "count": 50,
       "total_page":30,
       "page":4,
@@ -362,6 +365,7 @@ Request Body: None
 Return Value:
 
       {
+       "timestamp" : timestamp in milliseconds,
        "count" : number of item retrived
       }
 
@@ -376,6 +380,7 @@ Request Body: None
 Return Value:
 
       {
+       "timestamp" : timestamp in milliseconds,
        "count" : number of item retrived
       }
 
