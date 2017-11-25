@@ -1,6 +1,6 @@
 package com.dena.platform.restapi.exception;
 
-import com.dena.platform.restapi.ErrorResponse;
+import com.dena.platform.restapi.dto.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
