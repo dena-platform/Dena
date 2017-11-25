@@ -4,6 +4,7 @@ import com.dena.platform.common.utils.DenaObjectUtils;
 import com.dena.platform.restapi.endpoint.API;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.atteo.evo.inflector.English;
 import org.slf4j.Logger;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.HandlerMapping;
@@ -53,8 +54,7 @@ public class DenaRequestContext {
     }
 
     public String getPluralTypeName() {
-        String pluralTypeName = DenaObjectUtils.getTypeNamePlural(pathVariables.get(API.TYPE_NAME).toString());
-        return pluralTypeName;
+        return English.plural(pathVariables.get(API.TYPE_NAME).toString());
     }
 
     public DenaRequestContext(HttpServletRequest request) {

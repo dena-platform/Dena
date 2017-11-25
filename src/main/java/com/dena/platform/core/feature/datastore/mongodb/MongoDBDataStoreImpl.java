@@ -74,7 +74,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             return relatedObjectList.stream().allMatch(relatedObject ->
                     MongoDBUtils.findDocumentById(mongoDatabase, relatedObject.getTypeName(), relatedObject.getRelatedObjectId()) != null);
         } catch (IllegalArgumentException ex) {
-            // in case of invalid object id
+            // in case of invalid object id, relation is invalid
             // nothing
             return false;
         }
