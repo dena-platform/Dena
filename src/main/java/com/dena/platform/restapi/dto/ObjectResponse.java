@@ -1,8 +1,6 @@
 package com.dena.platform.restapi.dto;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
@@ -11,6 +9,9 @@ import java.util.Map;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
+
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ObjectResponse {
     private Map<String, Object> fields = new HashMap<>();
 

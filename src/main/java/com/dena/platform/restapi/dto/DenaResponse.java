@@ -19,7 +19,7 @@ public class DenaResponse {
     private Integer count;
 
     @JsonProperty("objects")
-    private Map<String, Object> objectFields = new HashMap<>();
+    private List<ObjectResponse> objectResponseList = new ArrayList<>();
 
     public Date getTimestamp() {
         return timestamp;
@@ -37,14 +37,14 @@ public class DenaResponse {
         this.count = count;
     }
 
-    public void setObjectFields(Map<String, Object> objectFields) {
-        this.objectFields = objectFields;
+    public void setObjectResponseList(List<ObjectResponse> objectResponseList) {
+        this.objectResponseList = objectResponseList;
     }
 
     public static final class DenaResponseBuilder {
         private Date timestamp;
         private Integer count;
-        private Map<String, Object> objectFields = new HashMap<>();
+        private List<ObjectResponse> objectResponseList = new ArrayList<>();
 
         private DenaResponseBuilder() {
         }
@@ -63,8 +63,8 @@ public class DenaResponse {
             return this;
         }
 
-        public DenaResponseBuilder withObjectResponseList(Map<String, Object> objectFields) {
-            this.objectFields = objectFields;
+        public DenaResponseBuilder withObjectResponseList(List<ObjectResponse> objectResponseList) {
+            this.objectResponseList = objectResponseList;
             return this;
         }
 
@@ -72,7 +72,7 @@ public class DenaResponse {
             DenaResponse denaResponse = new DenaResponse();
             denaResponse.setTimestamp(timestamp);
             denaResponse.setCount(count);
-            denaResponse.setObjectFields(objectFields);
+            denaResponse.setObjectResponseList(objectResponseList);
             return denaResponse;
         }
     }
