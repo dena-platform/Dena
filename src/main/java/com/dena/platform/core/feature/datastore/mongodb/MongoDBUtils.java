@@ -1,5 +1,6 @@
 package com.dena.platform.core.feature.datastore.mongodb;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
@@ -51,18 +52,10 @@ public class MongoDBUtils {
     }
 
     public static Document findDocumentById(MongoDatabase mongoDatabase, String collectionName, String id) {
-        com.mongodb.client.MongoCollection<org.bson.Document> documentMongoCollection = mongoDatabase.getCollection(collectionName);
-
-        for (Document document : documentMongoCollection.find()) {
-            System.out.println(document);
-        }
-
 
         return mongoDatabase.getCollection(collectionName)
                 .find(Filters.eq("_id", new ObjectId(id)))
                 .first();
-
     }
-
 
 }
