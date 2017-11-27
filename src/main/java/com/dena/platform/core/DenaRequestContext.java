@@ -28,9 +28,15 @@ public class DenaRequestContext {
         return RequestMethod.POST.name().equalsIgnoreCase(request.getMethod());
     }
 
+    public boolean isPutRequest() {
+        return RequestMethod.PUT.name().equalsIgnoreCase(request.getMethod());
+    }
+
     public boolean isGetRequest() {
         return RequestMethod.GET.name().equalsIgnoreCase(request.getMethod());
     }
+
+
 
     public HttpServletRequest getRequest() {
         return request;

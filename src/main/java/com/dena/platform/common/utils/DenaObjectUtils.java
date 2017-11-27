@@ -1,7 +1,5 @@
 package com.dena.platform.common.utils;
 
-import java.util.Date;
-
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
@@ -19,7 +17,7 @@ public class DenaObjectUtils {
     }
 
 
-    public static Date createTimeStamp() {
-        return new Date();
+    public static long timeStamp() {
+        return System.currentTimeMillis();
     }
 }

@@ -13,7 +13,7 @@ import java.util.*;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class DenaResponse {
     @JsonProperty("timestamp")
-    private Date timestamp;
+    private Long timestamp;
 
     @JsonProperty("count")
     private Integer count;
@@ -21,11 +21,11 @@ public class DenaResponse {
     @JsonProperty("objects")
     private List<ObjectResponse> objectResponseList = new ArrayList<>();
 
-    public Date getTimestamp() {
+    public Long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -42,7 +42,7 @@ public class DenaResponse {
     }
 
     public static final class DenaResponseBuilder {
-        private Date timestamp;
+        private Long timestamp;
         private Integer count;
         private List<ObjectResponse> objectResponseList = new ArrayList<>();
 
@@ -53,7 +53,7 @@ public class DenaResponse {
             return new DenaResponseBuilder();
         }
 
-        public DenaResponseBuilder withTimestamp(Date timestamp) {
+        public DenaResponseBuilder withTimestamp(Long timestamp) {
             this.timestamp = timestamp;
             return this;
         }
