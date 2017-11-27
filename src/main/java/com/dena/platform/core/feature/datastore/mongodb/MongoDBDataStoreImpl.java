@@ -61,9 +61,46 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public DenaObject findObject(Integer objectId) {
+    public void updateObjects(List<DenaObject> denaObjects, String appName, String typeName) throws DataStoreException {
+        List<Document> documentList = new ArrayList<>();
+        try {
+            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
+
+            denaObjects.forEach(denaObject -> {
+
+                if (!isRelationValid(mongoDatabase, denaObject.getRelatedObjects())) {
+                    throw new RelationInvalidException("Relation(s) is invalid");
+                }
+
+                ObjectId objectId = ObjectId.get();
+                denaObject.setObjectId(objectId.toHexString());
+
+                Document document = new Document();
+                document.put(MongoDBUtils.APP_NAME, appName);
+                document.put(MongoDBUtils.TYPE_NAME, typeName);
+                document.put(MongoDBUtils.ID, objectId);
+
+                document.putAll(denaObject.getFields());
+
+                // add relation
+                if (CollectionUtils.isNotEmpty(denaObject.getRelatedObjects())) {
+                    document.putAll(getRelation(denaObject));
+                }
+                documentList.add(document);
+            });
+
+            MongoDBUtils.createDocument(mongoDatabase, typeName, documentList);
+        } catch (Exception ex) {
+            throw new DataStoreException("Error in storing object", ex);
+        }
+
+    }
+
+    @Override
+    public DenaObject findObject(String objectId) {
         return null;
     }
+
 
 
     private boolean isRelationValid(MongoDatabase mongoDatabase, List<RelatedObject> relatedObjectList) {
