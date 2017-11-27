@@ -7,8 +7,11 @@ import com.dena.platform.core.feature.datastore.exception.RelationInvalidExcepti
 import com.dena.platform.core.feature.datastore.exception.DataStoreException;
 import com.mongodb.client.MongoDatabase;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +25,7 @@ import java.util.Map;
 
 @Service("denaMongoDBDataStoreImpl")
 public class MongoDBDataStoreImpl implements DenaDataStore {
+    private final static Logger log = LoggerFactory.getLogger(MongoDBDataStoreImpl.class);
 
 
     @Override
@@ -72,21 +76,24 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                     throw new RelationInvalidException("Relation(s) is invalid");
                 }
 
-                ObjectId objectId = ObjectId.get();
-                denaObject.setObjectId(objectId.toHexString());
+                if (StringUtils.isNoneBlank(denaObject.getObjectId())) {
+                    ObjectId objectId = new ObjectId(denaObject.getObjectId());
+                    Document document = new Document();
+                    document.put(MongoDBUtils.APP_NAME, appName);
+                    document.put(MongoDBUtils.TYPE_NAME, typeName);
+                    document.put(MongoDBUtils.ID, objectId);
 
-                Document document = new Document();
-                document.put(MongoDBUtils.APP_NAME, appName);
-                document.put(MongoDBUtils.TYPE_NAME, typeName);
-                document.put(MongoDBUtils.ID, objectId);
+                    document.putAll(denaObject.getFields());
 
-                document.putAll(denaObject.getFields());
-
-                // add relation
-                if (CollectionUtils.isNotEmpty(denaObject.getRelatedObjects())) {
-                    document.putAll(getRelation(denaObject));
+                    // add relation
+                    if (CollectionUtils.isNotEmpty(denaObject.getRelatedObjects())) {
+                        document.putAll(getRelation(denaObject));
+                    }
+                    documentList.add(document);
+                } else {
+                    log.error("ObjectId for [{}] is id", denaObject);
                 }
-                documentList.add(document);
+
             });
 
             MongoDBUtils.createDocument(mongoDatabase, typeName, documentList);
@@ -100,7 +107,6 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     public DenaObject findObject(String objectId) {
         return null;
     }
-
 
 
     private boolean isRelationValid(MongoDatabase mongoDatabase, List<RelatedObject> relatedObjectList) {
@@ -131,4 +137,5 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
         return references;
     }
+
 }

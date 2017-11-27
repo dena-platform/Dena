@@ -45,7 +45,7 @@ public class MongoDBUtils {
 
     public static void createDocument(MongoDatabase mongoDatabase, String collectionName, List<? extends Document> document) {
         Assert.hasLength(collectionName, "MongoClient should not be null");
-        Assert.notEmpty(document, "MongoClient should not be null");
+        Assert.notEmpty(document, "Document should not be null");
 
         mongoDatabase
                 .getCollection(collectionName)
@@ -53,6 +53,23 @@ public class MongoDBUtils {
 
         log.info("Creating document(s) [{}] successfully", document);
     }
+
+    public static void updateDocument(MongoDatabase mongoDatabase, String collectionName, List<? extends Document> documents) {
+        Assert.hasLength(collectionName, "MongoClient should not be null");
+        Assert.notEmpty(documents, "MongoClient should not be null");
+
+        List<String> idCollection = documents
+                .stream()
+                .map(o -> o.get("_id").toString())
+                .collect(Collectors.toList());
+
+        mongoDatabase
+                .getCollection(collectionName)
+                .up
+
+        log.info("Creating document(s) [{}] successfully", documents);
+    }
+
 
     public static Document findDocumentById(MongoDatabase mongoDatabase, String collectionName, String id) {
         return mongoDatabase.getCollection(collectionName)
