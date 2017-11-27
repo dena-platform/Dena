@@ -7,7 +7,6 @@ import com.dena.platform.core.DenaRequestContext;
 import com.dena.platform.core.feature.datastore.DenaDataStore;
 import com.dena.platform.restapi.dto.DenaResponse;
 import com.dena.platform.restapi.dto.ObjectResponse;
-import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,7 @@ public class RestProcessorImpl implements RestEntityProcessor {
 
         // Creating new object
         if (denaRequestContext.isPostRequest()) {
-            String typeName = denaRequestContext.getPluralTypeName();
+            String typeName = denaRequestContext.getTypeName();
             String appName = denaRequestContext.getAppName();
 
             List<DenaObject> denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
@@ -49,7 +48,6 @@ public class RestProcessorImpl implements RestEntityProcessor {
 
             return ResponseEntity.ok().body(denaResponse);
         }
-
         return ResponseEntity.badRequest().build();
 
     }
