@@ -44,6 +44,9 @@ public class MongoDBUtils {
     }
 
     public static void createDocument(MongoDatabase mongoDatabase, String collectionName, List<? extends Document> document) {
+        Assert.hasLength(collectionName, "MongoClient should not be null");
+        Assert.notEmpty(document, "MongoClient should not be null");
+
         mongoDatabase
                 .getCollection(collectionName)
                 .insertMany(document);
@@ -52,7 +55,6 @@ public class MongoDBUtils {
     }
 
     public static Document findDocumentById(MongoDatabase mongoDatabase, String collectionName, String id) {
-
         return mongoDatabase.getCollection(collectionName)
                 .find(Filters.eq("_id", new ObjectId(id)))
                 .first();
