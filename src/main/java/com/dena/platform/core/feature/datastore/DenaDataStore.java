@@ -12,6 +12,8 @@ import java.util.List;
 public interface DenaDataStore {
     void storeObjects(List<DenaObject> denaObject, String appName, String typeName) throws DataStoreException;
 
-    DenaObject findObject(Integer objectId);
+    void updateObjects(List<DenaObject> denaObject, String appName, String typeName) throws DataStoreException;
+
+    DenaObject findObject(String objectId);
 
 }
