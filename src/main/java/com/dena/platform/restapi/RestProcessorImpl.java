@@ -30,25 +30,56 @@ public class RestProcessorImpl implements RestEntityProcessor {
 
     @Override
     public ResponseEntity processRestRequest(DenaRequestContext denaRequestContext) {
-        String requestBody = denaRequestContext.getRequestBody();
 
-        // Creating new object
+
+        // Creating new object(s)
         if (denaRequestContext.isPostRequest()) {
-            String typeName = denaRequestContext.getTypeName();
-            String appName = denaRequestContext.getAppName();
-
-            List<DenaObject> denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
-            denaDataStore.storeObjects(denaObjects, appName, typeName);
-
-            DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
-                    .withObjectResponseList(createPostResponse(denaObjects, typeName))
-                    .withCount(denaObjects.size())
-                    .withTimestamp(DenaObjectUtils.createTimeStamp())
-                    .build();
-
-            return ResponseEntity.ok().body(denaResponse);
+            return handlePostRequest(denaRequestContext);
         }
+
+        // Update object(s)
+        if (denaRequestContext.isPutRequest()) {
+            return handlePutRequest(denaRequestContext);
+        }
+
         return ResponseEntity.badRequest().build();
+
+    }
+
+
+    private ResponseEntity handlePostRequest(DenaRequestContext denaRequestContext) {
+        String requestBody = denaRequestContext.getRequestBody();
+        String typeName = denaRequestContext.getTypeName();
+        String appName = denaRequestContext.getAppName();
+
+        List<DenaObject> denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
+        denaDataStore.storeObjects(denaObjects, appName, typeName);
+
+        DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
+                .withObjectResponseList(createPostResponse(denaObjects, typeName))
+                .withCount(denaObjects.size())
+                .withTimestamp(DenaObjectUtils.timeStamp())
+                .build();
+
+        return ResponseEntity.ok().body(denaResponse);
+
+    }
+
+    private ResponseEntity handlePutRequest(DenaRequestContext denaRequestContext) {
+        String requestBody = denaRequestContext.getRequestBody();
+        String typeName = denaRequestContext.getTypeName();
+        String appName = denaRequestContext.getAppName();
+
+        List<DenaObject> denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
+        denaDataStore.storeObjects(denaObjects, appName, typeName);
+
+        DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
+                .withObjectResponseList(createPostResponse(denaObjects, typeName))
+                .withCount(denaObjects.size())
+                .withTimestamp(DenaObjectUtils.timeStamp())
+                .build();
+
+        return ResponseEntity.ok().body(denaResponse);
 
     }
 
