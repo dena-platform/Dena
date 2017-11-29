@@ -56,7 +56,7 @@ public class RestProcessorImpl implements RestEntityProcessor {
         denaDataStore.storeObjects(denaObjects, appName, typeName);
 
         DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
-                .withObjectResponseList(createPostResponse(denaObjects, typeName))
+                .withObjectResponseList(createObjectResponse(denaObjects, typeName))
                 .withCount(denaObjects.size())
                 .withTimestamp(DenaObjectUtils.timeStamp())
                 .build();
@@ -71,10 +71,10 @@ public class RestProcessorImpl implements RestEntityProcessor {
         String appName = denaRequestContext.getAppName();
 
         List<DenaObject> denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
-        denaDataStore.storeObjects(denaObjects, appName, typeName);
+        denaDataStore.updateObjects(denaObjects, appName, typeName);
 
         DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
-                .withObjectResponseList(createPostResponse(denaObjects, typeName))
+                .withObjectResponseList(createObjectResponse(denaObjects, typeName))
                 .withCount(denaObjects.size())
                 .withTimestamp(DenaObjectUtils.timeStamp())
                 .build();
@@ -84,7 +84,7 @@ public class RestProcessorImpl implements RestEntityProcessor {
     }
 
 
-    private List<ObjectResponse> createPostResponse(List<DenaObject> denaObjects, String typeName) {
+    private List<ObjectResponse> createObjectResponse(List<DenaObject> denaObjects, String typeName) {
         List<ObjectResponse> objectResponses = new ArrayList<>();
         denaObjects.forEach(denaObject -> {
             ObjectResponse objectResponse = new ObjectResponse();
