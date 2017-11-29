@@ -96,7 +96,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
             });
 
-            MongoDBUtils.createDocument(mongoDatabase, typeName, documentList);
+            MongoDBUtils.updateDocument(mongoDatabase, typeName, documentList);
         } catch (Exception ex) {
             throw new DataStoreException("Error in storing object", ex);
         }
