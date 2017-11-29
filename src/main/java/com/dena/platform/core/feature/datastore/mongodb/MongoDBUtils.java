@@ -2,10 +2,14 @@ package com.dena.platform.core.feature.datastore.mongodb;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.bulk.BulkWriteResult;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.BulkWriteOptions;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.UpdateOneModel;
+import com.mongodb.client.model.WriteModel;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -14,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -58,16 +63,19 @@ public class MongoDBUtils {
         Assert.hasLength(collectionName, "MongoClient should not be null");
         Assert.notEmpty(documents, "MongoClient should not be null");
 
-        List<String> idCollection = documents
-                .stream()
-                .map(o -> o.get("_id").toString())
-                .collect(Collectors.toList());
+        ArrayList<WriteModel<Document>> updates = new ArrayList<>();
+        documents.forEach(document -> {
+            Document id = new Document(ID, document.get(ID));
+            Document data = new Document("$set", document);
+            UpdateOneModel<Document> updateOneModel = new UpdateOneModel<>(id, data);
+            updates.add(updateOneModel);
+        });
 
-        mongoDatabase
+        BulkWriteResult res = mongoDatabase
                 .getCollection(collectionName)
-                .up
+                .bulkWrite(updates, new BulkWriteOptions().ordered(true));
 
-        log.info("Creating document(s) [{}] successfully", documents);
+        log.info("Updates: [{}] document(s) count", res.getModifiedCount());
     }
 
 
