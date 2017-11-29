@@ -72,7 +72,7 @@ public class DenaRestExceptionMapper {
         return errorResponse;
     }
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     @ResponseBody
     public ErrorResponse handleDenaRestException(HttpServletRequest request, HttpServletResponse response, HttpMediaTypeNotSupportedException ex) {
         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -82,11 +82,13 @@ public class DenaRestExceptionMapper {
 
         if (ex.getCause() != null) {
             log.error("An error occurred invoking a REST service.", ex.getCause());
+        } else {
+            log.error("An error occurred invoking a REST service.", ex);
         }
 
         ErrorResponse errorResponse = ErrorResponse.ErrorResponseBuilder.anErrorResponse()
                 .withStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
-                .withErrorCode(ErrorCodes.GENERAL.getErrorCode())
+                .withErrorCode(ErrorCodes.INVALID_MEDIA_TYPE.getErrorCode())
                 .withMessages(message)
                 .build();
 
