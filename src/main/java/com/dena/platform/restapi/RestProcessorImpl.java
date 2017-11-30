@@ -42,7 +42,7 @@ public class RestProcessorImpl implements RestEntityProcessor {
     public ResponseEntity processRestRequest(DenaRequestContext denaRequestContext) {
 
 
-        // Creating new object(s)
+        // Creating object(s)
         if (denaRequestContext.isPostRequest()) {
             return handlePostRequest(denaRequestContext);
         }
