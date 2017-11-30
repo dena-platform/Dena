@@ -103,7 +103,7 @@ Return Value:
 
 if there is a new field or new relation(new type) add to existing fields or relations. if field is exist then update field.
 
-If relation with same type exist then replace with new relation. 
+If relation with same type exist then replace with new specified relation. 
 
 return updated object(s) with all field except its reference to other object.
 
@@ -260,7 +260,12 @@ Return Value:
         {
           "object_id": "232986544",
           "field3": "javad",
-          "field4": "developer"
+          "field4": "developer",
+          "related_objects": [
+    	      {
+      	      "id": "123123",
+      	      "type": "para"
+    	      }
         }
       ]
     }
@@ -293,18 +298,29 @@ Return Value:
         {
           "object_id": "232986544",
           "field3": "javad",
-          "field4": "developer"
-        },
+          "field4": "developer",
+          "related_objects": [
+    	     {
+      	    "id": "123123",
+      	    "type": "para"
+    	     }
+         },
          {
            "object_id": "232986554",
            "field5": "javad54",
-           "field6": "developer312"
+           "field6": "developer312",
+           "related_objects": [
+    	      {
+      	     "id": "123123",
+      	     "type": "para"
+    	      }
+
          }
       ]
     }
 
 
-**Read Object By Relation Supporting Search Clause**
+**Read Object Relation Supporting Search Clause**
 
 Method: GET
 
