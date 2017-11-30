@@ -37,7 +37,7 @@ public class MongoDBUtils {
 
     @Autowired
     public MongoDBUtils(MongoClient mongoClient) {
-        this.mongoClient = mongoClient;
+        MongoDBUtils.mongoClient = mongoClient;
     }
 
     public static MongoDatabase getDataBase(final String databaseName) {
