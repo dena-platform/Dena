@@ -24,6 +24,11 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class RestProcessorImpl implements RestEntityProcessor {
     private final static Logger log = getLogger(RestProcessorImpl.class);
 
+    public final static String TYPE_NAME = "type-name";
+    public final static String APP_ID = "app-id";
+    public final static String OBJECT_ID = "object-id";
+
+
     @Resource(name = "denaMongoDBDataStoreImpl")
     private DenaDataStore denaDataStore;
 
@@ -49,14 +54,14 @@ public class RestProcessorImpl implements RestEntityProcessor {
 
     private ResponseEntity handlePostRequest(DenaRequestContext denaRequestContext) {
         String requestBody = denaRequestContext.getRequestBody();
-        String typeName = denaRequestContext.getTypeName();
-        String appName = denaRequestContext.getAppName();
+        String appTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
+        String appName = denaRequestContext.getPathVariable(APP_ID);
 
         List<DenaObject> denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
-        denaDataStore.storeObjects(denaObjects, appName, typeName);
+        denaDataStore.storeObjects(denaObjects, appName, appTypeName);
 
         DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
-                .withObjectResponseList(createObjectResponse(denaObjects, typeName))
+                .withObjectResponseList(createObjectResponse(denaObjects, TYPE_NAME))
                 .withCount(denaObjects.size())
                 .withTimestamp(DenaObjectUtils.timeStamp())
                 .build();
@@ -67,14 +72,15 @@ public class RestProcessorImpl implements RestEntityProcessor {
 
     private ResponseEntity handlePutRequest(DenaRequestContext denaRequestContext) {
         String requestBody = denaRequestContext.getRequestBody();
-        String typeName = denaRequestContext.getTypeName();
-        String appName = denaRequestContext.getAppName();
+        String appTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
+        String appName = denaRequestContext.getPathVariable(APP_ID);
 
         List<DenaObject> denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
-        denaDataStore.updateObjects(denaObjects, appName, typeName);
+
+        denaDataStore.updateObjects(denaObjects, appName, appTypeName);
 
         DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
-                .withObjectResponseList(createObjectResponse(denaObjects, typeName))
+                .withObjectResponseList(createObjectResponse(denaObjects, TYPE_NAME))
                 .withCount(denaObjects.size())
                 .withTimestamp(DenaObjectUtils.timeStamp())
                 .build();
