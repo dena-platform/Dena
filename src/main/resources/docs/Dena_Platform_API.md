@@ -190,7 +190,7 @@ Return Value:
 
 Method: DELETE
 
-URL: /v1/<application-id>/<type-names>/<object-id-1=id1>,<object-id=2>
+URL: /v1/<application-id>/<type-names>/<object-id-1=id1>,<object-id-2=id2>
 
 Request Body: None
 

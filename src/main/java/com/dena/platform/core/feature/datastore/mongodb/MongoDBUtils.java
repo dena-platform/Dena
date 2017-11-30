@@ -10,6 +10,7 @@ import com.mongodb.client.model.BulkWriteOptions;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.UpdateOneModel;
 import com.mongodb.client.model.WriteModel;
+import com.mongodb.client.result.DeleteResult;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -76,6 +77,17 @@ public class MongoDBUtils {
                 .bulkWrite(updates, new BulkWriteOptions().ordered(true));
 
         log.info("Updates: [{}] document(s) count", res.getModifiedCount());
+    }
+
+    public static long deleteDocument(MongoDatabase mongoDatabase, String collectionName, List<String> documentIds) {
+        Assert.hasLength(collectionName, "collection should not be empty or null");
+        Assert.notEmpty(documentIds, "id should not be empty");
+
+        List<ObjectId> objectIdList = documentIds.stream().map(ObjectId::new).collect(Collectors.toList());
+
+        DeleteResult deleteResult = mongoDatabase.getCollection(collectionName).deleteMany(Filters.in("_id", objectIdList));
+        log.info("Deletes: [{}] document(s) count", deleteResult.getDeletedCount());
+        return deleteResult.getDeletedCount();
     }
 
 
