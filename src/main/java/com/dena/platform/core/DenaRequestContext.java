@@ -22,7 +22,6 @@ public class DenaRequestContext {
     private HttpServletRequest request;
     private String requestBody;
 
-
     public boolean isPostRequest() {
         return RequestMethod.POST.name().equalsIgnoreCase(request.getMethod());
     }
@@ -38,7 +37,6 @@ public class DenaRequestContext {
     public boolean isDeleteRequest() {
         return RequestMethod.DELETE.name().equalsIgnoreCase(request.getMethod());
     }
-
 
     public HttpServletRequest getRequest() {
         return request;

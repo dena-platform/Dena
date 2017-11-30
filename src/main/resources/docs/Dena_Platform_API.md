@@ -225,7 +225,7 @@ Return Value:
 
 Method: DELETE
 
-URL: /v1/<application-id>/<type-names-1>/<object-id-1>/relation/<type-names-2>/<object-id-2>
+URL: /v1/<application-id>/<type-names>/<object-id>/relation/<type-names-2>/<object-id-2>
 
 Request Body: None
 
