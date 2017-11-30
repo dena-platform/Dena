@@ -14,4 +14,5 @@ public interface RestEntityProcessor {
 
     ResponseEntity handleDeleteRelation(DenaRequestContext denaRequestContext);
 
+    ResponseEntity handleFindObject(DenaRequestContext denaRequestContext);
 }
