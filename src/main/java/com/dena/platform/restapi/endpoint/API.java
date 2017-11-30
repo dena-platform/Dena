@@ -2,6 +2,7 @@ package com.dena.platform.restapi.endpoint;
 
 import com.dena.platform.common.exception.InvalidFormatException;
 import com.dena.platform.core.DenaRequestContext;
+import com.dena.platform.core.feature.datastore.exception.ObjectIdInvalidException;
 import com.dena.platform.core.feature.datastore.exception.RelationInvalidException;
 import com.dena.platform.core.feature.datastore.exception.DataStoreException;
 import com.dena.platform.restapi.RestEntityProcessor;
@@ -85,6 +86,16 @@ public class API {
                         .withCause(ex.getCause())
                         .build();
             }
+
+            if (ex.getCause() instanceof ObjectIdInvalidException) {
+                throw DenaRestExceptionBuilder.aDenaRestException()
+                        .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
+                        .withErrorCode(ErrorCodes.ObjectId_INVALID_EXCEPTION.getErrorCode())
+                        .addMessageCode(ErrorCodes.ObjectId_INVALID_EXCEPTION.getMessageCode(), null)
+                        .withCause(ex.getCause())
+                        .build();
+            }
+
             throw DenaRestExceptionBuilder.aDenaRestException()
                     .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
                     .withErrorCode(ErrorCodes.GENERAL_DATA_STORE_EXCEPTION.getErrorCode())

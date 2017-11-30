@@ -3,6 +3,7 @@ package com.dena.platform.core.feature.datastore.mongodb;
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.dto.RelatedObject;
 import com.dena.platform.core.feature.datastore.DenaDataStore;
+import com.dena.platform.core.feature.datastore.exception.ObjectIdInvalidException;
 import com.dena.platform.core.feature.datastore.exception.RelationInvalidException;
 import com.dena.platform.core.feature.datastore.exception.DataStoreException;
 import com.mongodb.client.MongoDatabase;
@@ -37,9 +38,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
             denaObjects.forEach(denaObject -> {
 
-                if (!isRelationValid(mongoDatabase, denaObject.getRelatedObjects())) {
-                    throw new RelationInvalidException("Relation(s) is invalid");
-                }
+                checkRelationValidity(mongoDatabase, denaObject.getRelatedObjects());
 
                 ObjectId objectId = ObjectId.get();
                 denaObject.setObjectId(objectId.toHexString());
@@ -65,17 +64,14 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public void updateObjects(List<DenaObject> denaObjects, String appName, String typeName) throws DataStoreException {
+    public void updateObjects(List<DenaObject> denaObjects, final String appName, final String typeName) throws DataStoreException {
         List<Document> documentList = new ArrayList<>();
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
 
             denaObjects.forEach(denaObject -> {
-
-                if (!isRelationValid(mongoDatabase, denaObject.getRelatedObjects())) {
-                    throw new RelationInvalidException("Relation(s) is invalid");
-                }
-
+                checkRelationValidity(mongoDatabase, denaObject.getRelatedObjects());
+                checkObjectIdValidity(mongoDatabase, typeName, denaObject.getObjectId());
                 if (StringUtils.isNoneBlank(denaObject.getObjectId())) {
                     ObjectId objectId = new ObjectId(denaObject.getObjectId());
                     Document document = new Document();
@@ -85,7 +81,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
                     document.putAll(denaObject.getFields());
 
-                    // add relation
+                    // update relation
                     if (CollectionUtils.isNotEmpty(denaObject.getRelatedObjects())) {
                         document.putAll(getRelation(denaObject));
                     }
@@ -109,18 +105,37 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
 
-    private boolean isRelationValid(MongoDatabase mongoDatabase, List<RelatedObject> relatedObjectList) {
+    private void checkRelationValidity(MongoDatabase mongoDatabase, List<RelatedObject> relatedObjectList) {
+        if (CollectionUtils.isNotEmpty(relatedObjectList)) {
+            boolean isRelationValid;
 
-        if (CollectionUtils.isEmpty(relatedObjectList)) {
-            return true;
+            try {
+                isRelationValid = relatedObjectList.stream().allMatch(relatedObject ->
+                        MongoDBUtils.findDocumentById(mongoDatabase, relatedObject.getTypeName(), relatedObject.getRelatedObjectId()) != null);
+            } catch (IllegalArgumentException ex) {
+                // in case of invalid object id, relation is invalid
+                isRelationValid = false;
+            }
+
+            if (!isRelationValid) {
+                throw new RelationInvalidException("Relation(s) is invalid");
+            }
         }
+
+    }
+
+    private void checkObjectIdValidity(MongoDatabase mongoDatabase, String typeName, String objectId) {
+        boolean isObjectIdValid;
         try {
-            return relatedObjectList.stream().allMatch(relatedObject ->
-                    MongoDBUtils.findDocumentById(mongoDatabase, relatedObject.getTypeName(), relatedObject.getRelatedObjectId()) != null);
+
+            isObjectIdValid = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId) != null;
         } catch (IllegalArgumentException ex) {
             // in case of invalid object id, relation is invalid
-            // nothing
-            return false;
+            isObjectIdValid = false;
+        }
+
+        if (!isObjectIdValid) {
+            throw new ObjectIdInvalidException("objectId invalid exception");
         }
     }
 
