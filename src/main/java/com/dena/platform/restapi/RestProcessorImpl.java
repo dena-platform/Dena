@@ -61,7 +61,7 @@ public class RestProcessorImpl implements RestEntityProcessor {
         denaDataStore.storeObjects(denaObjects, appName, appTypeName);
 
         DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
-                .withObjectResponseList(createObjectResponse(denaObjects, TYPE_NAME))
+                .withObjectResponseList(createObjectResponse(denaObjects, appTypeName))
                 .withCount(denaObjects.size())
                 .withTimestamp(DenaObjectUtils.timeStamp())
                 .build();
