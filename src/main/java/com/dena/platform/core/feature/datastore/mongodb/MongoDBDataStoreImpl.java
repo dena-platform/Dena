@@ -113,7 +113,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     public long deleteRelation(String appName, String typeName1, String objectId1, String typeName2, String objectId2) {
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
-            return MongoDBUtils.deleteRelation(mongoDatabase, typeName1, objectId1, typeName2, objectId2);
+            return MongoDBUtils.deleteRelationWithObjectId(mongoDatabase, typeName1, objectId1, typeName2, objectId2);
         } catch (Exception ex) {
             throw new DataStoreException("Error in delete relation", ex);
         }
@@ -123,7 +123,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     public long deleteRelation(String appName, String typeName1, String objectId1, String typeName2) {
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
-            return MongoDBUtils.deleteRelation(mongoDatabase, typeName1, objectId1, typeName2);
+            return MongoDBUtils.deleteRelationWithType(mongoDatabase, typeName1, objectId1, typeName2);
         } catch (Exception ex) {
             throw new DataStoreException("Error in delete relation", ex);
         }

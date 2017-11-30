@@ -88,7 +88,7 @@ public class MongoDBUtils {
         return deleteResult.getDeletedCount();
     }
 
-    public static long deleteRelation(MongoDatabase mongoDatabase, String typeName1, String objectId1, String typeName2, String objectId2) {
+    public static long deleteRelationWithObjectId(MongoDatabase mongoDatabase, String typeName1, String objectId1, String typeName2, String objectId2) {
         Document update = new Document(typeName2, new ObjectId(objectId2));
 
         UpdateResult updateResult = mongoDatabase
@@ -100,13 +100,13 @@ public class MongoDBUtils {
         return updateResult.getModifiedCount();
     }
 
-    public static long deleteRelation(MongoDatabase mongoDatabase, String typeName1, String objectId1, String typeName2) {
+    public static long deleteRelationWithType(MongoDatabase mongoDatabase, String typeName1, String objectId1, String typeName2) {
         Document searchDocument = new Document("_id", new ObjectId(objectId1));
         Document update = new Document(typeName2, "");
 
         UpdateResult updateResult = mongoDatabase
                 .getCollection(typeName1)
-                .updateOne(searchDocument, new Document("$pull", update));
+                .updateOne(searchDocument, new Document("$unset", update));
 
 
         log.info("Updates: [{}] document(s) count", updateResult.getModifiedCount());
