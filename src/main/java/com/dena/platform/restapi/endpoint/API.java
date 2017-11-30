@@ -154,11 +154,10 @@ public class API {
     }
 
 
-    @GetMapping
-    public ResponseEntity findEntity(HttpServletRequest request) {
+    @GetMapping(path = "/<app-id>/<type-name>/<object-id>")
+    public ResponseEntity findObject(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-        restEntityProcessor.processRestRequest(denaRequestContext);
+        return restEntityProcessor.handleFindObject(denaRequestContext);
 
-        return null;
     }
 }

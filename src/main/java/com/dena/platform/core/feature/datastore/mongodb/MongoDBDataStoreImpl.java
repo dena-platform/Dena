@@ -130,8 +130,17 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public DenaObject findObject(String objectId) {
-        return null;
+    public DenaObject findObject(String appName, String typeName, String objectId) {
+        try {
+            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
+            DenaObject denaObject = new DenaObject();
+            denaObject.setObjectId(objectId);
+
+            Document document = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId);
+            
+        } catch (Exception ex) {
+            throw new DataStoreException("Error in delete relation", ex);
+        }
     }
 
 

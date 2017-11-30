@@ -129,6 +129,14 @@ public class RestProcessorImpl implements RestEntityProcessor {
 
     }
 
+    @Override
+    public ResponseEntity handleFindObject(DenaRequestContext denaRequestContext) {
+        String typeName = denaRequestContext.getPathVariable(TYPE_NAME);
+        String appId = denaRequestContext.getPathVariable(APP_ID);
+
+        
+    }
+
 
     private ResponseEntity handleDeleteRequest(DenaRequestContext denaRequestContext) {
         String typeName = denaRequestContext.getPathVariable(TYPE_NAME);
