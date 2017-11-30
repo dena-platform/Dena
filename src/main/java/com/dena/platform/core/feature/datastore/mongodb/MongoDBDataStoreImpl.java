@@ -105,7 +105,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
 
-    private void checkRelationValidity(MongoDatabase mongoDatabase, List<RelatedObject> relatedObjectList) {
+    private void checkRelationValidity(MongoDatabase mongoDatabase, List<RelatedObject> relatedObjectList) throws RelationInvalidException {
         if (CollectionUtils.isNotEmpty(relatedObjectList)) {
             boolean isRelationValid;
 
@@ -124,7 +124,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
     }
 
-    private void checkObjectIdValidity(MongoDatabase mongoDatabase, String typeName, String objectId) {
+    private void checkObjectIdValidity(MongoDatabase mongoDatabase, String typeName, String objectId) throws ObjectIdInvalidException {
         boolean isObjectIdValid;
         try {
 
