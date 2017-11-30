@@ -56,7 +56,9 @@ Return Value:
 
 **Update One Object**
 
-if there is a new field or new relation add to existing fields or relations. if field is exist then update field. 
+if there is a new field or new relation(new type) add to existing fields or relations. if field is exist then update field. 
+
+If relation with same type exist then replace with new specified relation. 
 
 return updated object(s) with all field except its references to other objects. 
 
