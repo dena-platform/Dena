@@ -137,6 +137,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             denaObject.setObjectId(objectId);
 
             Document document = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId);
+
             
         } catch (Exception ex) {
             throw new DataStoreException("Error in delete relation", ex);
