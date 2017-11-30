@@ -62,6 +62,10 @@ public class DenaRequestContext {
     }
 
     public String getPathVariable(String pathName) {
-        return ((Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE)).get(pathName).toString();
+        Object val = ((Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE)).get(pathName);
+        if (val == null) {
+            return "";
+        }
+        return val.toString();
     }
 }
