@@ -119,15 +119,6 @@ public class API {
                     .build();
 
         } catch (DataStoreException ex) {
-            if (ex.getCause() instanceof RelationInvalidException) {
-                throw DenaRestExceptionBuilder.aDenaRestException()
-                        .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
-                        .withErrorCode(ErrorCodes.RELATION_INVALID_EXCEPTION.getErrorCode())
-                        .addMessageCode(ErrorCodes.RELATION_INVALID_EXCEPTION.getMessageCode(), null)
-                        .withCause(ex.getCause())
-                        .build();
-            }
-
             throw DenaRestExceptionBuilder.aDenaRestException()
                     .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
                     .withErrorCode(ErrorCodes.GENERAL_DATA_STORE_EXCEPTION.getErrorCode())
