@@ -135,7 +135,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         }
 
         if (!isObjectIdValid) {
-            throw new ObjectIdInvalidException("objectId invalid exception");
+            throw new ObjectIdInvalidException("ObjectId invalid exception");
         }
     }
 
