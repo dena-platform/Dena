@@ -31,7 +31,7 @@ public class API {
     private RestEntityProcessor restEntityProcessor;
 
 
-    @PostMapping(path = "/{app-id}/{type-name}/{object-id}")
+    @PostMapping(path = "/{app-id}/{type-name}")
     public ResponseEntity createObjects(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         try {

@@ -62,7 +62,7 @@ return updated object(s) with all field except its references to other objects.
 
 Method: PUT
 
-URL: /v1/<application-id>/<type-names>/<object-id>
+URL: /v1/<application-id>/<type-names>
 
 Headers:
 
@@ -71,6 +71,7 @@ Content-Type:application/json
 Request Body: 
 
     {
+      "object_id":"2323424242001",
       "field1": "javad",
       "field2": "developer",
       "related_objects": [

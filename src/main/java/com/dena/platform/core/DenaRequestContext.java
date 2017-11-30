@@ -21,7 +21,6 @@ public class DenaRequestContext {
 
     private HttpServletRequest request;
     private String requestBody;
-    private Map pathVariables;
 
 
     public boolean isPostRequest() {
@@ -35,7 +34,6 @@ public class DenaRequestContext {
     public boolean isGetRequest() {
         return RequestMethod.GET.name().equalsIgnoreCase(request.getMethod());
     }
-
 
 
     public HttpServletRequest getRequest() {
@@ -54,16 +52,12 @@ public class DenaRequestContext {
         return requestBody;
     }
 
-    public String getAppName() {
-        return pathVariables.get(API.APP_ID).toString();
-    }
-
-    public String getTypeName() {
-        return pathVariables.get(API.TYPE_NAME).toString();
-    }
 
     public DenaRequestContext(HttpServletRequest request) {
         this.request = request;
-        pathVariables = (Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+    }
+
+    public String getPathVariable(String pathName) {
+        return ((Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE)).get(pathName).toString();
     }
 }
