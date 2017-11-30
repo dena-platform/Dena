@@ -105,6 +105,38 @@ public class API {
         }
     }
 
+    @DeleteMapping(path = "/{app-id}/{type-name}/{object-id}", consumes = MediaType.ALL_VALUE)
+    public ResponseEntity deleteObjects(HttpServletRequest request) {
+        DenaRequestContext denaRequestContext = new DenaRequestContext(request);
+        try {
+            return restEntityProcessor.processRestRequest(denaRequestContext);
+        } catch (InvalidFormatException ex) {
+            throw DenaRestExceptionBuilder.aDenaRestException()
+                    .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
+                    .withErrorCode(ErrorCodes.INVALID_REQUEST.getErrorCode())
+                    .addMessageCode(ErrorCodes.INVALID_REQUEST.getMessageCode(), null)
+                    .withCause(ex.getCause())
+                    .build();
+
+        } catch (DataStoreException ex) {
+            if (ex.getCause() instanceof RelationInvalidException) {
+                throw DenaRestExceptionBuilder.aDenaRestException()
+                        .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
+                        .withErrorCode(ErrorCodes.RELATION_INVALID_EXCEPTION.getErrorCode())
+                        .addMessageCode(ErrorCodes.RELATION_INVALID_EXCEPTION.getMessageCode(), null)
+                        .withCause(ex.getCause())
+                        .build();
+            }
+
+            throw DenaRestExceptionBuilder.aDenaRestException()
+                    .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
+                    .withErrorCode(ErrorCodes.GENERAL_DATA_STORE_EXCEPTION.getErrorCode())
+                    .addMessageCode(ErrorCodes.GENERAL_DATA_STORE_EXCEPTION.getMessageCode(), null)
+                    .withCause(ex.getCause())
+                    .build();
+        }
+
+    }
 
     @GetMapping
     public ResponseEntity findEntity(HttpServletRequest request) {

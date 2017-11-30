@@ -7,12 +7,17 @@ import com.dena.platform.core.DenaRequestContext;
 import com.dena.platform.core.feature.datastore.DenaDataStore;
 import com.dena.platform.restapi.dto.DenaResponse;
 import com.dena.platform.restapi.dto.ObjectResponse;
+import com.dena.platform.restapi.exception.DenaRestException;
+import com.dena.platform.restapi.exception.ErrorCodes;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -45,6 +50,11 @@ public class RestProcessorImpl implements RestEntityProcessor {
         // Update object(s)
         if (denaRequestContext.isPutRequest()) {
             return handlePutRequest(denaRequestContext);
+        }
+
+        // Delete object(s)
+        if (denaRequestContext.isDeleteRequest()) {
+            return handleDeleteRequest(denaRequestContext);
         }
 
         return ResponseEntity.badRequest().build();
@@ -89,6 +99,29 @@ public class RestProcessorImpl implements RestEntityProcessor {
 
     }
 
+
+    private ResponseEntity handleDeleteRequest(DenaRequestContext denaRequestContext) {
+        String typeName = denaRequestContext.getPathVariable(TYPE_NAME);
+        String appId = denaRequestContext.getPathVariable(APP_ID);
+        List<String> objectId = Arrays.asList(denaRequestContext.getPathVariable(OBJECT_ID).split(","));
+
+        if (CollectionUtils.isNotEmpty(objectId)) {
+            long deleteCount = denaDataStore.deleteObjects(appId, typeName, objectId);
+            DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
+                    .withCount(deleteCount)
+                    .withTimestamp(DenaObjectUtils.timeStamp())
+                    .build();
+
+            return ResponseEntity.ok().body(denaResponse);
+        }
+
+        throw DenaRestException.DenaRestExceptionBuilder.aDenaRestException()
+                .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
+                .withErrorCode(ErrorCodes.ObjectId_INVALID_EXCEPTION.getErrorCode())
+                .addMessageCode(ErrorCodes.ObjectId_INVALID_EXCEPTION.getMessageCode(), null)
+                .build();
+
+    }
 
     private List<ObjectResponse> createObjectResponse(List<DenaObject> denaObjects, String typeName) {
         List<ObjectResponse> objectResponses = new ArrayList<>();

@@ -35,6 +35,10 @@ public class DenaRequestContext {
         return RequestMethod.GET.name().equalsIgnoreCase(request.getMethod());
     }
 
+    public boolean isDeleteRequest() {
+        return RequestMethod.DELETE.name().equalsIgnoreCase(request.getMethod());
+    }
+
 
     public HttpServletRequest getRequest() {
         return request;

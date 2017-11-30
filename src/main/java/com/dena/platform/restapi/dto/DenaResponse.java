@@ -16,7 +16,7 @@ public class DenaResponse {
     private Long timestamp;
 
     @JsonProperty("count")
-    private Integer count;
+    private Long count;
 
     @JsonProperty("objects")
     private List<ObjectResponse> objectResponseList = new ArrayList<>();
@@ -29,11 +29,11 @@ public class DenaResponse {
         this.timestamp = timestamp;
     }
 
-    public Integer getCount() {
+    public Long getCount() {
         return count;
     }
 
-    public void setCount(Integer count) {
+    public void setCount(Long count) {
         this.count = count;
     }
 
@@ -43,7 +43,7 @@ public class DenaResponse {
 
     public static final class DenaResponseBuilder {
         private Long timestamp;
-        private Integer count;
+        private Long count;
         private List<ObjectResponse> objectResponseList = new ArrayList<>();
 
         private DenaResponseBuilder() {
@@ -58,8 +58,13 @@ public class DenaResponse {
             return this;
         }
 
-        public DenaResponseBuilder withCount(Integer count) {
+        public DenaResponseBuilder withCount(Long count) {
             this.count = count;
+            return this;
+        }
+
+        public DenaResponseBuilder withCount(Integer count) {
+            this.count = Long.valueOf(count);
             return this;
         }
 

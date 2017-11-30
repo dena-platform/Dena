@@ -94,9 +94,19 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
             MongoDBUtils.updateDocument(mongoDatabase, typeName, documentList);
         } catch (Exception ex) {
-            throw new DataStoreException("Error in storing object", ex);
+            throw new DataStoreException("Error in updating object", ex);
         }
 
+    }
+
+    @Override
+    public long deleteObjects(String appName, String typeName, List<String> objectIds) throws DataStoreException {
+        try {
+            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
+            return MongoDBUtils.deleteDocument(mongoDatabase, typeName, objectIds);
+        } catch (Exception ex) {
+            throw new DataStoreException("Error in deleting object", ex);
+        }
     }
 
     @Override

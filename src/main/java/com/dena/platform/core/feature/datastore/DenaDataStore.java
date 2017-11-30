@@ -14,6 +14,8 @@ public interface DenaDataStore {
 
     void updateObjects(List<DenaObject> denaObject, String appName, String typeName) throws DataStoreException;
 
+    long deleteObjects(String appName, String typeName, List<String> objectIds) throws DataStoreException;
+
     DenaObject findObject(String objectId);
 
 }
