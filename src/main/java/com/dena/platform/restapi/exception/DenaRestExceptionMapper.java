@@ -61,6 +61,8 @@ public class DenaRestExceptionMapper {
 
         if (ex.getCause() != null) {
             log.error("An error occurred invoking a REST service.", ex.getCause());
+        } else {
+            log.error("An error occurred invoking a REST service.", ex);
         }
 
         ErrorResponse errorResponse = ErrorResponse.ErrorResponseBuilder.anErrorResponse()
