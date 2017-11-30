@@ -115,12 +115,7 @@ public class RestProcessorImpl implements RestEntityProcessor {
             return ResponseEntity.ok().body(denaResponse);
         }
 
-        throw DenaRestException.DenaRestExceptionBuilder.aDenaRestException()
-                .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
-                .withErrorCode(ErrorCodes.ObjectId_INVALID_EXCEPTION.getErrorCode())
-                .addMessageCode(ErrorCodes.ObjectId_INVALID_EXCEPTION.getMessageCode(), null)
-                .build();
-
+        throw buildException(HttpServletResponse.SC_BAD_REQUEST, ErrorCodes.ObjectId_INVALID_EXCEPTION);
     }
 
     private List<ObjectResponse> createObjectResponse(List<DenaObject> denaObjects, String typeName) {
@@ -135,6 +130,14 @@ public class RestProcessorImpl implements RestEntityProcessor {
         });
 
         return objectResponses;
+    }
+
+    private DenaRestException buildException(final int statusCode, ErrorCodes errorCodes) {
+        return DenaRestException.DenaRestExceptionBuilder.aDenaRestException()
+                .withStatusCode(statusCode)
+                .withErrorCode(errorCodes.getErrorCode())
+                .addMessageCode(errorCodes.getMessageCode(), null)
+                .build();
     }
 
 }
