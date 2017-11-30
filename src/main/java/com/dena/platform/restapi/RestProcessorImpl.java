@@ -10,6 +10,7 @@ import com.dena.platform.restapi.dto.ObjectResponse;
 import com.dena.platform.restapi.exception.DenaRestException;
 import com.dena.platform.restapi.exception.ErrorCodes;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -57,7 +58,6 @@ public class RestProcessorImpl implements RestEntityProcessor {
             return handleDeleteRequest(denaRequestContext);
         }
 
-        
 
         return ResponseEntity.badRequest().build();
 
