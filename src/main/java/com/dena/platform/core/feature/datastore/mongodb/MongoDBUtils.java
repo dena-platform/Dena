@@ -89,11 +89,12 @@ public class MongoDBUtils {
     }
 
     public static long deleteRelationWithObjectId(MongoDatabase mongoDatabase, String typeName1, String objectId1, String typeName2, String objectId2) {
+        Document searchDocument = new Document("_id", new ObjectId(objectId1));
         Document update = new Document(typeName2, new ObjectId(objectId2));
 
         UpdateResult updateResult = mongoDatabase
                 .getCollection(typeName1)
-                .updateOne(Filters.in("_id", new ObjectId(objectId1)), new Document("$pull", update));  // remove from
+                .updateOne(searchDocument, new Document("$pull", update));
 
 
         log.info("Updates: [{}] document(s) count", updateResult.getModifiedCount());
