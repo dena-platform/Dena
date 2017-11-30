@@ -16,6 +16,10 @@ public interface DenaDataStore {
 
     long deleteObjects(String appName, String typeName, List<String> objectIds) throws DataStoreException;
 
+    long deleteRelation(String appName, String typeName1, String objectId1, String typeName2, String objectId2);
+
+    long deleteRelation(String appName, String typeName1, String objectId1, String typeName2);
+
     DenaObject findObject(String objectId);
 
 }

@@ -6,11 +6,9 @@ import com.mongodb.bulk.BulkWriteResult;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.BulkWriteOptions;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.UpdateOneModel;
-import com.mongodb.client.model.WriteModel;
+import com.mongodb.client.model.*;
 import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -88,6 +86,31 @@ public class MongoDBUtils {
         DeleteResult deleteResult = mongoDatabase.getCollection(collectionName).deleteMany(Filters.in("_id", objectIdList));
         log.info("Deletes: [{}] document(s) count", deleteResult.getDeletedCount());
         return deleteResult.getDeletedCount();
+    }
+
+    public static long deleteRelation(MongoDatabase mongoDatabase, String typeName1, String objectId1, String typeName2, String objectId2) {
+        Document update = new Document(typeName2, new ObjectId(objectId2));
+
+        UpdateResult updateResult = mongoDatabase
+                .getCollection(typeName1)
+                .updateOne(Filters.in("_id", new ObjectId(objectId1)), new Document("$pull", update));  // remove from
+
+
+        log.info("Updates: [{}] document(s) count", updateResult.getModifiedCount());
+        return updateResult.getModifiedCount();
+    }
+
+    public static long deleteRelation(MongoDatabase mongoDatabase, String typeName1, String objectId1, String typeName2) {
+        Document searchDocument = new Document("_id", new ObjectId(objectId1));
+        Document update = new Document(typeName2, "");
+
+        UpdateResult updateResult = mongoDatabase
+                .getCollection(typeName1)
+                .updateOne(searchDocument, new Document("$pull", update));
+
+
+        log.info("Updates: [{}] document(s) count", updateResult.getModifiedCount());
+        return updateResult.getModifiedCount();
     }
 
 

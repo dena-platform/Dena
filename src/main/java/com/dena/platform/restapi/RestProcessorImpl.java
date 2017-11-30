@@ -53,7 +53,7 @@ public class RestProcessorImpl implements RestEntityProcessor {
             return handlePutRequest(denaRequestContext);
         }
 
-        // Delete object(s)
+        // Delete object(s) or relation
         if (denaRequestContext.isDeleteRequest()) {
             return handleDeleteRequest(denaRequestContext);
         }
@@ -98,6 +98,34 @@ public class RestProcessorImpl implements RestEntityProcessor {
                 .build();
 
         return ResponseEntity.ok().body(denaResponse);
+
+    }
+
+    @Override
+    public ResponseEntity handleDeleteRelation(DenaRequestContext denaRequestContext) {
+        String appTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
+        String appName = denaRequestContext.getPathVariable(APP_ID);
+        String objectId = denaRequestContext.getPathVariable(OBJECT_ID);
+        String typeName2 = denaRequestContext.getPathVariable("type-name-2");
+        String objectId2 = denaRequestContext.getPathVariable("object-id-2");
+
+        if (StringUtils.isNotBlank(objectId2)) {
+            long deleteCount = denaDataStore.deleteRelation(appName, appTypeName, objectId, typeName2, objectId2);
+            DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
+                    .withCount(deleteCount)
+                    .withTimestamp(DenaObjectUtils.timeStamp())
+                    .build();
+
+            return ResponseEntity.ok().body(denaResponse);
+        } else {
+            long deleteCount = denaDataStore.deleteRelation(appName, appTypeName, objectId, typeName2, objectId2);
+            DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
+                    .withCount(deleteCount)
+                    .withTimestamp(DenaObjectUtils.timeStamp())
+                    .build();
+
+            return ResponseEntity.ok().body(denaResponse);
+        }
 
     }
 

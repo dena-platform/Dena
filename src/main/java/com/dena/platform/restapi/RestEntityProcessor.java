@@ -10,6 +10,8 @@ import java.net.URISyntaxException;
  */
 public interface RestEntityProcessor {
 
-    ResponseEntity processRestRequest(DenaRequestContext denaRequestContext) ;
+    ResponseEntity processRestRequest(DenaRequestContext denaRequestContext);
+
+    ResponseEntity handleDeleteRelation(DenaRequestContext denaRequestContext);
 
 }
