@@ -57,6 +57,8 @@ public class RestProcessorImpl implements RestEntityProcessor {
             return handleDeleteRequest(denaRequestContext);
         }
 
+        
+
         return ResponseEntity.badRequest().build();
 
     }
