@@ -49,7 +49,7 @@ public class MongoDBUtils {
     }
 
     public static void createDocument(MongoDatabase mongoDatabase, String collectionName, List<? extends Document> document) {
-        Assert.hasLength(collectionName, "MongoClient should not be null");
+        Assert.hasLength(collectionName, "collection should not be empty or null ");
         Assert.notEmpty(document, "Document should not be null");
 
         mongoDatabase
@@ -60,7 +60,7 @@ public class MongoDBUtils {
     }
 
     public static void updateDocument(MongoDatabase mongoDatabase, String collectionName, List<? extends Document> documents) {
-        Assert.hasLength(collectionName, "MongoClient should not be null");
+        Assert.hasLength(collectionName, "collection should not be empty or null ");
         Assert.notEmpty(documents, "MongoClient should not be null");
 
         ArrayList<WriteModel<Document>> updates = new ArrayList<>();
@@ -80,6 +80,10 @@ public class MongoDBUtils {
 
 
     public static Document findDocumentById(MongoDatabase mongoDatabase, String collectionName, String id) {
+        Assert.hasLength(collectionName, "collection should not be empty or null ");
+        Assert.hasLength(id, "id should not be empty or null");
+
+
         return mongoDatabase.getCollection(collectionName)
                 .find(Filters.eq("_id", new ObjectId(id)))
                 .first();
