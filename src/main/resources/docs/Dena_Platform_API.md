@@ -302,20 +302,22 @@ Return Value:
           "field3": "javad",
           "field4": "developer",
           "related_objects": [
-    	     {
-      	    "id": "123123",
-      	    "type": "para"
-    	     }
+    	       {
+      	     "id": "123123",
+      	     "type": "para"
+    	       }
+          ]
          },
          {
            "object_id": "232986554",
            "field5": "javad54",
            "field6": "developer312",
            "related_objects": [
-    	      {
-      	     "id": "123123",
-      	     "type": "para"
-    	      }
+    	       {
+      	      "id": "123123",
+      	      "type": "para"
+    	       }
+            ]
 
          }
       ]
