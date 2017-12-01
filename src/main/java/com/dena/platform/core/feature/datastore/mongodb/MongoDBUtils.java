@@ -116,10 +116,14 @@ public class MongoDBUtils {
 
 
     public static Document findDocumentById(MongoDatabase mongoDatabase, String collectionName, String id) {
-        Assert.hasLength(collectionName, "collection should not be empty or null ");
-        Assert.hasLength(id, "id should not be empty or null");
+        return mongoDatabase.getCollection(collectionName)
+                .find(Filters.eq("_id", new ObjectId(id)))
+                .first();
+    }
 
-
+    public static List<Document> findRelatedDocument(MongoDatabase mongoDatabase, String collectionName, String id, String typeName2) {
+        Document document = findDocumentById(mongoDatabase, collectionName, id);
+        document.get(typeName2);
         return mongoDatabase.getCollection(collectionName)
                 .find(Filters.eq("_id", new ObjectId(id)))
                 .first();
