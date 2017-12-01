@@ -328,7 +328,7 @@ Return Value:
 
 Method: GET
 
-URL: /v1/<application-id>/<type-names-1>/relation/<type-names-2>?itempPerPage=50&page=4&where=???
+URL: /v1/<application-id>/<type-names>/<object-id>/relation/<type-names-2>?itempPerPage=50&page=4&where=???
 
 Optional Parameter
 
@@ -351,7 +351,14 @@ Return Value:
         {
           "object_id": "232986544",
           "field3": "javad",
-          "field4": "developer"
+          "field4": "developer",
+          "related_objects": [
+    	       {
+      	     "id": "123123",
+      	     "type": "para"
+    	       }
+          ]
+ 
         },
          {
            "object_id": "232986554",

@@ -167,6 +167,40 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         }
     }
 
+    public DenaObject findObject(String appName, String typeName, String objectId, String typeName2) {
+        try {
+            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
+            DenaObject denaObject = new DenaObject();
+
+            Document document = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId);
+
+            for (Map.Entry<String, Object> entry : document.entrySet()) {
+                if (entry.getValue() instanceof ArrayList) {
+                    if (((ArrayList) entry.getValue()).size() > 0 && ((ArrayList) entry.getValue()).get(0) instanceof ObjectId) {   // this type is relation
+                        ArrayList<ObjectId> objectIdList = (ArrayList<ObjectId>) entry.getValue();
+                        List<String> idString = objectIdList.stream()
+                                .map(Object::toString)
+                                .collect(Collectors.toList());
+
+                        List<RelatedObject> relatedObjectList = convertToRelatedObject(entry.getKey(), idString);
+                        denaObject.getRelatedObjects().addAll(relatedObjectList);
+                    } else {
+                        denaObject.addProperty(entry.getKey(), entry.getValue());  // this type is normal array
+                    }
+                } else if (entry.getKey().equals(MongoDBUtils.ID)) {
+                    denaObject.setObjectId(entry.getValue().toString()); // type of id
+                } else {
+                    denaObject.addProperty(entry.getKey(), entry.getValue()); // normal key - value
+                }
+
+            }
+
+            return denaObject;
+        } catch (Exception ex) {
+            throw new DataStoreException("Error in delete relation", ex);
+        }
+    }
+
 
     private void checkRelationValidity(MongoDatabase mongoDatabase, List<RelatedObject> relatedObjectList) throws RelationInvalidException {
         if (CollectionUtils.isNotEmpty(relatedObjectList)) {

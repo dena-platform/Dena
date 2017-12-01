@@ -135,14 +135,22 @@ public class RestProcessorImpl implements RestEntityProcessor {
         String typeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String appId = denaRequestContext.getPathVariable(APP_ID);
         String objectId = denaRequestContext.getPathVariable(OBJECT_ID);
+        String typeName2 = denaRequestContext.getPathVariable("type-name-2");
+        List<DenaObject> resultObject = new ArrayList<>();
+        if (StringUtils.isNotBlank(typeName2)) {
+            
+        } else {
+            DenaObject denaObject = denaDataStore.findObject(appId, typeName, objectId);
+            resultObject = Collections.singletonList(denaObject);
 
-        DenaObject denaObject = denaDataStore.findObject(appId, typeName, objectId);
+        }
 
         DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
-                .withCount(denaObject == null ? 0 : 1)
-                .withObjectResponseList(createObjectResponse(Collections.singletonList(denaObject), typeName))
+                .withCount(resultObject.size())
+                .withObjectResponseList(createObjectResponse(, typeName))
                 .withTimestamp(DenaObjectUtils.timeStamp())
                 .build();
+
 
         return ResponseEntity.ok().body(denaResponse);
 
