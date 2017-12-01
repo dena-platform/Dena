@@ -154,7 +154,7 @@ public class API {
     }
 
 
-    @GetMapping(path = "/<app-id>/<type-name>/<object-id>")
+    @GetMapping(path = "/{app-id}/{type-name}/{object-id}", consumes = MediaType.ALL_VALUE)
     public ResponseEntity findObject(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         return restEntityProcessor.handleFindObject(denaRequestContext);

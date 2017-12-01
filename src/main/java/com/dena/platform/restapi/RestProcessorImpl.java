@@ -19,6 +19,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -133,8 +134,18 @@ public class RestProcessorImpl implements RestEntityProcessor {
     public ResponseEntity handleFindObject(DenaRequestContext denaRequestContext) {
         String typeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String appId = denaRequestContext.getPathVariable(APP_ID);
+        String objectId = denaRequestContext.getPathVariable(OBJECT_ID);
 
-        
+        DenaObject denaObject = denaDataStore.findObject(appId, typeName, objectId);
+
+        DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
+                .withCount(denaObject == null ? 0 : 1)
+                .withObjectResponseList(createObjectResponse(Collections.singletonList(denaObject), typeName))
+                .withTimestamp(DenaObjectUtils.timeStamp())
+                .build();
+
+        return ResponseEntity.ok().body(denaResponse);
+
     }
 
 
@@ -160,9 +171,10 @@ public class RestProcessorImpl implements RestEntityProcessor {
         List<ObjectResponse> objectResponses = new ArrayList<>();
         denaObjects.forEach(denaObject -> {
             ObjectResponse objectResponse = new ObjectResponse();
-            objectResponse.setFields(denaObject.getFields());
             objectResponse.setObjectId(denaObject.getObjectId());
+            objectResponse.setFields(denaObject.getFields());
             objectResponse.setURI(DenaObjectUtils.getURIForResource(typeName, objectResponse.getObjectId()));
+            objectResponse.setRelatedObjects(denaObject.getRelatedObjects());
 
             objectResponses.add(objectResponse);
         });

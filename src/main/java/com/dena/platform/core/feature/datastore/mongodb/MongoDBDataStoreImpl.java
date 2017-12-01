@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
@@ -129,16 +130,38 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public DenaObject findObject(String appName, String typeName, String objectId) {
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
             DenaObject denaObject = new DenaObject();
-            denaObject.setObjectId(objectId);
 
             Document document = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId);
 
-            
+            for (Map.Entry<String, Object> entry : document.entrySet()) {
+                if (entry.getValue() instanceof ArrayList) {
+                    if (((ArrayList) entry.getValue()).size() > 0 && ((ArrayList) entry.getValue()).get(0) instanceof ObjectId) {   // this type is relation
+                        ArrayList<ObjectId> objectIdList = (ArrayList<ObjectId>) entry.getValue();
+                        List<String> idString = objectIdList.stream()
+                                .map(Object::toString)
+                                .collect(Collectors.toList());
+
+                        List<RelatedObject> relatedObjectList = convertToRelatedObject(entry.getKey(), idString);
+                        denaObject.getRelatedObjects().addAll(relatedObjectList);
+                    } else {
+                        denaObject.addProperty(entry.getKey(), entry.getValue());  // this type is normal array
+                    }
+                } else if (entry.getKey().equals(MongoDBUtils.ID)) {
+                    denaObject.setObjectId(entry.getValue().toString()); // type of id
+                } else {
+                    denaObject.addProperty(entry.getKey(), entry.getValue()); // normal key - value
+                }
+
+
+            }
+
+            return denaObject;
         } catch (Exception ex) {
             throw new DataStoreException("Error in delete relation", ex);
         }
@@ -191,6 +214,19 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 });
 
         return references;
+    }
+
+    private List<RelatedObject> convertToRelatedObject(String type, List<String> objectId) {
+
+        List<RelatedObject> result = objectId.stream().map(id -> {
+            RelatedObject relatedObject = new RelatedObject();
+            relatedObject.setRelatedObjectId(id);
+            relatedObject.setTypeName(type);
+            return relatedObject;
+        }).collect(Collectors.toList());
+
+        return result;
+
     }
 
 }
