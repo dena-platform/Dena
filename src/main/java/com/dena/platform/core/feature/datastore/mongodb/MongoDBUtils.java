@@ -1,5 +1,6 @@
 package com.dena.platform.core.feature.datastore.mongodb;
 
+import com.dena.platform.core.feature.datastore.DenaPager;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.bulk.BulkWriteResult;
@@ -121,12 +122,14 @@ public class MongoDBUtils {
                 .first();
     }
 
-    public static List<Document> findRelatedDocument(MongoDatabase mongoDatabase, String collectionName, String id, String typeName2) {
-        Document document = findDocumentById(mongoDatabase, collectionName, id);
-        document.get(typeName2);
-        return mongoDatabase.getCollection(collectionName)
-                .find(Filters.eq("_id", new ObjectId(id)))
-                .first();
+    @SuppressWarnings("unchecked")
+    public static List<Document> findRelatedDocument(MongoDatabase mongoDatabase, Document parentDocument, String targetType, DenaPager pager) {
+        List<ObjectId> otherObjectIds = (ArrayList<ObjectId>) parentDocument.get(targetType);
+        Document searchDocument = new Document("_id", otherObjectIds);
+
+        List<Document> documentList = mongoDatabase.getCollection(targetType)
+                .find(searchDocument).batchSize(pager.getLimit()).limit(pager.getLimit()).into(new ArrayList<>());
+
     }
 
 }
