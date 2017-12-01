@@ -3,6 +3,7 @@ package com.dena.platform.core.dto;
 import com.fasterxml.jackson.annotation.*;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ public class DenaObject {
     private String objectId;
 
     @JsonProperty(value = "related_objects")
-    private List<RelatedObject> relatedObjects;
+    private List<RelatedObject> relatedObjects = new ArrayList<>();
 
     public List<RelatedObject> getRelatedObjects() {
         return relatedObjects;
