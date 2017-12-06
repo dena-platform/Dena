@@ -49,7 +49,56 @@ Return Value:
 
 
 **Create Bulk Objects**
-<TO-DO>    
+Request Body: 
+
+    [
+      {
+        "field1": "javad",
+        "field2": "developer",
+        "related_objects": [
+      	 {
+       	  "id": "123123",
+       	  "type": "denaObjects"
+      	 }
+       ]
+      },
+      {
+        "field1": "ali",
+        "field2": "developer",
+        "related_objects": [
+      	 {
+       	  "id": "43345",
+       	  "type": "denaObjects"
+      	 }
+       ]
+      }
+    ]
+
+
+
+Return Value:
+
+      {
+       "timestamp" : timestamp in milliseconds,
+       "count" : number of created object(s),
+       "objects": [
+        {
+          "URI":"/<type-names>/<object-id>",
+          "object_id": "232342424234",
+          "field1": "javad",
+          "field2": "developer"
+          
+        },
+        {
+          "URI":"/<type-names>/<object-id>",
+          "object_id": "232342424234",
+          "field1": "ali",
+          "field2": "developer"
+          
+        }
+       ] 
+      }
+ 
 
 ----------
 ## Updating Objects ##
