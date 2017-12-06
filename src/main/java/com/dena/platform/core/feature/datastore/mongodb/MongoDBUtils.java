@@ -10,7 +10,9 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.*;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
+import org.bson.BSON;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -125,7 +127,7 @@ public class MongoDBUtils {
     @SuppressWarnings("unchecked")
     public static List<Document> findRelatedDocument(MongoDatabase mongoDatabase, Document parentDocument, String targetType, DenaPager pager) {
         List<ObjectId> otherObjectIds = (ArrayList<ObjectId>) parentDocument.get(targetType);
-        Document searchDocument = new Document("_id", otherObjectIds);
+        Bson searchDocument = Filters.in("_id", otherObjectIds);
 
         int startIndex = (int) pager.getCount() * pager.getLimit();
 
