@@ -97,7 +97,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         } catch (DataStoreException ex) {
             throw ex;
         } catch (Exception ex) {
-            throw new DataStoreException("Error in updating object", ex);
+            throw new DataStoreException("Error in updating objects", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
 
     }
@@ -108,7 +108,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
             return MongoDBUtils.deleteDocument(mongoDatabase, typeName, objectIds);
         } catch (Exception ex) {
-            throw new DataStoreException("Error in deleting object", ex);
+            throw new DataStoreException("Error in deleting object", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
     }
 
@@ -118,7 +118,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
             return MongoDBUtils.deleteRelationWithObjectId(mongoDatabase, typeName1, objectId1, typeName2, objectId2);
         } catch (Exception ex) {
-            throw new DataStoreException("Error in delete relation", ex);
+            throw new DataStoreException("Error in delete relation", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
     }
 
@@ -128,7 +128,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
             return MongoDBUtils.deleteRelationWithType(mongoDatabase, typeName1, objectId1, typeName2);
         } catch (Exception ex) {
-            throw new DataStoreException("Error in delete relation", ex);
+            throw new DataStoreException("Error in delete relation", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
     }
 
@@ -165,7 +165,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
             return denaObject;
         } catch (Exception ex) {
-            throw new DataStoreException("Error in delete relation", ex);
+            throw new DataStoreException("Error in delete relation", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
     }
 
@@ -204,7 +204,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
             return denaObject;
         } catch (Exception ex) {
-            throw new DataStoreException("Error in delete relation", ex);
+            throw new DataStoreException("Error in delete relation", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
     }
 
