@@ -138,21 +138,35 @@ public class RestProcessorImpl implements RestEntityProcessor {
         String objectId = denaRequestContext.getPathVariable(OBJECT_ID);
         String targetType = denaRequestContext.getPathVariable("target-type");
         List<DenaObject> resultObject;
+        DenaResponse denaResponse;
+
 
         if (StringUtils.isBlank(targetType)) {  // read type objects
             DenaObject denaObject = denaDataStore.findObject(appId, typeName, objectId);
             resultObject = Collections.singletonList(denaObject);
 
+            denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
+                    .withCount(resultObject.size())
+                    .withObjectResponseList(createObjectResponse(resultObject, typeName))
+                    .withTimestamp(DenaObjectUtils.timeStamp())
+                    .build();
+
+
         } else { // read relation objects
-            DenaObject denaObject = denaDataStore.findObjectRelation(appId, typeName, objectId, targetType, constructPager(denaRequestContext));
+            DenaPager denaPager = constructPager(denaRequestContext);
+            DenaObject denaObject = denaDataStore.findObjectRelation(appId, typeName, objectId, targetType, denaPager);
             resultObject = Collections.singletonList(denaObject);
+
+            denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
+                    .withCount(resultObject.size())
+                    .withObjectResponseList(createObjectResponse(resultObject, typeName))
+                    .withTotalCount(denaPager.getCount())
+                    .withPage(denaPager.getPage())
+                    .withTimestamp(DenaObjectUtils.timeStamp())
+                    .build();
+
         }
 
-        DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
-                .withCount(resultObject.size())
-                .withObjectResponseList(createObjectResponse(resultObject, typeName))
-                .withTimestamp(DenaObjectUtils.timeStamp())
-                .build();
 
         return ResponseEntity.ok().body(denaResponse);
     }

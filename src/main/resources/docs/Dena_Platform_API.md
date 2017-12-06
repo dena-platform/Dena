@@ -328,7 +328,7 @@ Return Value:
 
 Method: GET
 
-URL: /v1/<application-id>/<type-names>/<object-id>/relation/<target-type>?itempPerPage=50&page=4&where=???
+URL: /v1/<application-id>/<type-names>/<object-id>/relation/<target-type>?itemPerPage=50&page=4&where=???
 
 Optional Parameter
 
@@ -345,7 +345,7 @@ Return Value:
     {
       "timestamp" : timestamp in milliseconds,
       "count": 50,
-      "total_page":30,
+      "total_count":30,
       "page":4,
       "objects": [
         {
