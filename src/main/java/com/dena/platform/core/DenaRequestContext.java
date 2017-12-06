@@ -1,9 +1,7 @@
 package com.dena.platform.core;
 
-import com.dena.platform.restapi.endpoint.API;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.atteo.evo.inflector.English;
 import org.slf4j.Logger;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.HandlerMapping;
@@ -68,6 +66,6 @@ public class DenaRequestContext {
     }
 
     public String getParameter(String name) {
-      return   request.getParameter(name);
+        return request.getParameter(name);
     }
 }
