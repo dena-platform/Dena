@@ -60,6 +60,8 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             });
 
             MongoDBUtils.createDocument(mongoDatabase, typeName, documentList);
+        } catch (DataStoreException ex) {
+            throw ex;
         } catch (Exception ex) {
             throw new DataStoreException("Error in storing object", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
@@ -74,27 +76,26 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             denaObjects.forEach(denaObject -> {
                 checkRelationValidity(mongoDatabase, denaObject.getRelatedObjects());
                 checkObjectIdValidity(mongoDatabase, typeName, denaObject.getObjectId());
-                if (StringUtils.isNoneBlank(denaObject.getObjectId())) {
-                    ObjectId objectId = new ObjectId(denaObject.getObjectId());
-                    Document document = new Document();
-                    document.put(MongoDBUtils.APP_NAME, appName);
-                    document.put(MongoDBUtils.TYPE_NAME, typeName);
-                    document.put(MongoDBUtils.ID, objectId);
+                ObjectId objectId = new ObjectId(denaObject.getObjectId());
 
-                    document.putAll(denaObject.getFields());
+                Document document = new Document();
+                document.put(MongoDBUtils.APP_NAME, appName);
+                document.put(MongoDBUtils.TYPE_NAME, typeName);
+                document.put(MongoDBUtils.ID, objectId);
 
-                    // update relation
-                    if (CollectionUtils.isNotEmpty(denaObject.getRelatedObjects())) {
-                        document.putAll(getRelation(denaObject));
-                    }
-                    documentList.add(document);
-                } else {
-                    log.error("ObjectId for [{}] is id", denaObject);
+                document.putAll(denaObject.getFields());
+
+                // update relation
+                if (CollectionUtils.isNotEmpty(denaObject.getRelatedObjects())) {
+                    document.putAll(getRelation(denaObject));
                 }
+                documentList.add(document);
 
             });
 
             MongoDBUtils.updateDocument(mongoDatabase, typeName, documentList);
+        } catch (DataStoreException ex) {
+            throw ex;
         } catch (Exception ex) {
             throw new DataStoreException("Error in updating object", ex);
         }
@@ -222,7 +223,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
     }
 
-    private void checkObjectIdValidity(MongoDatabase mongoDatabase, String typeName, String objectId) throws ObjectIdInvalidException {
+    private void checkObjectIdValidity(MongoDatabase mongoDatabase, String typeName, String objectId) {
         boolean isObjectIdValid;
         try {
 
@@ -233,7 +234,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         }
 
         if (!isObjectIdValid) {
-            throw new ObjectIdInvalidException("ObjectId invalid exception");
+            throw new DataStoreException("ObjectId invalid exception", ErrorCode.ObjectId_INVALID_EXCEPTION);
         }
     }
 
