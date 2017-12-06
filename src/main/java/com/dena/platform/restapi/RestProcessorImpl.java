@@ -1,15 +1,17 @@
 package com.dena.platform.restapi;
 
+import com.dena.platform.common.exception.InvalidFormatException;
 import com.dena.platform.common.utils.DenaObjectUtils;
 import com.dena.platform.common.web.JSONMapper;
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.DenaRequestContext;
 import com.dena.platform.core.feature.datastore.DenaDataStore;
 import com.dena.platform.core.feature.datastore.DenaPager;
+import com.dena.platform.core.feature.datastore.exception.DataStoreException;
 import com.dena.platform.restapi.dto.DenaResponse;
 import com.dena.platform.restapi.dto.ObjectResponse;
 import com.dena.platform.restapi.exception.DenaRestException;
-import com.dena.platform.restapi.exception.ErrorCodes;
+import com.dena.platform.common.exception.ErrorCode;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -17,12 +19,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
@@ -44,12 +46,6 @@ public class RestProcessorImpl implements RestEntityProcessor {
     @Override
     public ResponseEntity processRestRequest(DenaRequestContext denaRequestContext) {
 
-
-        // Creating object(s)
-        if (denaRequestContext.isPostRequest()) {
-            return handlePostRequest(denaRequestContext);
-        }
-
         // Update object(s)
         if (denaRequestContext.isPutRequest()) {
             return handlePutRequest(denaRequestContext);
@@ -66,13 +62,23 @@ public class RestProcessorImpl implements RestEntityProcessor {
     }
 
 
-    private ResponseEntity handlePostRequest(DenaRequestContext denaRequestContext) {
+    // Creating object(s)
+    @Override
+    public ResponseEntity handlePostRequest(DenaRequestContext denaRequestContext) {
         String requestBody = denaRequestContext.getRequestBody();
         String appTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String appName = denaRequestContext.getPathVariable(APP_ID);
 
-        List<DenaObject> denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
-        denaDataStore.storeObjects(denaObjects, appName, appTypeName);
+        List<DenaObject> denaObjects;
+        try {
+            denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
+            denaDataStore.storeObjects(denaObjects, appName, appTypeName);
+        } catch (InvalidFormatException ex) {
+            throw buildBadRequestException(ErrorCode.ObjectId_INVALID_EXCEPTION);
+        } catch (DataStoreException ex) {
+            throw buildBadRequestException(ex.getErrorCode());
+        }
+
 
         DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
                 .withObjectResponseList(createObjectResponse(denaObjects, appTypeName))
@@ -81,7 +87,6 @@ public class RestProcessorImpl implements RestEntityProcessor {
                 .build();
 
         return ResponseEntity.ok().body(denaResponse);
-
     }
 
     private ResponseEntity handlePutRequest(DenaRequestContext denaRequestContext) {
@@ -184,7 +189,7 @@ public class RestProcessorImpl implements RestEntityProcessor {
             return ResponseEntity.ok().body(denaResponse);
         }
 
-        throw buildException(HttpServletResponse.SC_BAD_REQUEST, ErrorCodes.ObjectId_INVALID_EXCEPTION);
+        throw buildException(SC_BAD_REQUEST, ErrorCode.ObjectId_INVALID_EXCEPTION);
     }
 
     private List<ObjectResponse> createObjectResponse(List<DenaObject> denaObjects, String typeName) {
@@ -202,12 +207,21 @@ public class RestProcessorImpl implements RestEntityProcessor {
         return objectResponses;
     }
 
-    private DenaRestException buildException(final int statusCode, ErrorCodes errorCodes) {
+    private DenaRestException buildException(final int statusCode, ErrorCode errorCode) {
         return DenaRestException.DenaRestExceptionBuilder.aDenaRestException()
                 .withStatusCode(statusCode)
-                .withErrorCode(errorCodes.getErrorCode())
-                .addMessageCode(errorCodes.getMessageCode(), null)
+                .withErrorCode(errorCode.getErrorCode())
+                .addMessageCode(errorCode.getMessageCode(), null)
                 .build();
+    }
+
+    private DenaRestException buildBadRequestException(ErrorCode errorCode) {
+        return DenaRestException.DenaRestExceptionBuilder.aDenaRestException()
+                .withStatusCode(SC_BAD_REQUEST)
+                .withErrorCode(errorCode.getErrorCode())
+                .addMessageCode(errorCode.getMessageCode(), null)
+                .build();
+
     }
 
     private DenaPager constructPager(DenaRequestContext denaRequestContext) {

@@ -22,6 +22,5 @@ public interface DenaDataStore {
 
     DenaObject findObject(String appName, String typeName, String objectId);
 
-    @SuppressWarnings("unchecked")
     DenaObject findObjectRelation(String appName, String parentType, String objectId, String targetType, DenaPager denaPager);
 }

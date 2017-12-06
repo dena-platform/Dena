@@ -1,5 +1,6 @@
 package com.dena.platform.restapi.exception;
 
+import com.dena.platform.common.exception.ErrorCode;
 import com.dena.platform.restapi.dto.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +58,7 @@ public class DenaRestExceptionMapper {
 
         final Locale locale = Locale.getDefault();
 
-        String message = messageSource.getMessage(ErrorCodes.GENERAL.getMessageCode(), null, locale);
+        String message = messageSource.getMessage(ErrorCode.GENERAL.getMessageCode(), null, locale);
 
         if (ex.getCause() != null) {
             log.error("An error occurred invoking a REST service.", ex.getCause());
@@ -67,7 +68,7 @@ public class DenaRestExceptionMapper {
 
         ErrorResponse errorResponse = ErrorResponse.ErrorResponseBuilder.anErrorResponse()
                 .withStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
-                .withErrorCode(ErrorCodes.GENERAL.getErrorCode())
+                .withErrorCode(ErrorCode.GENERAL.getErrorCode())
                 .withMessages(message)
                 .build();
 
@@ -80,7 +81,7 @@ public class DenaRestExceptionMapper {
         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         final Locale locale = Locale.getDefault();
 
-        String message = messageSource.getMessage(ErrorCodes.INVALID_MEDIA_TYPE.getMessageCode(), null, locale);
+        String message = messageSource.getMessage(ErrorCode.INVALID_MEDIA_TYPE.getMessageCode(), null, locale);
 
         if (ex.getCause() != null) {
             log.error("An error occurred invoking a REST service.", ex.getCause());
@@ -90,7 +91,7 @@ public class DenaRestExceptionMapper {
 
         ErrorResponse errorResponse = ErrorResponse.ErrorResponseBuilder.anErrorResponse()
                 .withStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
-                .withErrorCode(ErrorCodes.INVALID_MEDIA_TYPE.getErrorCode())
+                .withErrorCode(ErrorCode.INVALID_MEDIA_TYPE.getErrorCode())
                 .withMessages(message)
                 .build();
 

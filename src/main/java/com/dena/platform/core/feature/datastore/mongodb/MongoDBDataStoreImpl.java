@@ -5,8 +5,8 @@ import com.dena.platform.core.dto.RelatedObject;
 import com.dena.platform.core.feature.datastore.DenaDataStore;
 import com.dena.platform.core.feature.datastore.DenaPager;
 import com.dena.platform.core.feature.datastore.exception.ObjectIdInvalidException;
-import com.dena.platform.core.feature.datastore.exception.RelationInvalidException;
 import com.dena.platform.core.feature.datastore.exception.DataStoreException;
+import com.dena.platform.common.exception.ErrorCode;
 import com.mongodb.client.MongoDatabase;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -61,7 +61,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
             MongoDBUtils.createDocument(mongoDatabase, typeName, documentList);
         } catch (Exception ex) {
-            throw new DataStoreException("Error in storing object", ex);
+            throw new DataStoreException("Error in storing object", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
     }
 
@@ -208,20 +208,15 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
 
-    private void checkRelationValidity(MongoDatabase mongoDatabase, List<RelatedObject> relatedObjectList) throws RelationInvalidException {
+    private void checkRelationValidity(MongoDatabase mongoDatabase, List<RelatedObject> relatedObjectList) {
         if (CollectionUtils.isNotEmpty(relatedObjectList)) {
-            boolean isRelationValid;
 
             try {
-                isRelationValid = relatedObjectList.stream().allMatch(relatedObject ->
+                relatedObjectList.stream().allMatch(relatedObject ->
                         MongoDBUtils.findDocumentById(mongoDatabase, relatedObject.getTypeName(), relatedObject.getRelatedObjectId()) != null);
             } catch (IllegalArgumentException ex) {
                 // in case of invalid object id, relation is invalid
-                isRelationValid = false;
-            }
-
-            if (!isRelationValid) {
-                throw new RelationInvalidException("Relation(s) is invalid");
+                throw new DataStoreException("Relation(s) is invalid", ErrorCode.RELATION_INVALID_EXCEPTION, ex);
             }
         }
 

@@ -3,11 +3,11 @@ package com.dena.platform.restapi.endpoint;
 import com.dena.platform.common.exception.InvalidFormatException;
 import com.dena.platform.core.DenaRequestContext;
 import com.dena.platform.core.feature.datastore.exception.ObjectIdInvalidException;
-import com.dena.platform.core.feature.datastore.exception.RelationInvalidException;
 import com.dena.platform.core.feature.datastore.exception.DataStoreException;
 import com.dena.platform.restapi.RestEntityProcessor;
+import com.dena.platform.restapi.exception.DenaRestException;
 import com.dena.platform.restapi.exception.DenaRestException.DenaRestExceptionBuilder;
-import com.dena.platform.restapi.exception.ErrorCodes;
+import com.dena.platform.common.exception.ErrorCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,29 +33,13 @@ public class API {
     public ResponseEntity createObjects(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         try {
-            return restEntityProcessor.processRestRequest(denaRequestContext);
-
-        } catch (InvalidFormatException ex) {
-            throw DenaRestExceptionBuilder.aDenaRestException()
-                    .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
-                    .withErrorCode(ErrorCodes.INVALID_REQUEST.getErrorCode())
-                    .addMessageCode(ErrorCodes.INVALID_REQUEST.getMessageCode(), null)
-                    .withCause(ex.getCause())
-                    .build();
-
+            return restEntityProcessor.handlePostRequest(denaRequestContext);
         } catch (DataStoreException ex) {
-            if (ex.getCause() instanceof RelationInvalidException) {
-                throw DenaRestExceptionBuilder.aDenaRestException()
-                        .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
-                        .withErrorCode(ErrorCodes.RELATION_INVALID_EXCEPTION.getErrorCode())
-                        .addMessageCode(ErrorCodes.RELATION_INVALID_EXCEPTION.getMessageCode(), null)
-                        .withCause(ex.getCause())
-                        .build();
-            }
+
             throw DenaRestExceptionBuilder.aDenaRestException()
                     .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
-                    .withErrorCode(ErrorCodes.GENERAL_DATA_STORE_EXCEPTION.getErrorCode())
-                    .addMessageCode(ErrorCodes.GENERAL_DATA_STORE_EXCEPTION.getMessageCode(), null)
+                    .withErrorCode(ErrorCode.GENERAL_DATA_STORE_EXCEPTION.getErrorCode())
+                    .addMessageCode(ErrorCode.GENERAL_DATA_STORE_EXCEPTION.getMessageCode(), null)
                     .withCause(ex.getCause())
                     .build();
         }
@@ -69,34 +53,27 @@ public class API {
         } catch (InvalidFormatException ex) {
             throw DenaRestExceptionBuilder.aDenaRestException()
                     .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
-                    .withErrorCode(ErrorCodes.INVALID_REQUEST.getErrorCode())
-                    .addMessageCode(ErrorCodes.INVALID_REQUEST.getMessageCode(), null)
+                    .withErrorCode(ErrorCode.INVALID_REQUEST.getErrorCode())
+                    .addMessageCode(ErrorCode.INVALID_REQUEST.getMessageCode(), null)
                     .withCause(ex.getCause())
                     .build();
 
         } catch (DataStoreException ex) {
-            if (ex.getCause() instanceof RelationInvalidException) {
-                throw DenaRestExceptionBuilder.aDenaRestException()
-                        .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
-                        .withErrorCode(ErrorCodes.RELATION_INVALID_EXCEPTION.getErrorCode())
-                        .addMessageCode(ErrorCodes.RELATION_INVALID_EXCEPTION.getMessageCode(), null)
-                        .withCause(ex.getCause())
-                        .build();
-            }
+
 
             if (ex.getCause() instanceof ObjectIdInvalidException) {
                 throw DenaRestExceptionBuilder.aDenaRestException()
                         .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
-                        .withErrorCode(ErrorCodes.ObjectId_INVALID_EXCEPTION.getErrorCode())
-                        .addMessageCode(ErrorCodes.ObjectId_INVALID_EXCEPTION.getMessageCode(), null)
+                        .withErrorCode(ErrorCode.ObjectId_INVALID_EXCEPTION.getErrorCode())
+                        .addMessageCode(ErrorCode.ObjectId_INVALID_EXCEPTION.getMessageCode(), null)
                         .withCause(ex.getCause())
                         .build();
             }
 
             throw DenaRestExceptionBuilder.aDenaRestException()
                     .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
-                    .withErrorCode(ErrorCodes.GENERAL_DATA_STORE_EXCEPTION.getErrorCode())
-                    .addMessageCode(ErrorCodes.GENERAL_DATA_STORE_EXCEPTION.getMessageCode(), null)
+                    .withErrorCode(ErrorCode.GENERAL_DATA_STORE_EXCEPTION.getErrorCode())
+                    .addMessageCode(ErrorCode.GENERAL_DATA_STORE_EXCEPTION.getMessageCode(), null)
                     .withCause(ex.getCause())
                     .build();
         }
@@ -110,8 +87,8 @@ public class API {
         } catch (DataStoreException ex) {
             throw DenaRestExceptionBuilder.aDenaRestException()
                     .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
-                    .withErrorCode(ErrorCodes.GENERAL_DATA_STORE_EXCEPTION.getErrorCode())
-                    .addMessageCode(ErrorCodes.GENERAL_DATA_STORE_EXCEPTION.getMessageCode(), null)
+                    .withErrorCode(ErrorCode.GENERAL_DATA_STORE_EXCEPTION.getErrorCode())
+                    .addMessageCode(ErrorCode.GENERAL_DATA_STORE_EXCEPTION.getMessageCode(), null)
                     .withCause(ex.getCause())
                     .build();
         }
@@ -127,8 +104,8 @@ public class API {
         } catch (DataStoreException ex) {
             throw DenaRestExceptionBuilder.aDenaRestException()
                     .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
-                    .withErrorCode(ErrorCodes.GENERAL_DATA_STORE_EXCEPTION.getErrorCode())
-                    .addMessageCode(ErrorCodes.GENERAL_DATA_STORE_EXCEPTION.getMessageCode(), null)
+                    .withErrorCode(ErrorCode.GENERAL_DATA_STORE_EXCEPTION.getErrorCode())
+                    .addMessageCode(ErrorCode.GENERAL_DATA_STORE_EXCEPTION.getMessageCode(), null)
                     .withCause(ex.getCause())
                     .build();
         }
@@ -143,8 +120,8 @@ public class API {
         } catch (DataStoreException ex) {
             throw DenaRestExceptionBuilder.aDenaRestException()
                     .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
-                    .withErrorCode(ErrorCodes.GENERAL_DATA_STORE_EXCEPTION.getErrorCode())
-                    .addMessageCode(ErrorCodes.GENERAL_DATA_STORE_EXCEPTION.getMessageCode(), null)
+                    .withErrorCode(ErrorCode.GENERAL_DATA_STORE_EXCEPTION.getErrorCode())
+                    .addMessageCode(ErrorCode.GENERAL_DATA_STORE_EXCEPTION.getMessageCode(), null)
                     .withCause(ex.getCause())
                     .build();
         }
@@ -162,6 +139,11 @@ public class API {
     public ResponseEntity findObjectRelation(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         return restEntityProcessor.handleFindObject(denaRequestContext);
+
+    }
+
+
+    private void generateException() throws DenaRestException {
 
     }
 }

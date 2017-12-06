@@ -43,6 +43,8 @@ public class MongoDBUtils {
         MongoDBUtils.mongoClient = mongoClient;
     }
 
+    public static
+
     public static MongoDatabase getDataBase(final String databaseName) {
         Assert.notNull(mongoClient, "MongoClient should not be null");
         return mongoClient.getDatabase(databaseName);
