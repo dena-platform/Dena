@@ -25,9 +25,6 @@ public class API {
 
     public final static String API_PATH = "/v1/";
 
-    public static final String APP_ID = "app-id";
-    public static final String TYPE_NAME = "type-name";
-
     @Resource(name = "denaRestEntityProcessorImpl")
     private RestEntityProcessor restEntityProcessor;
 
@@ -161,7 +158,7 @@ public class API {
 
     }
 
-    @GetMapping(path = "/{app-id}/{type-name}/{object-id}/relation/{target-type}", consumes = MediaType.ALL_VALUE)
+    @GetMapping(path = "/{app-id}/{type-name}/{object-id}/relation/{target-type}")
     public ResponseEntity findObjectRelation(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         return restEntityProcessor.handleFindObject(denaRequestContext);
