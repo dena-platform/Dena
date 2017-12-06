@@ -66,4 +66,8 @@ public class DenaRequestContext {
         }
         return val.toString();
     }
+
+    public String getParameter(String name) {
+      return   request.getParameter(name);
+    }
 }

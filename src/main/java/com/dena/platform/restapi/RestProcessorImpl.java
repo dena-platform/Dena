@@ -5,6 +5,7 @@ import com.dena.platform.common.web.JSONMapper;
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.DenaRequestContext;
 import com.dena.platform.core.feature.datastore.DenaDataStore;
+import com.dena.platform.core.feature.datastore.DenaPager;
 import com.dena.platform.restapi.dto.DenaResponse;
 import com.dena.platform.restapi.dto.ObjectResponse;
 import com.dena.platform.restapi.exception.DenaRestException;
@@ -135,25 +136,25 @@ public class RestProcessorImpl implements RestEntityProcessor {
         String typeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String appId = denaRequestContext.getPathVariable(APP_ID);
         String objectId = denaRequestContext.getPathVariable(OBJECT_ID);
-        String typeName2 = denaRequestContext.getPathVariable("type-name-2");
-        List<DenaObject> resultObject = new ArrayList<>();
-        if (StringUtils.isNotBlank(typeName2)) {
-            
-        } else {
+        String targetType = denaRequestContext.getPathVariable("target-type");
+        List<DenaObject> resultObject;
+
+        if (StringUtils.isBlank(targetType)) {  // read type objects
             DenaObject denaObject = denaDataStore.findObject(appId, typeName, objectId);
             resultObject = Collections.singletonList(denaObject);
 
+        } else { // read relation objects
+            DenaObject denaObject = denaDataStore.findObjectRelation(appId, typeName, objectId, targetType, constructPager(denaRequestContext));
+            resultObject = Collections.singletonList(denaObject);
         }
 
         DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
                 .withCount(resultObject.size())
-                .withObjectResponseList(createObjectResponse(, typeName))
+                .withObjectResponseList(createObjectResponse(resultObject, typeName))
                 .withTimestamp(DenaObjectUtils.timeStamp())
                 .build();
 
-
         return ResponseEntity.ok().body(denaResponse);
-
     }
 
 
@@ -196,6 +197,25 @@ public class RestProcessorImpl implements RestEntityProcessor {
                 .withErrorCode(errorCodes.getErrorCode())
                 .addMessageCode(errorCodes.getMessageCode(), null)
                 .build();
+    }
+
+    private DenaPager constructPager(DenaRequestContext denaRequestContext) {
+        int limit = 0;
+        long page = 0;
+
+        if (StringUtils.isBlank(denaRequestContext.getParameter(DenaPager.ITEMP_PER_PAGE_PARAMETER))) {
+            limit = Integer.valueOf(denaRequestContext.getParameter(DenaPager.ITEMP_PER_PAGE_PARAMETER));
+        }
+
+        if (StringUtils.isBlank(denaRequestContext.getParameter(DenaPager.PAGE_PARAMETER))) {
+            page = Long.valueOf(denaRequestContext.getParameter(DenaPager.PAGE_PARAMETER));
+        }
+
+        return DenaPager.DenaPagerBuilder.aDenaPager()
+                .withLimit(limit)
+                .withPage(page)
+                .build();
+
     }
 
 }
