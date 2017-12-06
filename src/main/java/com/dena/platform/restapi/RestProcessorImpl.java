@@ -140,7 +140,6 @@ public class RestProcessorImpl implements RestEntityProcessor {
         List<DenaObject> resultObject;
         DenaResponse denaResponse;
 
-
         if (StringUtils.isBlank(targetType)) {  // read type objects
             DenaObject denaObject = denaDataStore.findObject(appId, typeName, objectId);
             resultObject = Collections.singletonList(denaObject);
@@ -150,7 +149,6 @@ public class RestProcessorImpl implements RestEntityProcessor {
                     .withObjectResponseList(createObjectResponse(resultObject, typeName))
                     .withTimestamp(DenaObjectUtils.timeStamp())
                     .build();
-
 
         } else { // read relation objects
             DenaPager denaPager = constructPager(denaRequestContext);
@@ -166,7 +164,6 @@ public class RestProcessorImpl implements RestEntityProcessor {
                     .build();
 
         }
-
 
         return ResponseEntity.ok().body(denaResponse);
     }
