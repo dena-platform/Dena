@@ -9,6 +9,9 @@ import com.dena.platform.common.config.DenaConfigReader;
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 public class DenaPager {
+    public final static String PAGE_PARAMETER = "page";
+    public final static String ITEMP_PER_PAGE_PARAMETER = "itemPerPage";
+
     private long page; // the page number
     private long count; // total count of results
     private boolean desc;
@@ -173,5 +176,58 @@ public class DenaPager {
     public String toString() {
         return "Pager{" + "page=" + page + ", count=" + count + ", desc=" + desc +
                 ", limit=" + limit + ", name=" + name + ", lastKey=" + lastKey + '}';
+    }
+
+
+    public static final class DenaPagerBuilder {
+        private DenaPager denaPager;
+
+        private DenaPagerBuilder() {
+            denaPager = new DenaPager();
+        }
+
+        public static DenaPagerBuilder aDenaPager() {
+            return new DenaPagerBuilder();
+        }
+
+        public DenaPagerBuilder withPage(long page) {
+            if (page > 0) {
+                denaPager.setPage(page);
+            }
+
+            return this;
+        }
+
+        public DenaPagerBuilder withCount(long count) {
+            denaPager.setCount(count);
+            return this;
+        }
+
+        public DenaPagerBuilder withDesc(boolean desc) {
+            denaPager.setDesc(desc);
+            return this;
+        }
+
+        public DenaPagerBuilder withLimit(int limit) {
+            if (limit > 0) {
+                denaPager.setLimit(limit);
+            }
+
+            return this;
+        }
+
+        public DenaPagerBuilder withName(String name) {
+            denaPager.setName(name);
+            return this;
+        }
+
+        public DenaPagerBuilder withLastKey(String lastKey) {
+            denaPager.setLastKey(lastKey);
+            return this;
+        }
+
+        public DenaPager build() {
+            return denaPager;
+        }
     }
 }
