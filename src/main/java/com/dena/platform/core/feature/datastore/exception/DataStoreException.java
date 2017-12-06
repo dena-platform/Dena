@@ -1,13 +1,13 @@
 package com.dena.platform.core.feature.datastore.exception;
 
+import com.dena.platform.common.exception.DenaException;
 import com.dena.platform.common.exception.ErrorCode;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 
-public class DataStoreException extends RuntimeException {
-    private ErrorCode errorCode;
+public class DataStoreException extends DenaException {
 
     public DataStoreException(String message, ErrorCode errorCode) {
         super(message);
@@ -19,6 +19,7 @@ public class DataStoreException extends RuntimeException {
         this.errorCode = errorCode;
     }
 
+    @Override
     public ErrorCode getErrorCode() {
         return errorCode;
     }

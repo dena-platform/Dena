@@ -1,6 +1,6 @@
 package com.dena.platform.restapi;
 
-import com.dena.platform.common.exception.InvalidFormatException;
+import com.dena.platform.common.exception.InvalidJSONException;
 import com.dena.platform.common.utils.DenaObjectUtils;
 import com.dena.platform.common.web.JSONMapper;
 import com.dena.platform.core.dto.DenaObject;
@@ -73,8 +73,8 @@ public class RestProcessorImpl implements RestEntityProcessor {
         try {
             denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
             denaDataStore.storeObjects(denaObjects, appName, appTypeName);
-        } catch (InvalidFormatException ex) {
-            throw buildBadRequestException(ErrorCode.ObjectId_INVALID_EXCEPTION);
+        } catch (InvalidJSONException ex) {
+            throw buildBadRequestException(ErrorCode.INVALID_REQUEST);
         } catch (DataStoreException ex) {
             throw buildBadRequestException(ex.getErrorCode());
         }
