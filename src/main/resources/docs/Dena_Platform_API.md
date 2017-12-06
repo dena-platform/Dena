@@ -328,7 +328,7 @@ Return Value:
 
 Method: GET
 
-URL: /v1/<application-id>/<type-names>/<object-id>/relation/<type-names-2>?itempPerPage=50&page=4&where=???
+URL: /v1/<application-id>/<type-names>/<object-id>/relation/<target-type>?itempPerPage=50&page=4&where=???
 
 Optional Parameter
 

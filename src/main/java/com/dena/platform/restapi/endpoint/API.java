@@ -160,4 +160,11 @@ public class API {
         return restEntityProcessor.handleFindObject(denaRequestContext);
 
     }
+
+    @GetMapping(path = "/{app-id}/{type-name}/{object-id}/relation/{target-type}", consumes = MediaType.ALL_VALUE)
+    public ResponseEntity findObjectRelation(HttpServletRequest request) {
+        DenaRequestContext denaRequestContext = new DenaRequestContext(request);
+        return restEntityProcessor.handleFindObject(denaRequestContext);
+
+    }
 }
