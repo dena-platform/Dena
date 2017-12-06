@@ -3,6 +3,7 @@ package com.dena.platform.core.feature.datastore.mongodb;
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.dto.RelatedObject;
 import com.dena.platform.core.feature.datastore.DenaDataStore;
+import com.dena.platform.core.feature.datastore.DenaPager;
 import com.dena.platform.core.feature.datastore.exception.ObjectIdInvalidException;
 import com.dena.platform.core.feature.datastore.exception.RelationInvalidException;
 import com.dena.platform.core.feature.datastore.exception.DataStoreException;
@@ -167,14 +168,19 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         }
     }
 
-    public DenaObject findObject(String appName, String typeName, String objectId, String typeName2) {
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public DenaObject findObjectRelation(String appName, String parentType, String objectId, String targetType, DenaPager denaPager) {
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
             DenaObject denaObject = new DenaObject();
 
-            Document document = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId);
+            Document parentDocument = MongoDBUtils.findDocumentById(mongoDatabase, parentType, objectId);
+            MongoDBUtils.findRelatedDocument(mongoDatabase, parentDocument, targetType, denaPager);
 
-            for (Map.Entry<String, Object> entry : document.entrySet()) {
+
+            for (Map.Entry<String, Object> entry : parentDocument.entrySet()) {
                 if (entry.getValue() instanceof ArrayList) {
                     if (((ArrayList) entry.getValue()).size() > 0 && ((ArrayList) entry.getValue()).get(0) instanceof ObjectId) {   // this type is relation
                         ArrayList<ObjectId> objectIdList = (ArrayList<ObjectId>) entry.getValue();
@@ -192,9 +198,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 } else {
                     denaObject.addProperty(entry.getKey(), entry.getValue()); // normal key - value
                 }
-
             }
-
             return denaObject;
         } catch (Exception ex) {
             throw new DataStoreException("Error in delete relation", ex);

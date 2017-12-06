@@ -126,9 +126,19 @@ public class MongoDBUtils {
     public static List<Document> findRelatedDocument(MongoDatabase mongoDatabase, Document parentDocument, String targetType, DenaPager pager) {
         List<ObjectId> otherObjectIds = (ArrayList<ObjectId>) parentDocument.get(targetType);
         Document searchDocument = new Document("_id", otherObjectIds);
-        
+
+        int startIndex = (int) pager.getCount() * pager.getLimit();
+
+        pager.setCount(parentDocument.size());
         List<Document> documentList = mongoDatabase.getCollection(targetType)
-                .find(searchDocument).batchSize(pager.getLimit()).limit(pager.getLimit()).into(new ArrayList<>());
+                .find(searchDocument)
+                .skip(startIndex)
+                .batchSize(pager.getLimit())
+                .limit(pager.getLimit())
+                .into(new ArrayList<>());
+
+
+        return documentList;
 
     }
 
