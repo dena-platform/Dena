@@ -1,9 +1,9 @@
-package com.dena.platform.restapi.exception;
+package com.dena.platform.common.exception;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
-public enum ErrorCodes {
+public enum ErrorCode {
     // General error message
     INVALID_REQUEST("com.dena.platform.restapi.exception.INVALID_REQUEST", "1"),
     INVALID_MEDIA_TYPE("com.dena.platform.restapi.exception.INVALID_MEDIA_TYPE", "2"),
@@ -21,7 +21,7 @@ public enum ErrorCodes {
     private String errorCode;
 
 
-    ErrorCodes(String messageCode, String errorCode) {
+    ErrorCode(String messageCode, String errorCode) {
         this.messageCode = messageCode;
         this.errorCode = errorCode;
     }

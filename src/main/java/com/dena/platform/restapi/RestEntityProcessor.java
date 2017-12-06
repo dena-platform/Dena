@@ -12,6 +12,8 @@ public interface RestEntityProcessor {
 
     ResponseEntity processRestRequest(DenaRequestContext denaRequestContext);
 
+    ResponseEntity handlePostRequest(DenaRequestContext denaRequestContext);
+
     ResponseEntity handleDeleteRelation(DenaRequestContext denaRequestContext);
 
     ResponseEntity handleFindObject(DenaRequestContext denaRequestContext);
