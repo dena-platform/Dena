@@ -131,7 +131,7 @@ public class MongoDBUtils {
 
         int startIndex = (int) pager.getCount() * pager.getLimit();
 
-        pager.setCount(parentDocument.size());
+        pager.setCount(otherObjectIds.size());
         List<Document> documentList = mongoDatabase.getCollection(targetType)
                 .find(searchDocument)
                 .skip(startIndex)
