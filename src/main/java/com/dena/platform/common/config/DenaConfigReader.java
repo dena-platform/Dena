@@ -3,6 +3,8 @@ package com.dena.platform.common.config;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
@@ -12,7 +14,7 @@ public class DenaConfigReader {
 
     private static Environment env;
 
-
+    @Resource
     public void setEnv(Environment env) {
         DenaConfigReader.env = env;
     }

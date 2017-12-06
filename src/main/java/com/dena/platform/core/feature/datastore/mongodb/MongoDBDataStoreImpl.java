@@ -177,28 +177,30 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             DenaObject denaObject = new DenaObject();
 
             Document parentDocument = MongoDBUtils.findDocumentById(mongoDatabase, parentType, objectId);
-            MongoDBUtils.findRelatedDocument(mongoDatabase, parentDocument, targetType, denaPager);
+            List<Document> relatedDocuments = MongoDBUtils.findRelatedDocument(mongoDatabase, parentDocument, targetType, denaPager);
 
+            relatedDocuments.forEach(document -> {
+                for (Map.Entry<String, Object> entry : document.entrySet()) {
+                    if (entry.getValue() instanceof ArrayList) {
+                        if (((ArrayList) entry.getValue()).size() > 0 && ((ArrayList) entry.getValue()).get(0) instanceof ObjectId) {   // this type is relation
+                            ArrayList<ObjectId> objectIdList = (ArrayList<ObjectId>) entry.getValue();
+                            List<String> idString = objectIdList.stream()
+                                    .map(Object::toString)
+                                    .collect(Collectors.toList());
 
-            for (Map.Entry<String, Object> entry : parentDocument.entrySet()) {
-                if (entry.getValue() instanceof ArrayList) {
-                    if (((ArrayList) entry.getValue()).size() > 0 && ((ArrayList) entry.getValue()).get(0) instanceof ObjectId) {   // this type is relation
-                        ArrayList<ObjectId> objectIdList = (ArrayList<ObjectId>) entry.getValue();
-                        List<String> idString = objectIdList.stream()
-                                .map(Object::toString)
-                                .collect(Collectors.toList());
-
-                        List<RelatedObject> relatedObjectList = convertToRelatedObject(entry.getKey(), idString);
-                        denaObject.getRelatedObjects().addAll(relatedObjectList);
+                            List<RelatedObject> relatedObjectList = convertToRelatedObject(entry.getKey(), idString);
+                            denaObject.getRelatedObjects().addAll(relatedObjectList);
+                        } else {
+                            denaObject.addProperty(entry.getKey(), entry.getValue());  // this type is normal array
+                        }
+                    } else if (entry.getKey().equals(MongoDBUtils.ID)) {
+                        denaObject.setObjectId(entry.getValue().toString()); // type of id
                     } else {
-                        denaObject.addProperty(entry.getKey(), entry.getValue());  // this type is normal array
+                        denaObject.addProperty(entry.getKey(), entry.getValue()); // normal key - value
                     }
-                } else if (entry.getKey().equals(MongoDBUtils.ID)) {
-                    denaObject.setObjectId(entry.getValue().toString()); // type of id
-                } else {
-                    denaObject.addProperty(entry.getKey(), entry.getValue()); // normal key - value
                 }
-            }
+            });
+
             return denaObject;
         } catch (Exception ex) {
             throw new DataStoreException("Error in delete relation", ex);
