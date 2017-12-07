@@ -1,5 +1,6 @@
 package com.dena.platform.restapi;
 
+import com.dena.platform.common.exception.DenaException;
 import com.dena.platform.common.exception.InvalidJSONException;
 import com.dena.platform.common.utils.DenaObjectUtils;
 import com.dena.platform.common.web.JSONMapper;
@@ -73,9 +74,7 @@ public class RestProcessorImpl implements RestEntityProcessor {
         try {
             denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
             denaDataStore.storeObjects(denaObjects, appName, appTypeName);
-        } catch (InvalidJSONException ex) {
-            throw buildBadRequestException(ErrorCode.INVALID_REQUEST);
-        } catch (DataStoreException ex) {
+        } catch (DenaException ex) {
             throw buildBadRequestException(ex.getErrorCode());
         }
 
