@@ -1,4 +1,4 @@
-package com.dena.platform.core.feature.datastore.exception;
+package com.dena.platform.core.feature.persistence.exception;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]

@@ -1,7 +1,7 @@
-package com.dena.platform.core.feature.datastore;
+package com.dena.platform.core.feature.persistence;
 
 import com.dena.platform.core.dto.DenaObject;
-import com.dena.platform.core.feature.datastore.exception.DataStoreException;
+import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 
 import java.util.List;
 

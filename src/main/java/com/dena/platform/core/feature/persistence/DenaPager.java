@@ -1,4 +1,4 @@
-package com.dena.platform.core.feature.datastore;
+package com.dena.platform.core.feature.persistence;
 
 import com.dena.platform.common.config.DenaConfigReader;
 

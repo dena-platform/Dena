@@ -1,15 +1,13 @@
-package com.dena.platform.core.feature.datastore.mongodb;
+package com.dena.platform.core.feature.persistence.mongodb;
 
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.dto.RelatedObject;
-import com.dena.platform.core.feature.datastore.DenaDataStore;
-import com.dena.platform.core.feature.datastore.DenaPager;
-import com.dena.platform.core.feature.datastore.exception.ObjectIdInvalidException;
-import com.dena.platform.core.feature.datastore.exception.DataStoreException;
+import com.dena.platform.core.feature.persistence.DenaDataStore;
+import com.dena.platform.core.feature.persistence.DenaPager;
+import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.dena.platform.common.exception.ErrorCode;
 import com.mongodb.client.MongoDatabase;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;

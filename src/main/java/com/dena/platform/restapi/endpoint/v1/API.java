@@ -1,7 +1,7 @@
 package com.dena.platform.restapi.endpoint.v1;
 
 import com.dena.platform.core.DenaRequestContext;
-import com.dena.platform.core.feature.datastore.exception.DataStoreException;
+import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.dena.platform.restapi.DenaRestProcessor;
 import com.dena.platform.restapi.exception.DenaRestException;
 import com.dena.platform.restapi.exception.DenaRestException.DenaRestExceptionBuilder;

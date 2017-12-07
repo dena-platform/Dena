@@ -1,4 +1,4 @@
-package com.dena.platform.core.feature.datastore.exception;
+package com.dena.platform.core.feature.persistence.exception;
 
 import com.dena.platform.common.exception.DenaException;
 import com.dena.platform.common.exception.ErrorCode;

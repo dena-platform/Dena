@@ -1,16 +1,12 @@
-package com.dena.platform.core.feature.datastore.mongodb;
+package com.dena.platform.core.feature.persistence.mongodb;
 
-import com.dena.platform.core.feature.datastore.DenaPager;
-import com.mongodb.BasicDBObject;
+import com.dena.platform.core.feature.persistence.DenaPager;
 import com.mongodb.MongoClient;
 import com.mongodb.bulk.BulkWriteResult;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.*;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
-import org.bson.BSON;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
@@ -22,8 +18,6 @@ import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
