@@ -1,10 +1,8 @@
 package com.dena.platform.restapi.endpoint;
 
-import com.dena.platform.common.exception.InvalidJSONException;
 import com.dena.platform.core.DenaRequestContext;
-import com.dena.platform.core.feature.datastore.exception.ObjectIdInvalidException;
 import com.dena.platform.core.feature.datastore.exception.DataStoreException;
-import com.dena.platform.restapi.RestEntityProcessor;
+import com.dena.platform.restapi.DenaRestProcessor;
 import com.dena.platform.restapi.exception.DenaRestException;
 import com.dena.platform.restapi.exception.DenaRestException.DenaRestExceptionBuilder;
 import com.dena.platform.common.exception.ErrorCode;
@@ -26,26 +24,26 @@ public class API {
     public final static String API_PATH = "/v1/";
 
     @Resource(name = "denaRestEntityProcessorImpl")
-    private RestEntityProcessor restEntityProcessor;
+    private DenaRestProcessor denaRestProcessor;
 
 
     @PostMapping(path = "/{app-id}/{type-name}")
     public ResponseEntity createObjects(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-        return restEntityProcessor.handlePostRequest(denaRequestContext);
+        return denaRestProcessor.handlePostRequest(denaRequestContext);
     }
 
     @PutMapping(path = "/{app-id}/{type-name}")
     public ResponseEntity updateObjects(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-        return restEntityProcessor.handlePutRequest(denaRequestContext);
+        return denaRestProcessor.handlePutRequest(denaRequestContext);
     }
 
     @DeleteMapping(path = "/{app-id}/{type-name}/{object-id}", consumes = MediaType.ALL_VALUE)
     public ResponseEntity deleteObject(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         try {
-            return restEntityProcessor.handleDeleteRequest(denaRequestContext);
+            return denaRestProcessor.handleDeleteRequest(denaRequestContext);
         } catch (DataStoreException ex) {
             throw DenaRestExceptionBuilder.aDenaRestException()
                     .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
@@ -61,7 +59,7 @@ public class API {
     public ResponseEntity deleteRelationWithObjectId(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         try {
-            return restEntityProcessor.handleDeleteRelation(denaRequestContext);
+            return denaRestProcessor.handleDeleteRelation(denaRequestContext);
 
         } catch (DataStoreException ex) {
             throw DenaRestExceptionBuilder.aDenaRestException()
@@ -77,7 +75,7 @@ public class API {
     public ResponseEntity deleteRelationWithType(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         try {
-            return restEntityProcessor.handleDeleteRelation(denaRequestContext);
+            return denaRestProcessor.handleDeleteRelation(denaRequestContext);
 
         } catch (DataStoreException ex) {
             throw DenaRestExceptionBuilder.aDenaRestException()
@@ -93,14 +91,14 @@ public class API {
     @GetMapping(path = "/{app-id}/{type-name}/{object-id}", consumes = MediaType.ALL_VALUE)
     public ResponseEntity findObject(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-        return restEntityProcessor.handleFindObject(denaRequestContext);
+        return denaRestProcessor.handleFindObject(denaRequestContext);
 
     }
 
     @GetMapping(path = "/{app-id}/{type-name}/{object-id}/relation/{target-type}")
     public ResponseEntity findObjectRelation(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-        return restEntityProcessor.handleFindObject(denaRequestContext);
+        return denaRestProcessor.handleFindObject(denaRequestContext);
 
     }
 

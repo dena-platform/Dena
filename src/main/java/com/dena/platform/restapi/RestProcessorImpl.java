@@ -1,14 +1,12 @@
 package com.dena.platform.restapi;
 
 import com.dena.platform.common.exception.DenaException;
-import com.dena.platform.common.exception.InvalidJSONException;
 import com.dena.platform.common.utils.DenaObjectUtils;
 import com.dena.platform.common.web.JSONMapper;
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.DenaRequestContext;
 import com.dena.platform.core.feature.datastore.DenaDataStore;
 import com.dena.platform.core.feature.datastore.DenaPager;
-import com.dena.platform.core.feature.datastore.exception.DataStoreException;
 import com.dena.platform.restapi.dto.DenaResponse;
 import com.dena.platform.restapi.dto.ObjectResponse;
 import com.dena.platform.restapi.exception.DenaRestException;
@@ -32,7 +30,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 @Service("denaRestEntityProcessorImpl")
-public class RestProcessorImpl implements RestEntityProcessor {
+public class RestProcessorImpl implements DenaRestProcessor {
     private final static Logger log = getLogger(RestProcessorImpl.class);
 
     public final static String TYPE_NAME = "type-name";

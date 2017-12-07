@@ -8,7 +8,7 @@ import java.net.URISyntaxException;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
-public interface RestEntityProcessor {
+public interface DenaRestProcessor {
 
     ResponseEntity processRestRequest(DenaRequestContext denaRequestContext);
 
