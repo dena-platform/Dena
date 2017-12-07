@@ -7,6 +7,7 @@ import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.DenaRequestContext;
 import com.dena.platform.core.feature.datastore.DenaDataStore;
 import com.dena.platform.core.feature.datastore.DenaPager;
+import com.dena.platform.core.feature.datastore.exception.DataStoreException;
 import com.dena.platform.restapi.dto.DenaResponse;
 import com.dena.platform.restapi.dto.ObjectResponse;
 import com.dena.platform.restapi.exception.DenaRestException;
@@ -75,7 +76,11 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
         List<DenaObject> denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
 
-        denaDataStore.updateObjects(denaObjects, appName, appTypeName);
+        try {
+            denaDataStore.updateObjects(denaObjects, appName, appTypeName);
+        } catch (DataStoreException ex) {
+            throw buildBadRequestException(ex.getErrorCode());
+        }
 
         DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
                 .withObjectResponseList(createObjectResponse(denaObjects, appTypeName))
@@ -84,7 +89,6 @@ public class RestProcessorImpl implements DenaRestProcessor {
                 .build();
 
         return ResponseEntity.ok().body(denaResponse);
-
     }
 
     @Override
