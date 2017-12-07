@@ -10,8 +10,6 @@ import java.net.URISyntaxException;
  */
 public interface DenaRestProcessor {
 
-    ResponseEntity processRestRequest(DenaRequestContext denaRequestContext);
-
     ResponseEntity handlePostRequest(DenaRequestContext denaRequestContext);
 
     ResponseEntity handlePutRequest(DenaRequestContext denaRequestContext);
