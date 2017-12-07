@@ -32,17 +32,7 @@ public class API {
     @PostMapping(path = "/{app-id}/{type-name}")
     public ResponseEntity createObjects(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-        try {
-            return restEntityProcessor.handlePostRequest(denaRequestContext);
-        } catch (DataStoreException ex) {
-
-            throw DenaRestExceptionBuilder.aDenaRestException()
-                    .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
-                    .withErrorCode(ErrorCode.GENERAL_DATA_STORE_EXCEPTION.getErrorCode())
-                    .addMessageCode(ErrorCode.GENERAL_DATA_STORE_EXCEPTION.getMessageCode(), null)
-                    .withCause(ex.getCause())
-                    .build();
-        }
+        return restEntityProcessor.handlePostRequest(denaRequestContext);
     }
 
     @PutMapping(path = "/{app-id}/{type-name}")
