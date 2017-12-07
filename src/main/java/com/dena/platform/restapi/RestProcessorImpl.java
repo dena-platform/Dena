@@ -47,11 +47,6 @@ public class RestProcessorImpl implements RestEntityProcessor {
     @Override
     public ResponseEntity processRestRequest(DenaRequestContext denaRequestContext) {
 
-        // Update object(s)
-        if (denaRequestContext.isPutRequest()) {
-            return handlePutRequest(denaRequestContext);
-        }
-
         // Delete object(s) or relation
         if (denaRequestContext.isDeleteRequest()) {
             return handleDeleteRequest(denaRequestContext);
@@ -88,7 +83,9 @@ public class RestProcessorImpl implements RestEntityProcessor {
         return ResponseEntity.ok().body(denaResponse);
     }
 
-    private ResponseEntity handlePutRequest(DenaRequestContext denaRequestContext) {
+    // Update object(s)
+    @Override
+    public ResponseEntity handlePutRequest(DenaRequestContext denaRequestContext) {
         String requestBody = denaRequestContext.getRequestBody();
         String appTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String appName = denaRequestContext.getPathVariable(APP_ID);
@@ -136,6 +133,25 @@ public class RestProcessorImpl implements RestEntityProcessor {
     }
 
     @Override
+    public ResponseEntity handleDeleteRequest(DenaRequestContext denaRequestContext) {
+        String typeName = denaRequestContext.getPathVariable(TYPE_NAME);
+        String appId = denaRequestContext.getPathVariable(APP_ID);
+        List<String> objectId = Arrays.asList(denaRequestContext.getPathVariable(OBJECT_ID).split(","));
+
+        if (CollectionUtils.isNotEmpty(objectId)) {
+            long deleteCount = denaDataStore.deleteObjects(appId, typeName, objectId);
+            DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
+                    .withCount(deleteCount)
+                    .withTimestamp(DenaObjectUtils.timeStamp())
+                    .build();
+
+            return ResponseEntity.ok().body(denaResponse);
+        }
+
+        throw buildException(SC_BAD_REQUEST, ErrorCode.ObjectId_INVALID_EXCEPTION);
+    }
+
+    @Override
     public ResponseEntity handleFindObject(DenaRequestContext denaRequestContext) {
         String typeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String appId = denaRequestContext.getPathVariable(APP_ID);
@@ -172,24 +188,6 @@ public class RestProcessorImpl implements RestEntityProcessor {
         return ResponseEntity.ok().body(denaResponse);
     }
 
-
-    private ResponseEntity handleDeleteRequest(DenaRequestContext denaRequestContext) {
-        String typeName = denaRequestContext.getPathVariable(TYPE_NAME);
-        String appId = denaRequestContext.getPathVariable(APP_ID);
-        List<String> objectId = Arrays.asList(denaRequestContext.getPathVariable(OBJECT_ID).split(","));
-
-        if (CollectionUtils.isNotEmpty(objectId)) {
-            long deleteCount = denaDataStore.deleteObjects(appId, typeName, objectId);
-            DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
-                    .withCount(deleteCount)
-                    .withTimestamp(DenaObjectUtils.timeStamp())
-                    .build();
-
-            return ResponseEntity.ok().body(denaResponse);
-        }
-
-        throw buildException(SC_BAD_REQUEST, ErrorCode.ObjectId_INVALID_EXCEPTION);
-    }
 
     private List<ObjectResponse> createObjectResponse(List<DenaObject> denaObjects, String typeName) {
         List<ObjectResponse> objectResponses = new ArrayList<>();
