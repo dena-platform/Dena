@@ -41,21 +41,6 @@ public class RestProcessorImpl implements DenaRestProcessor {
     @Resource(name = "denaMongoDBDataStoreImpl")
     private DenaDataStore denaDataStore;
 
-
-    @Override
-    public ResponseEntity processRestRequest(DenaRequestContext denaRequestContext) {
-
-        // Delete object(s) or relation
-        if (denaRequestContext.isDeleteRequest()) {
-            return handleDeleteRequest(denaRequestContext);
-        }
-
-
-        return ResponseEntity.badRequest().build();
-
-    }
-
-
     // Creating object(s)
     @Override
     public ResponseEntity handlePostRequest(DenaRequestContext denaRequestContext) {
