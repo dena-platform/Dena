@@ -298,7 +298,7 @@ In this case this method return only one object.
 
 Method: GET
 
-URL: /v1/<application-id>/<type-names>/<object-id>
+URL: /v1/<application-id>/<type-name>/<object-id>
 
 Request Body: None
 

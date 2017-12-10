@@ -1,4 +1,4 @@
-package com.dena.platform.restapi.dto;
+package com.dena.platform.restapi.dto.response;
 
 import com.dena.platform.core.dto.RelatedObject;
 import com.fasterxml.jackson.annotation.*;

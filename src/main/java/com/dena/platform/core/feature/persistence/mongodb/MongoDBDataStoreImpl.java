@@ -1,11 +1,11 @@
 package com.dena.platform.core.feature.persistence.mongodb;
 
+import com.dena.platform.common.exception.ErrorCode;
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.dto.RelatedObject;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
-import com.dena.platform.common.exception.ErrorCode;
 import com.mongodb.client.MongoDatabase;
 import org.apache.commons.collections4.CollectionUtils;
 import org.bson.Document;
@@ -14,10 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -132,38 +129,39 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
     @SuppressWarnings("unchecked")
     @Override
-    public DenaObject findObject(String appName, String typeName, String objectId) {
+    public Optional<DenaObject> findObject(String appName, String typeName, String objectId) {
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
-            DenaObject denaObject = new DenaObject();
+            DenaObject denaObject = null;
 
-            Document document = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId);
+            Optional<Document> document = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId);
+            if (document.isPresent()) {
+                denaObject = new DenaObject();
+                for (Map.Entry<String, Object> entry : document.get().entrySet()) {
+                    if (entry.getValue() instanceof ArrayList) {
+                        if (((ArrayList) entry.getValue()).size() > 0 && ((ArrayList) entry.getValue()).get(0) instanceof ObjectId) {   // this type is relation
+                            ArrayList<ObjectId> objectIdList = (ArrayList<ObjectId>) entry.getValue();
+                            List<String> idString = objectIdList.stream()
+                                    .map(Object::toString)
+                                    .collect(Collectors.toList());
 
-            for (Map.Entry<String, Object> entry : document.entrySet()) {
-                if (entry.getValue() instanceof ArrayList) {
-                    if (((ArrayList) entry.getValue()).size() > 0 && ((ArrayList) entry.getValue()).get(0) instanceof ObjectId) {   // this type is relation
-                        ArrayList<ObjectId> objectIdList = (ArrayList<ObjectId>) entry.getValue();
-                        List<String> idString = objectIdList.stream()
-                                .map(Object::toString)
-                                .collect(Collectors.toList());
-
-                        List<RelatedObject> relatedObjectList = convertToRelatedObject(entry.getKey(), idString);
-                        denaObject.getRelatedObjects().addAll(relatedObjectList);
+                            List<RelatedObject> relatedObjectList = convertToRelatedObject(entry.getKey(), idString);
+                            denaObject.getRelatedObjects().addAll(relatedObjectList);
+                        } else {
+                            denaObject.addProperty(entry.getKey(), entry.getValue());  // this type is normal array
+                        }
+                    } else if (entry.getKey().equals(MongoDBUtils.ID)) {
+                        denaObject.setObjectId(entry.getValue().toString()); // type of id
                     } else {
-                        denaObject.addProperty(entry.getKey(), entry.getValue());  // this type is normal array
+                        denaObject.addProperty(entry.getKey(), entry.getValue()); // normal key - value
                     }
-                } else if (entry.getKey().equals(MongoDBUtils.ID)) {
-                    denaObject.setObjectId(entry.getValue().toString()); // type of id
-                } else {
-                    denaObject.addProperty(entry.getKey(), entry.getValue()); // normal key - value
                 }
-
 
             }
 
-            return denaObject;
+            return Optional.ofNullable(denaObject);
         } catch (Exception ex) {
-            throw new DataStoreException("Error in delete relation", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
+            throw new DataStoreException("Error in finding object", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
     }
 

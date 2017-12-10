@@ -4,7 +4,10 @@ import com.dena.platform.core.feature.persistence.DenaPager;
 import com.mongodb.MongoClient;
 import com.mongodb.bulk.BulkWriteResult;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.*;
+import com.mongodb.client.model.BulkWriteOptions;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.UpdateOneModel;
+import com.mongodb.client.model.WriteModel;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
@@ -18,6 +21,7 @@ import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -113,10 +117,12 @@ public class MongoDBUtils {
     }
 
 
-    public static Document findDocumentById(MongoDatabase mongoDatabase, String collectionName, String id) {
-        return mongoDatabase.getCollection(collectionName)
+    public static Optional<Document> findDocumentById(MongoDatabase mongoDatabase, String collectionName, String id) {
+        Document document = mongoDatabase.getCollection(collectionName)
                 .find(Filters.eq("_id", new ObjectId(id)))
                 .first();
+
+        return Optional.ofNullable(document);
     }
 
     @SuppressWarnings("unchecked")
