@@ -10,6 +10,7 @@ import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.dena.platform.restapi.dto.response.DenaResponse;
+import com.dena.platform.restapi.dto.response.DenaResponse.DenaResponseBuilder;
 import com.dena.platform.restapi.dto.response.ObjectResponse;
 import com.dena.platform.restapi.exception.DenaRestException;
 import org.apache.commons.collections4.CollectionUtils;
@@ -55,7 +56,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         }
 
 
-        DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
+        DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
                 .withObjectResponseList(createObjectResponse(denaObjects, appTypeName))
                 .withCount(denaObjects.size())
                 .withTimestamp(DenaObjectUtils.timeStamp())
@@ -79,7 +80,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             throw buildBadRequestException(ex.getErrorCode());
         }
 
-        DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
+        DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
                 .withObjectResponseList(createObjectResponse(denaObjects, appTypeName))
                 .withCount(denaObjects.size())
                 .withTimestamp(DenaObjectUtils.timeStamp())
@@ -98,7 +99,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
         if (StringUtils.isNotBlank(objectId2)) {
             long deleteCount = denaDataStore.deleteRelation(appName, appTypeName, objectId, typeName2, objectId2);
-            DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
+            DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
                     .withCount(deleteCount)
                     .withTimestamp(DenaObjectUtils.timeStamp())
                     .build();
@@ -106,7 +107,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             return ResponseEntity.ok().body(denaResponse);
         } else {
             long deleteCount = denaDataStore.deleteRelation(appName, appTypeName, objectId, typeName2);
-            DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
+            DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
                     .withCount(deleteCount)
                     .withTimestamp(DenaObjectUtils.timeStamp())
                     .build();
@@ -124,7 +125,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
         if (CollectionUtils.isNotEmpty(objectId)) {
             long deleteCount = denaDataStore.deleteObjects(appId, typeName, objectId);
-            DenaResponse denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
+            DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
                     .withCount(deleteCount)
                     .withTimestamp(DenaObjectUtils.timeStamp())
                     .build();
@@ -147,14 +148,12 @@ public class RestProcessorImpl implements DenaRestProcessor {
         // find object by id
         if (StringUtils.isBlank(targetType)) {
             Optional<DenaObject> denaObject = denaDataStore.findObject(appId, typeName, objectId);
-            resultObject = Collections.singletonList(denaObject);
-
-            denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
-                    .withCount(resultObject.size())
-                    .withObjectResponseList(createObjectResponse(resultObject, typeName))
-                    .withTimestamp(DenaObjectUtils.timeStamp())
-                    .build();
-
+            if (denaObject.isPresent()) {
+                resultObject = Collections.singletonList(denaObject.get());
+                denaResponse = makeDenaResponse(1L, createObjectResponse(resultObject, typeName));
+            } else {
+                denaResponse = makeDenaResponse(0L, null);
+            }
         }
         // find relation objects
         else {
@@ -162,7 +161,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             DenaObject denaObject = denaDataStore.findObjectRelation(appId, typeName, objectId, targetType, denaPager);
             resultObject = Collections.singletonList(denaObject);
 
-            denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
+            denaResponse = DenaResponseBuilder.aDenaResponse()
                     .withCount(resultObject.size())
                     .withObjectResponseList(createObjectResponse(resultObject, typeName))
                     .withTotalCount(denaPager.getCount())
@@ -223,6 +222,15 @@ public class RestProcessorImpl implements DenaRestProcessor {
         return DenaPager.DenaPagerBuilder.aDenaPager()
                 .withLimit(limit)
                 .withPage(page)
+                .build();
+
+    }
+
+    private DenaResponse makeDenaResponse(long count, List<ObjectResponse> objectResponseList) {
+        return DenaResponseBuilder.aDenaResponse()
+                .withCount(count)
+                .withObjectResponseList(objectResponseList)
+                .withTimestamp(DenaObjectUtils.timeStamp())
                 .build();
 
     }
