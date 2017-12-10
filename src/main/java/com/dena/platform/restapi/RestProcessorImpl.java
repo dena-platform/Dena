@@ -1,17 +1,17 @@
 package com.dena.platform.restapi;
 
 import com.dena.platform.common.exception.DenaException;
+import com.dena.platform.common.exception.ErrorCode;
 import com.dena.platform.common.utils.DenaObjectUtils;
 import com.dena.platform.common.web.JSONMapper;
-import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.DenaRequestContext;
+import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
-import com.dena.platform.restapi.dto.DenaResponse;
-import com.dena.platform.restapi.dto.ObjectResponse;
+import com.dena.platform.restapi.dto.response.DenaResponse;
+import com.dena.platform.restapi.dto.response.ObjectResponse;
 import com.dena.platform.restapi.exception.DenaRestException;
-import com.dena.platform.common.exception.ErrorCode;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -19,10 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -147,8 +144,9 @@ public class RestProcessorImpl implements DenaRestProcessor {
         List<DenaObject> resultObject;
         DenaResponse denaResponse;
 
-        if (StringUtils.isBlank(targetType)) {  // read type objects
-            DenaObject denaObject = denaDataStore.findObject(appId, typeName, objectId);
+        // find object by id
+        if (StringUtils.isBlank(targetType)) {
+            Optional<DenaObject> denaObject = denaDataStore.findObject(appId, typeName, objectId);
             resultObject = Collections.singletonList(denaObject);
 
             denaResponse = DenaResponse.DenaResponseBuilder.aDenaResponse()
@@ -157,7 +155,9 @@ public class RestProcessorImpl implements DenaRestProcessor {
                     .withTimestamp(DenaObjectUtils.timeStamp())
                     .build();
 
-        } else { // read relation objects
+        }
+        // find relation objects
+        else {
             DenaPager denaPager = constructPager(denaRequestContext);
             DenaObject denaObject = denaDataStore.findObjectRelation(appId, typeName, objectId, targetType, denaPager);
             resultObject = Collections.singletonList(denaObject);
