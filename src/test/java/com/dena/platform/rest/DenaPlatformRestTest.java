@@ -29,7 +29,7 @@ public class DenaPlatformRestTest {
     }
 
     @Test
-    public void createObjectsTest() throws Exception {
+    public void testFindObjectsTest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/denaQA/posts/5a206dc2cc2a9b26e483d664"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
