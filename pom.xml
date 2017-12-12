@@ -89,6 +89,12 @@
             <version>1.2.2</version>
         </dependency>
 
+        <!-- mongodb for testing-->
+        <dependency>
+            <groupId>de.flapdoodle.embed</groupId>
+            <artifactId>de.flapdoodle.embed.mongo</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -117,16 +123,6 @@
                 </executions>
             </plugin>
 
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.20</version>
-                <configuration>
-                    <useFile>false</useFile>
-                    <includes>
-                        <include>**/*Spec.java</include>
-                    </includes>
-                </configuration>
-            </plugin>
 
         </plugins>
     </build>
