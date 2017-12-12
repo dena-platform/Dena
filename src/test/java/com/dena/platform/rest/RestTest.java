@@ -45,16 +45,16 @@ public class RestTest {
 
     }
 
-    @Test
-    public void testCreateSingleObject() {
-
-    }
-
 //    @Test
-//    public void testFindObjects() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.get("/v1/denaBlogger/posts/5a206dc2cc2a9b26e483d664"))
-//                .andDo(MockMvcResultHandlers.print())
-//                .andExpect(MockMvcResultMatchers.status().isOk());
+//    public void testCreateSingleObject() {
+//
 //    }
+
+    @Test
+    public void testFindObjects() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/denaBlogger/posts/5a206dc2cc2a9b26e483d664"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
 
 }
