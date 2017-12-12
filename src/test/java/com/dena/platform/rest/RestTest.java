@@ -1,11 +1,9 @@
 package com.dena.platform.rest;
 
-import de.flapdoodle.embed.mongo.MongodExecutable;
-import de.flapdoodle.embed.mongo.MongodProcess;
-import de.flapdoodle.embed.mongo.MongodStarter;
-import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
-import de.flapdoodle.embed.mongo.distribution.Version;
-import org.junit.After;
+import com.dena.platform.utils.CommonConfig;
+import com.mongodb.MongoClient;
+import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,30 +27,36 @@ public class RestTest {
 
     private final static Logger log = LoggerFactory.getLogger(RestTest.class);
 
-    private MockMvc mockMvc;
 
-    private MongodProcess mongodProcess;
+    private MockMvc mockMvc;
 
     @Resource
     private WebApplicationContext wac;
+
+    @Resource
+    private MongoClient mongoClient;
+
 
     @Before
     public void setup() throws IOException {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
 
-        MongodStarter starter = MongodStarter.getDefaultInstance();
-        MongodExecutable mongodBExe = starter.prepare(new MongodConfigBuilder()
-                .version(Version.Main.V3_2)
-                .build());
+        Document document1 = new Document();
+        document1.put("_id", new ObjectId());
+        document1.put("name", "javad");
+        document1.put("job", "developer");
 
-        this.mongodProcess = mongodBExe.start();
+        Document document2 = new Document();
+        document2.put("name", "ali");
+        document2.put("job", "seller");
+
+        Document document3 = new Document();
+        document3.put("name", "mahdi");
+        document3.put("job", "developer");
+
 
     }
 
-    @After
-    public void tearDown() {
-        mongodProcess.stop();
-    }
 
 //    @Test
 //    public void testCreateSingleObject() {
@@ -60,8 +64,19 @@ public class RestTest {
 //    }
 
     @Test
-    public void testFindObjects() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/denaBlogger/posts/5a206dc2cc2a9b26e483d664"))
+    public void testFindObjectsWhenObjectExist() throws Exception {
+
+        Document document1 = new Document();
+        String objectId = ObjectId.get().toString();
+        document1.put("_id", new ObjectId(objectId));
+        document1.put("name", "javad");
+        document1.put("job", "developer");
+
+        mongoClient.getDatabase(CommonConfig.dbName)
+                .getCollection(CommonConfig.collectionName)
+                .insertOne(document1);
+
+        mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.baseURL + "/" + objectId))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
