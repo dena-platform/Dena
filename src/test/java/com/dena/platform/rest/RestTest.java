@@ -95,12 +95,9 @@ public class RestTest {
         ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(String.valueOf(Instant.now().toEpochMilli()));
+        expectedReturnObject.setDenaObjectsList();
 
-        assertEquals(1L, actualReturnObject.getCount());
-        assertEquals(truncateTimestampToMinute(LocalDateTime.now()), truncateTimestampToMinute(actualReturnObject.getTimestamp()));
-        assertEquals(1, actualReturnObject.getDenaObjectsList().size());
-        assertEquals(1, actualReturnObject.getDenaObjectsList().get(0).getAllFields().get("name"));
-
+        assertEquals(expectedReturnObject, actualReturnObject);
 
 
     }

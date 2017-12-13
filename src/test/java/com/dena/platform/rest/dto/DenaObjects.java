@@ -32,5 +32,21 @@ public class DenaObjects {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        DenaObjects that = (DenaObjects) o;
+
+        if (fields != null ? !fields.equals(that.fields) : that.fields != null) return false;
+        return objectId.equals(that.objectId);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = fields != null ? fields.hashCode() : 0;
+        result = 31 * result + objectId.hashCode();
+        return result;
+    }
 }
