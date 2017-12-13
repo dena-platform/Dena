@@ -23,7 +23,11 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.regex.Matcher;
+import java.time.Instant;
+import java.time.LocalDateTime;
+
+import static com.dena.platform.utils.TestUtils.truncateTimestampToMinute;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -68,7 +72,7 @@ public class RestTest {
 //    }
 
     @Test
-    public void testSingleFindObjectsWhenObjectExist() throws Exception {
+    public void testFindSingleObject() throws Exception {
 
         Document document1 = new Document();
         String objectId = "5a316b1b4e5f450104c31909";
@@ -83,10 +87,21 @@ public class RestTest {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.baseURL + "/" + objectId))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn();                
+                .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        ExpectedReturnedObject expectedReturnedObject = JSONMapper.createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+        ExpectedReturnedObject actualReturnObject = JSONMapper.createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+
+        ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
+        expectedReturnObject.setCount(1L);
+        expectedReturnObject.setTimestamp(String.valueOf(Instant.now().toEpochMilli()));
+
+        assertEquals(1L, actualReturnObject.getCount());
+        assertEquals(truncateTimestampToMinute(LocalDateTime.now()), truncateTimestampToMinute(actualReturnObject.getTimestamp()));
+        assertEquals(1, actualReturnObject.getDenaObjectsList().size());
+        assertEquals(1, actualReturnObject.getDenaObjectsList().get(0).getAllFields().get("name"));
+
+
 
     }
 }
