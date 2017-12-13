@@ -1,5 +1,6 @@
 package com.dena.platform.rest.dto;
 
+import com.dena.platform.utils.TestUtils;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -46,4 +47,28 @@ public class ExpectedReturnedObject {
     public void setDenaObjectsList(List<DenaObjects> denaObjectsList) {
         this.denaObjectsList = denaObjectsList;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ExpectedReturnedObject that = (ExpectedReturnedObject) o;
+
+        if (count != that.count) return false;
+        if (!TestUtils.isEqualRegardlessOfMinute(Long.valueOf(timestamp), Long.valueOf(that.getTimestamp()))) {
+            return false;
+        }
+        return denaObjectsList != null ? denaObjectsList.equals(that.denaObjectsList) : that.denaObjectsList == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = timestamp.hashCode();
+        result = 31 * result + (int) (count ^ (count >>> 32));
+        result = 31 * result + (denaObjectsList != null ? denaObjectsList.hashCode() : 0);
+        return result;
+    }
+
+
 }
