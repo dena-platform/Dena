@@ -1,6 +1,8 @@
 package com.dena.platform.rest;
 
+import com.dena.platform.rest.dto.ExpectedReturnedObject;
 import com.dena.platform.utils.CommonConfig;
+import com.dena.platform.utils.JSONMapper;
 import com.mongodb.MongoClient;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -12,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -20,6 +23,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.regex.Matcher;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -64,10 +68,10 @@ public class RestTest {
 //    }
 
     @Test
-    public void testFindObjectsWhenObjectExist() throws Exception {
+    public void testSingleFindObjectsWhenObjectExist() throws Exception {
 
         Document document1 = new Document();
-        String objectId = ObjectId.get().toString();
+        String objectId = "5a316b1b4e5f450104c31909";
         document1.put("_id", new ObjectId(objectId));
         document1.put("name", "javad");
         document1.put("job", "developer");
@@ -76,9 +80,13 @@ public class RestTest {
                 .getCollection(CommonConfig.collectionName)
                 .insertOne(document1);
 
-        mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.baseURL + "/" + objectId))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.baseURL + "/" + objectId))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk());
-    }
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();                
 
+        String returnContent = result.getResponse().getContentAsString();
+        ExpectedReturnedObject expectedReturnedObject = JSONMapper.createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+
+    }
 }

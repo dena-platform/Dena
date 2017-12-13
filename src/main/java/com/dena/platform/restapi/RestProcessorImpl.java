@@ -145,7 +145,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         List<DenaObject> resultObject;
         DenaResponse denaResponse;
 
-        // find object by id
+        // find single object by id
         if (StringUtils.isBlank(targetType)) {
             Optional<DenaObject> denaObject = denaDataStore.findObject(appId, typeName, objectId);
             if (denaObject.isPresent()) {
