@@ -323,6 +323,7 @@ Return Value:
     }
 
 
+
 **Read Objects By Type Supporting Search Clause**
 
 Method: GET

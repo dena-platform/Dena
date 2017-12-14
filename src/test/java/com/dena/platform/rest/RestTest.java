@@ -26,6 +26,7 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Collections;
 
 import static com.dena.platform.utils.JSONMapper.createJSONFromObject;
@@ -40,6 +41,7 @@ public class RestTest {
 
     private String objectId1 = "5a316b1b4e5f450104c31909";
     private String objectId2 = "5a1bd6176f017921441d4a50";
+    private String objectId3 = "5a206dafcc2a9b26e483d663";
 
 
     private MockMvc mockMvc;
@@ -71,6 +73,14 @@ public class RestTest {
         document2.put("name", "javad");
         document2.put("job", "developer");
 
+
+        Document document3 = new Document();
+        document3.put("_id", new ObjectId(objectId3));
+        document3.put("name", "javad");
+        document3.put("job", "developer");
+        document3.put(CommonConfig.collectionName, Arrays.asList(objectId1, objectId2));
+
+
         mongoClient.getDatabase(CommonConfig.dbName)
                 .getCollection(CommonConfig.collectionName)
                 .insertOne(document1);
@@ -79,8 +89,9 @@ public class RestTest {
                 .getCollection(CommonConfig.collectionName)
                 .insertOne(document2);
 
-
-
+        mongoClient.getDatabase(CommonConfig.dbName)
+                .getCollection(CommonConfig.collectionName)
+                .insertOne(document3);
 
     }
 
@@ -93,8 +104,9 @@ public class RestTest {
     @Test
     public void testFindObjectWhenObjectExist() throws Exception {
 
-
-        // find single object with no relation
+        //////////////////////////////////////////////////////
+        //       FIND OBJECT WITH NO RELATION
+        //////////////////////////////////////////////////////
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.baseURL + "/" + objectId1))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -116,8 +128,35 @@ public class RestTest {
 
         // check timestamp field of returned object
         assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
-
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+
+
+        //////////////////////////////////////////////////////
+        //       FIND OBJECT WITH RELATION
+        //////////////////////////////////////////////////////
+        result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.baseURL + "/" + objectId3))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        returnContent = result.getResponse().getContentAsString();
+        actualReturnObject = JSONMapper.createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+
+        expectedReturnObject = new ExpectedReturnedObject();
+        expectedReturnObject.setCount(1L);
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+
+        denaObject = new DenaObject();
+        denaObject.setObjectId(objectId1);
+        denaObject.setObjectURI("/" + CommonConfig.collectionName + "/" + objectId3);
+        denaObject.addProperty("name", "javad");
+        denaObject.addProperty("job", "developer");
+        expectedReturnObject.setDenaObjectList(Collections.singletonList(denaObject));
+
+        // check timestamp field of returned object
+        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+
 
     }
 
