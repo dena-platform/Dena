@@ -21,7 +21,7 @@ public interface DenaDataStore {
 
     long deleteRelation(String appName, String typeName1, String objectId1, String typeName2);
 
-    Optional<DenaObject> findObject(String appName, String typeName, String objectId);
+    Optional<DenaObject> findObject(String appName, String typeName, String objectId) throws DataStoreException;
 
     DenaObject findObjectRelation(String appName, String parentType, String objectId, String targetType, DenaPager denaPager);
 }
