@@ -2,6 +2,7 @@ package com.dena.platform.rest;
 
 import com.dena.platform.rest.dto.DenaObject;
 import com.dena.platform.rest.dto.ExpectedReturnedObject;
+import com.dena.platform.rest.dto.RelatedObject;
 import com.dena.platform.utils.CommonConfig;
 import com.dena.platform.utils.JSONMapper;
 import com.mongodb.MongoClient;
@@ -78,7 +79,7 @@ public class RestTest {
         document3.put("_id", new ObjectId(objectId3));
         document3.put("name", "javad");
         document3.put("job", "developer");
-        document3.put(CommonConfig.collectionName, Arrays.asList(objectId1, objectId2));
+        document3.put(CommonConfig.collectionName, Arrays.asList(new ObjectId(objectId1), new ObjectId(objectId2)));
 
 
         mongoClient.getDatabase(CommonConfig.dbName)
@@ -147,10 +148,11 @@ public class RestTest {
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
         denaObject = new DenaObject();
-        denaObject.setObjectId(objectId1);
+        denaObject.setObjectId(objectId3);
         denaObject.setObjectURI("/" + CommonConfig.collectionName + "/" + objectId3);
         denaObject.addProperty("name", "javad");
         denaObject.addProperty("job", "developer");
+        denaObject.setRelatedObjects(Arrays.asList(new RelatedObject(objectId1, CommonConfig.collectionName), new RelatedObject(objectId2, CommonConfig.collectionName)));
         expectedReturnObject.setDenaObjectList(Collections.singletonList(denaObject));
 
         // check timestamp field of returned object
