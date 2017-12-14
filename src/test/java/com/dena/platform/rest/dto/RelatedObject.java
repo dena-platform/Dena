@@ -12,6 +12,8 @@ public class RelatedObject {
     @JsonProperty(value = "type", required = true)
     private String typeName;
 
+    public RelatedObject() {
+    }
 
     public RelatedObject(String relatedObjectId, String typeName) {
         this.relatedObjectId = relatedObjectId;
