@@ -21,8 +21,8 @@ public class ObjectResponse {
     @JsonProperty(value = "object_id")
     private String objectId;
 
-    @JsonProperty(value = "URI")
-    private String URI;
+    @JsonProperty(value = "object_uri")
+    private String objectURI;
 
     @JsonAnyGetter
     public Map<String, Object> getAllFields() {
@@ -42,12 +42,12 @@ public class ObjectResponse {
         this.fields = fields;
     }
 
-    public String getURI() {
-        return URI;
+    public String getObjectURI() {
+        return objectURI;
     }
 
-    public void setURI(String URI) {
-        this.URI = URI;
+    public void setObjectURI(String objectURI) {
+        this.objectURI = objectURI;
     }
 
     public String getObjectId() {
