@@ -150,7 +150,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             Optional<DenaObject> denaObject = denaDataStore.findObject(appId, typeName, objectId);
             if (denaObject.isPresent()) {
                 resultObject = Collections.singletonList(denaObject.get());
-                denaResponse = makeDenaResponse(1L, createObjectResponse(resultObject, typeName));
+                denaResponse = makeDenaResponse(1L, createFindObjectResponse(resultObject, typeName));
             } else {
                 denaResponse = makeDenaResponse(0L, null);
             }
@@ -189,6 +189,21 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
         return objectResponses;
     }
+
+    private List<ObjectResponse> createFindObjectResponse(List<DenaObject> denaObjects, String typeName) {
+        List<ObjectResponse> objectResponses = new ArrayList<>();
+        denaObjects.forEach(denaObject -> {
+            ObjectResponse objectResponse = new ObjectResponse();
+            objectResponse.setObjectId(denaObject.getObjectId());
+            objectResponse.setFields(denaObject.getFields());
+            objectResponse.setRelatedObjects(denaObject.getRelatedObjects());
+
+            objectResponses.add(objectResponse);
+        });
+
+        return objectResponses;
+    }
+
 
     private DenaRestException buildException(final int statusCode, ErrorCode errorCode) {
         return DenaRestException.DenaRestExceptionBuilder.aDenaRestException()

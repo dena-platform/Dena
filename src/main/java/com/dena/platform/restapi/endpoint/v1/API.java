@@ -88,22 +88,13 @@ public class API {
     }
 
 
-    @GetMapping(path = "/{app-id}/{type-name}/{object-id}", consumes = MediaType.ALL_VALUE)
+    @GetMapping(path = {"/{app-id}/{type-name}/{object-id}",
+            "/{app-id}/{type-name}/{object-id}/relation/{target-type}"},
+            consumes = MediaType.ALL_VALUE)
     public ResponseEntity findObject(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         return denaRestProcessor.handleFindObject(denaRequestContext);
 
     }
 
-    @GetMapping(path = "/{app-id}/{type-name}/{object-id}/relation/{target-type}")
-    public ResponseEntity findObjectRelation(HttpServletRequest request) {
-        DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-        return denaRestProcessor.handleFindObject(denaRequestContext);
-
-    }
-
-
-    private void generateException() throws DenaRestException {
-
-    }
 }
