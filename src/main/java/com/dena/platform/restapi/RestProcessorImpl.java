@@ -146,33 +146,36 @@ public class RestProcessorImpl implements DenaRestProcessor {
         List<DenaObject> resultObject;
         DenaResponse denaResponse;
 
-        // find single object by id
-        if (StringUtils.isBlank(targetType)) {
-            Optional<DenaObject> denaObject = denaDataStore.findObject(appId, typeName, objectId);
-            if (denaObject.isPresent()) {
-                resultObject = Collections.singletonList(denaObject.get());
-                denaResponse = makeDenaResponse(1L, createObjectResponse(resultObject, typeName));
-            } else {
-                denaResponse = makeDenaResponse(0L, null);
+        try {
+            // find single object by id
+            if (StringUtils.isBlank(targetType)) {
+                Optional<DenaObject> denaObject = denaDataStore.findObject(appId, typeName, objectId);
+                if (denaObject.isPresent()) {
+                    resultObject = Collections.singletonList(denaObject.get());
+                    denaResponse = makeDenaResponse(1L, createObjectResponse(resultObject, typeName));
+                } else {
+                    denaResponse = makeDenaResponse(0L, null);
+                }
             }
+            // find relation objects
+            else {
+                DenaPager denaPager = constructPager(denaRequestContext);
+                DenaObject denaObject = denaDataStore.findObjectRelation(appId, typeName, objectId, targetType, denaPager);
+                resultObject = Collections.singletonList(denaObject);
+
+                denaResponse = DenaResponseBuilder.aDenaResponse()
+                        .withCount(resultObject.size())
+                        .withObjectResponseList(createObjectResponse(resultObject, typeName))
+                        .withTotalCount(denaPager.getCount())
+                        .withPage(denaPager.getPage())
+                        .withTimestamp(DenaObjectUtils.timeStamp())
+                        .build();
+
+            }
+            return ResponseEntity.ok().body(denaResponse);
+        } catch (DenaException ex) {
+            throw buildBadRequestException(ex.getErrorCode());
         }
-        // find relation objects
-        else {
-            DenaPager denaPager = constructPager(denaRequestContext);
-            DenaObject denaObject = denaDataStore.findObjectRelation(appId, typeName, objectId, targetType, denaPager);
-            resultObject = Collections.singletonList(denaObject);
-
-            denaResponse = DenaResponseBuilder.aDenaResponse()
-                    .withCount(resultObject.size())
-                    .withObjectResponseList(createObjectResponse(resultObject, typeName))
-                    .withTotalCount(denaPager.getCount())
-                    .withPage(denaPager.getPage())
-                    .withTimestamp(DenaObjectUtils.timeStamp())
-                    .build();
-
-        }
-
-        return ResponseEntity.ok().body(denaResponse);
     }
 
 

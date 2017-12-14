@@ -129,7 +129,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Optional<DenaObject> findObject(String appName, String typeName, String objectId) {
+    public Optional<DenaObject> findObject(String appName, String typeName, String objectId) throws DataStoreException {
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
             DenaObject denaObject = null;
