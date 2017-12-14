@@ -3,7 +3,6 @@ package com.dena.platform.restapi.endpoint.v1;
 import com.dena.platform.core.DenaRequestContext;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.dena.platform.restapi.DenaRestProcessor;
-import com.dena.platform.restapi.exception.DenaRestException;
 import com.dena.platform.restapi.exception.DenaRestException.DenaRestExceptionBuilder;
 import com.dena.platform.common.exception.ErrorCode;
 import org.springframework.http.MediaType;
@@ -30,7 +29,7 @@ public class API {
     @PostMapping(path = "/{app-id}/{type-name}")
     public ResponseEntity createObjects(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-        return denaRestProcessor.handlePostRequest(denaRequestContext);
+        return denaRestProcessor.handleCreateObject(denaRequestContext);
     }
 
     @PutMapping(path = "/{app-id}/{type-name}")
@@ -43,7 +42,7 @@ public class API {
     public ResponseEntity deleteObject(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         try {
-            return denaRestProcessor.handleDeleteRequest(denaRequestContext);
+            return denaRestProcessor.handleDeleteObject(denaRequestContext);
         } catch (DataStoreException ex) {
             throw DenaRestExceptionBuilder.aDenaRestException()
                     .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)

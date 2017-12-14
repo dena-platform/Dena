@@ -13,6 +13,7 @@ import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse.DenaResponseBuilder;
 import com.dena.platform.restapi.dto.response.ObjectResponse;
 import com.dena.platform.restapi.exception.DenaRestException;
+import com.dena.platform.restapi.exception.DenaRestException.DenaRestExceptionBuilder;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -42,7 +43,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
     // Creating object(s)
     @Override
-    public ResponseEntity handlePostRequest(DenaRequestContext denaRequestContext) {
+    public ResponseEntity handleCreateObject(DenaRequestContext denaRequestContext) {
         String requestBody = denaRequestContext.getRequestBody();
         String appTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String appName = denaRequestContext.getPathVariable(APP_ID);
@@ -118,7 +119,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     }
 
     @Override
-    public ResponseEntity handleDeleteRequest(DenaRequestContext denaRequestContext) {
+    public ResponseEntity handleDeleteObject(DenaRequestContext denaRequestContext) {
         String typeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String appId = denaRequestContext.getPathVariable(APP_ID);
         List<String> objectId = Arrays.asList(denaRequestContext.getPathVariable(OBJECT_ID).split(","));
@@ -191,7 +192,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     }
 
     private DenaRestException buildException(final int statusCode, ErrorCode errorCode) {
-        return DenaRestException.DenaRestExceptionBuilder.aDenaRestException()
+        return DenaRestExceptionBuilder.aDenaRestException()
                 .withStatusCode(statusCode)
                 .withErrorCode(errorCode.getErrorCode())
                 .addMessageCode(errorCode.getMessageCode(), null)
@@ -199,7 +200,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     }
 
     private DenaRestException buildBadRequestException(ErrorCode errorCode) {
-        return DenaRestException.DenaRestExceptionBuilder.aDenaRestException()
+        return DenaRestExceptionBuilder.aDenaRestException()
                 .withStatusCode(SC_BAD_REQUEST)
                 .withErrorCode(errorCode.getErrorCode())
                 .addMessageCode(errorCode.getMessageCode(), null)

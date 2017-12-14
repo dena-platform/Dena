@@ -10,13 +10,13 @@ import java.net.URISyntaxException;
  */
 public interface DenaRestProcessor {
 
-    ResponseEntity handlePostRequest(DenaRequestContext denaRequestContext);
+    ResponseEntity handleCreateObject(DenaRequestContext denaRequestContext);
 
     ResponseEntity handlePutRequest(DenaRequestContext denaRequestContext);
 
     ResponseEntity handleDeleteRelation(DenaRequestContext denaRequestContext);
 
-    ResponseEntity handleDeleteRequest(DenaRequestContext denaRequestContext);
+    ResponseEntity handleDeleteObject(DenaRequestContext denaRequestContext);
 
     ResponseEntity handleFindObject(DenaRequestContext denaRequestContext);
 
