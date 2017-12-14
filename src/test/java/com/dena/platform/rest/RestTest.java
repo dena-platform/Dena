@@ -30,7 +30,6 @@ import java.util.Collections;
 
 import static com.dena.platform.utils.JSONMapper.createJSONFromObject;
 import static com.dena.platform.utils.TestUtils.isTimeEqualRegardlessOfMinute;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
@@ -38,6 +37,9 @@ import static org.junit.Assert.assertTrue;
 public class RestTest {
 
     private final static Logger log = LoggerFactory.getLogger(RestTest.class);
+
+    private String objectId1 = "5a316b1b4e5f450104c31909";
+    private String objectId2 = "5a1bd6176f017921441d4a50";
 
 
     private MockMvc mockMvc;
@@ -56,6 +58,29 @@ public class RestTest {
         // clean database
         mongoClient.getDatabase(CommonConfig.dbName).drop();
 
+        // init database
+        Document document1 = new Document();
+
+        document1.put("_id", new ObjectId(objectId1));
+        document1.put("name", "javad");
+        document1.put("job", "developer");
+
+        Document document2 = new Document();
+
+        document2.put("_id", new ObjectId(objectId2));
+        document2.put("name", "javad");
+        document2.put("job", "developer");
+
+        mongoClient.getDatabase(CommonConfig.dbName)
+                .getCollection(CommonConfig.collectionName)
+                .insertOne(document1);
+
+        mongoClient.getDatabase(CommonConfig.dbName)
+                .getCollection(CommonConfig.collectionName)
+                .insertOne(document2);
+
+
+
 
     }
 
@@ -68,17 +93,9 @@ public class RestTest {
     @Test
     public void testFindObjectWhenObjectExist() throws Exception {
 
-        Document document1 = new Document();
-        String objectId = "5a316b1b4e5f450104c31909";
-        document1.put("_id", new ObjectId(objectId));
-        document1.put("name", "javad");
-        document1.put("job", "developer");
 
-        mongoClient.getDatabase(CommonConfig.dbName)
-                .getCollection(CommonConfig.collectionName)
-                .insertOne(document1);
-
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.baseURL + "/" + objectId))
+        // find single object with no relation
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.baseURL + "/" + objectId1))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
@@ -91,8 +108,8 @@ public class RestTest {
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
         DenaObject denaObject = new DenaObject();
-        denaObject.setObjectId(objectId);
-        denaObject.setObjectURI("/" + CommonConfig.collectionName + "/" + objectId);
+        denaObject.setObjectId(objectId1);
+        denaObject.setObjectURI("/" + CommonConfig.collectionName + "/" + objectId1);
         denaObject.addProperty("name", "javad");
         denaObject.addProperty("job", "developer");
         expectedReturnObject.setDenaObjectList(Collections.singletonList(denaObject));
@@ -106,7 +123,7 @@ public class RestTest {
 
     @Test
     public void testFindObjectWhenObjectNotExist() throws Exception {
-        String objectId = "5a316b1b4e5f450104c31909";
+        String objectId = ObjectId.get().toHexString();
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.baseURL + "/" + objectId))
                 .andDo(MockMvcResultHandlers.print())
