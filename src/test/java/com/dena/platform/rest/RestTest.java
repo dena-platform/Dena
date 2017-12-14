@@ -1,14 +1,17 @@
 package com.dena.platform.rest;
 
+import com.dena.platform.rest.dto.DenaObject;
 import com.dena.platform.rest.dto.ExpectedReturnedObject;
 import com.dena.platform.utils.CommonConfig;
 import com.dena.platform.utils.JSONMapper;
 import com.mongodb.MongoClient;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.skyscreamer.jsonassert.JSONAssert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,9 +27,10 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.time.Instant;
-import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collections;
 
-import static com.dena.platform.utils.TestUtils.truncateTimestampToMinute;
+import static com.dena.platform.utils.JSONMapper.createJSONFromObject;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -95,10 +99,15 @@ public class RestTest {
         ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(String.valueOf(Instant.now().toEpochMilli()));
-        expectedReturnObject.setDenaObjectsList();
 
-        assertEquals(expectedReturnObject, actualReturnObject);
+        DenaObject denaObject = new DenaObject();
+        denaObject.setObjectId(objectId);
+        denaObject.addProperty("name", "javad");
+        denaObject.addProperty("job", "developer");
+        expectedReturnObject.setDenaObjectList(Collections.singletonList(denaObject));
 
+
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
 
     }
 }

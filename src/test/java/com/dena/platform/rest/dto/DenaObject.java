@@ -9,15 +9,25 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE;
+
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
-public class DenaObjects {
+@JsonAutoDetect(fieldVisibility = NONE, getterVisibility = NONE, setterVisibility = NONE)
+public class DenaObject {
     private Map<String, Object> fields = new LinkedHashMap<>();
 
     @JsonProperty("object_id")
     private String objectId;
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
 
     @JsonAnyGetter
     public Map<String, Object> getAllFields() {
@@ -37,7 +47,7 @@ public class DenaObjects {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        DenaObjects that = (DenaObjects) o;
+        DenaObject that = (DenaObject) o;
 
         if (fields != null ? !fields.equals(that.fields) : that.fields != null) return false;
         return objectId.equals(that.objectId);
@@ -48,5 +58,13 @@ public class DenaObjects {
         int result = fields != null ? fields.hashCode() : 0;
         result = 31 * result + objectId.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "DenaObject{" +
+                "fields=" + fields +
+                ", objectId='" + objectId + '\'' +
+                '}';
     }
 }

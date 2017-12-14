@@ -21,7 +21,7 @@ public class ExpectedReturnedObject {
     private long count;
 
     @JsonProperty("objects")
-    private List<DenaObjects> denaObjectsList = new ArrayList<>();
+    private List<DenaObject> denaObjectList = new ArrayList<>();
 
 
     public String getTimestamp() {
@@ -40,12 +40,12 @@ public class ExpectedReturnedObject {
         this.count = count;
     }
 
-    public List<DenaObjects> getDenaObjectsList() {
-        return denaObjectsList;
+    public List<DenaObject> getDenaObjectList() {
+        return denaObjectList;
     }
 
-    public void setDenaObjectsList(List<DenaObjects> denaObjectsList) {
-        this.denaObjectsList = denaObjectsList;
+    public void setDenaObjectList(List<DenaObject> denaObjectList) {
+        this.denaObjectList = denaObjectList;
     }
 
     @Override
@@ -59,16 +59,23 @@ public class ExpectedReturnedObject {
         if (!TestUtils.isEqualRegardlessOfMinute(Long.valueOf(timestamp), Long.valueOf(that.getTimestamp()))) {
             return false;
         }
-        return denaObjectsList != null ? denaObjectsList.equals(that.denaObjectsList) : that.denaObjectsList == null;
+        return denaObjectList != null ? denaObjectList.equals(that.denaObjectList) : that.denaObjectList == null;
     }
 
     @Override
     public int hashCode() {
         int result = timestamp.hashCode();
         result = 31 * result + (int) (count ^ (count >>> 32));
-        result = 31 * result + (denaObjectsList != null ? denaObjectsList.hashCode() : 0);
+        result = 31 * result + (denaObjectList != null ? denaObjectList.hashCode() : 0);
         return result;
     }
 
-
+    @Override
+    public String toString() {
+        return "ExpectedReturnedObject{" +
+                "timestamp='" + timestamp + '\'' +
+                ", count=" + count +
+                ", denaObjectList=" + denaObjectList +
+                '}';
+    }
 }
