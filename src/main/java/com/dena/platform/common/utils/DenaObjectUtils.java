@@ -1,5 +1,7 @@
 package com.dena.platform.common.utils;
 
+import java.time.Instant;
+
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
@@ -18,6 +20,6 @@ public class DenaObjectUtils {
 
 
     public static long timeStamp() {
-        return System.currentTimeMillis();
+        return Instant.now().toEpochMilli();
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 public class ExpectedReturnedObject {
 
     @JsonProperty("timestamp")
-    private String timestamp;
+    private Long timestamp;
 
     @JsonProperty("count")
     private long count;
@@ -24,11 +24,11 @@ public class ExpectedReturnedObject {
     private List<DenaObject> denaObjectList = new ArrayList<>();
 
 
-    public String getTimestamp() {
+    public Long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -56,7 +56,7 @@ public class ExpectedReturnedObject {
         ExpectedReturnedObject that = (ExpectedReturnedObject) o;
 
         if (count != that.count) return false;
-        if (!TestUtils.isEqualRegardlessOfMinute(Long.valueOf(timestamp), Long.valueOf(that.getTimestamp()))) {
+        if (!TestUtils.isTimeEqualRegardlessOfMinute(Long.valueOf(timestamp), Long.valueOf(that.getTimestamp()))) {
             return false;
         }
         return denaObjectList != null ? denaObjectList.equals(that.denaObjectList) : that.denaObjectList == null;
@@ -68,14 +68,5 @@ public class ExpectedReturnedObject {
         result = 31 * result + (int) (count ^ (count >>> 32));
         result = 31 * result + (denaObjectList != null ? denaObjectList.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "ExpectedReturnedObject{" +
-                "timestamp='" + timestamp + '\'' +
-                ", count=" + count +
-                ", denaObjectList=" + denaObjectList +
-                '}';
     }
 }

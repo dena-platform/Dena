@@ -21,12 +21,24 @@ public class DenaObject {
     @JsonProperty("object_id")
     private String objectId;
 
+    @JsonProperty(value = "object_uri")
+    private String objectURI;
+
+
     public String getObjectId() {
         return objectId;
     }
 
     public void setObjectId(String objectId) {
         this.objectId = objectId;
+    }
+
+    public String getObjectURI() {
+        return objectURI;
+    }
+
+    public void setObjectURI(String objectURI) {
+        this.objectURI = objectURI;
     }
 
     @JsonAnyGetter
@@ -58,13 +70,5 @@ public class DenaObject {
         int result = fields != null ? fields.hashCode() : 0;
         result = 31 * result + objectId.hashCode();
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "DenaObject{" +
-                "fields=" + fields +
-                ", objectId='" + objectId + '\'' +
-                '}';
     }
 }
