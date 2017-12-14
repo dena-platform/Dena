@@ -139,7 +139,8 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 denaObject = new DenaObject();
                 for (Map.Entry<String, Object> entry : document.get().entrySet()) {
                     if (entry.getValue() instanceof ArrayList) {
-                        if (((ArrayList) entry.getValue()).size() > 0 && ((ArrayList) entry.getValue()).get(0) instanceof ObjectId) {   // this type is relation
+                        // this type is relation
+                        if (((ArrayList) entry.getValue()).size() > 0 && ((ArrayList) entry.getValue()).get(0) instanceof ObjectId) {
                             ArrayList<ObjectId> objectIdList = (ArrayList<ObjectId>) entry.getValue();
                             List<String> idString = objectIdList.stream()
                                     .map(Object::toString)
@@ -147,8 +148,10 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
                             List<RelatedObject> relatedObjectList = convertToRelatedObject(entry.getKey(), idString);
                             denaObject.getRelatedObjects().addAll(relatedObjectList);
-                        } else {
-                            denaObject.addProperty(entry.getKey(), entry.getValue());  // this type is normal array
+                        }
+                        // this type is normal array
+                        else {
+                            denaObject.addProperty(entry.getKey(), entry.getValue());
                         }
                     } else if (entry.getKey().equals(MongoDBUtils.ID)) {
                         denaObject.setObjectId(entry.getValue().toString()); // type of id

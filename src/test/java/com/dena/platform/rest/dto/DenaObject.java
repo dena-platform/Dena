@@ -6,7 +6,9 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE;
@@ -24,6 +26,10 @@ public class DenaObject {
     @JsonProperty(value = "object_uri")
     private String objectURI;
 
+    @JsonProperty(value = "related_objects")
+    private List<RelatedObject> relatedObjects = new ArrayList<>();
+
+
 
     public String getObjectId() {
         return objectId;
@@ -39,6 +45,14 @@ public class DenaObject {
 
     public void setObjectURI(String objectURI) {
         this.objectURI = objectURI;
+    }
+
+    public List<RelatedObject> getRelatedObjects() {
+        return relatedObjects;
+    }
+
+    public void setRelatedObjects(List<RelatedObject> relatedObjects) {
+        this.relatedObjects = relatedObjects;
     }
 
     @JsonAnyGetter
