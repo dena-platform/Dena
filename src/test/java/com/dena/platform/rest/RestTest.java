@@ -4,6 +4,7 @@ import com.dena.platform.rest.dto.DenaObject;
 import com.dena.platform.rest.dto.ExpectedReturnedObject;
 import com.dena.platform.utils.CommonConfig;
 import com.dena.platform.utils.JSONMapper;
+import com.dena.platform.utils.TestUtils;
 import com.mongodb.MongoClient;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -27,11 +28,13 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 
 import static com.dena.platform.utils.JSONMapper.createJSONFromObject;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -99,6 +102,7 @@ public class RestTest {
         ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(String.valueOf(Instant.now().toEpochMilli()));
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
         DenaObject denaObject = new DenaObject();
         denaObject.setObjectId(objectId);
@@ -106,8 +110,10 @@ public class RestTest {
         denaObject.addProperty("job", "developer");
         expectedReturnObject.setDenaObjectList(Collections.singletonList(denaObject));
 
+        // check timestamp of returned object
+        assertTrue(TestUtils.isEqualRegardlessOfMinute(Long.valueOf(actualReturnObject.getTimestamp()), Instant.now().toEpochMilli()));
 
-        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
 }
