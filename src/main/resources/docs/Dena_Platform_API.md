@@ -305,11 +305,12 @@ Request Body: None
 Return Value:
 
     {
-      "timestamp" : timestamp in milliseconds,
+      "timestamp" : "1513233158180",
       "count": 1,
       "objects": [
         {
           "object_id": "5a316b1b4e5f450104c31909",
+          "object_uri":"/denaTestCollection/5a316b1b4e5f450104c31909",
           "field3": "javad",
           "field4": "developer",
           "related_objects": [
