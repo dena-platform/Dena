@@ -20,6 +20,7 @@ public class RelatedObject {
         this.typeName = typeName;
     }
 
+
     public String getRelatedObjectId() {
         return relatedObjectId;
     }
