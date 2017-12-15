@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import static com.dena.platform.utils.JSONMapper.createJSONFromObject;
+import static com.dena.platform.utils.JSONMapper.createObjectFromJSON;
 import static com.dena.platform.utils.TestUtils.isTimeEqualRegardlessOfMinute;
 import static org.junit.Assert.assertTrue;
 
@@ -108,21 +109,23 @@ public class RestTest {
         //////////////////////////////////////////////////////
         //       FIND OBJECT WITH NO RELATION
         //////////////////////////////////////////////////////
+
+        
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.baseURL + "/" + objectId1))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        ExpectedReturnedObject actualReturnObject = JSONMapper.createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+        ExpectedReturnedObject actualReturnObject = createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
 
         ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
         DenaObject denaObject = new DenaObject();
-        denaObject.setObjectId(objectId1);
-        denaObject.setObjectURI("/" + CommonConfig.collectionName + "/" + objectId1);
+        denaObject.objectId = objectId1;
+        denaObject.objectURI = "/" + CommonConfig.collectionName + "/" + objectId1;
         denaObject.addProperty("name", "javad");
         denaObject.addProperty("job", "developer");
         expectedReturnObject.setDenaObjectList(Collections.singletonList(denaObject));
@@ -141,24 +144,23 @@ public class RestTest {
                 .andReturn();
 
         returnContent = result.getResponse().getContentAsString();
-        actualReturnObject = JSONMapper.createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+        actualReturnObject = createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
 
         expectedReturnObject = new ExpectedReturnedObject();
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
         denaObject = new DenaObject();
-        denaObject.setObjectId(objectId3);
-        denaObject.setObjectURI("/" + CommonConfig.collectionName + "/" + objectId3);
+        denaObject.objectId = objectId3;
+        denaObject.objectURI = "/" + CommonConfig.collectionName + "/" + objectId3;
         denaObject.addProperty("name", "javad");
         denaObject.addProperty("job", "developer");
-        denaObject.setRelatedObjects(Arrays.asList(new RelatedObject(objectId1, CommonConfig.collectionName), new RelatedObject(objectId2, CommonConfig.collectionName)));
+        denaObject.relatedObjects = Arrays.asList(new RelatedObject(objectId1, CommonConfig.collectionName), new RelatedObject(objectId2, CommonConfig.collectionName));
         expectedReturnObject.setDenaObjectList(Collections.singletonList(denaObject));
 
         // check timestamp field of returned object
         assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
-
 
     }
 
@@ -172,7 +174,7 @@ public class RestTest {
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        ExpectedReturnedObject actualReturnObject = JSONMapper.createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+        ExpectedReturnedObject actualReturnObject = createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
 
         ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
         expectedReturnObject.setCount(0L);

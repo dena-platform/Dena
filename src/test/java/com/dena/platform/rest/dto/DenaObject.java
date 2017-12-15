@@ -21,39 +21,13 @@ public class DenaObject {
     private Map<String, Object> fields = new LinkedHashMap<>();
 
     @JsonProperty("object_id")
-    private String objectId;
+    public String objectId;
 
     @JsonProperty(value = "object_uri")
-    private String objectURI;
+    public String objectURI;
 
     @JsonProperty(value = "related_objects")
-    private List<RelatedObject> relatedObjects = new ArrayList<>();
-
-
-
-    public String getObjectId() {
-        return objectId;
-    }
-
-    public void setObjectId(String objectId) {
-        this.objectId = objectId;
-    }
-
-    public String getObjectURI() {
-        return objectURI;
-    }
-
-    public void setObjectURI(String objectURI) {
-        this.objectURI = objectURI;
-    }
-
-    public List<RelatedObject> getRelatedObjects() {
-        return relatedObjects;
-    }
-
-    public void setRelatedObjects(List<RelatedObject> relatedObjects) {
-        this.relatedObjects = relatedObjects;
-    }
+    public List<RelatedObject> relatedObjects = new ArrayList<>();
 
     @JsonAnyGetter
     public Map<String, Object> getAllFields() {
