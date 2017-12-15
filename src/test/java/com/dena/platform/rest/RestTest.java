@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -36,6 +37,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@WebAppConfiguration
 public class RestTest {
 
     private final static Logger log = LoggerFactory.getLogger(RestTest.class);
@@ -61,7 +63,9 @@ public class RestTest {
         // clean database
         mongoClient.getDatabase(CommonConfig.DB_NAME).drop();
 
-        // init database
+        //////////////////////////////////////////////////////
+        //       Initialize database
+        //////////////////////////////////////////////////////
         Document document1 = new Document();
 
         document1.put("_id", new ObjectId(objectId1));
@@ -109,7 +113,6 @@ public class RestTest {
         //       FIND OBJECT WITH NO RELATION
         //////////////////////////////////////////////////////
 
-        
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId1))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -184,7 +187,6 @@ public class RestTest {
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
-
 
 
 }
