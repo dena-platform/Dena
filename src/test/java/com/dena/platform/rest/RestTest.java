@@ -4,7 +4,6 @@ import com.dena.platform.rest.dto.DenaObject;
 import com.dena.platform.rest.dto.ExpectedReturnedObject;
 import com.dena.platform.rest.dto.RelatedObject;
 import com.dena.platform.utils.CommonConfig;
-import com.dena.platform.utils.JSONMapper;
 import com.mongodb.MongoClient;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -60,7 +59,7 @@ public class RestTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
 
         // clean database
-        mongoClient.getDatabase(CommonConfig.dbName).drop();
+        mongoClient.getDatabase(CommonConfig.DB_NAME).drop();
 
         // init database
         Document document1 = new Document();
@@ -80,19 +79,19 @@ public class RestTest {
         document3.put("_id", new ObjectId(objectId3));
         document3.put("name", "javad");
         document3.put("job", "developer");
-        document3.put(CommonConfig.collectionName, Arrays.asList(new ObjectId(objectId1), new ObjectId(objectId2)));
+        document3.put(CommonConfig.COLLECTION_NAME, Arrays.asList(new ObjectId(objectId1), new ObjectId(objectId2)));
 
 
-        mongoClient.getDatabase(CommonConfig.dbName)
-                .getCollection(CommonConfig.collectionName)
+        mongoClient.getDatabase(CommonConfig.DB_NAME)
+                .getCollection(CommonConfig.COLLECTION_NAME)
                 .insertOne(document1);
 
-        mongoClient.getDatabase(CommonConfig.dbName)
-                .getCollection(CommonConfig.collectionName)
+        mongoClient.getDatabase(CommonConfig.DB_NAME)
+                .getCollection(CommonConfig.COLLECTION_NAME)
                 .insertOne(document2);
 
-        mongoClient.getDatabase(CommonConfig.dbName)
-                .getCollection(CommonConfig.collectionName)
+        mongoClient.getDatabase(CommonConfig.DB_NAME)
+                .getCollection(CommonConfig.COLLECTION_NAME)
                 .insertOne(document3);
 
     }
@@ -111,7 +110,7 @@ public class RestTest {
         //////////////////////////////////////////////////////
 
         
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.baseURL + "/" + objectId1))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId1))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
@@ -125,7 +124,7 @@ public class RestTest {
 
         DenaObject denaObject = new DenaObject();
         denaObject.objectId = objectId1;
-        denaObject.objectURI = "/" + CommonConfig.collectionName + "/" + objectId1;
+        denaObject.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId1;
         denaObject.addProperty("name", "javad");
         denaObject.addProperty("job", "developer");
         expectedReturnObject.setDenaObjectList(Collections.singletonList(denaObject));
@@ -138,7 +137,7 @@ public class RestTest {
         //////////////////////////////////////////////////////
         //       FIND OBJECT WITH RELATION
         //////////////////////////////////////////////////////
-        result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.baseURL + "/" + objectId3))
+        result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId3))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
@@ -152,10 +151,10 @@ public class RestTest {
 
         denaObject = new DenaObject();
         denaObject.objectId = objectId3;
-        denaObject.objectURI = "/" + CommonConfig.collectionName + "/" + objectId3;
+        denaObject.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
         denaObject.addProperty("name", "javad");
         denaObject.addProperty("job", "developer");
-        denaObject.relatedObjects = Arrays.asList(new RelatedObject(objectId1, CommonConfig.collectionName), new RelatedObject(objectId2, CommonConfig.collectionName));
+        denaObject.relatedObjects = Arrays.asList(new RelatedObject(objectId1, CommonConfig.COLLECTION_NAME), new RelatedObject(objectId2, CommonConfig.COLLECTION_NAME));
         expectedReturnObject.setDenaObjectList(Collections.singletonList(denaObject));
 
         // check timestamp field of returned object
@@ -168,7 +167,7 @@ public class RestTest {
     public void testFindObjectWhenObjectNotExist() throws Exception {
         String objectId = ObjectId.get().toHexString();
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.baseURL + "/" + objectId))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
