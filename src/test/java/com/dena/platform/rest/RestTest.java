@@ -60,12 +60,14 @@ public class RestTest {
     public void setup() throws IOException {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
 
-        // clean database
-        mongoClient.getDatabase(CommonConfig.DB_NAME).drop();
 
         //////////////////////////////////////////////////////
         //       Initialize database
         //////////////////////////////////////////////////////
+
+        
+        mongoClient.getDatabase(CommonConfig.DB_NAME).drop();
+
         Document document1 = new Document();
 
         document1.put("_id", new ObjectId(objectId1));
