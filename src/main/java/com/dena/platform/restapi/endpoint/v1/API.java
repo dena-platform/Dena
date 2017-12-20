@@ -1,10 +1,10 @@
 package com.dena.platform.restapi.endpoint.v1;
 
+import com.dena.platform.common.exception.ErrorCode;
 import com.dena.platform.core.DenaRequestContext;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.dena.platform.restapi.DenaRestProcessor;
 import com.dena.platform.restapi.exception.DenaRestException.DenaRestExceptionBuilder;
-import com.dena.platform.common.exception.ErrorCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,19 +38,10 @@ public class API {
         return denaRestProcessor.handlePutRequest(denaRequestContext);
     }
 
-    @DeleteMapping(path = "/{app-id}/{type-name}/{object-id}", consumes = MediaType.ALL_VALUE)
+    @DeleteMapping(path = "/{app-id}/{type-name}/{object-id}", consumes = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity deleteObject(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-        try {
-            return denaRestProcessor.handleDeleteObject(denaRequestContext);
-        } catch (DataStoreException ex) {
-            throw DenaRestExceptionBuilder.aDenaRestException()
-                    .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
-                    .withErrorCode(ErrorCode.GENERAL_DATA_STORE_EXCEPTION.getErrorCode())
-                    .addMessageCode(ErrorCode.GENERAL_DATA_STORE_EXCEPTION.getMessageCode(), null)
-                    .withCause(ex.getCause())
-                    .build();
-        }
+        return denaRestProcessor.handleDeleteObject(denaRequestContext);
 
     }
 
@@ -89,7 +80,7 @@ public class API {
 
     @GetMapping(path = {"/{app-id}/{type-name}/{object-id}",
             "/{app-id}/{type-name}/{object-id}/relation/{target-type}"},
-            consumes = MediaType.ALL_VALUE)
+            consumes = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity findObject(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         return denaRestProcessor.handleFindObject(denaRequestContext);
