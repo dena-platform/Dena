@@ -65,7 +65,7 @@ public class RestTest {
         //       Initialize database
         //////////////////////////////////////////////////////
 
-        
+
         mongoClient.getDatabase(CommonConfig.DB_NAME).drop();
 
         Document document1 = new Document();
@@ -114,14 +114,7 @@ public class RestTest {
         //////////////////////////////////////////////////////
         //       FIND OBJECT WITH NO RELATION
         //////////////////////////////////////////////////////
-
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId1))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn();
-
-        String returnContent = result.getResponse().getContentAsString();
-        ExpectedReturnedObject actualReturnObject = createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+        ExpectedReturnedObject actualReturnObject = performFindRequest(objectId1);
 
         ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
         expectedReturnObject.setCount(1L);
@@ -142,13 +135,7 @@ public class RestTest {
         //////////////////////////////////////////////////////
         //       FIND OBJECT WITH RELATION
         //////////////////////////////////////////////////////
-        result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId3))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn();
-
-        returnContent = result.getResponse().getContentAsString();
-        actualReturnObject = createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+        actualReturnObject = performFindRequest(objectId3);
 
         expectedReturnObject = new ExpectedReturnedObject();
         expectedReturnObject.setCount(1L);
@@ -170,15 +157,9 @@ public class RestTest {
 
     @Test
     public void testFindObjectWhenObjectNotExist() throws Exception {
-        String objectId = ObjectId.get().toHexString();
+        String randomObjectId = ObjectId.get().toHexString();
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn();
-
-        String returnContent = result.getResponse().getContentAsString();
-        ExpectedReturnedObject actualReturnObject = createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+        ExpectedReturnedObject actualReturnObject = performFindRequest(randomObjectId);
 
         ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
         expectedReturnObject.setCount(0L);
@@ -188,6 +169,16 @@ public class RestTest {
         assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
+    }
+
+    private ExpectedReturnedObject performFindRequest(String objectId1) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId1))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String returnContent = result.getResponse().getContentAsString();
+        return createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
     }
 
 
