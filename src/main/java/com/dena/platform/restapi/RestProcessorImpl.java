@@ -124,7 +124,11 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String appId = denaRequestContext.getPathVariable(APP_ID);
         List<String> objectId = Arrays.asList(denaRequestContext.getPathVariable(OBJECT_ID).split(","));
 
-        if (CollectionUtils.isNotEmpty(objectId)) {
+        if (CollectionUtils.isEmpty(objectId)) {
+            throw buildException(SC_BAD_REQUEST, ErrorCode.ObjectId_INVALID_EXCEPTION);
+        }
+
+        try {
             long deleteCount = denaDataStore.deleteObjects(appId, typeName, objectId);
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
                     .withCount(deleteCount)
@@ -132,9 +136,10 @@ public class RestProcessorImpl implements DenaRestProcessor {
                     .build();
 
             return ResponseEntity.ok().body(denaResponse);
+        } catch (DenaException ex) {
+            throw buildException(SC_BAD_REQUEST, ex.getErrorCode());
         }
 
-        throw buildException(SC_BAD_REQUEST, ErrorCode.ObjectId_INVALID_EXCEPTION);
     }
 
     @Override
