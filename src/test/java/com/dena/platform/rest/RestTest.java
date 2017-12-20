@@ -171,6 +171,10 @@ public class RestTest {
 
     }
 
+    public void testDeleteObjectWhenObjectExist() throws Exception {
+
+    }
+
     private ExpectedReturnedObject performFindRequest(String objectId1) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId1))
                 .andDo(MockMvcResultHandlers.print())

@@ -33,6 +33,8 @@ public class DenaRestExceptionMapper {
         response.setStatus(ex.getStatusCode());
         if (ex.getCause() != null) {
             log.error("An error occurred invoking a REST service.", ex.getCause());
+        } else {
+            log.error("An error occurred invoking a REST service.", ex);
         }
 
         final Locale locale = ex.getLocale() == null ? Locale.getDefault() : ex.getLocale();
