@@ -182,7 +182,6 @@ public class RestTest {
     }
 
 
-
     @Test
     public void test_DeleteObject_When_Object_Not_Exist() throws Exception {
         String randomObjectId = ObjectId.get().toHexString();
@@ -198,6 +197,22 @@ public class RestTest {
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
+
+    @Test
+    public void test_DeleteRelation_With_Object_When_Object_Exist() throws Exception {
+        ExpectedReturnedObject actualReturnObject = performDeleteRelation(objectId3, CommonConfig.COLLECTION_NAME, objectId1);
+
+        ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+        expectedReturnObject.setCount(3L);
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+
+        // check timestamp field of returned object
+        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+
+    }
+
 
     private ExpectedReturnedObject performFindRequest(String objectId1) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId1))
@@ -218,6 +233,17 @@ public class RestTest {
 
         String returnContent = result.getResponse().getContentAsString();
         return createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+    }
+
+    private ExpectedReturnedObject performDeleteRelation(String objectId1, String typeName, String objectId2) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + objectId1 + "/relation/" + typeName + "/" + objectId2))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String returnContent = result.getResponse().getContentAsString();
+        return createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+
     }
 
 
