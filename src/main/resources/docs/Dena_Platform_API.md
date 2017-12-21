@@ -270,7 +270,7 @@ Return Value:
       }
 
 ----------
-**Delete Relation With Specified Child Objects**
+**Delete Relation With Specified Child Object**
 
 This only delete relation between parent and child and do not remove child.
 
