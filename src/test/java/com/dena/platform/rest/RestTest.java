@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -25,7 +24,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collections;
@@ -203,7 +201,46 @@ public class RestTest {
         /////////////////////////////////////////////
         //            Delete Relation
         /////////////////////////////////////////////
-        ExpectedReturnedObject actualReturnObject = performDeleteRelation(objectId3, CommonConfig.COLLECTION_NAME, objectId1);
+        ExpectedReturnedObject actualReturnObject = performDeleteRelationWithObject(objectId3, CommonConfig.COLLECTION_NAME, objectId1);
+
+        /////////////////////////////////////////////
+        //            Assert Delete Response
+        /////////////////////////////////////////////
+        ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+        expectedReturnObject.setCount(1L);
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+
+        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+
+        /////////////////////////////////////////////
+        //            Check Response Find
+        /////////////////////////////////////////////
+        actualReturnObject = performFindRequest(objectId3);
+        expectedReturnObject = new ExpectedReturnedObject();
+        expectedReturnObject.setCount(1L);
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+
+        DenaObject denaObject = new DenaObject();
+        denaObject.objectId = objectId3;
+        denaObject.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
+        denaObject.addProperty("name", "javad");
+        denaObject.addProperty("job", "developer");
+        denaObject.relatedObjects = Collections.singletonList(new RelatedObject(objectId2, CommonConfig.COLLECTION_NAME));
+        expectedReturnObject.setDenaObjectList(Collections.singletonList(denaObject));
+
+        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+
+    }
+
+    @Test
+    public void test_DeleteRelation_When_Object_Exist() throws Exception {
+        /////////////////////////////////////////////
+        //            Delete Relation
+        /////////////////////////////////////////////
+        ExpectedReturnedObject actualReturnObject = performDeleteRelationWithObject(objectId3, CommonConfig.COLLECTION_NAME, objectId1);
 
         /////////////////////////////////////////////
         //            Assert Delete Response
@@ -259,8 +296,19 @@ public class RestTest {
         return createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
     }
 
-    private ExpectedReturnedObject performDeleteRelation(String objectId1, String typeName, String objectId2) throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + objectId1 + "/relation/" + typeName + "/" + objectId2))
+    private ExpectedReturnedObject performDeleteRelationWithObject(String objectId1, String relationName, String objectId2) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + objectId1 + "/relation/" + relationName + "/" + objectId2))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String returnContent = result.getResponse().getContentAsString();
+        return createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+
+    }
+
+    private ExpectedReturnedObject performDeleteRelation(String objectId1, String relationName) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + objectId1 + "/relation/" + relationName + "/" + objectId2))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
