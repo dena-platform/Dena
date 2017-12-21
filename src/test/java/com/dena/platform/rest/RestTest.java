@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static com.dena.platform.utils.JSONMapper.createJSONFromObject;
 import static com.dena.platform.utils.JSONMapper.createObjectFromJSON;
@@ -37,7 +38,6 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@WebAppConfiguration
 public class RestTest {
 
     private final static Logger log = LoggerFactory.getLogger(RestTest.class);
@@ -57,7 +57,7 @@ public class RestTest {
 
 
     @Before
-    public void setup() throws IOException {
+    public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
 
 
@@ -102,11 +102,6 @@ public class RestTest {
 
     }
 
-
-//    @Test
-//    public void testCreateSingleObject() {
-//
-//    }
 
     @Test
     public void testFindObjectWhenObjectExist() throws Exception {
@@ -171,12 +166,50 @@ public class RestTest {
 
     }
 
-    public void testDeleteObjectWhenObjectExist() throws Exception {
+    @Test
+    public void test_DeleteObjects_When_Object_Exist() throws Exception {
+        ExpectedReturnedObject actualReturnObject = performDeleteRequest(Arrays.asList(objectId1, objectId2, objectId3));
+
+        ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+        expectedReturnObject.setCount(3L);
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+
+        // check timestamp field of returned object
+        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+
+    }
+
+    @Test
+    public void test_DeleteObject_When_Object_Not_Exist() throws Exception {
+        String randomObjectId = ObjectId.get().toHexString();
+        ExpectedReturnedObject actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId));
+
+        ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+        expectedReturnObject.setCount(0L);
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+
+        // check timestamp field of returned object
+        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
 
     private ExpectedReturnedObject performFindRequest(String objectId1) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId1))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String returnContent = result.getResponse().getContentAsString();
+        return createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+    }
+
+    private ExpectedReturnedObject performDeleteRequest(List<String> objectList) throws Exception {
+        String objectIds = String.join(",", objectList);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + objectIds))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();

@@ -239,7 +239,7 @@ Return Value:
 
 Method: DELETE
 
-URL: /v1/<application-id>/<type-names>/<object-id-1=id1>,<object-id-2=id2>
+URL: /v1/<application-id>/<type-names>/<object-id-1,object-id-2>
 
 Request Body: None
 
@@ -271,6 +271,8 @@ Return Value:
 
 ----------
 **Delete Relation With Specified Child Objects**
+
+This only delete relation between parent and child and do not remove child.
 
 Method: DELETE
 

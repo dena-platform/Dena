@@ -2,6 +2,7 @@ package com.dena.platform.restapi.exception;
 
 import com.dena.platform.common.exception.ErrorCode;
 import com.dena.platform.restapi.dto.response.ErrorResponse;
+import com.dena.platform.restapi.dto.response.ErrorResponse.ErrorResponseBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -44,7 +45,7 @@ public class DenaRestExceptionMapper {
                 .map(messageEntry -> messageSource.getMessage(messageEntry.getKey(), messageEntry.getValue(), locale))
                 .collect(Collectors.toList());
 
-        ErrorResponse errorResponse = ErrorResponse.ErrorResponseBuilder.anErrorResponse()
+        ErrorResponse errorResponse = ErrorResponseBuilder.anErrorResponse()
                 .withStatus(ex.getStatusCode())
                 .withErrorCode(ex.getErrorCode())
                 .withMessages(errorMessage)
@@ -68,7 +69,7 @@ public class DenaRestExceptionMapper {
             log.error("An error occurred invoking a REST service.", ex);
         }
 
-        ErrorResponse errorResponse = ErrorResponse.ErrorResponseBuilder.anErrorResponse()
+        ErrorResponse errorResponse = ErrorResponseBuilder.anErrorResponse()
                 .withStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
                 .withErrorCode(ErrorCode.GENERAL.getErrorCode())
                 .withMessages(message)
@@ -91,7 +92,7 @@ public class DenaRestExceptionMapper {
             log.error("An error occurred invoking a REST service.", ex);
         }
 
-        ErrorResponse errorResponse = ErrorResponse.ErrorResponseBuilder.anErrorResponse()
+        ErrorResponse errorResponse = ErrorResponseBuilder.anErrorResponse()
                 .withStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
                 .withErrorCode(ErrorCode.INVALID_MEDIA_TYPE.getErrorCode())
                 .withMessages(message)
