@@ -38,7 +38,7 @@ Return Value:
        "count" : number of created object(s),
        "objects": [
         {
-          "URI":"/<type-names>/<object-id>",
+          "URI":"/<type-name>/<object-id>",
           "object_id": "232342424234",
           "field1": "javad",
           "field2": "developer"
