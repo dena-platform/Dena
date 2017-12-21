@@ -200,18 +200,25 @@ public class RestTest {
 
     @Test
     public void test_DeleteRelation_With_Object_When_Object_Exist() throws Exception {
+        /////////////////////////////////////////////
+        //            Delete Relation
+        /////////////////////////////////////////////
         ExpectedReturnedObject actualReturnObject = performDeleteRelation(objectId3, CommonConfig.COLLECTION_NAME, objectId1);
 
+        /////////////////////////////////////////////
+        //            Assert Delete Response
+        /////////////////////////////////////////////
         ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
-        // check timestamp field of returned object
         assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
-        // check return object
+        /////////////////////////////////////////////
+        //            Check Response Find
+        /////////////////////////////////////////////
         actualReturnObject = performFindRequest(objectId3);
         expectedReturnObject = new ExpectedReturnedObject();
         expectedReturnObject.setCount(1L);
@@ -225,7 +232,6 @@ public class RestTest {
         denaObject.relatedObjects = Collections.singletonList(new RelatedObject(objectId2, CommonConfig.COLLECTION_NAME));
         expectedReturnObject.setDenaObjectList(Collections.singletonList(denaObject));
 
-        // check timestamp field of returned object
         assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
