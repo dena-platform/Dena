@@ -98,22 +98,29 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String typeName2 = denaRequestContext.getPathVariable("type-name-2");
         String objectId2 = denaRequestContext.getPathVariable("object-id-2");
 
-        if (StringUtils.isNotBlank(objectId2)) {
-            long deleteCount = denaDataStore.deleteRelation(appName, appTypeName, objectId, typeName2, objectId2);
-            DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
-                    .withCount(deleteCount)
-                    .withTimestamp(DenaObjectUtils.timeStamp())
-                    .build();
+        try {
+            // delete relation with single object
+            if (StringUtils.isNotBlank(objectId2)) {
+                long deleteCount = denaDataStore.deleteRelation(appName, appTypeName, objectId, typeName2, objectId2);
+                DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
+                        .withCount(deleteCount)
+                        .withTimestamp(DenaObjectUtils.timeStamp())
+                        .build();
 
-            return ResponseEntity.ok().body(denaResponse);
-        } else {
-            long deleteCount = denaDataStore.deleteRelation(appName, appTypeName, objectId, typeName2);
-            DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
-                    .withCount(deleteCount)
-                    .withTimestamp(DenaObjectUtils.timeStamp())
-                    .build();
+                return ResponseEntity.ok().body(denaResponse);
+            }
+            // delete relation with type
+            else {
+                long deleteCount = denaDataStore.deleteRelation(appName, appTypeName, objectId, typeName2);
+                DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
+                        .withCount(deleteCount)
+                        .withTimestamp(DenaObjectUtils.timeStamp())
+                        .build();
 
-            return ResponseEntity.ok().body(denaResponse);
+                return ResponseEntity.ok().body(denaResponse);
+            }
+        } catch (DenaException ex) {
+            throw buildException(SC_BAD_REQUEST, ex.getErrorCode());
         }
 
     }

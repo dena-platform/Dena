@@ -38,8 +38,15 @@ public class API {
         return denaRestProcessor.handlePutRequest(denaRequestContext);
     }
 
-    @DeleteMapping(path = "/{app-id}/{type-name}/{object-id}", consumes = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity deleteObject(HttpServletRequest request) {
+
+    /**
+     * Delete one or many specified objects
+     *
+     * @param request
+     * @return
+     */
+    @DeleteMapping(path = "/{app-id}/{type-name}/{object-id}", consumes = MediaType.ALL_VALUE)
+    public ResponseEntity deleteObjects(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         return denaRestProcessor.handleDeleteObject(denaRequestContext);
 
@@ -48,17 +55,7 @@ public class API {
     @DeleteMapping(path = "/{app-id}/{type-name}/{object-id}/relation/{type-name-2}/{object-id-2}")
     public ResponseEntity deleteRelationWithObjectId(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-        try {
-            return denaRestProcessor.handleDeleteRelation(denaRequestContext);
-
-        } catch (DataStoreException ex) {
-            throw DenaRestExceptionBuilder.aDenaRestException()
-                    .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
-                    .withErrorCode(ErrorCode.GENERAL_DATA_STORE_EXCEPTION.getErrorCode())
-                    .addMessageCode(ErrorCode.GENERAL_DATA_STORE_EXCEPTION.getMessageCode(), null)
-                    .withCause(ex.getCause())
-                    .build();
-        }
+        return denaRestProcessor.handleDeleteRelation(denaRequestContext);
     }
 
     @DeleteMapping(path = "/{app-id}/{type-name}/{object-id}/relation/{type-name-2}")
@@ -80,7 +77,7 @@ public class API {
 
     @GetMapping(path = {"/{app-id}/{type-name}/{object-id}",
             "/{app-id}/{type-name}/{object-id}/relation/{target-type}"},
-            consumes = MediaType.TEXT_PLAIN_VALUE)
+            consumes = MediaType.ALL_VALUE)
     public ResponseEntity findObject(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         return denaRestProcessor.handleFindObject(denaRequestContext);
