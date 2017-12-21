@@ -52,20 +52,17 @@ public class API {
 
     }
 
-    @DeleteMapping(path = "/{app-id}/{type-name}/{object-id}/relation/{type-name-2}/{object-id-2}", consumes = MediaType.ALL_VALUE)
+    @DeleteMapping(path = {
+            "/{app-id}/{type-name}/{object-id}/relation/{type-name-2}/{object-id-2}",
+            "/{app-id}/{type-name}/{object-id}/relation/{type-name-2}"}
+            , consumes = MediaType.ALL_VALUE)
     public ResponseEntity deleteRelationWithObjectId(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         return denaRestProcessor.handleDeleteRelation(denaRequestContext);
     }
 
-    @DeleteMapping(path = "/{app-id}/{type-name}/{object-id}/relation/{type-name-2}")
-    public ResponseEntity deleteRelationWithType(HttpServletRequest request) {
-        DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-        return denaRestProcessor.handleDeleteRelation(denaRequestContext);
-    }
-
-
-    @GetMapping(path = {"/{app-id}/{type-name}/{object-id}",
+    @GetMapping(path = {
+            "/{app-id}/{type-name}/{object-id}",
             "/{app-id}/{type-name}/{object-id}/relation/{target-type}"},
             consumes = MediaType.ALL_VALUE)
     public ResponseEntity findObject(HttpServletRequest request) {
