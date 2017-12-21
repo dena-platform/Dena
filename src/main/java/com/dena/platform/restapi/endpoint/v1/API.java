@@ -52,7 +52,7 @@ public class API {
 
     }
 
-    @DeleteMapping(path = "/{app-id}/{type-name}/{object-id}/relation/{type-name-2}/{object-id-2}")
+    @DeleteMapping(path = "/{app-id}/{type-name}/{object-id}/relation/{type-name-2}/{object-id-2}", consumes = MediaType.ALL_VALUE)
     public ResponseEntity deleteRelationWithObjectId(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         return denaRestProcessor.handleDeleteRelation(denaRequestContext);
@@ -61,17 +61,7 @@ public class API {
     @DeleteMapping(path = "/{app-id}/{type-name}/{object-id}/relation/{type-name-2}")
     public ResponseEntity deleteRelationWithType(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-        try {
-            return denaRestProcessor.handleDeleteRelation(denaRequestContext);
-
-        } catch (DataStoreException ex) {
-            throw DenaRestExceptionBuilder.aDenaRestException()
-                    .withStatusCode(HttpServletResponse.SC_BAD_REQUEST)
-                    .withErrorCode(ErrorCode.GENERAL_DATA_STORE_EXCEPTION.getErrorCode())
-                    .addMessageCode(ErrorCode.GENERAL_DATA_STORE_EXCEPTION.getMessageCode(), null)
-                    .withCause(ex.getCause())
-                    .build();
-        }
+        return denaRestProcessor.handleDeleteRelation(denaRequestContext);
     }
 
 
