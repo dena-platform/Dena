@@ -109,7 +109,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
                 return ResponseEntity.ok().body(denaResponse);
             }
-            // delete relation with type
+            // delete relation
             else {
                 long deleteCount = denaDataStore.deleteRelation(appName, appTypeName, objectId, typeName2);
                 DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
