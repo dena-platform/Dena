@@ -236,7 +236,7 @@ public class RestTest {
     }
 
     @Test
-    public void test_DeleteRelation_When_Object_Exist() throws Exception {
+    public void test_DeleteRelation_When_Exist() throws Exception {
         /////////////////////////////////////////////
         //            Delete Relation
         /////////////////////////////////////////////
@@ -296,8 +296,8 @@ public class RestTest {
         return createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
     }
 
-    private ExpectedReturnedObject performDeleteRelationWithObject(String objectId1, String relationName, String objectId2) throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + objectId1 + "/relation/" + relationName + "/" + objectId2))
+    private ExpectedReturnedObject performDeleteRelationWithObject(String type1, String relationName, String type2) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + type1 + "/relation/" + relationName + "/" + type2))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
@@ -307,8 +307,8 @@ public class RestTest {
 
     }
 
-    private ExpectedReturnedObject performDeleteRelation(String objectId1, String relationName) throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + objectId1 + "/relation/" + relationName + "/" + objectId2))
+    private ExpectedReturnedObject performDeleteRelation(String type1, String relationName) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + type1 + "/relation/" + relationName))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
