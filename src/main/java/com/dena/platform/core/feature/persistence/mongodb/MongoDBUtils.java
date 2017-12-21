@@ -22,6 +22,7 @@ import org.springframework.util.Assert;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -101,17 +102,24 @@ public class MongoDBUtils {
         return updateResult.getModifiedCount();
     }
 
-    public static long deleteRelationWithType(MongoDatabase mongoDatabase, String typeName1, String objectId1, String typeName2) {
-        Document searchDocument = new Document("_id", new ObjectId(objectId1));
+    @SuppressWarnings("unchecked")
+    public static long deleteRelationWithType(MongoDatabase mongoDatabase, String typeName1, String objectId, String typeName2) {
+        Document searchDocument = new Document("_id", new ObjectId(objectId));
         Document update = new Document(typeName2, "");
+        int deleteCount = 0;
+        Optional<Document> document = findDocumentById(mongoDatabase, typeName1, objectId);
+
+        if (document.isPresent()) {
+            deleteCount = ((List<ObjectId>) document.get().get(typeName2)).size();
+        }
 
         UpdateResult updateResult = mongoDatabase
                 .getCollection(typeName1)
                 .updateOne(searchDocument, new Document("$unset", update));
 
 
-        log.info("Updates: [{}] document(s) count", updateResult.getModifiedCount());
-        return updateResult.getModifiedCount();
+        log.info("Updates: [{}] document(s) count", deleteCount);
+        return deleteCount;
     }
 
 

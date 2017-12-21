@@ -236,18 +236,18 @@ public class RestTest {
     }
 
     @Test
-    public void test_DeleteRelation_When_Exist() throws Exception {
+    public void test_DeleteRelation_When_Relation_Exist() throws Exception {
         /////////////////////////////////////////////
         //            Delete Relation
         /////////////////////////////////////////////
-        ExpectedReturnedObject actualReturnObject = performDeleteRelationWithObject(objectId3, CommonConfig.COLLECTION_NAME, objectId1);
+        ExpectedReturnedObject actualReturnObject = performDeleteRelation(objectId3, CommonConfig.COLLECTION_NAME);
 
         /////////////////////////////////////////////
         //            Assert Delete Response
         /////////////////////////////////////////////
         ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
-        expectedReturnObject.setCount(1L);
+        expectedReturnObject.setCount(2L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
         assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
@@ -266,7 +266,6 @@ public class RestTest {
         denaObject.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
         denaObject.addProperty("name", "javad");
         denaObject.addProperty("job", "developer");
-        denaObject.relatedObjects = Collections.singletonList(new RelatedObject(objectId2, CommonConfig.COLLECTION_NAME));
         expectedReturnObject.setDenaObjectList(Collections.singletonList(denaObject));
 
         assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
