@@ -204,8 +204,26 @@ public class RestTest {
 
         ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
-        expectedReturnObject.setCount(3L);
+        expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+
+        // check timestamp field of returned object
+        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+
+        // check return object
+        actualReturnObject = performFindRequest(objectId3);
+        expectedReturnObject = new ExpectedReturnedObject();
+        expectedReturnObject.setCount(1L);
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+
+        DenaObject denaObject = new DenaObject();
+        denaObject.objectId = objectId3;
+        denaObject.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
+        denaObject.addProperty("name", "javad");
+        denaObject.addProperty("job", "developer");
+        denaObject.relatedObjects = Collections.singletonList(new RelatedObject(objectId2, CommonConfig.COLLECTION_NAME));
+        expectedReturnObject.setDenaObjectList(Collections.singletonList(denaObject));
 
         // check timestamp field of returned object
         assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
