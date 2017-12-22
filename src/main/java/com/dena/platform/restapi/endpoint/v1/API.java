@@ -1,17 +1,13 @@
 package com.dena.platform.restapi.endpoint.v1;
 
-import com.dena.platform.common.exception.ErrorCode;
 import com.dena.platform.core.DenaRequestContext;
-import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.dena.platform.restapi.DenaRestProcessor;
-import com.dena.platform.restapi.exception.DenaRestException.DenaRestExceptionBuilder;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
@@ -35,7 +31,7 @@ public class API {
     @PutMapping(path = "/{app-id}/{type-name}")
     public ResponseEntity updateObjects(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-        return denaRestProcessor.handlePutRequest(denaRequestContext);
+        return denaRestProcessor.handleUpdateObject(denaRequestContext);
     }
 
 
