@@ -282,25 +282,35 @@ public class RestTest {
         //            Update Request
         /////////////////////////////////////////////
         TestRequestObject requestObject = new TestRequestObject();
-        requestObject.setObjectId(objectId1);
+        requestObject.setObjectId(objectId3);
         requestObject.addProperty("name", "new name");
         requestObject.addProperty("job", "new developer");
         requestObject.addProperty("new field", "new value");
+        String newObjectId = ObjectId.get().toString();
+        requestObject.getRelatedObjects().add(new TestRelatedObject(newObjectId, CommonConfig.COLLECTION_NAME));
 
         ExpectedReturnedObject actualReturnObject = performUpdateRelation(createJSONFromObject(requestObject));
 
         /////////////////////////////////////////////
-        //            Assert Update Request
+        //            Assert Update Response
         /////////////////////////////////////////////
+        TestObjectResponse testObjectResponse = new TestObjectResponse();
+        testObjectResponse.objectId = "5a206dafcc2a9b26e483d663";
+        testObjectResponse.objectURI = "/denaTestCollection/5a206dafcc2a9b26e483d663";
+        testObjectResponse.getAllFields().put("name", "new name");
+        testObjectResponse.getAllFields().put("job", "new developer");
+        testObjectResponse.getAllFields().put("new field", "new value");
+        testObjectResponse.testRelatedObjects
+
+
         ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+        expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
 
         assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
-
-
     }
 
 
