@@ -56,7 +56,6 @@ public class RestProcessorImpl implements DenaRestProcessor {
             throw buildBadRequestException(ex.getErrorCode());
         }
 
-
         DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
                 .withObjectResponseList(createObjectResponse(denaObjects, appTypeName))
                 .withCount(denaObjects.size())
@@ -120,7 +119,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
                 return ResponseEntity.ok().body(denaResponse);
             }
         } catch (DenaException ex) {
-            throw buildException(SC_BAD_REQUEST, ex.getErrorCode());
+            throw buildBadRequestException(ex.getErrorCode());
         }
 
     }
@@ -215,12 +214,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     }
 
     private DenaRestException buildBadRequestException(ErrorCode errorCode) {
-        return DenaRestExceptionBuilder.aDenaRestException()
-                .withStatusCode(SC_BAD_REQUEST)
-                .withErrorCode(errorCode.getErrorCode())
-                .addMessageCode(errorCode.getMessageCode(), null)
-                .build();
-
+        return buildException(SC_BAD_REQUEST, errorCode);
     }
 
     private DenaPager constructPager(DenaRequestContext denaRequestContext) {
