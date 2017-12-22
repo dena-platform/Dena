@@ -123,8 +123,9 @@ Request Body:
 
     {
       "object_id":"2323424242001",
-      "field1": "javad",
-      "field2": "developer",
+      "field3": "javad",
+      "field4": "developer",
+      "new_field":"field",
       "related_objects": [
     	 {
       	  "id": "123123",
@@ -141,7 +142,7 @@ Return Value:
   	   "objects": [
          {
            "object_id":"232342424234",
-           "field3": "new value",
+           "field3": "javad",
            "field4": "developer",
            "new_field":"field" 
          }

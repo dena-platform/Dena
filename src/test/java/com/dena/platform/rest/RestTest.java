@@ -1,9 +1,11 @@
 package com.dena.platform.rest;
 
-import com.dena.platform.rest.dto.DenaObject;
+import com.dena.platform.rest.dto.TestObjectResponse;
 import com.dena.platform.rest.dto.ExpectedReturnedObject;
-import com.dena.platform.rest.dto.RelatedObject;
+import com.dena.platform.rest.dto.TestRelatedObject;
+import com.dena.platform.rest.dto.TestRequestObject;
 import com.dena.platform.utils.CommonConfig;
+import com.dena.platform.utils.JSONMapper;
 import com.mongodb.MongoClient;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -14,6 +16,7 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -113,12 +116,12 @@ public class RestTest {
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
-        DenaObject denaObject = new DenaObject();
-        denaObject.objectId = objectId1;
-        denaObject.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId1;
-        denaObject.addProperty("name", "javad");
-        denaObject.addProperty("job", "developer");
-        expectedReturnObject.setDenaObjectList(Collections.singletonList(denaObject));
+        TestObjectResponse testObjectResponse = new TestObjectResponse();
+        testObjectResponse.objectId = objectId1;
+        testObjectResponse.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId1;
+        testObjectResponse.addProperty("name", "javad");
+        testObjectResponse.addProperty("job", "developer");
+        expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
 
         // check timestamp field of returned object
         assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
@@ -134,13 +137,13 @@ public class RestTest {
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
-        denaObject = new DenaObject();
-        denaObject.objectId = objectId3;
-        denaObject.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
-        denaObject.addProperty("name", "javad");
-        denaObject.addProperty("job", "developer");
-        denaObject.relatedObjects = Arrays.asList(new RelatedObject(objectId1, CommonConfig.COLLECTION_NAME), new RelatedObject(objectId2, CommonConfig.COLLECTION_NAME));
-        expectedReturnObject.setDenaObjectList(Collections.singletonList(denaObject));
+        testObjectResponse = new TestObjectResponse();
+        testObjectResponse.objectId = objectId3;
+        testObjectResponse.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
+        testObjectResponse.addProperty("name", "javad");
+        testObjectResponse.addProperty("job", "developer");
+        testObjectResponse.testRelatedObjects = Arrays.asList(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME), new TestRelatedObject(objectId2, CommonConfig.COLLECTION_NAME));
+        expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
 
         // check timestamp field of returned object
         assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
@@ -222,13 +225,13 @@ public class RestTest {
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
-        DenaObject denaObject = new DenaObject();
-        denaObject.objectId = objectId3;
-        denaObject.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
-        denaObject.addProperty("name", "javad");
-        denaObject.addProperty("job", "developer");
-        denaObject.relatedObjects = Collections.singletonList(new RelatedObject(objectId2, CommonConfig.COLLECTION_NAME));
-        expectedReturnObject.setDenaObjectList(Collections.singletonList(denaObject));
+        TestObjectResponse testObjectResponse = new TestObjectResponse();
+        testObjectResponse.objectId = objectId3;
+        testObjectResponse.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
+        testObjectResponse.addProperty("name", "javad");
+        testObjectResponse.addProperty("job", "developer");
+        testObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(objectId2, CommonConfig.COLLECTION_NAME));
+        expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
 
         assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
@@ -261,15 +264,42 @@ public class RestTest {
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
-        DenaObject denaObject = new DenaObject();
-        denaObject.objectId = objectId3;
-        denaObject.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
-        denaObject.addProperty("name", "javad");
-        denaObject.addProperty("job", "developer");
-        expectedReturnObject.setDenaObjectList(Collections.singletonList(denaObject));
+        TestObjectResponse testObjectResponse = new TestObjectResponse();
+        testObjectResponse.objectId = objectId3;
+        testObjectResponse.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
+        testObjectResponse.addProperty("name", "javad");
+        testObjectResponse.addProperty("job", "developer");
+        expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
 
         assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+
+    }
+
+    @Test
+    public void test_UpdateObject() throws Exception {
+        /////////////////////////////////////////////
+        //            Update Request
+        /////////////////////////////////////////////
+        TestRequestObject requestObject = new TestRequestObject();
+        requestObject.setObjectId(objectId1);
+        requestObject.addProperty("name", "new name");
+        requestObject.addProperty("job", "new developer");
+        requestObject.addProperty("new field", "new value");
+
+        ExpectedReturnedObject actualReturnObject = performUpdateRelation(createJSONFromObject(requestObject));
+
+        /////////////////////////////////////////////
+        //            Assert Update Request
+        /////////////////////////////////////////////
+        ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+        expectedReturnObject.setCount(1L);
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+
+        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+
 
     }
 
@@ -308,6 +338,19 @@ public class RestTest {
 
     private ExpectedReturnedObject performDeleteRelation(String type1, String relationName) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + type1 + "/relation/" + relationName))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String returnContent = result.getResponse().getContentAsString();
+        return createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+
+    }
+
+    private ExpectedReturnedObject performUpdateRelation(String body) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(CommonConfig.BASE_URL)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(body))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();

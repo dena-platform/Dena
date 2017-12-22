@@ -17,7 +17,7 @@ import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE;
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 @JsonAutoDetect(fieldVisibility = NONE, getterVisibility = NONE, setterVisibility = NONE)
-public class DenaObject {
+public class TestObjectResponse {
     private Map<String, Object> fields = new LinkedHashMap<>();
 
     @JsonProperty("object_id")
@@ -27,7 +27,7 @@ public class DenaObject {
     public String objectURI;
 
     @JsonProperty(value = "related_objects")
-    public List<RelatedObject> relatedObjects = new ArrayList<>();
+    public List<TestRelatedObject> testRelatedObjects = new ArrayList<>();
 
     @JsonAnyGetter
     public Map<String, Object> getAllFields() {
@@ -47,7 +47,7 @@ public class DenaObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        DenaObject that = (DenaObject) o;
+        TestObjectResponse that = (TestObjectResponse) o;
 
         if (fields != null ? !fields.equals(that.fields) : that.fields != null) return false;
         return objectId.equals(that.objectId);
