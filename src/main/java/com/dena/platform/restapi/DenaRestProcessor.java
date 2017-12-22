@@ -12,7 +12,7 @@ public interface DenaRestProcessor {
 
     ResponseEntity handleCreateObject(DenaRequestContext denaRequestContext);
 
-    ResponseEntity handlePutRequest(DenaRequestContext denaRequestContext);
+    ResponseEntity handleUpdateObject(DenaRequestContext denaRequestContext);
 
     ResponseEntity handleDeleteRelation(DenaRequestContext denaRequestContext);
 

@@ -65,9 +65,8 @@ public class RestProcessorImpl implements DenaRestProcessor {
         return ResponseEntity.ok().body(denaResponse);
     }
 
-    // Update object(s)
     @Override
-    public ResponseEntity handlePutRequest(DenaRequestContext denaRequestContext) {
+    public ResponseEntity handleUpdateObject(DenaRequestContext denaRequestContext) {
         String requestBody = denaRequestContext.getRequestBody();
         String appTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String appName = denaRequestContext.getPathVariable(APP_ID);
