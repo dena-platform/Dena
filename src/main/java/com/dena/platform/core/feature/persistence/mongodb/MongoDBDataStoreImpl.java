@@ -63,7 +63,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public void updateObjects(List<DenaObject> denaObjects, final String appName, final String typeName) throws DataStoreException {
+    public void updateObjects(List<DenaObject> denaObjects, final String appName, final String typeName) {
         List<Document> documentList = new ArrayList<>();
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
