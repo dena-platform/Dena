@@ -109,7 +109,7 @@ if there is a new field or new relation(new type) add to existing fields or rela
 
 If relation with same type exist then replace with new specified relation. 
 
-return updated object(s) with all field except its references to other objects. 
+return updated object(s) with only updated fields and relation. 
 
 Method: PUT
 
@@ -157,7 +157,7 @@ if there is a new field or new relation(new type) add to existing fields or rela
 
 If relation with same type exist then replace with new specified relation. 
 
-return updated object(s) with all field except its reference to other object.
+return updated object(s) with only updated fields and relation.
 
 Method: PUT
 

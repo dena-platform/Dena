@@ -283,7 +283,6 @@ public class RestTest {
         /////////////////////////////////////////////
         TestRequestObject requestObject = new TestRequestObject();
         requestObject.setObjectId(objectId3);
-        requestObject.addProperty("name", "new name");
         requestObject.addProperty("job", "new developer");
         requestObject.addProperty("new field", "new value");
         String newObjectId = ObjectId.get().toString();
@@ -297,10 +296,9 @@ public class RestTest {
         TestObjectResponse testObjectResponse = new TestObjectResponse();
         testObjectResponse.objectId = "5a206dafcc2a9b26e483d663";
         testObjectResponse.objectURI = "/denaTestCollection/5a206dafcc2a9b26e483d663";
-        testObjectResponse.getAllFields().put("name", "new name");
         testObjectResponse.getAllFields().put("job", "new developer");
         testObjectResponse.getAllFields().put("new field", "new value");
-        testObjectResponse.testRelatedObjects
+        testObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(newObjectId, CommonConfig.COLLECTION_NAME));
 
 
         ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
