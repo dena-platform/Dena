@@ -11,17 +11,17 @@ import java.util.Optional;
  */
 
 public interface DenaDataStore {
-    void storeObjects(List<DenaObject> denaObject, String appName, String typeName) throws DataStoreException;
+    void storeObjects(List<DenaObject> denaObject, String appName, String typeName);
 
-    void updateObjects(List<DenaObject> denaObject, String appName, String typeName) throws DataStoreException;
+    void updateObjects(List<DenaObject> denaObject, String appName, String typeName);
 
-    long deleteObjects(String appName, String typeName, List<String> objectIds) throws DataStoreException;
+    long deleteObjects(String appName, String typeName, List<String> objectIds);
 
     long deleteRelation(String appName, String typeName1, String objectId1, String typeName2, String objectId2);
 
     long deleteRelation(String appName, String typeName1, String objectId1, String typeName2);
 
-    Optional<DenaObject> findObject(String appName, String typeName, String objectId) throws DataStoreException;
+    Optional<DenaObject> findObject(String appName, String typeName, String objectId);
 
     DenaObject findObjectRelation(String appName, String parentType, String objectId, String targetType, DenaPager denaPager);
 }
