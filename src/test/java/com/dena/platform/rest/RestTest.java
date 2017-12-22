@@ -202,12 +202,12 @@ public class RestTest {
     @Test
     public void test_DeleteRelation_With_Object_When_Object_Exist() throws Exception {
         /////////////////////////////////////////////
-        //            Delete Relation
+        //            Send Delete Object
         /////////////////////////////////////////////
         ExpectedReturnedObject actualReturnObject = performDeleteRelationWithObject(objectId3, CommonConfig.COLLECTION_NAME, objectId1);
 
         /////////////////////////////////////////////
-        //            Assert Delete Response
+        //            Assert Delete Object
         /////////////////////////////////////////////
         ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
@@ -241,12 +241,12 @@ public class RestTest {
     @Test
     public void test_DeleteRelation_When_Relation_Exist() throws Exception {
         /////////////////////////////////////////////
-        //            Delete Relation
+        //            Send Delete Relation
         /////////////////////////////////////////////
         ExpectedReturnedObject actualReturnObject = performDeleteRelation(objectId3, CommonConfig.COLLECTION_NAME);
 
         /////////////////////////////////////////////
-        //            Assert Delete Response
+        //            Assert Delete Relation
         /////////////////////////////////////////////
         ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
@@ -323,7 +323,7 @@ public class RestTest {
         ExpectedReturnedObject actualReturnObject = performCreateObject(createJSONFromObject(requestObject));
 
         /////////////////////////////////////////////
-        //            Assert Update Response
+        //            Assert Create Response
         /////////////////////////////////////////////
         TestObjectResponse testObjectResponse = new TestObjectResponse();
         testObjectResponse.getAllFields().put("job", "new developer");
