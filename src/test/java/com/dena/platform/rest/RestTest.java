@@ -5,7 +5,6 @@ import com.dena.platform.rest.dto.ExpectedReturnedObject;
 import com.dena.platform.rest.dto.TestRelatedObject;
 import com.dena.platform.rest.dto.TestRequestObject;
 import com.dena.platform.utils.CommonConfig;
-import com.dena.platform.utils.JSONMapper;
 import com.mongodb.MongoClient;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -13,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -279,7 +279,7 @@ public class RestTest {
     @Test
     public void test_UpdateObject() throws Exception {
         /////////////////////////////////////////////
-        //            Update Request
+        //           Send Update Object Request
         /////////////////////////////////////////////
         TestRequestObject requestObject = new TestRequestObject();
         requestObject.setObjectId(objectId3);
@@ -288,7 +288,7 @@ public class RestTest {
         String newObjectId = ObjectId.get().toString();
         requestObject.getRelatedObjects().add(new TestRelatedObject(newObjectId, CommonConfig.COLLECTION_NAME));
 
-        ExpectedReturnedObject actualReturnObject = performUpdateRelation(createJSONFromObject(requestObject));
+        ExpectedReturnedObject actualReturnObject = performUpdateObject(createJSONFromObject(requestObject));
 
         /////////////////////////////////////////////
         //            Assert Update Response
@@ -304,11 +304,41 @@ public class RestTest {
         ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(1L);
-        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
 
         assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+    }
+
+    @Test
+    public void test_CreateObject() throws Exception {
+        /////////////////////////////////////////////
+        //           Send Create Object Request
+        /////////////////////////////////////////////
+        TestRequestObject requestObject = new TestRequestObject();
+        requestObject.addProperty("job", "new developer");
+        requestObject.addProperty("name", "developer");
+        requestObject.getRelatedObjects().add(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
+
+        ExpectedReturnedObject actualReturnObject = performCreateObject(createJSONFromObject(requestObject));
+
+        /////////////////////////////////////////////
+        //            Assert Update Response
+        /////////////////////////////////////////////
+        TestObjectResponse testObjectResponse = new TestObjectResponse();
+        testObjectResponse.getAllFields().put("job", "new developer");
+        testObjectResponse.getAllFields().put("name", "developer");
+        testObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
+
+
+        ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+        expectedReturnObject.setCount(1L);
+        expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
+
+        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
+
     }
 
 
@@ -355,8 +385,21 @@ public class RestTest {
 
     }
 
-    private ExpectedReturnedObject performUpdateRelation(String body) throws Exception {
+    private ExpectedReturnedObject performUpdateObject(String body) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(CommonConfig.BASE_URL)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(body))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String returnContent = result.getResponse().getContentAsString();
+        return createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+
+    }
+
+    private ExpectedReturnedObject performCreateObject(String body) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(body))
                 .andDo(MockMvcResultHandlers.print())

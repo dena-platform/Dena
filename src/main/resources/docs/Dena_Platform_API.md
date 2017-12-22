@@ -42,7 +42,12 @@ Return Value:
           "object_id": "232342424234",
           "field1": "javad",
           "field2": "developer"
-          
+          "related_objects": [
+    	       {
+      	       "id": "123123",
+      	       "type": "denaObjects"
+    	       }
+          ]          
         }
        ] 
       }
@@ -86,14 +91,24 @@ Return Value:
           "URI":"/<type-names>/<object-id>",
           "object_id": "232342424234",
           "field1": "javad",
-          "field2": "developer"
-          
+          "field2": "developer",
+          "related_objects": [
+    	       {
+      	       "id": "123123",
+      	       "type": "denaObjects"
+    	       }
         },
         {
           "URI":"/<type-names>/<object-id>",
           "object_id": "232342424234",
           "field1": "ali",
-          "field2": "developer"
+          "field2": "developer",
+          "related_objects": [
+    	       {
+      	       "id": "43345",
+      	       "type": "denaObjects"
+    	       }
+
           
         }
        ] 
@@ -141,7 +156,7 @@ Return Value:
        "count" : number of updated object(s),
   	   "objects": [
          {
-           "object_id":"232342424234",
+           "object_id":"2323424242001",
            "field3": "javad",
            "field4": "developer",
            "new_field":"field" 
