@@ -103,7 +103,6 @@ public class RestTest {
 
     }
 
-
     @Test
     public void testFindObjectWhenObjectExist() throws Exception {
 
