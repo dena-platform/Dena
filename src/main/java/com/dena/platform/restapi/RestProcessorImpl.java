@@ -139,7 +139,6 @@ public class RestProcessorImpl implements DenaRestProcessor {
                     .withCount(deleteCount)
                     .withTimestamp(DenaObjectUtils.timeStamp())
                     .build();
-
             return ResponseEntity.ok().body(denaResponse);
         } catch (DenaException ex) {
             throw buildException(SC_BAD_REQUEST, ex.getErrorCode());
