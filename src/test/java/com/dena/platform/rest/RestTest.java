@@ -1,7 +1,7 @@
 package com.dena.platform.rest;
 
-import com.dena.platform.rest.dto.TestObjectResponse;
 import com.dena.platform.rest.dto.ExpectedReturnedObject;
+import com.dena.platform.rest.dto.TestObjectResponse;
 import com.dena.platform.rest.dto.TestRelatedObject;
 import com.dena.platform.rest.dto.TestRequestObject;
 import com.dena.platform.utils.CommonConfig;
@@ -12,7 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
-import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -66,7 +65,6 @@ public class RestTest {
         //       Initialize database
         //////////////////////////////////////////////////////
 
-
         mongoClient.getDatabase(CommonConfig.DB_NAME).drop();
 
         Document document1 = new Document();
@@ -104,39 +102,21 @@ public class RestTest {
     }
 
     @Test
-    public void testFindObjectWhenObjectExist() throws Exception {
+    public void test_FindObject_When_Object_Exist() throws Exception {
 
-        //////////////////////////////////////////////////////
-        //       FIND OBJECT WITH NO RELATION
-        //////////////////////////////////////////////////////
-        ExpectedReturnedObject actualReturnObject = performFindRequest(objectId1);
+        /////////////////////////////////////////////
+        //            Send Find Object Request
+        /////////////////////////////////////////////
+        ExpectedReturnedObject actualReturnObject = performFindRequest(objectId3);
 
         ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
+        /////////////////////////////////////////////
+        //            Assert Found Object
+        /////////////////////////////////////////////
         TestObjectResponse testObjectResponse = new TestObjectResponse();
-        testObjectResponse.objectId = objectId1;
-        testObjectResponse.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId1;
-        testObjectResponse.addProperty("name", "javad");
-        testObjectResponse.addProperty("job", "developer");
-        expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
-
-        // check timestamp field of returned object
-        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
-        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
-
-
-        //////////////////////////////////////////////////////
-        //       FIND OBJECT WITH RELATION
-        //////////////////////////////////////////////////////
-        actualReturnObject = performFindRequest(objectId3);
-
-        expectedReturnObject = new ExpectedReturnedObject();
-        expectedReturnObject.setCount(1L);
-        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
-
-        testObjectResponse = new TestObjectResponse();
         testObjectResponse.objectId = objectId3;
         testObjectResponse.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
         testObjectResponse.addProperty("name", "javad");
@@ -151,7 +131,7 @@ public class RestTest {
     }
 
     @Test
-    public void test_FindObject_When_ObjectNotExist() throws Exception {
+    public void test_FindObject_When_Object_Not_Exist() throws Exception {
         String randomObjectId = ObjectId.get().toHexString();
 
         ExpectedReturnedObject actualReturnObject = performFindRequest(randomObjectId);

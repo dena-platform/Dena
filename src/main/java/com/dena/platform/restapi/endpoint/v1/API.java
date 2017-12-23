@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 @RestController
-@RequestMapping(value = API.API_PATH, produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = API.API_PATH, produces = {MediaType.APPLICATION_JSON_VALUE})
 public class API {
 
     public final static String API_PATH = "/v1/";
@@ -22,13 +22,13 @@ public class API {
     private DenaRestProcessor denaRestProcessor;
 
 
-    @PostMapping(path = "/{app-id}/{type-name}")
+    @PostMapping(path = "/{app-id}/{type-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity createObjects(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         return denaRestProcessor.handleCreateObject(denaRequestContext);
     }
 
-    @PutMapping(path = "/{app-id}/{type-name}")
+    @PutMapping(path = "/{app-id}/{type-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity updateObjects(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         return denaRestProcessor.handleUpdateObject(denaRequestContext);
@@ -59,8 +59,7 @@ public class API {
 
     @GetMapping(path = {
             "/{app-id}/{type-name}/{object-id}",
-            "/{app-id}/{type-name}/{object-id}/relation/{target-type}"},
-            consumes = MediaType.ALL_VALUE)
+            "/{app-id}/{type-name}/{object-id}/relation/{target-type}"})
     public ResponseEntity findObject(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         return denaRestProcessor.handleFindObject(denaRequestContext);
