@@ -151,7 +151,7 @@ public class RestTest {
     }
 
     @Test
-    public void testFindObjectWhenObjectNotExist() throws Exception {
+    public void test_FindObject_When_ObjectNotExist() throws Exception {
         String randomObjectId = ObjectId.get().toHexString();
 
         ExpectedReturnedObject actualReturnObject = performFindRequest(randomObjectId);
