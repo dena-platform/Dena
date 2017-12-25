@@ -11,7 +11,7 @@ import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse.DenaResponseBuilder;
-import com.dena.platform.restapi.dto.response.ObjectResponse;
+import com.dena.platform.restapi.dto.response.DenaObjectResponse;
 import com.dena.platform.restapi.exception.DenaRestException;
 import com.dena.platform.restapi.exception.DenaRestException.DenaRestExceptionBuilder;
 import org.apache.commons.collections4.CollectionUtils;
@@ -158,9 +158,10 @@ public class RestProcessorImpl implements DenaRestProcessor {
         try {
             // find single object by id
             if (StringUtils.isBlank(targetType)) {
-                Optional<DenaObject> denaObject = denaDataStore.findObject(appId, typeName, objectId);
-                if (denaObject.isPresent()) {
-                    resultObject = Collections.singletonList(denaObject.get());
+                DenaObject denaObject = denaDataStore.findObject(appId, typeName, objectId);
+
+                if (denaObject != null) {
+                    resultObject = Collections.singletonList(denaObject);
                     denaResponse = makeDenaResponse(1L, createObjectResponse(resultObject, typeName));
                 } else {
                     denaResponse = makeDenaResponse(0L, null);
@@ -188,19 +189,19 @@ public class RestProcessorImpl implements DenaRestProcessor {
     }
 
 
-    private List<ObjectResponse> createObjectResponse(List<DenaObject> denaObjects, String typeName) {
-        List<ObjectResponse> objectResponses = new ArrayList<>();
+    private List<DenaObjectResponse> createObjectResponse(List<DenaObject> denaObjects, String typeName) {
+        List<DenaObjectResponse> denaObjectResponseRespons = new ArrayList<>();
         denaObjects.forEach(denaObject -> {
-            ObjectResponse objectResponse = new ObjectResponse();
+            DenaObjectResponse objectResponse = new DenaObjectResponse();
             objectResponse.setObjectId(denaObject.getObjectId());
             objectResponse.setFields(denaObject.getFields());
             objectResponse.setObjectURI(DenaObjectUtils.getURIForResource(typeName, objectResponse.getObjectId()));
             objectResponse.setRelatedObjects(denaObject.getRelatedObjects());
 
-            objectResponses.add(objectResponse);
+            denaObjectResponseRespons.add(objectResponse);
         });
 
-        return objectResponses;
+        return denaObjectResponseRespons;
     }
 
     private DenaRestException buildException(final int statusCode, ErrorCode errorCode) {
@@ -234,10 +235,10 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
     }
 
-    private DenaResponse makeDenaResponse(long count, List<ObjectResponse> objectResponseList) {
+    private DenaResponse makeDenaResponse(long count, List<DenaObjectResponse> denaObjectResponseList) {
         return DenaResponseBuilder.aDenaResponse()
                 .withCount(count)
-                .withObjectResponseList(objectResponseList)
+                .withObjectResponseList(denaObjectResponseList)
                 .withTimestamp(DenaObjectUtils.timeStamp())
                 .build();
 

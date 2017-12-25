@@ -12,7 +12,7 @@ import java.util.*;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class ObjectResponse {
+public class DenaObjectResponse {
     private Map<String, Object> fields = new LinkedHashMap<>();
 
     @JsonProperty(value = "related_objects")
