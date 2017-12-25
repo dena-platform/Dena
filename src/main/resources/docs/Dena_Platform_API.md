@@ -398,7 +398,7 @@ Return Value:
 Suppose we have relation between two object for example in many-many or one-many relation and we want to retrieve related object. in this case we want only get 
 a portion of related object not all (because of too many object) so we use paging.
 
-Consider following Pseudocode:
+Consider following Pseudo-Code:
 
     User 1<-->* Transaction
     User user=findUser(userId)
