@@ -174,14 +174,13 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     public DenaObject findObjectRelation(String appName, String parentType, String objectId, String targetType, DenaPager denaPager) {
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
-            DenaObject denaObject = new DenaObject();
-
             Optional<Document> parentDocument = MongoDBUtils.findDocumentById(mongoDatabase, parentType, objectId);
 
             if (!parentDocument.isPresent()) {
-                return denaObject;
+                return null;
             }
 
+            DenaObject denaObject = new DenaObject();
             List<Document> relatedDocuments = MongoDBUtils.findRelatedDocument(mongoDatabase, parentDocument.get(), targetType, denaPager);
 
             relatedDocuments.forEach(document -> {

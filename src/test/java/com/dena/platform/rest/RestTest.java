@@ -131,6 +131,22 @@ public class RestTest {
     }
 
     @Test
+    public void test_FindRelationObject() throws Exception {
+        String randomObjectId = ObjectId.get().toHexString();
+
+        ExpectedReturnedObject actualReturnObject = performFindRequest(randomObjectId);
+
+        ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
+        expectedReturnObject.setCount(0L);
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+
+        // check timestamp field of returned object
+        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+
+    }
+
+    @Test
     public void test_FindObject_When_Object_Not_Exist() throws Exception {
         String randomObjectId = ObjectId.get().toHexString();
 
@@ -145,6 +161,8 @@ public class RestTest {
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
+
+
 
     @Test
     public void test_DeleteObjects_When_Object_Exist() throws Exception {
