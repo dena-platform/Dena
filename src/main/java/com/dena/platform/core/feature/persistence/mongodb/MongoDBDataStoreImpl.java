@@ -136,10 +136,9 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
             Optional<Document> document = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId);
             if (!document.isPresent()) {
-                return denaObject;
+                return null;
             }
 
-            denaObject = new DenaObject();
             for (Map.Entry<String, Object> entry : document.get().entrySet()) {
                 if (entry.getValue() instanceof ArrayList) {
                     // is type relation?

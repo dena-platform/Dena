@@ -25,7 +25,7 @@ public class DenaResponse {
     private Long page;
 
     @JsonProperty("objects")
-    private List<ObjectResponse> objectResponseList = new ArrayList<>();
+    private List<DenaObjectResponse> denaObjectResponseList = new ArrayList<>();
 
     public Long getTimestamp() {
         return timestamp;
@@ -43,8 +43,8 @@ public class DenaResponse {
         this.count = count;
     }
 
-    public void setObjectResponseList(List<ObjectResponse> objectResponseList) {
-        this.objectResponseList = objectResponseList;
+    public void setDenaObjectResponseList(List<DenaObjectResponse> denaObjectResponseList) {
+        this.denaObjectResponseList = denaObjectResponseList;
     }
 
     public void setTotalCount(Long totalCount) {
@@ -60,7 +60,7 @@ public class DenaResponse {
         private Long count;
         private Long totalCount;
         private Long page;
-        private List<ObjectResponse> objectResponseList = new ArrayList<>();
+        private List<DenaObjectResponse> denaObjectResponseList = new ArrayList<>();
 
         private DenaResponseBuilder() {
         }
@@ -84,8 +84,8 @@ public class DenaResponse {
             return this;
         }
 
-        public DenaResponseBuilder withObjectResponseList(List<ObjectResponse> objectResponseList) {
-            this.objectResponseList = objectResponseList;
+        public DenaResponseBuilder withObjectResponseList(List<DenaObjectResponse> denaObjectResponseList) {
+            this.denaObjectResponseList = denaObjectResponseList;
             return this;
         }
 
@@ -103,7 +103,7 @@ public class DenaResponse {
             DenaResponse denaResponse = new DenaResponse();
             denaResponse.setTimestamp(timestamp);
             denaResponse.setCount(count);
-            denaResponse.setObjectResponseList(objectResponseList);
+            denaResponse.setDenaObjectResponseList(denaObjectResponseList);
             denaResponse.setTotalCount(totalCount);
             denaResponse.setPage(page);
             return denaResponse;
