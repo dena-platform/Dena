@@ -129,40 +129,41 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Optional<DenaObject> findObject(String appName, String typeName, String objectId) throws DataStoreException {
+    public DenaObject findObject(String appName, String typeName, String objectId) throws DataStoreException {
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
-            DenaObject denaObject = null;
+            DenaObject denaObject = new DenaObject();
 
             Optional<Document> document = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId);
-            if (document.isPresent()) {
-                denaObject = new DenaObject();
-                for (Map.Entry<String, Object> entry : document.get().entrySet()) {
-                    if (entry.getValue() instanceof ArrayList) {
-                        // is type relation?
-                        if (((ArrayList) entry.getValue()).size() > 0 && ((ArrayList) entry.getValue()).get(0) instanceof ObjectId) {
-                            ArrayList<ObjectId> objectIdList = (ArrayList<ObjectId>) entry.getValue();
-                            List<String> idString = objectIdList.stream()
-                                    .map(Object::toString)
-                                    .collect(Collectors.toList());
-
-                            List<RelatedObject> relatedObjectList = convertToRelatedObject(entry.getKey(), idString);
-                            denaObject.getRelatedObjects().addAll(relatedObjectList);
-                        }
-                        // this type is normal array
-                        else {
-                            denaObject.addProperty(entry.getKey(), entry.getValue());
-                        }
-                    } else if (entry.getKey().equals(MongoDBUtils.ID)) {  // type is id
-                        denaObject.setObjectId(entry.getValue().toString());
-                    } else { // normal key -> value
-                        denaObject.addProperty(entry.getKey(), entry.getValue());
-                    }
-                }
-
+            if (!document.isPresent()) {
+                return denaObject;
             }
 
-            return Optional.ofNullable(denaObject);
+            denaObject = new DenaObject();
+            for (Map.Entry<String, Object> entry : document.get().entrySet()) {
+                if (entry.getValue() instanceof ArrayList) {
+                    // is type relation?
+                    if (((ArrayList) entry.getValue()).size() > 0 && ((ArrayList) entry.getValue()).get(0) instanceof ObjectId) {
+                        ArrayList<ObjectId> objectIdList = (ArrayList<ObjectId>) entry.getValue();
+                        List<String> idString = objectIdList.stream()
+                                .map(Object::toString)
+                                .collect(Collectors.toList());
+
+                        List<RelatedObject> relatedObjectList = convertToRelatedObject(entry.getKey(), idString);
+                        denaObject.getRelatedObjects().addAll(relatedObjectList);
+                    }
+                    // this type is normal array
+                    else {
+                        denaObject.addProperty(entry.getKey(), entry.getValue());
+                    }
+                } else if (entry.getKey().equals(MongoDBUtils.ID)) {  // type is id
+                    denaObject.setObjectId(entry.getValue().toString());
+                } else { // normal key -> value
+                    denaObject.addProperty(entry.getKey(), entry.getValue());
+                }
+            }
+
+            return denaObject;
         } catch (Exception ex) {
             throw new DataStoreException("Error in finding object", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
@@ -177,7 +178,11 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             DenaObject denaObject = new DenaObject();
 
             Optional<Document> parentDocument = MongoDBUtils.findDocumentById(mongoDatabase, parentType, objectId);
-            // todo: check if parentDocument is not null
+
+            if (!parentDocument.isPresent()) {
+                return denaObject;
+            }
+
             List<Document> relatedDocuments = MongoDBUtils.findRelatedDocument(mongoDatabase, parentDocument.get(), targetType, denaPager);
 
             relatedDocuments.forEach(document -> {
@@ -204,7 +209,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
             return denaObject;
         } catch (Exception ex) {
-            throw new DataStoreException("Error in delete relation", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
+            throw new DataStoreException("Error in finding relation object", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
     }
 
