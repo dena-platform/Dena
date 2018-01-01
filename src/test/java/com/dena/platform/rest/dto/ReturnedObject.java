@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
-public class ExpectedReturnedObject {
+public class ReturnedObject {
 
     @JsonProperty("timestamp")
     private Long timestamp;
@@ -53,7 +53,7 @@ public class ExpectedReturnedObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ExpectedReturnedObject that = (ExpectedReturnedObject) o;
+        ReturnedObject that = (ReturnedObject) o;
 
         if (count != that.count) return false;
         if (!TestUtils.isTimeEqualRegardlessOfMinute(Long.valueOf(timestamp), Long.valueOf(that.getTimestamp()))) {

@@ -1,6 +1,6 @@
 package com.dena.platform.rest;
 
-import com.dena.platform.rest.dto.ExpectedReturnedObject;
+import com.dena.platform.rest.dto.ReturnedObject;
 import com.dena.platform.rest.dto.TestObjectResponse;
 import com.dena.platform.rest.dto.TestRelatedObject;
 import com.dena.platform.rest.dto.TestRequestObject;
@@ -107,9 +107,9 @@ public class RestTest {
         /////////////////////////////////////////////
         //            Send Find Object Request
         /////////////////////////////////////////////
-        ExpectedReturnedObject actualReturnObject = performFindRequest(objectId3);
+        ReturnedObject actualReturnObject = performFindRequest(objectId3);
 
-        ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
+        ReturnedObject expectedReturnObject = new ReturnedObject();
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
@@ -134,9 +134,9 @@ public class RestTest {
     public void test_FindRelationObject() throws Exception {
         String randomObjectId = ObjectId.get().toHexString();
 
-        ExpectedReturnedObject actualReturnObject = performFindRequest(randomObjectId);
+        ReturnedObject actualReturnObject = performFindRequest(randomObjectId);
 
-        ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
+        ReturnedObject expectedReturnObject = new ReturnedObject();
         expectedReturnObject.setCount(0L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
@@ -150,9 +150,9 @@ public class RestTest {
     public void test_FindObject_When_Object_Not_Exist() throws Exception {
         String randomObjectId = ObjectId.get().toHexString();
 
-        ExpectedReturnedObject actualReturnObject = performFindRequest(randomObjectId);
+        ReturnedObject actualReturnObject = performFindRequest(randomObjectId);
 
-        ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
+        ReturnedObject expectedReturnObject = new ReturnedObject();
         expectedReturnObject.setCount(0L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
@@ -163,12 +163,11 @@ public class RestTest {
     }
 
 
-
     @Test
     public void test_DeleteObjects_When_Object_Exist() throws Exception {
-        ExpectedReturnedObject actualReturnObject = performDeleteRequest(Arrays.asList(objectId1, objectId2, objectId3));
+        ReturnedObject actualReturnObject = performDeleteRequest(Arrays.asList(objectId1, objectId2, objectId3));
 
-        ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
+        ReturnedObject expectedReturnObject = new ReturnedObject();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(3L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
@@ -183,9 +182,9 @@ public class RestTest {
     @Test
     public void test_DeleteObject_When_Object_Not_Exist() throws Exception {
         String randomObjectId = ObjectId.get().toHexString();
-        ExpectedReturnedObject actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId));
+        ReturnedObject actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId));
 
-        ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
+        ReturnedObject expectedReturnObject = new ReturnedObject();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(0L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
@@ -201,12 +200,12 @@ public class RestTest {
         /////////////////////////////////////////////
         //            Send Delete Object
         /////////////////////////////////////////////
-        ExpectedReturnedObject actualReturnObject = performDeleteRelationWithObject(objectId3, CommonConfig.COLLECTION_NAME, objectId1);
+        ReturnedObject actualReturnObject = performDeleteRelationWithObject(objectId3, CommonConfig.COLLECTION_NAME, objectId1);
 
         /////////////////////////////////////////////
         //            Assert Delete Object
         /////////////////////////////////////////////
-        ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
+        ReturnedObject expectedReturnObject = new ReturnedObject();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
@@ -218,7 +217,7 @@ public class RestTest {
         //            Check Response Find
         /////////////////////////////////////////////
         actualReturnObject = performFindRequest(objectId3);
-        expectedReturnObject = new ExpectedReturnedObject();
+        expectedReturnObject = new ReturnedObject();
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
@@ -240,12 +239,12 @@ public class RestTest {
         /////////////////////////////////////////////
         //            Send Delete Relation
         /////////////////////////////////////////////
-        ExpectedReturnedObject actualReturnObject = performDeleteRelation(objectId3, CommonConfig.COLLECTION_NAME);
+        ReturnedObject actualReturnObject = performDeleteRelation(objectId3, CommonConfig.COLLECTION_NAME);
 
         /////////////////////////////////////////////
         //            Assert Delete Relation
         /////////////////////////////////////////////
-        ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
+        ReturnedObject expectedReturnObject = new ReturnedObject();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(2L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
@@ -257,7 +256,7 @@ public class RestTest {
         //            Check Response Find
         /////////////////////////////////////////////
         actualReturnObject = performFindRequest(objectId3);
-        expectedReturnObject = new ExpectedReturnedObject();
+        expectedReturnObject = new ReturnedObject();
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
@@ -285,7 +284,7 @@ public class RestTest {
         String newObjectId = ObjectId.get().toString();
         requestObject.getRelatedObjects().add(new TestRelatedObject(newObjectId, CommonConfig.COLLECTION_NAME));
 
-        ExpectedReturnedObject actualReturnObject = performUpdateObject(createJSONFromObject(requestObject));
+        ReturnedObject actualReturnObject = performUpdateObject(createJSONFromObject(requestObject));
 
         /////////////////////////////////////////////
         //            Assert Update Response
@@ -298,7 +297,7 @@ public class RestTest {
         testObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(newObjectId, CommonConfig.COLLECTION_NAME));
 
 
-        ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
+        ReturnedObject expectedReturnObject = new ReturnedObject();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
@@ -317,7 +316,7 @@ public class RestTest {
         requestObject.addProperty("name", "developer");
         requestObject.getRelatedObjects().add(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
 
-        ExpectedReturnedObject actualReturnObject = performCreateObject(createJSONFromObject(requestObject));
+        ReturnedObject actualReturnObject = performCreateObject(createJSONFromObject(requestObject));
 
         /////////////////////////////////////////////
         //            Assert Create Response
@@ -328,7 +327,7 @@ public class RestTest {
         testObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
 
 
-        ExpectedReturnedObject expectedReturnObject = new ExpectedReturnedObject();
+        ReturnedObject expectedReturnObject = new ReturnedObject();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
@@ -339,17 +338,17 @@ public class RestTest {
     }
 
 
-    private ExpectedReturnedObject performFindRequest(String objectId1) throws Exception {
+    private ReturnedObject performFindRequest(String objectId1) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId1))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+        return createObjectFromJSON(returnContent, ReturnedObject.class);
     }
 
-    private ExpectedReturnedObject performDeleteRequest(List<String> objectList) throws Exception {
+    private ReturnedObject performDeleteRequest(List<String> objectList) throws Exception {
         String objectIds = String.join(",", objectList);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + objectIds))
                 .andDo(MockMvcResultHandlers.print())
@@ -357,32 +356,32 @@ public class RestTest {
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+        return createObjectFromJSON(returnContent, ReturnedObject.class);
     }
 
-    private ExpectedReturnedObject performDeleteRelationWithObject(String type1, String relationName, String type2) throws Exception {
+    private ReturnedObject performDeleteRelationWithObject(String type1, String relationName, String type2) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + type1 + "/relation/" + relationName + "/" + type2))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+        return createObjectFromJSON(returnContent, ReturnedObject.class);
 
     }
 
-    private ExpectedReturnedObject performDeleteRelation(String type1, String relationName) throws Exception {
+    private ReturnedObject performDeleteRelation(String type1, String relationName) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + type1 + "/relation/" + relationName))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+        return createObjectFromJSON(returnContent, ReturnedObject.class);
 
     }
 
-    private ExpectedReturnedObject performUpdateObject(String body) throws Exception {
+    private ReturnedObject performUpdateObject(String body) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(CommonConfig.BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(body))
@@ -391,11 +390,11 @@ public class RestTest {
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+        return createObjectFromJSON(returnContent, ReturnedObject.class);
 
     }
 
-    private ExpectedReturnedObject performCreateObject(String body) throws Exception {
+    private ReturnedObject performCreateObject(String body) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(body))
@@ -404,7 +403,7 @@ public class RestTest {
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, ExpectedReturnedObject.class);
+        return createObjectFromJSON(returnContent, ReturnedObject.class);
 
     }
 
