@@ -342,7 +342,7 @@ Return Value:
 
 
 
-**Read Objects By Type Supporting Search Clause**
+**Read Objects By Type Supporting Search Clause (TO-DO)** 
 
 Method: GET
 
