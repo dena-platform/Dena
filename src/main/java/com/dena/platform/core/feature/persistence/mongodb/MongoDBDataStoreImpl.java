@@ -255,9 +255,9 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         return references;
     }
 
-    private List<RelatedObject> convertToRelatedObject(String type, List<String> objectId) {
+    private List<RelatedObject> convertToRelatedObject(String type, List<String> objectIdList) {
 
-        List<RelatedObject> result = objectId.stream().map(id -> {
+        List<RelatedObject> result = objectIdList.stream().map(id -> {
             RelatedObject relatedObject = new RelatedObject();
             relatedObject.setRelatedObjectId(id);
             relatedObject.setTypeName(type);
