@@ -190,18 +190,17 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
 
     private List<DenaObjectResponse> createObjectResponse(List<DenaObject> denaObjects, String typeName) {
-        List<DenaObjectResponse> denaObjectResponseRespons = new ArrayList<>();
+        List<DenaObjectResponse> denaObjectResponses = new ArrayList<>();
         denaObjects.forEach(denaObject -> {
             DenaObjectResponse objectResponse = new DenaObjectResponse();
             objectResponse.setObjectId(denaObject.getObjectId());
             objectResponse.setFields(denaObject.getFields());
             objectResponse.setObjectURI(DenaObjectUtils.getURIForResource(typeName, objectResponse.getObjectId()));
             objectResponse.setRelatedObjects(denaObject.getRelatedObjects());
-
-            denaObjectResponseRespons.add(objectResponse);
+            denaObjectResponses.add(objectResponse);
         });
 
-        return denaObjectResponseRespons;
+        return denaObjectResponses;
     }
 
     private DenaRestException buildException(final int statusCode, ErrorCode errorCode) {
@@ -238,8 +237,8 @@ public class RestProcessorImpl implements DenaRestProcessor {
     private DenaResponse makeDenaResponse(long count, List<DenaObjectResponse> denaObjectResponseList) {
         return DenaResponseBuilder.aDenaResponse()
                 .withCount(count)
-                .withObjectResponseList(denaObjectResponseList)
                 .withTimestamp(DenaObjectUtils.timeStamp())
+                .withObjectResponseList(denaObjectResponseList)
                 .build();
 
     }

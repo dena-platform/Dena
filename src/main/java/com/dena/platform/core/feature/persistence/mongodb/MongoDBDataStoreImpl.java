@@ -149,7 +149,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                                 .collect(Collectors.toList());
 
                         List<RelatedObject> relatedObjectList = convertToRelatedObject(entry.getKey(), idString);
-                        denaObject.getRelatedObjects().addAll(relatedObjectList);
+                        denaObject.setRelatedObjects(relatedObjectList);
                     }
                     // this type is normal array
                     else {
