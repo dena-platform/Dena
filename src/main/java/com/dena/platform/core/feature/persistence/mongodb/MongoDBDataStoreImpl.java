@@ -171,7 +171,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
     @SuppressWarnings("unchecked")
     @Override
-    public DenaObject findObjectRelation(String appName, String parentType, String objectId, String targetType, DenaPager denaPager) {
+    public List<DenaObject> findObjectRelation(String appName, String parentType, String objectId, String targetType, DenaPager denaPager) {
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
             Optional<Document> parentDocument = MongoDBUtils.findDocumentById(mongoDatabase, parentType, objectId);
@@ -180,10 +180,11 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 return null;
             }
 
-            DenaObject denaObject = new DenaObject();
+            List<DenaObject> denaObjects = new ArrayList<>();
             List<Document> relatedDocuments = MongoDBUtils.findRelatedDocument(mongoDatabase, parentDocument.get(), targetType, denaPager);
 
             relatedDocuments.forEach(document -> {
+                DenaObject denaObject = new DenaObject();
                 for (Map.Entry<String, Object> entry : document.entrySet()) {
                     if (entry.getValue() instanceof ArrayList) {
                         if (((ArrayList) entry.getValue()).size() > 0 && ((ArrayList) entry.getValue()).get(0) instanceof ObjectId) {   // this type is relation
@@ -203,9 +204,11 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                         denaObject.addProperty(entry.getKey(), entry.getValue()); // normal key - value
                     }
                 }
+
+                denaObjects.add(denaObject);
             });
 
-            return denaObject;
+            return denaObjects;
         } catch (Exception ex) {
             throw new DataStoreException("Error in finding relation object", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }

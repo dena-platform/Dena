@@ -131,14 +131,34 @@ public class RestTest {
     }
 
     @Test
-    public void test_FindRelationObject() throws Exception {
-        String randomObjectId = ObjectId.get().toHexString();
+    public void test_FindRelatedObject() throws Exception {
+        /////////////////////////////////////////////
+        //            Send Find Object Request
+        /////////////////////////////////////////////
+        ReturnedObject actualReturnObject = performFindRequest(objectId3);
 
-        ReturnedObject actualReturnObject = performFindRequest(randomObjectId);
-
+        /////////////////////////////////////////////
+        //            Assert Found Object
+        /////////////////////////////////////////////
         ReturnedObject expectedReturnObject = new ReturnedObject();
-        expectedReturnObject.setCount(0L);
+        expectedReturnObject.setCount(2L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+
+
+        TestObjectResponse testObjectResponse1 = new TestObjectResponse();
+        testObjectResponse1.objectId = objectId1;
+        testObjectResponse1.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId1;
+        testObjectResponse1.addProperty("name", "javad");
+        testObjectResponse1.addProperty("job", "developer");
+
+        TestObjectResponse testObjectResponse2 = new TestObjectResponse();
+        testObjectResponse2.objectId = objectId1;
+        testObjectResponse2.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId1;
+        testObjectResponse2.addProperty("name", "javad");
+        testObjectResponse2.addProperty("job", "developer");
+
+        expectedReturnObject.setTestObjectResponseList(Arrays.asList(testObjectResponse1, testObjectResponse2));
+
 
         // check timestamp field of returned object
         assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
@@ -340,6 +360,16 @@ public class RestTest {
 
     private ReturnedObject performFindRequest(String objectId1) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId1))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String returnContent = result.getResponse().getContentAsString();
+        return createObjectFromJSON(returnContent, ReturnedObject.class);
+    }
+
+    private ReturnedObject performFindRelationRequest(String objectId1) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/relation/" + objectId1))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
