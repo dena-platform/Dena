@@ -9,9 +9,9 @@ import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
+import com.dena.platform.restapi.dto.response.DenaObjectResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse.DenaResponseBuilder;
-import com.dena.platform.restapi.dto.response.DenaObjectResponse;
 import com.dena.platform.restapi.exception.DenaRestException;
 import com.dena.platform.restapi.exception.DenaRestException.DenaRestExceptionBuilder;
 import org.apache.commons.collections4.CollectionUtils;
@@ -21,7 +21,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -170,8 +173,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             // find relation objects
             else {
                 DenaPager denaPager = constructPager(denaRequestContext);
-                DenaObject denaObject = denaDataStore.findObjectRelation(appId, typeName, objectId, targetType, denaPager);
-                resultObject = Collections.singletonList(denaObject);
+                resultObject = denaDataStore.findObjectRelation(appId, typeName, objectId, targetType, denaPager);
 
                 denaResponse = DenaResponseBuilder.aDenaResponse()
                         .withCount(resultObject.size())

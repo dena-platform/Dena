@@ -1,10 +1,8 @@
 package com.dena.platform.core.feature.persistence;
 
 import com.dena.platform.core.dto.DenaObject;
-import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
@@ -23,5 +21,5 @@ public interface DenaDataStore {
 
     DenaObject findObject(String appName, String typeName, String objectId);
 
-    DenaObject findObjectRelation(String appName, String parentType, String objectId, String targetType, DenaPager denaPager);
+    List<DenaObject> findObjectRelation(String appName, String parentType, String objectId, String targetType, DenaPager denaPager);
 }
