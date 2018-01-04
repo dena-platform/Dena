@@ -169,10 +169,19 @@ public class RestTest {
 
     @Test
     public void test_FindObject_When_Object_Not_Exist() throws Exception {
+        /////////////////////////////////////////////
+        //            Generate Random Object Id
+        /////////////////////////////////////////////
         String randomObjectId = ObjectId.get().toHexString();
 
+        /////////////////////////////////////////////
+        //            Send Find Object Request
+        /////////////////////////////////////////////
         ReturnedObject actualReturnObject = performFindRequest(randomObjectId);
 
+        /////////////////////////////////////////////
+        //            Assert Found Object
+        /////////////////////////////////////////////
         ReturnedObject expectedReturnObject = new ReturnedObject();
         expectedReturnObject.setCount(0L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
@@ -370,7 +379,7 @@ public class RestTest {
     }
 
     private ReturnedObject performFindRelationRequest(String objectId1, String targetType) throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL +"/"+ objectId1 + "/relation/" + targetType))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId1 + "/relation/" + targetType))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();

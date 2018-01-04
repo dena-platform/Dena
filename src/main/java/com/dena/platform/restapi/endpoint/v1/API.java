@@ -41,7 +41,7 @@ public class API {
      * @param request
      * @return
      */
-    @DeleteMapping(path = "/{app-id}/{type-name}/{object-id}", consumes = MediaType.ALL_VALUE)
+    @DeleteMapping(path = "/{app-id}/{type-name}/{object-id}")
     public ResponseEntity deleteObjects(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         return denaRestProcessor.handleDeleteObject(denaRequestContext);
@@ -50,8 +50,7 @@ public class API {
 
     @DeleteMapping(path = {
             "/{app-id}/{type-name}/{object-id}/relation/{type-name-2}/{object-id-2}",
-            "/{app-id}/{type-name}/{object-id}/relation/{type-name-2}"}
-            , consumes = MediaType.ALL_VALUE)
+            "/{app-id}/{type-name}/{object-id}/relation/{type-name-2}"})
     public ResponseEntity deleteRelationWithObjectId(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
         return denaRestProcessor.handleDeleteRelation(denaRequestContext);
