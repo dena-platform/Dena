@@ -1,9 +1,6 @@
 package com.dena.platform.rest;
 
-import com.dena.platform.rest.dto.ReturnedObject;
-import com.dena.platform.rest.dto.TestObjectResponse;
-import com.dena.platform.rest.dto.TestRelatedObject;
-import com.dena.platform.rest.dto.TestRequestObject;
+import com.dena.platform.rest.dto.*;
 import com.dena.platform.utils.CommonConfig;
 import com.mongodb.MongoClient;
 import org.bson.Document;
@@ -196,9 +193,9 @@ public class RestTest {
     @Test
     public void test_DeleteObjects() throws Exception {
         /////////////////////////////////////////////
-        //            Send Delete Object Request
+        //            Send Delete Objects Request
         /////////////////////////////////////////////
-        ReturnedObject actualReturnObject = performDeleteRequest(Arrays.asList(objectId1, objectId2, objectId3));
+        ReturnedObject actualReturnObject = performDeleteRequest(Arrays.asList(objectId1, objectId2, objectId3), 200, ReturnedObject.class);
 
         /////////////////////////////////////////////
         //            Assert Deleted Object
@@ -216,43 +213,37 @@ public class RestTest {
 
 
     @Test
-    public void test_DeleteObject_When_Object_Not_Exist() throws Exception {
-        /////////////////////////////////////////////
-        //            Send Delete Object Request
-        /////////////////////////////////////////////
-        String randomObjectId = ObjectId.get().toHexString();
-        ReturnedObject actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId));
+    public void test_DeleteObject_When_Data_Is_Invalid() throws Exception {
+        /////////////////////////////////////////////////////////////////////////
+        //            Send Delete Object Request - Invalid object id format
+        /////////////////////////////////////////////////////////////////////////
+        String invalidObjectId = "5a1bd6176f";
+        TestErrorResponse actualReturnObject1 = performDeleteRequest(Collections.singletonList(invalidObjectId), 400, TestErrorResponse.class);
 
-        ReturnedObject expectedReturnObject = new ReturnedObject();
-        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
-        expectedReturnObject.setCount(0L);
-        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+        TestErrorResponse expectedReturnObject1 = new TestErrorResponse();
+        expectedReturnObject1.status = 400;
+        expectedReturnObject1.errorCode = "102";
+        expectedReturnObject1.messages = Arrays.asList("objectId is invalid");
+
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject1), createJSONFromObject(actualReturnObject1), true);
+
+        //////////////////////////////////////////////////////////////////
+        //            Send Delete Object Request - object id not exist
+        //////////////////////////////////////////////////////////////////
+        String randomObjectId = ObjectId.get().toHexString();
+        ReturnedObject actualReturnObject2 = performDeleteRequest(Collections.singletonList(randomObjectId), 200, ReturnedObject.class);
+
+        ReturnedObject expectedReturnObject2 = new ReturnedObject();
+        expectedReturnObject2.setTimestamp(actualReturnObject2.getTimestamp());
+        expectedReturnObject2.setCount(0L);
+        expectedReturnObject2.setTimestamp(actualReturnObject2.getTimestamp());
 
         // check timestamp field of returned object
-        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
-        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject2.getTimestamp(), Instant.now().toEpochMilli()));
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject2), createJSONFromObject(actualReturnObject2), true);
+
 
     }
-
-    @Test
-    public void test_DeleteObject_When_Input_Is_Invalid() throws Exception {
-        /////////////////////////////////////////////
-        //            Send Delete Object Request
-        /////////////////////////////////////////////
-        String randomObjectId = ObjectId.get().toHexString();
-        ReturnedObject actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId));
-
-        ReturnedObject expectedReturnObject = new ReturnedObject();
-        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
-        expectedReturnObject.setCount(0L);
-        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
-
-        // check timestamp field of returned object
-        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
-        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
-
-    }
-
 
 
     @Test
@@ -418,15 +409,15 @@ public class RestTest {
         return createObjectFromJSON(returnContent, ReturnedObject.class);
     }
 
-    private ReturnedObject performDeleteRequest(List<String> objectList) throws Exception {
+    private <T> T performDeleteRequest(List<String> objectList, int status, Class<T> klass) throws Exception {
         String objectIds = String.join(",", objectList);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + objectIds))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.status().is(status))
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, ReturnedObject.class);
+        return createObjectFromJSON(returnContent, klass);
     }
 
     private ReturnedObject performDeleteRelationWithObject(String type1, String relationName, String type2) throws Exception {
