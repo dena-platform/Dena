@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -65,7 +66,7 @@ public class RestTest {
         //       Initialize database
         //////////////////////////////////////////////////////
 
-        mongoClient.getDatabase(CommonConfig.DB_NAME).drop();
+        mongoClient.getDatabase(CommonConfig.APP_ID).drop();
 
         Document document1 = new Document();
 
@@ -87,15 +88,15 @@ public class RestTest {
         document3.put(CommonConfig.COLLECTION_NAME, Arrays.asList(new ObjectId(objectId1), new ObjectId(objectId2)));
 
 
-        mongoClient.getDatabase(CommonConfig.DB_NAME)
+        mongoClient.getDatabase(CommonConfig.APP_ID)
                 .getCollection(CommonConfig.COLLECTION_NAME)
                 .insertOne(document1);
 
-        mongoClient.getDatabase(CommonConfig.DB_NAME)
+        mongoClient.getDatabase(CommonConfig.APP_ID)
                 .getCollection(CommonConfig.COLLECTION_NAME)
                 .insertOne(document2);
 
-        mongoClient.getDatabase(CommonConfig.DB_NAME)
+        mongoClient.getDatabase(CommonConfig.APP_ID)
                 .getCollection(CommonConfig.COLLECTION_NAME)
                 .insertOne(document3);
 
@@ -135,7 +136,7 @@ public class RestTest {
         /////////////////////////////////////////////
         //            Send Find Object Request
         /////////////////////////////////////////////
-        ReturnedObject actualReturnObject = performFindRequest(objectId3);
+        ReturnedObject actualReturnObject = performFindRelationRequest(objectId3, CommonConfig.COLLECTION_NAME);
 
         /////////////////////////////////////////////
         //            Assert Found Object
@@ -152,8 +153,8 @@ public class RestTest {
         testObjectResponse1.addProperty("job", "developer");
 
         TestObjectResponse testObjectResponse2 = new TestObjectResponse();
-        testObjectResponse2.objectId = objectId1;
-        testObjectResponse2.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId1;
+        testObjectResponse2.objectId = objectId2;
+        testObjectResponse2.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId2;
         testObjectResponse2.addProperty("name", "javad");
         testObjectResponse2.addProperty("job", "developer");
 
@@ -162,7 +163,7 @@ public class RestTest {
 
         // check timestamp field of returned object
         assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
-        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
 
     }
 
@@ -178,7 +179,7 @@ public class RestTest {
 
         // check timestamp field of returned object
         assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
-        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), JSONCompareMode.NON_EXTENSIBLE);
 
     }
 
@@ -368,8 +369,8 @@ public class RestTest {
         return createObjectFromJSON(returnContent, ReturnedObject.class);
     }
 
-    private ReturnedObject performFindRelationRequest(String objectId1) throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/relation/" + objectId1))
+    private ReturnedObject performFindRelationRequest(String objectId1, String targetType) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL +"/"+ objectId1 + "/relation/" + targetType))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
