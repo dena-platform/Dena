@@ -43,6 +43,7 @@ public class RestTest {
     private String objectId1 = "5a316b1b4e5f450104c31909";
     private String objectId2 = "5a1bd6176f017921441d4a50";
     private String objectId3 = "5a206dafcc2a9b26e483d663";
+    private final String randomObjectId = ObjectId.get().toHexString();
 
 
     private MockMvc mockMvc;
@@ -213,35 +214,54 @@ public class RestTest {
 
 
     @Test
-    public void test_DeleteObject_When_Data_Is_Invalid() throws Exception {
+    public void test_DeleteObject_When_Object_Id_Invalid() throws Exception {
         /////////////////////////////////////////////////////////////////////////
         //            Send Delete Object Request - Invalid object id format
         /////////////////////////////////////////////////////////////////////////
         String invalidObjectId = "5a1bd6176f";
-        TestErrorResponse actualReturnObject1 = performDeleteRequest(Collections.singletonList(invalidObjectId), 400, TestErrorResponse.class);
+        TestErrorResponse actualReturnObject = performDeleteRequest(Collections.singletonList(invalidObjectId), 400, TestErrorResponse.class);
 
-        TestErrorResponse expectedReturnObject1 = new TestErrorResponse();
-        expectedReturnObject1.status = 400;
-        expectedReturnObject1.errorCode = "102";
-        expectedReturnObject1.messages = Arrays.asList("objectId is invalid");
+        TestErrorResponse expectedReturnObject = new TestErrorResponse();
+        expectedReturnObject.status = 400;
+        expectedReturnObject.errorCode = "102";
+        expectedReturnObject.messages = Arrays.asList("objectId is invalid");
 
-        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject1), createJSONFromObject(actualReturnObject1), true);
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+    }
 
+    @Test
+    public void test_DeleteObject_When_Object_Id_Not_Exist() throws Exception {
         //////////////////////////////////////////////////////////////////
         //            Send Delete Object Request - object id not exist
         //////////////////////////////////////////////////////////////////
-        String randomObjectId = ObjectId.get().toHexString();
-        ReturnedObject actualReturnObject2 = performDeleteRequest(Collections.singletonList(randomObjectId), 200, ReturnedObject.class);
 
-        ReturnedObject expectedReturnObject2 = new ReturnedObject();
-        expectedReturnObject2.setTimestamp(actualReturnObject2.getTimestamp());
-        expectedReturnObject2.setCount(0L);
-        expectedReturnObject2.setTimestamp(actualReturnObject2.getTimestamp());
+        ReturnedObject actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId), 200, ReturnedObject.class);
+
+        ReturnedObject expectedReturnObject = new ReturnedObject();
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+        expectedReturnObject.setCount(0L);
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
         // check timestamp field of returned object
-        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject2.getTimestamp(), Instant.now().toEpochMilli()));
-        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject2), createJSONFromObject(actualReturnObject2), true);
+        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+    }
 
+    @Test
+    public void test_DeleteObject_When_App_Id_Not_Exist() throws Exception {
+        //////////////////////////////////////////////////////////////////
+        //            Send Delete Object Request - app id not exist
+        //////////////////////////////////////////////////////////////////
+        ReturnedObject actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId), "/v1/invalid_app_id/denaTestCollection/", 200, ReturnedObject.class);
+
+        ReturnedObject expectedReturnObject = new ReturnedObject();
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+        expectedReturnObject.setCount(0L);
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+
+        // check timestamp field of returned object
+        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
 
@@ -410,8 +430,12 @@ public class RestTest {
     }
 
     private <T> T performDeleteRequest(List<String> objectList, int status, Class<T> klass) throws Exception {
+        return performDeleteRequest(objectList, CommonConfig.BASE_URL + "/", status, klass);
+    }
+
+    private <T> T performDeleteRequest(List<String> objectList, String urlRequest, int status, Class<T> klass) throws Exception {
         String objectIds = String.join(",", objectList);
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + objectIds))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(urlRequest + objectIds))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is(status))
                 .andReturn();
