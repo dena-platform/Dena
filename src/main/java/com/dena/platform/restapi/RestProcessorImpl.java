@@ -2,7 +2,7 @@ package com.dena.platform.restapi;
 
 import com.dena.platform.common.exception.DenaException;
 import com.dena.platform.common.exception.ErrorCode;
-import com.dena.platform.restapi.exception.ParameterException;
+import com.dena.platform.restapi.exception.ParameterInvalidException;
 import com.dena.platform.common.utils.DenaObjectUtils;
 import com.dena.platform.common.web.JSONMapper;
 import com.dena.platform.core.DenaRequestContext;
@@ -136,16 +136,16 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
         try {
             if (CollectionUtils.isEmpty(objectIds)) {
-                log.warn("objectId is empty");
-                throw new ParameterException("object id is empty", ErrorCode.INVALID_REQUEST);
+                log.warn("object id is empty");
+                throw new ParameterInvalidException("object id is empty", ErrorCode.INVALID_REQUEST);
             }
             if (StringUtils.isEmpty(appId)) {
-                log.warn("appId is empty");
-                throw new ParameterException("app id is empty", ErrorCode.INVALID_REQUEST);
+                log.warn("app id is empty");
+                throw new ParameterInvalidException("app id is empty", ErrorCode.INVALID_REQUEST);
             }
             if (StringUtils.isEmpty(typeName)) {
-                log.warn("typeName is empty");
-                throw new ParameterException("type name is empty", ErrorCode.INVALID_REQUEST);
+                log.warn("type name is empty");
+                throw new ParameterInvalidException("type name is empty", ErrorCode.INVALID_REQUEST);
             }
 
             long deleteCount = denaDataStore.deleteObjects(appId, typeName, objectIds);
@@ -226,7 +226,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     }
 
     private DenaRestException buildBadRequestException(ErrorCode errorCode) {
-        ParameterException invalidInputException = new ParameterException("input invalid", errorCode);
+        ParameterInvalidException invalidInputException = new ParameterInvalidException("input invalid", errorCode);
         DenaRestException denaRestException = buildException(SC_BAD_REQUEST, errorCode, invalidInputException);
         return denaRestException;
     }
