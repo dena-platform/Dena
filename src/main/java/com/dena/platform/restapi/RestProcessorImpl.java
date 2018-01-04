@@ -2,7 +2,7 @@ package com.dena.platform.restapi;
 
 import com.dena.platform.common.exception.DenaException;
 import com.dena.platform.common.exception.ErrorCode;
-import com.dena.platform.restapi.exception.ParameterInvalidException;
+import com.dena.platform.common.exception.ParameterInvalidException;
 import com.dena.platform.common.utils.DenaObjectUtils;
 import com.dena.platform.common.web.JSONMapper;
 import com.dena.platform.core.DenaRequestContext;
@@ -259,8 +259,6 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
     }
 
-//    private void checkParameterValidaty(String) {
-//
-//    }
+
 
 }
