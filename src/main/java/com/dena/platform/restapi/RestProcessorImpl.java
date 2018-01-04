@@ -2,6 +2,7 @@ package com.dena.platform.restapi;
 
 import com.dena.platform.common.exception.DenaException;
 import com.dena.platform.common.exception.ErrorCode;
+import com.dena.platform.common.exception.InvalidInputExceptionImpl;
 import com.dena.platform.common.utils.DenaObjectUtils;
 import com.dena.platform.common.web.JSONMapper;
 import com.dena.platform.core.DenaRequestContext;
@@ -134,7 +135,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
         if (CollectionUtils.isEmpty(objectId)) {
             log.warn("objectId is empty");
-            throw buildException(SC_BAD_REQUEST, ErrorCode.ObjectId_INVALID_EXCEPTION);
+            throw buildBadRequestException(ErrorCode.ObjectId_INVALID_EXCEPTION);
         }
 
         try {
@@ -145,7 +146,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
                     .build();
             return ResponseEntity.ok().body(denaResponse);
         } catch (DenaException ex) {
-            throw buildException(SC_BAD_REQUEST, ex.getErrorCode());
+            throw buildException(SC_BAD_REQUEST, ex.getErrorCode(), ex);
         }
 
     }
@@ -206,16 +207,19 @@ public class RestProcessorImpl implements DenaRestProcessor {
         return denaObjectResponses;
     }
 
-    private DenaRestException buildException(final int statusCode, ErrorCode errorCode) {
+    private DenaRestException buildException(final int statusCode, ErrorCode errorCode, Throwable ex) {
         return DenaRestExceptionBuilder.aDenaRestException()
                 .withStatusCode(statusCode)
                 .withErrorCode(errorCode.getErrorCode())
                 .addMessageCode(errorCode.getMessageCode(), null)
+                .withCause(ex)
                 .build();
     }
 
     private DenaRestException buildBadRequestException(ErrorCode errorCode) {
-        return buildException(SC_BAD_REQUEST, errorCode);
+        InvalidInputExceptionImpl invalidInputException = new InvalidInputExceptionImpl("input invalid", errorCode);
+        DenaRestException denaRestException = buildException(SC_BAD_REQUEST, errorCode, invalidInputException);
+        return denaRestException;
     }
 
     private DenaPager constructPager(DenaRequestContext denaRequestContext) {
