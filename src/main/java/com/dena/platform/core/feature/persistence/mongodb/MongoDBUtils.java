@@ -79,9 +79,6 @@ public class MongoDBUtils {
     }
 
     public static long deleteDocument(MongoDatabase mongoDatabase, String collectionName, List<String> documentIds) {
-        Assert.hasLength(collectionName, "collection should not be empty or null");
-        Assert.notEmpty(documentIds, "id should not be empty");
-
         List<ObjectId> objectIdList = documentIds.stream().map(ObjectId::new).collect(Collectors.toList());
 
         DeleteResult deleteResult = mongoDatabase.getCollection(collectionName).deleteMany(Filters.in("_id", objectIdList));
