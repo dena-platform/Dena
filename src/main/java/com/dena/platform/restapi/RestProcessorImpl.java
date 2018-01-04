@@ -137,15 +137,15 @@ public class RestProcessorImpl implements DenaRestProcessor {
         try {
             if (CollectionUtils.isEmpty(objectIds)) {
                 log.warn("objectId is empty");
-                throw new ParameterException("objectId is empty", ErrorCode.INVALID_REQUEST);
+                throw new ParameterException("object id is empty", ErrorCode.INVALID_REQUEST);
             }
             if (StringUtils.isEmpty(appId)) {
                 log.warn("appId is empty");
-                throw new ParameterException("appId is empty", ErrorCode.INVALID_REQUEST);
+                throw new ParameterException("app id is empty", ErrorCode.INVALID_REQUEST);
             }
             if (StringUtils.isEmpty(typeName)) {
                 log.warn("typeName is empty");
-                throw new ParameterException("typeName is empty", ErrorCode.INVALID_REQUEST);
+                throw new ParameterException("type name is empty", ErrorCode.INVALID_REQUEST);
             }
 
             long deleteCount = denaDataStore.deleteObjects(appId, typeName, objectIds);
