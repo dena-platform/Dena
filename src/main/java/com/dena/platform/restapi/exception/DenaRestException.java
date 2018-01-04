@@ -76,14 +76,15 @@ public class DenaRestException extends RuntimeException {
         }
 
 
-
         public DenaRestException build() {
             DenaRestException denaRestException = new DenaRestException();
             denaRestException.statusCode = this.statusCode;
             denaRestException.locale = this.locale;
             denaRestException.messages = this.messages;
             denaRestException.errorCode = this.errorCode;
-            denaRestException.initCause(cause);
+            if (cause != null) {
+                denaRestException.initCause(cause);
+            }
             return denaRestException;
         }
     }

@@ -252,7 +252,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         boolean isParameterValid;
 
         try {
-            isParameterValid = objectId.stream().anyMatch(s -> !ObjectId.isValid(s));
+            isParameterValid = objectId.stream().allMatch(ObjectId::isValid);
         } catch (IllegalArgumentException ex) {
             isParameterValid = false;
         }
