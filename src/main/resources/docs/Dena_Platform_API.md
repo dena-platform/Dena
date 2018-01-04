@@ -401,7 +401,7 @@ a portion of related object not all (because of too many object) so we use pagin
 Consider following Pseudo-Code:
 
     User 1<-->* Transaction
-    User user=findUser(userId)
+    User user = findUser(userId)
     user.getTransaction() // find all transaction relation in user
     
 Method: GET

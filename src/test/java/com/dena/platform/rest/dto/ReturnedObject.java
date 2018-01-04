@@ -2,6 +2,7 @@ package com.dena.platform.rest.dto;
 
 import com.dena.platform.utils.TestUtils;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
  */
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ReturnedObject {
 
     @JsonProperty("timestamp")
@@ -19,6 +21,12 @@ public class ReturnedObject {
 
     @JsonProperty("count")
     private long count;
+
+    @JsonProperty("total_count")
+    private Long totalCount;
+
+    @JsonProperty("page")
+    private Long page;
 
     @JsonProperty("objects")
     private List<TestObjectResponse> testObjectResponseList = new ArrayList<>();
@@ -46,6 +54,14 @@ public class ReturnedObject {
 
     public void setTestObjectResponseList(List<TestObjectResponse> testObjectResponseList) {
         this.testObjectResponseList = testObjectResponseList;
+    }
+
+    public void setTotalCount(Long totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public void setPage(Long page) {
+        this.page = page;
     }
 
     @Override

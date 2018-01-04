@@ -5,7 +5,7 @@ package com.dena.platform.utils;
  */
 
 public interface CommonConfig {
-    String DB_NAME = "denaTestDB";
+    String APP_ID = "denaTestDB";
     String COLLECTION_NAME = "denaTestCollection";
-    String BASE_URL = "/v1/" + DB_NAME + "/" + COLLECTION_NAME;
+    String BASE_URL = "/v1/" + APP_ID + "/" + COLLECTION_NAME;
 }
