@@ -6,8 +6,8 @@ import com.dena.platform.common.exception.ErrorCode;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
-public class ParameterException extends DenaException {
-    public ParameterException(String message, ErrorCode errorCode) {
+public class ParameterInvalidException extends DenaException {
+    public ParameterInvalidException(String message, ErrorCode errorCode) {
         super(message);
         this.errorCode = errorCode;
     }
