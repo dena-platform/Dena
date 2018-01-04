@@ -100,11 +100,15 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     @Override
     public long deleteObjects(String appName, String typeName, List<String> objectIds) throws DataStoreException {
         try {
+            checkParameterValidity(typeName, objectIds);
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
             return MongoDBUtils.deleteDocument(mongoDatabase, typeName, objectIds);
+        } catch (DataStoreException ex) {
+            throw ex;
         } catch (Exception ex) {
             throw new DataStoreException("Error in deleting object", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
+
     }
 
     @Override
@@ -232,14 +236,28 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     private void checkObjectIdValidity(MongoDatabase mongoDatabase, String typeName, String objectId) {
         boolean isObjectIdValid;
         try {
-
             isObjectIdValid = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId) != null;
         } catch (IllegalArgumentException ex) {
-            // in case of invalid object id, relation is invalid
+            // in case of invalid object id
             isObjectIdValid = false;
         }
 
         if (!isObjectIdValid) {
+            throw new DataStoreException("ObjectId invalid exception", ErrorCode.ObjectId_INVALID_EXCEPTION);
+        }
+    }
+
+    // todo: check type name validity
+    private void checkParameterValidity(String typeName, List<String> objectId) {
+        boolean isParameterValid;
+
+        try {
+            isParameterValid = objectId.stream().anyMatch(s -> !ObjectId.isValid(s));
+        } catch (IllegalArgumentException ex) {
+            isParameterValid = false;
+        }
+
+        if (!isParameterValid) {
             throw new DataStoreException("ObjectId invalid exception", ErrorCode.ObjectId_INVALID_EXCEPTION);
         }
     }

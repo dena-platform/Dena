@@ -133,6 +133,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         List<String> objectId = Arrays.asList(denaRequestContext.getPathVariable(OBJECT_ID).split(","));
 
         if (CollectionUtils.isEmpty(objectId)) {
+            log.warn("objectId is empty");
             throw buildException(SC_BAD_REQUEST, ErrorCode.ObjectId_INVALID_EXCEPTION);
         }
 

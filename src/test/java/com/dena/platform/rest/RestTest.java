@@ -194,9 +194,15 @@ public class RestTest {
 
 
     @Test
-    public void test_DeleteObjects_When_Object_Exist() throws Exception {
+    public void test_DeleteObjects() throws Exception {
+        /////////////////////////////////////////////
+        //            Send Delete Object Request
+        /////////////////////////////////////////////
         ReturnedObject actualReturnObject = performDeleteRequest(Arrays.asList(objectId1, objectId2, objectId3));
 
+        /////////////////////////////////////////////
+        //            Assert Deleted Object
+        /////////////////////////////////////////////
         ReturnedObject expectedReturnObject = new ReturnedObject();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(3L);
@@ -211,6 +217,9 @@ public class RestTest {
 
     @Test
     public void test_DeleteObject_When_Object_Not_Exist() throws Exception {
+        /////////////////////////////////////////////
+        //            Send Delete Object Request
+        /////////////////////////////////////////////
         String randomObjectId = ObjectId.get().toHexString();
         ReturnedObject actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId));
 
@@ -224,6 +233,27 @@ public class RestTest {
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
+
+    @Test
+    public void test_DeleteObject_When_Input_Is_Invalid() throws Exception {
+        /////////////////////////////////////////////
+        //            Send Delete Object Request
+        /////////////////////////////////////////////
+        String randomObjectId = ObjectId.get().toHexString();
+        ReturnedObject actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId));
+
+        ReturnedObject expectedReturnObject = new ReturnedObject();
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+        expectedReturnObject.setCount(0L);
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+
+        // check timestamp field of returned object
+        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+
+    }
+
+
 
     @Test
     public void test_DeleteRelation_With_Object_When_Object_Exist() throws Exception {
