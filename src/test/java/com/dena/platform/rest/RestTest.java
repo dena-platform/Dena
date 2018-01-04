@@ -204,7 +204,6 @@ public class RestTest {
         ReturnedObject expectedReturnObject = new ReturnedObject();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(3L);
-        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
         // check timestamp field of returned object
         assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
@@ -240,7 +239,6 @@ public class RestTest {
         ReturnedObject expectedReturnObject = new ReturnedObject();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(0L);
-        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
         // check timestamp field of returned object
         assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
@@ -257,7 +255,6 @@ public class RestTest {
         ReturnedObject expectedReturnObject = new ReturnedObject();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(0L);
-        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
         // check timestamp field of returned object
         assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
