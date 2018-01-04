@@ -2,7 +2,7 @@ package com.dena.platform.restapi;
 
 import com.dena.platform.common.exception.DenaException;
 import com.dena.platform.common.exception.ErrorCode;
-import com.dena.platform.common.exception.InvalidInputExceptionImpl;
+import com.dena.platform.restapi.exception.ParameterException;
 import com.dena.platform.common.utils.DenaObjectUtils;
 import com.dena.platform.common.web.JSONMapper;
 import com.dena.platform.core.DenaRequestContext;
@@ -129,17 +129,26 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
     @Override
     public ResponseEntity handleDeleteObject(DenaRequestContext denaRequestContext) {
-        String typeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String appId = denaRequestContext.getPathVariable(APP_ID);
-        List<String> objectId = Arrays.asList(denaRequestContext.getPathVariable(OBJECT_ID).split(","));
+        String typeName = denaRequestContext.getPathVariable(TYPE_NAME);
+        List<String> objectIds = Arrays.asList(denaRequestContext.getPathVariable(OBJECT_ID).split(","));
 
-        if (CollectionUtils.isEmpty(objectId)) {
-            log.warn("objectId is empty");
-            throw buildBadRequestException(ErrorCode.ObjectId_INVALID_EXCEPTION);
-        }
 
         try {
-            long deleteCount = denaDataStore.deleteObjects(appId, typeName, objectId);
+            if (CollectionUtils.isEmpty(objectIds)) {
+                log.warn("objectId is empty");
+                throw new ParameterException("objectId is empty", ErrorCode.INVALID_REQUEST);
+            }
+            if (StringUtils.isEmpty(appId)) {
+                log.warn("appId is empty");
+                throw new ParameterException("appId is empty", ErrorCode.INVALID_REQUEST);
+            }
+            if (StringUtils.isEmpty(typeName)) {
+                log.warn("typeName is empty");
+                throw new ParameterException("typeName is empty", ErrorCode.INVALID_REQUEST);
+            }
+
+            long deleteCount = denaDataStore.deleteObjects(appId, typeName, objectIds);
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
                     .withCount(deleteCount)
                     .withTimestamp(DenaObjectUtils.timeStamp())
@@ -217,7 +226,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     }
 
     private DenaRestException buildBadRequestException(ErrorCode errorCode) {
-        InvalidInputExceptionImpl invalidInputException = new InvalidInputExceptionImpl("input invalid", errorCode);
+        ParameterException invalidInputException = new ParameterException("input invalid", errorCode);
         DenaRestException denaRestException = buildException(SC_BAD_REQUEST, errorCode, invalidInputException);
         return denaRestException;
     }
@@ -249,5 +258,9 @@ public class RestProcessorImpl implements DenaRestProcessor {
                 .build();
 
     }
+
+//    private void checkParameterValidaty(String) {
+//
+//    }
 
 }
