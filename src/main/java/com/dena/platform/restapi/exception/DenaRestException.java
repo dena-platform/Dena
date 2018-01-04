@@ -1,13 +1,23 @@
 package com.dena.platform.restapi.exception;
 
+import com.dena.platform.common.exception.DenaException;
+import com.dena.platform.common.exception.ErrorCode;
+import org.apache.commons.lang3.Range;
+import org.apache.commons.lang3.math.NumberUtils;
+
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 public class DenaRestException extends RuntimeException {
+
+    private final static Range<Integer> INPUT_EXCEPTION = Range.between(0, 99);
+    private final static Range<Integer> DATA_STORE_EXCEPTION = Range.between(100, 199);
 
     private Map<String, Object[]> messages = new HashMap<>();
 
@@ -32,6 +42,26 @@ public class DenaRestException extends RuntimeException {
     public String getErrorCode() {
         return errorCode;
     }
+
+    public static DenaRestException buildException(DenaException denaException) {
+        int errorCode = Integer.valueOf(denaException.getErrorCode().getErrorCode());
+        int statusCode;
+
+        if (INPUT_EXCEPTION.contains(errorCode)) {
+            statusCode = SC_BAD_REQUEST;
+        } else if (DATA_STORE_EXCEPTION.contains()) {
+
+        }
+
+        return DenaRestExceptionBuilder.aDenaRestException()
+                .withStatusCode(statusCode)
+                .withErrorCode(denaException.getErrorCode().getErrorCode())
+                .addMessageCode(denaException.getErrorCode().getMessageCode(), null)
+                .withCause(denaException)
+                .build();
+
+    }
+
 
     public static final class DenaRestExceptionBuilder {
         private int statusCode;
