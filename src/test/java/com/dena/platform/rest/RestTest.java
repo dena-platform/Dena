@@ -258,7 +258,7 @@ public class RestTest {
 
 
     @Test
-    public void test_DeleteRelation_With_Object_When_Object_Exist() throws Exception {
+    public void test_DeleteRelation_With_Object() throws Exception {
         /////////////////////////////////////////////
         //            Send Delete Object
         /////////////////////////////////////////////
@@ -270,7 +270,6 @@ public class RestTest {
         ReturnedObject expectedReturnObject = new ReturnedObject();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(1L);
-        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
         assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
@@ -297,7 +296,7 @@ public class RestTest {
     }
 
     @Test
-    public void test_DeleteRelation_When_Relation_Exist() throws Exception {
+    public void test_DeleteRelation() throws Exception {
         /////////////////////////////////////////////
         //            Send Delete Relation
         /////////////////////////////////////////////
@@ -435,8 +434,8 @@ public class RestTest {
         return createObjectFromJSON(returnContent, klass);
     }
 
-    private ReturnedObject performDeleteRelationWithObject(String type1, String relationName, String type2) throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + type1 + "/relation/" + relationName + "/" + type2))
+    private ReturnedObject performDeleteRelationWithObject(String parentObjectId, String relationName, String targetObjectId) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + parentObjectId + "/relation/" + relationName + "/" + targetObjectId))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
