@@ -20,7 +20,7 @@ public class ApplicationContextConfig {
     private boolean useCodeAsDefaultMessage;
 
 
-    @Bean
+    @Bean("denaMessageSource")
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:messages/ErrorCodeMessages");

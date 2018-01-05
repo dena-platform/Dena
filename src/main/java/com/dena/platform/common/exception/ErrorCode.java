@@ -2,24 +2,25 @@ package com.dena.platform.common.exception;
 
 /**
  * Each error code contain two part:
- * 1:message code that resolve to an message
- * 2:
+ * <li>message code that resolve to an message</li>
+ * <li>error code that include two part: error_code - http_response_code  </li>
+ *
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 
 public enum ErrorCode {
-    // Input type & format exception - range 00-99
-    INVALID_REQUEST("com.dena.platform.restapi.exception.INVALID_REQUEST", "00400"),
-    INVALID_MEDIA_TYPE("com.dena.platform.restapi.exception.INVALID_MEDIA_TYPE", "01400"),
+    // Input type & format exception - range 1000-1999
+    INVALID_REQUEST("com.dena.platform.restapi.exception.INVALID_REQUEST", "1000-400"),
+    INVALID_MEDIA_TYPE("com.dena.platform.restapi.exception.INVALID_MEDIA_TYPE", "1001-400"),
 
 
-    // Data store exception - range 100-199
-    GENERAL_DATA_STORE_EXCEPTION("com.dena.platform.restapi.exception.GENERAL_DATASTORE_EXCEPTION", "100500"),
-    RELATION_INVALID_EXCEPTION("com.dena.platform.restapi.exception.RELATION_INVALID_EXCEPTION", "101400"),
-    ObjectId_INVALID_EXCEPTION("com.dena.platform.restapi.exception.ObjectId_INVALID_EXCEPTION", "102400"),
+    // Data store exception - range 2000-2999
+    GENERAL_DATA_STORE_EXCEPTION("com.dena.platform.restapi.exception.GENERAL_DATASTORE_EXCEPTION", "2000-500"),
+    RELATION_INVALID_EXCEPTION("com.dena.platform.restapi.exception.RELATION_INVALID_EXCEPTION", "2001-400"),
+    ObjectId_INVALID_EXCEPTION("com.dena.platform.restapi.exception.ObjectId_INVALID_EXCEPTION", "2002-400"),
 
 
-    GENERAL("com.dena.platform.restapi.exception.GENERAL", "0");
+    GENERAL("com.dena.platform.restapi.exception.GENERAL", "999-500");
 
     private String messageCode;
     private String errorCode;

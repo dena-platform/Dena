@@ -16,9 +16,6 @@ import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
  */
 public class DenaRestException extends RuntimeException {
 
-    private final static Range<Integer> INPUT_EXCEPTION = Range.between(0, 99);
-    private final static Range<Integer> DATA_STORE_EXCEPTION = Range.between(100, 199);
-
     private Map<String, Object[]> messages = new HashMap<>();
 
     private int statusCode;
@@ -44,18 +41,12 @@ public class DenaRestException extends RuntimeException {
     }
 
     public static DenaRestException buildException(DenaException denaException) {
-        int errorCode = Integer.valueOf(denaException.getErrorCode().getErrorCode());
-        int statusCode;
-
-        if (INPUT_EXCEPTION.contains(errorCode)) {
-            statusCode = SC_BAD_REQUEST;
-        } else if (DATA_STORE_EXCEPTION.contains()) {
-
-        }
+        String errorCode = denaException.getErrorCode().getErrorCode().split("-")[0];
+        int httpStatusCode = Integer.valueOf(denaException.getErrorCode().getErrorCode().split("-")[1]);
 
         return DenaRestExceptionBuilder.aDenaRestException()
-                .withStatusCode(statusCode)
-                .withErrorCode(denaException.getErrorCode().getErrorCode())
+                .withStatusCode(httpStatusCode)
+                .withErrorCode(errorCode)
                 .addMessageCode(denaException.getErrorCode().getMessageCode(), null)
                 .withCause(denaException)
                 .build();

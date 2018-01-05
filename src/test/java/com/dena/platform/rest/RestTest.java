@@ -38,8 +38,6 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest
 public class RestTest {
 
-    private final static Logger log = LoggerFactory.getLogger(RestTest.class);
-
     private String objectId1 = "5a316b1b4e5f450104c31909";
     private String objectId2 = "5a1bd6176f017921441d4a50";
     private String objectId3 = "5a206dafcc2a9b26e483d663";
@@ -167,10 +165,6 @@ public class RestTest {
 
     @Test
     public void test_FindObject_When_Object_Not_Exist() throws Exception {
-        /////////////////////////////////////////////
-        //            Generate Random Object Id
-        /////////////////////////////////////////////
-        String randomObjectId = ObjectId.get().toHexString();
 
         /////////////////////////////////////////////
         //            Send Find Object Request
