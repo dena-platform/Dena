@@ -260,12 +260,12 @@ public class RestTest {
     @Test
     public void test_DeleteRelation_With_Object() throws Exception {
         /////////////////////////////////////////////
-        //            Send Delete Object
+        //            Send Delete Relation
         /////////////////////////////////////////////
         ReturnedObject actualReturnObject = performDeleteRelationWithObject(objectId3, CommonConfig.COLLECTION_NAME, objectId1);
 
         /////////////////////////////////////////////
-        //            Assert Delete Object
+        //            Assert Delete Relation
         /////////////////////////////////////////////
         ReturnedObject expectedReturnObject = new ReturnedObject();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
