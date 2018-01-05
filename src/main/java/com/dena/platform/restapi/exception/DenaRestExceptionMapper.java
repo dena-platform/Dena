@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class DenaRestExceptionMapper {
     private final static Logger log = LoggerFactory.getLogger(DenaRestExceptionMapper.class);
 
-    @Resource(name = "messageSource")
+    @Resource(name = "denaMessageSource")
     private MessageSource messageSource;
 
     @ExceptionHandler(DenaRestException.class)
