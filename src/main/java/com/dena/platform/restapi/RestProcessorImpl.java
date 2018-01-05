@@ -101,26 +101,22 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String objectId2 = denaRequestContext.getPathVariable("object-id-2");
 
         try {
+            long deleteCount;
+
             // delete relation with object
             if (StringUtils.isNotBlank(objectId2)) {
-                long deleteCount = denaDataStore.deleteRelation(appName, appTypeName, objectId, typeName2, objectId2);
-                DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
-                        .withCount(deleteCount)
-                        .withTimestamp(DenaObjectUtils.timeStamp())
-                        .build();
-
-                return ResponseEntity.ok().body(denaResponse);
+                deleteCount = denaDataStore.deleteRelation(appName, appTypeName, objectId, typeName2, objectId2);
             }
             // delete relation with target type
             else {
-                long deleteCount = denaDataStore.deleteRelation(appName, appTypeName, objectId, typeName2);
-                DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
-                        .withCount(deleteCount)
-                        .withTimestamp(DenaObjectUtils.timeStamp())
-                        .build();
-
-                return ResponseEntity.ok().body(denaResponse);
+                deleteCount = denaDataStore.deleteRelation(appName, appTypeName, objectId, typeName2);
             }
+
+            DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
+                    .withCount(deleteCount)
+                    .withTimestamp(DenaObjectUtils.timeStamp())
+                    .build();
+            return ResponseEntity.ok().body(denaResponse);
         } catch (DenaException ex) {
             throw DenaRestException.buildException(ex);
         }
