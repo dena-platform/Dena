@@ -138,10 +138,27 @@ public class DeleteDataTest extends AbstractDataStoreTest {
     @Test
     public void test_DeleteRelation_With_Object_When_Object_Id_Invalid() throws Exception {
         /////////////////////////////////////////////////////////////////////////
-        //            Send Delete Object Request - Invalid object id format
+        //            Send Delete Relation - Invalid object id format
         /////////////////////////////////////////////////////////////////////////
         String invalidObjectId = "5a1bd6176f";
         TestErrorResponse actualReturnObject = performDeleteRelationWithObject(invalidObjectId, CommonConfig.COLLECTION_NAME, 400, objectId1, TestErrorResponse.class);
+
+        TestErrorResponse expectedReturnObject = new TestErrorResponse();
+        expectedReturnObject.status = 400;
+        expectedReturnObject.errorCode = "2002";
+        expectedReturnObject.messages = Arrays.asList("objectId is invalid");
+
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+
+    }
+
+    @Test
+    public void test_DeleteRelation_With_Object_When_Relation_Not_Exist() throws Exception {
+        /////////////////////////////////////////////////////////////////////////
+        //            Send Delete Relation - Invalid object id format
+        /////////////////////////////////////////////////////////////////////////
+        String invalidObjectId = "5a1bd6176f";
+        TestErrorResponse actualReturnObject = performDeleteRelationWithObject(invalidObjectId, "not_exist_relation", 400, objectId1, TestErrorResponse.class);
 
         TestErrorResponse expectedReturnObject = new TestErrorResponse();
         expectedReturnObject.status = 400;
