@@ -38,7 +38,6 @@ public class API {
     /**
      * Delete one or many specified objects
      *
-     * @param request
      * @return
      */
     @DeleteMapping(path = "/{app-id}/{type-name}/{object-id}")
@@ -48,6 +47,12 @@ public class API {
 
     }
 
+
+    /**
+     * Delete only relation between object or object to target type
+     *
+     * @return
+     */
     @DeleteMapping(path = {
             "/{app-id}/{type-name}/{object-id}/relation/{type-name-2}/{object-id-2}",
             "/{app-id}/{type-name}/{object-id}/relation/{type-name-2}"})
