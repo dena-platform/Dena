@@ -49,7 +49,7 @@ public class API {
 
 
     /**
-     * Delete only relation between object or object to target type
+     * Delete only relation between object --> object or object --> target_type
      *
      * @return
      */
