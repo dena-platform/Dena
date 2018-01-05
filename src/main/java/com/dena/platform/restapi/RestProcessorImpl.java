@@ -122,7 +122,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
                 return ResponseEntity.ok().body(denaResponse);
             }
         } catch (DenaException ex) {
-            throw buildBadRequestException(ex.getErrorCode());
+            throw DenaRestException.buildException(ex);
         }
 
     }
