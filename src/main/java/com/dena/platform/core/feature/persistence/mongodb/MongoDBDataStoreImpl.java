@@ -112,23 +112,23 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public long deleteRelation(String appName, String typeName1, String objectId1, String typeName2, String objectId2) {
-        checkObjectIdValidity(Arrays.asList(objectId1, objectId2));
+    public long deleteRelation(String appName, String parentTypeName, String parentObjectId, String childTypeName, String childObjectId) {
+        checkObjectIdValidity(Arrays.asList(parentObjectId, childObjectId));
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
-            return MongoDBUtils.deleteRelationWithObjectId(mongoDatabase, typeName1, objectId1, typeName2, objectId2);
+            return MongoDBUtils.deleteRelationWithObjectId(mongoDatabase, parentTypeName, parentObjectId, childTypeName, childObjectId);
         } catch (Exception ex) {
             throw new DataStoreException("Error in delete relation", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
     }
 
     @Override
-    public long deleteRelation(String appName, String typeName1, String objectId1, String typeName2) {
-        checkObjectIdValidity(Collections.singletonList(objectId1));
+    public long deleteRelation(String appName, String parentTypeName, String parentObjectId, String childTypeName) {
+        checkObjectIdValidity(Collections.singletonList(parentObjectId));
 
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
-            return MongoDBUtils.deleteRelationWithType(mongoDatabase, typeName1, objectId1, typeName2);
+            return MongoDBUtils.deleteRelationWithType(mongoDatabase, parentTypeName, parentObjectId, childTypeName);
         } catch (Exception ex) {
             throw new DataStoreException("Error in delete relation", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
