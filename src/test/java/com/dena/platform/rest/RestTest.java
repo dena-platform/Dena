@@ -10,8 +10,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -31,7 +29,7 @@ import java.util.List;
 
 import static com.dena.platform.utils.JSONMapper.createJSONFromObject;
 import static com.dena.platform.utils.JSONMapper.createObjectFromJSON;
-import static com.dena.platform.utils.TestUtils.isTimeEqualRegardlessOfMinute;
+import static com.dena.platform.utils.TestUtils.isTimeEqualRegardlessOfSecond;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
@@ -122,7 +120,7 @@ public class RestTest {
         expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
 
         // check timestamp field of returned object
-        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
@@ -158,7 +156,7 @@ public class RestTest {
 
 
         // check timestamp field of returned object
-        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
 
     }
@@ -179,7 +177,7 @@ public class RestTest {
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
         // check timestamp field of returned object
-        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), JSONCompareMode.NON_EXTENSIBLE);
 
     }
@@ -216,7 +214,7 @@ public class RestTest {
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
 
-        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
     }
 
@@ -246,7 +244,7 @@ public class RestTest {
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
 
-        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
 
     }

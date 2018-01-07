@@ -72,7 +72,7 @@ public class ReturnedObject {
         ReturnedObject that = (ReturnedObject) o;
 
         if (count != that.count) return false;
-        if (!TestUtils.isTimeEqualRegardlessOfMinute(Long.valueOf(timestamp), Long.valueOf(that.getTimestamp()))) {
+        if (!TestUtils.isTimeEqualRegardlessOfSecond(Long.valueOf(timestamp), Long.valueOf(that.getTimestamp()))) {
             return false;
         }
         return testObjectResponseList != null ? testObjectResponseList.equals(that.testObjectResponseList) : that.testObjectResponseList == null;
