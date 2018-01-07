@@ -22,7 +22,6 @@ import org.springframework.util.Assert;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -60,8 +59,6 @@ public class MongoDBUtils {
     }
 
     public static void updateDocument(MongoDatabase mongoDatabase, String collectionName, List<? extends Document> documents) {
-        Assert.hasLength(collectionName, "collection should not be empty or null ");
-        Assert.notEmpty(documents, "MongoClient should not be null");
 
         ArrayList<WriteModel<Document>> updates = new ArrayList<>();
         documents.forEach(document -> {

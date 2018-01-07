@@ -79,17 +79,17 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
         try {
             denaDataStore.updateObjects(denaObjects, appName, appTypeName);
+            DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
+                    .withObjectResponseList(createObjectResponse(denaObjects, appTypeName))
+                    .withCount(denaObjects.size())
+                    .withTimestamp(DenaObjectUtils.timeStamp())
+                    .build();
+            return ResponseEntity.ok().body(denaResponse);
         } catch (DataStoreException ex) {
-            throw buildBadRequestException(ex.getErrorCode());
+            throw DenaRestException.buildException(ex);
         }
 
-        DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
-                .withObjectResponseList(createObjectResponse(denaObjects, appTypeName))
-                .withCount(denaObjects.size())
-                .withTimestamp(DenaObjectUtils.timeStamp())
-                .build();
 
-        return ResponseEntity.ok().body(denaResponse);
     }
 
     @Override

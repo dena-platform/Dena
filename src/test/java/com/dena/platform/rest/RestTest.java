@@ -118,7 +118,7 @@ public class RestTest {
         TestObjectResponse testObjectResponse = new TestObjectResponse();
         testObjectResponse.objectId = objectId3;
         testObjectResponse.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
-        testObjectResponse.getAllFields().put("job", "new developer");
+        testObjectResponse.getAllFields().put("job", "new developer value");
         testObjectResponse.getAllFields().put("new field", "new value");
         testObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(newObjectId, CommonConfig.COLLECTION_NAME));
 
