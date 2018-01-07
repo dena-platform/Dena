@@ -74,8 +74,6 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 ObjectId objectId = new ObjectId(denaObject.getObjectId());
 
                 Document document = new Document();
-                document.put(MongoDBUtils.APP_NAME, appName);
-                document.put(MongoDBUtils.TYPE_NAME, typeName);
                 document.put(MongoDBUtils.ID, objectId);
 
                 document.putAll(denaObject.getFields());
@@ -267,8 +265,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     private Map<String, List<ObjectId>> getRelation(DenaObject denaObject) {
         Map<String, List<ObjectId>> references = new HashMap<>();
 
-        denaObject
-                .getRelatedObjects()
+        denaObject.getRelatedObjects()
                 .forEach(relatedObject -> {
                     references.putIfAbsent(relatedObject.getTypeName(), new ArrayList<>());
                     ObjectId objectId = new ObjectId(relatedObject.getRelatedObjectId());
