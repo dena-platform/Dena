@@ -25,9 +25,9 @@ import static com.dena.platform.utils.JSONMapper.createObjectFromJSON;
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 public class AbstractDataStoreTest {
-    protected String objectId1 = "5a316b1b4e5f450104c31909";
-    protected String objectId2 = "5a1bd6176f017921441d4a50";
-    protected String objectId3 = "5a206dafcc2a9b26e483d663";
+    protected final String objectId1 = "5a316b1b4e5f450104c31909";
+    protected final String objectId2 = "5a1bd6176f017921441d4a50";
+    protected final String objectId3 = "5a206dafcc2a9b26e483d663";
     protected final String randomObjectId = ObjectId.get().toHexString();
 
 

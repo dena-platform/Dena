@@ -25,6 +25,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class DeleteDataTest extends AbstractDataStoreTest {
+
     @Test
     public void test_DeleteObjects() throws Exception {
         /////////////////////////////////////////////
