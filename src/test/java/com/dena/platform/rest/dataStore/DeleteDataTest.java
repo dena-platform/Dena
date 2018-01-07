@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import static com.dena.platform.utils.JSONMapper.createJSONFromObject;
-import static com.dena.platform.utils.TestUtils.isTimeEqualRegardlessOfMinute;
+import static com.dena.platform.utils.TestUtils.isTimeEqualRegardlessOfSecond;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -40,7 +40,7 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         expectedReturnObject.setCount(3L);
 
         // check timestamp field of returned object
-        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
@@ -75,7 +75,7 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         expectedReturnObject.setCount(0L);
 
         // check timestamp field of returned object
-        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
     }
 
@@ -91,7 +91,7 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         expectedReturnObject.setCount(0L);
 
         // check timestamp field of returned object
-        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
@@ -111,7 +111,7 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(1L);
 
-        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
         /////////////////////////////////////////////
@@ -130,7 +130,7 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         testObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(objectId2, CommonConfig.COLLECTION_NAME));
         expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
 
-        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
@@ -185,7 +185,7 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         expectedReturnObject.setCount(2L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
-        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
         /////////////////////////////////////////////
@@ -203,7 +203,7 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         testObjectResponse.addProperty("job", "developer");
         expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
 
-        assertTrue(isTimeEqualRegardlessOfMinute(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
