@@ -99,6 +99,7 @@ public class DeleteDataTest extends AbstractDataStoreTest {
 
     @Test
     public void test_DeleteRelation_With_Object() throws Exception {
+
         /////////////////////////////////////////////
         //            Send Delete Relation
         /////////////////////////////////////////////
@@ -153,24 +154,6 @@ public class DeleteDataTest extends AbstractDataStoreTest {
     }
 
     @Test
-    public void test_DeleteRelation_With_Object_When_Relation_Not_Exist() throws Exception {
-        /////////////////////////////////////////////////////////////////////////
-        //            Send Delete Relation - Invalid object id format
-        /////////////////////////////////////////////////////////////////////////
-        String invalidObjectId = "5a1bd6176f";
-        TestErrorResponse actualReturnObject = performDeleteRelationWithObject(invalidObjectId, "not_exist_relation", 400, objectId1, TestErrorResponse.class);
-
-        TestErrorResponse expectedReturnObject = new TestErrorResponse();
-        expectedReturnObject.status = 400;
-        expectedReturnObject.errorCode = "2002";
-        expectedReturnObject.messages = Arrays.asList("objectId is invalid");
-
-        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
-
-    }
-
-
-    @Test
     public void test_DeleteRelation() throws Exception {
         /////////////////////////////////////////////
         //            Send Delete Relation
@@ -207,5 +190,21 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
+
+    @Test
+    public void test_DeleteRelation_With_Object_When_Relation_Not_Exist() throws Exception {
+        /////////////////////////////////////////////////////////////////////////
+        //            Send Delete Relation - Invalid relation name
+        /////////////////////////////////////////////////////////////////////////
+        ReturnedObject actualReturnObject = performDeleteRelationWithObject(objectId3, "not_exist_relation", 200, objectId1, ReturnedObject.class);
+
+        ReturnedObject expectedReturnObject = new ReturnedObject();
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+        expectedReturnObject.setCount(0L);
+
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+
+    }
+
 
 }
