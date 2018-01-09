@@ -124,7 +124,7 @@ if there is a new field or new relation(new type) add to existing fields or rela
 
 If relation with same type exist then replace with new specified relation. 
 
-return updated object(s) with only updated fields and relation. 
+return updated object(s).
 
 Method: PUT
 
@@ -137,7 +137,7 @@ Content-Type:application/json
 Request Body: 
 
     {
-      "object_id":"2323424242001",
+      "object_id":"5a316b1b4e5f450104c31909",
       "field3": "javad",
       "field4": "developer",
       "new_field":"field",
@@ -156,10 +156,16 @@ Return Value:
        "count" : number of updated object(s),
   	   "objects": [
          {
-           "object_id":"2323424242001",
+           "object_id": "5a316b1b4e5f450104c31909",
            "field3": "javad",
            "field4": "developer",
-           "new_field":"field" 
+           "new_field":"field",
+		   "related_objects": [
+    	  	  {
+      	  	    "id": "123123",
+      	  	    "type": "para"
+    	      }
+      		]
          }
       	]
       }
