@@ -4,7 +4,10 @@ import com.dena.platform.core.dto.RelatedObject;
 import com.fasterxml.jackson.annotation.*;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
@@ -15,11 +18,11 @@ import java.util.*;
 public class DenaObjectResponse {
     private Map<String, Object> fields = new LinkedHashMap<>();
 
-    @JsonProperty(value = "related_objects")
-    private List<RelatedObject> relatedObjects = new ArrayList<>();
-
     @JsonProperty(value = "object_id")
     private String objectId;
+
+    @JsonProperty(value = "related_objects")
+    private List<RelatedObject> relatedObjects = new ArrayList<>();
 
     @JsonProperty(value = "object_uri")
     private String objectURI;
