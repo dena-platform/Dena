@@ -70,7 +70,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
             denaObjects.forEach(denaObject -> {
                 checkRelationValidity(mongoDatabase, denaObject.getRelatedObjects());
-                checkObjectIdValidity(mongoDatabase, typeName, denaObject.getObjectId());
+                checkObjectIdExist(mongoDatabase, typeName, denaObject.getObjectId());
                 ObjectId objectId = new ObjectId(denaObject.getObjectId());
 
                 Document document = new Document();
@@ -222,7 +222,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
     private void checkRelationValidity(MongoDatabase mongoDatabase, List<RelatedObject> relatedObjectList) {
         if (CollectionUtils.isNotEmpty(relatedObjectList)) {
-
+            // todo: use count to check relation validity for performance reason
             try {
                 relatedObjectList.stream().allMatch(relatedObject ->
                         MongoDBUtils.findDocumentById(mongoDatabase, relatedObject.getTypeName(), relatedObject.getRelatedObjectId()) != null);
@@ -234,17 +234,13 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
     }
 
-    private void checkObjectIdValidity(MongoDatabase mongoDatabase, String typeName, String objectId) {
-        boolean isObjectIdValid;
-        try {
-            isObjectIdValid = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId) != null;
-        } catch (IllegalArgumentException ex) {
-            // in case of invalid object id
-            isObjectIdValid = false;
-        }
+    private void checkObjectIdExist(MongoDatabase mongoDatabase, String typeName, String objectId) {
+        checkObjectIdValidity(Collections.singletonList(objectId));
+
+        boolean isObjectIdValid = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId) != null;
 
         if (!isObjectIdValid) {
-            throw new DataStoreException("ObjectId invalid exception", ErrorCode.ObjectId_INVALID_EXCEPTION);
+            throw new DataStoreException("ObjectId not found exception", ErrorCode.ObjectId_INVALID_EXCEPTION);
         }
     }
 

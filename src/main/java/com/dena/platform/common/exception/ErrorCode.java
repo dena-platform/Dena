@@ -15,9 +15,10 @@ public enum ErrorCode {
 
 
     // Data store exception - range 2000-2999
-    GENERAL_DATA_STORE_EXCEPTION("com.dena.platform.restapi.exception.GENERAL_DATASTORE_EXCEPTION", "2000-500"),
-    RELATION_INVALID_EXCEPTION("com.dena.platform.restapi.exception.RELATION_INVALID_EXCEPTION", "2001-400"),
-    ObjectId_INVALID_EXCEPTION("com.dena.platform.restapi.exception.ObjectId_INVALID_EXCEPTION", "2002-400"),
+    GENERAL_DATA_STORE_EXCEPTION("com.dena.platform.restapi.exception.GENERAL_DATASTORE", "2000-500"),
+    RELATION_INVALID_EXCEPTION("com.dena.platform.restapi.exception.RELATION_INVALID", "2001-400"),
+    ObjectId_INVALID_EXCEPTION("com.dena.platform.restapi.exception.ObjectId_INVALID", "2002-400"),
+    ObjectId_NOT_FOUND_EXCEPTION("com.dena.platform.restapi.exception.ObjectId_NOT_FOUND", "2003-400"),
 
 
     GENERAL("com.dena.platform.restapi.exception.GENERAL", "999-500");
