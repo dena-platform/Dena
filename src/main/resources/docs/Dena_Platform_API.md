@@ -124,7 +124,16 @@ if there is a new field or new relation(new type) add to existing fields or rela
 
 If relation with same type exist then replace with new specified relation. 
 
-return updated object(s).
+If object_id for updating object is not found then return bad request error.
+
+If data in relation is invalid for example object_id not exist or type not found return bad request error.
+ 
+
+return: 
+
+success: Updated object(s) count.
+
+
 
 Method: PUT
 

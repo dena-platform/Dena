@@ -89,7 +89,6 @@ public class RestProcessorImpl implements DenaRestProcessor {
             throw DenaRestException.buildException(ex);
         }
 
-
     }
 
     @Override
