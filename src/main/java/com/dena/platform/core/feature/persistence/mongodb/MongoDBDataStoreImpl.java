@@ -75,7 +75,6 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
                 Document document = new Document();
                 document.put(MongoDBUtils.ID, objectId);
-
                 document.putAll(denaObject.getFields());
 
                 // update relation
@@ -97,12 +96,10 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
     @Override
     public long deleteObjects(String appName, String typeName, List<String> objectIds) throws DataStoreException {
+        checkObjectIdValidity(objectIds);
         try {
-            checkObjectIdValidity(objectIds);
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
             return MongoDBUtils.deleteDocument(mongoDatabase, typeName, objectIds);
-        } catch (DataStoreException ex) {
-            throw ex;
         } catch (Exception ex) {
             throw new DataStoreException("Error in deleting object", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
