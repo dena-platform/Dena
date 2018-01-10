@@ -63,16 +63,30 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public void updateObjects(List<DenaObject> denaObjects, final String appName, final String typeName) {
+    public List<DenaObject> updateObjects(List<DenaObject> denaObjects, final String appName, final String typeName) {
+        List<DenaObject> returnObject = new ArrayList<>();
+        MongoDatabase mongoDatabase;
         List<Document> documentList = new ArrayList<>();
+
+        if (CollectionUtils.isEmpty(denaObjects)) {
+            return Collections.emptyList();
+        }
+
         try {
-            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
+            mongoDatabase = MongoDBUtils.getDataBase(appName);
+        } catch (Exception ex) {
+            throw new DataStoreException("Error in updating objects", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
+        }
 
+        denaObjects.forEach(denaObject -> {
+            checkRelationValidity(mongoDatabase, denaObject.getRelatedObjects());
+            checkObjectIdExist(mongoDatabase, typeName, denaObject.getObjectId());
+        });
+
+
+        try {
             denaObjects.forEach(denaObject -> {
-                checkRelationValidity(mongoDatabase, denaObject.getRelatedObjects());
-                checkObjectIdExist(mongoDatabase, typeName, denaObject.getObjectId());
                 ObjectId objectId = new ObjectId(denaObject.getObjectId());
-
                 Document document = new Document();
                 document.put(MongoDBUtils.ID, objectId);
                 document.putAll(denaObject.getFields());
@@ -82,12 +96,9 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                     document.putAll(getRelation(denaObject));
                 }
                 documentList.add(document);
-
             });
 
             MongoDBUtils.updateDocument(mongoDatabase, typeName, documentList);
-        } catch (DataStoreException ex) {
-            throw ex;
         } catch (Exception ex) {
             throw new DataStoreException("Error in updating objects", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
@@ -95,7 +106,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public long deleteObjects(String appName, String typeName, List<String> objectIds) throws DataStoreException {
+    public long deleteObjects(String appName, String typeName, List<String> objectIds) {
         checkObjectIdValidity(objectIds);
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);

@@ -11,7 +11,7 @@ import java.util.List;
 public interface DenaDataStore {
     void storeObjects(List<DenaObject> denaObject, String appName, String typeName);
 
-    void updateObjects(List<DenaObject> denaObject, String appName, String typeName);
+    List<DenaObject> updateObjects(List<DenaObject> denaObject, String appName, String typeName);
 
     long deleteObjects(String appName, String typeName, List<String> objectIds);
 
