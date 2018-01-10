@@ -96,9 +96,11 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                     document.putAll(getRelation(denaObject));
                 }
                 documentList.add(document);
+                returnObject.add(findObject(appName, typeName, objectId.toString()));
             });
 
             MongoDBUtils.updateDocument(mongoDatabase, typeName, documentList);
+            return returnObject;
         } catch (Exception ex) {
             throw new DataStoreException("Error in updating objects", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
