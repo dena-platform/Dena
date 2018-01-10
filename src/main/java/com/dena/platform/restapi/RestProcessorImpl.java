@@ -88,7 +88,6 @@ public class RestProcessorImpl implements DenaRestProcessor {
         } catch (DataStoreException ex) {
             throw DenaRestException.buildException(ex);
         }
-
     }
 
     @Override
