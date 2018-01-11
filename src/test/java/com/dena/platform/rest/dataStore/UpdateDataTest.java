@@ -61,4 +61,22 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
     }
 
+    @Test
+    public void test_UpdateObject_When_Object_Id_Invalid() throws Exception {
+        //////////////////////////////////////////////////////////////////////
+        //           Send Update Object Request - Invalid object id format
+        //////////////////////////////////////////////////////////////////////
+        TestRequestObject requestObject = new TestRequestObject();
+        requestObject.setObjectId(objectId3);
+        requestObject.addProperty("job", "new developer value");
+        requestObject.addProperty("new field", "new value");
+        String newObjectId = randomObjectId;
+        requestObject.getRelatedObjects().add(new TestRelatedObject(newObjectId, CommonConfig.COLLECTION_NAME));
+
+        ReturnedObject actualReturnObject = performUpdateObject(createJSONFromObject(requestObject));
+
+
+    }
+
+
 }
