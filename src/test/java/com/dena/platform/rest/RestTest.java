@@ -98,39 +98,6 @@ public class RestTest {
 
     }
 
-    @Test
-    public void test_UpdateObject() throws Exception {
-        /////////////////////////////////////////////
-        //           Send Update Object Request
-        /////////////////////////////////////////////
-        TestRequestObject requestObject = new TestRequestObject();
-        requestObject.setObjectId(objectId3);
-        requestObject.addProperty("job", "new developer value");
-        requestObject.addProperty("new field", "new value");
-        String newObjectId = randomObjectId;
-        requestObject.getRelatedObjects().add(new TestRelatedObject(newObjectId, CommonConfig.COLLECTION_NAME));
-
-        ReturnedObject actualReturnObject = performUpdateObject(createJSONFromObject(requestObject));
-
-        /////////////////////////////////////////////
-        //            Assert Update Response
-        /////////////////////////////////////////////
-        TestObjectResponse testObjectResponse = new TestObjectResponse();
-        testObjectResponse.objectId = objectId3;
-        testObjectResponse.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
-        testObjectResponse.getAllFields().put("job", "new developer value");
-        testObjectResponse.getAllFields().put("new field", "new value");
-        testObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(newObjectId, CommonConfig.COLLECTION_NAME));
-
-
-        ReturnedObject expectedReturnObject = new ReturnedObject();
-        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
-        expectedReturnObject.setCount(1L);
-        expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
-
-        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
-        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
-    }
 
     @Test
     public void test_CreateObject() throws Exception {
@@ -163,76 +130,6 @@ public class RestTest {
 
     }
 
-
-    private ReturnedObject performFindRequest(String objectId1) throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId1))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn();
-
-        String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, ReturnedObject.class);
-    }
-
-    private ReturnedObject performFindRelationRequest(String objectId1, String targetType) throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId1 + "/relation/" + targetType))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn();
-
-        String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, ReturnedObject.class);
-    }
-
-    private <T> T performDeleteRequest(List<String> objectList, int status, Class<T> klass) throws Exception {
-        return performDeleteRequest(objectList, CommonConfig.BASE_URL + "/", status, klass);
-    }
-
-    private <T> T performDeleteRequest(List<String> objectList, String urlRequest, int status, Class<T> klass) throws Exception {
-        String objectIds = String.join(",", objectList);
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(urlRequest + objectIds))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is(status))
-                .andReturn();
-
-        String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, klass);
-    }
-
-    private ReturnedObject performDeleteRelationWithObject(String parentObjectId, String relationName, String targetObjectId) throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + parentObjectId + "/relation/" + relationName + "/" + targetObjectId))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn();
-
-        String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, ReturnedObject.class);
-
-    }
-
-    private ReturnedObject performDeleteRelation(String type1, String relationName) throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + type1 + "/relation/" + relationName))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn();
-
-        String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, ReturnedObject.class);
-
-    }
-
-    private ReturnedObject performUpdateObject(String body) throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(CommonConfig.BASE_URL)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(body))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn();
-
-        String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, ReturnedObject.class);
-
-    }
 
     private ReturnedObject performCreateObject(String body) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.BASE_URL)
