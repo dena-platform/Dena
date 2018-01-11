@@ -45,7 +45,6 @@ public class RestProcessorImpl implements DenaRestProcessor {
     @Resource(name = "denaMongoDBDataStoreImpl")
     private DenaDataStore denaDataStore;
 
-    // Creating object(s)
     @Override
     public ResponseEntity handleCreateObject(DenaRequestContext denaRequestContext) {
         String requestBody = denaRequestContext.getRequestBody();
@@ -56,17 +55,15 @@ public class RestProcessorImpl implements DenaRestProcessor {
         try {
             denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
             denaDataStore.storeObjects(denaObjects, appName, appTypeName);
+            DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
+                    .withObjectResponseList(createObjectResponse(denaObjects, appTypeName))
+                    .withCount(denaObjects.size())
+                    .withTimestamp(DenaObjectUtils.timeStamp())
+                    .build();
+            return ResponseEntity.ok().body(denaResponse);
         } catch (DenaException ex) {
-            throw buildBadRequestException(ex.getErrorCode());
+            throw DenaRestException.buildException(ex);
         }
-
-        DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
-                .withObjectResponseList(createObjectResponse(denaObjects, appTypeName))
-                .withCount(denaObjects.size())
-                .withTimestamp(DenaObjectUtils.timeStamp())
-                .build();
-
-        return ResponseEntity.ok().body(denaResponse);
     }
 
     @Override
@@ -208,21 +205,6 @@ public class RestProcessorImpl implements DenaRestProcessor {
         });
 
         return denaObjectResponses;
-    }
-
-    private DenaRestException buildException(final int statusCode, ErrorCode errorCode, Throwable ex) {
-        return DenaRestExceptionBuilder.aDenaRestException()
-                .withStatusCode(statusCode)
-                .withErrorCode(errorCode.getErrorCode())
-                .addMessageCode(errorCode.getMessageCode(), null)
-                .withCause(ex)
-                .build();
-    }
-
-    private DenaRestException buildBadRequestException(ErrorCode errorCode) {
-        ParameterInvalidException invalidInputException = new ParameterInvalidException("input invalid", errorCode);
-        DenaRestException denaRestException = buildException(SC_BAD_REQUEST, errorCode, invalidInputException);
-        return denaRestException;
     }
 
     private DenaPager constructPager(DenaRequestContext denaRequestContext) {

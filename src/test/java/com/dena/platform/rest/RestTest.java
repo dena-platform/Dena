@@ -115,8 +115,8 @@ public class RestTest {
         //            Assert Create Response
         /////////////////////////////////////////////
         TestObjectResponse testObjectResponse = new TestObjectResponse();
-        testObjectResponse.getAllFields().put("job", "new developer");
-        testObjectResponse.getAllFields().put("name", "developer");
+        testObjectResponse.addProperty("job", "new developer");
+        testObjectResponse.addProperty("name", "developer");
         testObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
 
 

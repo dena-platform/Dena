@@ -27,15 +27,30 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
 
     @Override
-    public void storeObjects(final List<DenaObject> denaObjects, final String appName, final String typeName) throws DataStoreException {
+    public List<DenaObject> storeObjects(final List<DenaObject> denaObjects, final String appName, final String typeName) {
         List<Document> documentList = new ArrayList<>();
+        List<DenaObject> returnObject = new ArrayList<>();
+        MongoDatabase mongoDatabase;
+
+        if (CollectionUtils.isEmpty(denaObjects)) {
+            return Collections.emptyList();
+        }
 
         try {
-            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
+            mongoDatabase = MongoDBUtils.getDataBase(appName);
+        } catch (Exception ex) {
+            throw new DataStoreException("Error in updating objects", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
+        }
+
+
+        denaObjects.forEach(denaObject -> {
+            checkRelationValidity(mongoDatabase, denaObject.getRelatedObjects());
+        });
+
+        List<String> ids = new ArrayList<>();
+        try {
 
             denaObjects.forEach(denaObject -> {
-
-                checkRelationValidity(mongoDatabase, denaObject.getRelatedObjects());
 
                 ObjectId objectId = ObjectId.get();
                 denaObject.setObjectId(objectId.toHexString());
@@ -52,11 +67,16 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                     document.putAll(getRelation(denaObject));
                 }
                 documentList.add(document);
+                ids.add(objectId.toString());
             });
 
             MongoDBUtils.createDocument(mongoDatabase, typeName, documentList);
-        } catch (DataStoreException ex) {
-            throw ex;
+
+            // todo : performance- use better approach to find object with ids (bulk find)
+            ids.forEach(id -> {
+                returnObject.add(findObject(appName, typeName, id));
+            });
+
         } catch (Exception ex) {
             throw new DataStoreException("Error in storing object", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
