@@ -60,6 +60,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
     }
 
+    @Ignore
     @Test
     public void test_UpdateObject_When_Object_Id_Invalid() throws Exception {
         //////////////////////////////////////////////////////////////////////
@@ -83,9 +84,33 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         expectedReturnObject.errorCode = "2002";
         expectedReturnObject.messages = Arrays.asList("objectId is invalid");
 
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+    }
+
+    @Test
+    public void test_UpdateObject_When_Object_Id_Not_Exist() throws Exception {
+        //////////////////////////////////////////////////////////////////////
+        //           Send Update Object Request - object id not exist
+        //////////////////////////////////////////////////////////////////////
+        String notExistObjectId = "5a206dc2cc2a9b26e483d664";
+        TestRequestObject requestObject = new TestRequestObject();
+        requestObject.setObjectId(notExistObjectId);
+        requestObject.addProperty("job", "new developer value");
+        requestObject.addProperty("new field", "new value");
+        String newObjectId = randomObjectId;
+        requestObject.getRelatedObjects().add(new TestRelatedObject(newObjectId, CommonConfig.COLLECTION_NAME));
+
+        TestErrorResponse actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), 400, TestErrorResponse.class);
+
+        ////////////////////////////////////////////////////////////////////////////
+        //            Assert Update Object Request  - object id not exist
+        ////////////////////////////////////////////////////////////////////////////
+        TestErrorResponse expectedReturnObject = new TestErrorResponse();
+        expectedReturnObject.status = 400;
+        expectedReturnObject.errorCode = "2003";
+        expectedReturnObject.messages = Arrays.asList("objectId not found");
 
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
-
     }
 
 
