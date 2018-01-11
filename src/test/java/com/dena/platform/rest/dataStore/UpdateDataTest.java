@@ -134,7 +134,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         TestErrorResponse expectedReturnObject = new TestErrorResponse();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "2001";
-        expectedReturnObject.messages = Arrays.asList("relation(s) is invalid");
+        expectedReturnObject.messages = Collections.singletonList("relation(s) is invalid");
 
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
     }
