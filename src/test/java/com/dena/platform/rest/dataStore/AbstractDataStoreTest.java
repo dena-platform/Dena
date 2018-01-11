@@ -86,7 +86,6 @@ public class AbstractDataStoreTest {
     }
 
 
-
     protected ReturnedObject performFindRequest(String objectId1) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId1))
                 .andDo(MockMvcResultHandlers.print())
@@ -144,7 +143,7 @@ public class AbstractDataStoreTest {
 
     }
 
-    protected ReturnedObject performUpdateObject(String body) throws Exception {
+    protected <T> T performUpdateObject(String body, Class<T> klass) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(CommonConfig.BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(body))
@@ -153,7 +152,20 @@ public class AbstractDataStoreTest {
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, ReturnedObject.class);
+        return createObjectFromJSON(returnContent, klass);
+
+    }
+
+    protected <T> T performUpdateObject(String body, int status, Class<T> klass) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(CommonConfig.BASE_URL)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(body))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is(status))
+                .andReturn();
+
+        String returnContent = result.getResponse().getContentAsString();
+        return createObjectFromJSON(returnContent, klass);
 
     }
 
@@ -169,8 +181,6 @@ public class AbstractDataStoreTest {
         return createObjectFromJSON(returnContent, ReturnedObject.class);
 
     }
-
-
 
 
 }
