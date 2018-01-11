@@ -83,7 +83,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             checkObjectIdExist(mongoDatabase, typeName, denaObject.getObjectId());
         });
 
-
+        List<String> ids = new ArrayList<>();
         try {
             denaObjects.forEach(denaObject -> {
                 ObjectId objectId = new ObjectId(denaObject.getObjectId());
@@ -96,10 +96,14 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                     document.putAll(getRelation(denaObject));
                 }
                 documentList.add(document);
-                returnObject.add(findObject(appName, typeName, objectId.toString()));
+
+                ids.add(objectId.toString());
             });
 
             MongoDBUtils.updateDocument(mongoDatabase, typeName, documentList);
+            ids.forEach(s -> {
+                returnObject.add(findObject(appName, typeName, s));
+            });
             return returnObject;
         } catch (Exception ex) {
             throw new DataStoreException("Error in updating objects", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
@@ -144,7 +148,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
     @SuppressWarnings("unchecked")
     @Override
-    public DenaObject findObject(String appName, String typeName, String objectId) throws DataStoreException {
+    public DenaObject findObject(String appName, String typeName, String objectId) {
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
             DenaObject denaObject = new DenaObject();
@@ -250,7 +254,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         boolean isObjectIdValid = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId) != null;
 
         if (!isObjectIdValid) {
-            throw new DataStoreException("ObjectId not found exception", ErrorCode.ObjectId_INVALID_EXCEPTION);
+            throw new DataStoreException("ObjectId not found exception", ErrorCode.ObjectId_NOT_FOUND_EXCEPTION);
         }
     }
 
