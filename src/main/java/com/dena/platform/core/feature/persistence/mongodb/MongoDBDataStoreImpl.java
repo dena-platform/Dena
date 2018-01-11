@@ -236,14 +236,20 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
 
     private void checkRelationValidity(MongoDatabase mongoDatabase, List<RelatedObject> relatedObjectList) {
+
         if (CollectionUtils.isNotEmpty(relatedObjectList)) {
+            boolean isObjectIdValid;
             // todo: use count to check relation validity for performance reason
             try {
-                relatedObjectList.stream().allMatch(relatedObject ->
-                        MongoDBUtils.findDocumentById(mongoDatabase, relatedObject.getTypeName(), relatedObject.getRelatedObjectId()) != null);
+                isObjectIdValid = relatedObjectList.stream().allMatch(relatedObject ->
+                        MongoDBUtils.findDocumentById(mongoDatabase, relatedObject.getTypeName(), relatedObject.getRelatedObjectId()).isPresent());
             } catch (IllegalArgumentException ex) {
                 // in case of invalid object id, relation is invalid
-                throw new DataStoreException("Relation(s) is invalid", ErrorCode.RELATION_INVALID_EXCEPTION, ex);
+                isObjectIdValid = false;
+            }
+
+            if (!isObjectIdValid) {
+                throw new DataStoreException("Relation(s) is invalid", ErrorCode.RELATION_INVALID_EXCEPTION);
             }
         }
 
