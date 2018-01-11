@@ -56,8 +56,6 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 denaObject.setObjectId(objectId.toHexString());
 
                 Document document = new Document();
-                document.put(MongoDBUtils.APP_NAME, appName);
-                document.put(MongoDBUtils.TYPE_NAME, typeName);
                 document.put(MongoDBUtils.ID, objectId);
 
                 document.putAll(denaObject.getFields());
