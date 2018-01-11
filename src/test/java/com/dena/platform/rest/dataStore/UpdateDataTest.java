@@ -87,6 +87,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
     }
 
+    @Ignore
     @Test
     public void test_UpdateObject_When_Object_Id_Not_Exist() throws Exception {
         //////////////////////////////////////////////////////////////////////
@@ -109,6 +110,31 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "2003";
         expectedReturnObject.messages = Arrays.asList("objectId not found");
+
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+    }
+
+    @Test
+    public void test_UpdateObject_When_Relation_Is_Invalid() throws Exception {
+        //////////////////////////////////////////////////////////////////////
+        //           Send Update Object Request - object id not exist
+        //////////////////////////////////////////////////////////////////////
+        TestRequestObject requestObject = new TestRequestObject();
+        requestObject.setObjectId(objectId3);
+        requestObject.addProperty("job", "new developer value");
+        requestObject.addProperty("new field", "new value");
+        String newObjectId = randomObjectId;
+        requestObject.getRelatedObjects().add(new TestRelatedObject(newObjectId, "not_exist_relation"));
+
+        TestErrorResponse actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), 400, TestErrorResponse.class);
+
+        ////////////////////////////////////////////////////////////////////////////
+        //            Assert Update Object Request  - object id not exist
+        ////////////////////////////////////////////////////////////////////////////
+        TestErrorResponse expectedReturnObject = new TestErrorResponse();
+        expectedReturnObject.status = 400;
+        expectedReturnObject.errorCode = "2001";
+        expectedReturnObject.messages = Arrays.asList("relation(s) is invalid");
 
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
     }
