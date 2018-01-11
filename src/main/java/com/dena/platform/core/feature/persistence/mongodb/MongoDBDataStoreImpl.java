@@ -102,7 +102,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
             MongoDBUtils.updateDocument(mongoDatabase, typeName, documentList);
 
-            // todo : performance- use better approach to get object id (bulk find)
+            // todo : performance- use better approach to find object with ids (bulk find)
             ids.forEach(s -> {
                 returnObject.add(findObject(appName, typeName, s));
             });
@@ -253,7 +253,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     private void checkObjectIdExist(MongoDatabase mongoDatabase, String typeName, String objectId) {
         checkObjectIdValidity(Collections.singletonList(objectId));
 
-        boolean isObjectIdValid = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId) != null;
+        boolean isObjectIdValid = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId).isPresent();
 
         if (!isObjectIdValid) {
             throw new DataStoreException("ObjectId not found exception", ErrorCode.ObjectId_NOT_FOUND_EXCEPTION);
