@@ -52,12 +52,13 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String appName = denaRequestContext.getPathVariable(APP_ID);
 
         List<DenaObject> denaObjects;
+
         try {
             denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
-            denaDataStore.storeObjects(denaObjects, appName, appTypeName);
+            List<DenaObject> returnObject = denaDataStore.storeObjects(denaObjects, appName, appTypeName);
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
-                    .withObjectResponseList(createObjectResponse(denaObjects, appTypeName))
-                    .withCount(denaObjects.size())
+                    .withObjectResponseList(createObjectResponse(returnObject, appTypeName))
+                    .withCount(returnObject.size())
                     .withTimestamp(DenaObjectUtils.timeStamp())
                     .build();
             return ResponseEntity.ok().body(denaResponse);
