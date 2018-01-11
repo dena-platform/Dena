@@ -96,15 +96,14 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                     document.putAll(getRelation(denaObject));
                 }
                 documentList.add(document);
-
                 ids.add(objectId.toString());
             });
 
             MongoDBUtils.updateDocument(mongoDatabase, typeName, documentList);
 
             // todo : performance- use better approach to find object with ids (bulk find)
-            ids.forEach(s -> {
-                returnObject.add(findObject(appName, typeName, s));
+            ids.forEach(id -> {
+                returnObject.add(findObject(appName, typeName, id));
             });
             return returnObject;
         } catch (Exception ex) {
