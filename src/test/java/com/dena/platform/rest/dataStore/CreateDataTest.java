@@ -66,21 +66,15 @@ public class CreateDataTest extends AbstractDataStoreTest {
         requestObject.addProperty("name", "developer");
         requestObject.getRelatedObjects().add(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
 
-        ReturnedObject actualReturnObject = performCreateObject(createJSONFromObject(requestObject));
+        TestErrorResponse actualReturnObject = performCreateObject(createJSONFromObject(requestObject), TestErrorResponse.class);
 
         /////////////////////////////////////////////////////////////////
         //            Assert Create Object Response - relation not exist
         /////////////////////////////////////////////////////////////////
-        TestObjectResponse testObjectResponse = new TestObjectResponse();
-        testObjectResponse.addProperty("job", "new developer");
-        testObjectResponse.addProperty("name", "developer");
-        testObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
-
-
-        ReturnedObject expectedReturnObject = new ReturnedObject();
-        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
-        expectedReturnObject.setCount(1L);
-        expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
+        TestErrorResponse expectedReturnObject = new TestErrorResponse();
+        expectedReturnObject.status = 400;
+        expectedReturnObject.errorCode = "2001";
+        expectedReturnObject.messages = Collections.singletonList("relation(s) is invalid");
 
         assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);

@@ -169,7 +169,7 @@ public class AbstractDataStoreTest {
 
     }
 
-    protected ReturnedObject performCreateObject(String body) throws Exception {
+    protected <T> T performCreateObject(String body, Class<T> klass) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(body))
@@ -178,7 +178,20 @@ public class AbstractDataStoreTest {
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, ReturnedObject.class);
+        return createObjectFromJSON(returnContent, klass);
+
+    }
+
+    protected <T> T performCreateObject(String body, int status, Class<T> klass) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.BASE_URL)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(body))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is(status))
+                .andReturn();
+
+        String returnContent = result.getResponse().getContentAsString();
+        return createObjectFromJSON(returnContent, klass);
 
     }
 
