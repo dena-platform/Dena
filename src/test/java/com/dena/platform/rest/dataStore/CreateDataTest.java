@@ -34,7 +34,7 @@ public class CreateDataTest extends AbstractDataStoreTest {
         requestObject.addProperty("name", "developer");
         requestObject.getRelatedObjects().add(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
 
-        ReturnedObject actualReturnObject = performCreateObject(createJSONFromObject(requestObject));
+        ReturnedObject actualReturnObject = performCreateObject(createJSONFromObject(requestObject), ReturnedObject.class);
 
         /////////////////////////////////////////////
         //            Assert Create Object Response
@@ -66,7 +66,7 @@ public class CreateDataTest extends AbstractDataStoreTest {
         requestObject.addProperty("name", "developer");
         requestObject.getRelatedObjects().add(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
 
-        TestErrorResponse actualReturnObject = performCreateObject(createJSONFromObject(requestObject), TestErrorResponse.class);
+        TestErrorResponse actualReturnObject = performCreateObject(createJSONFromObject(requestObject), 400, TestErrorResponse.class);
 
         /////////////////////////////////////////////////////////////////
         //            Assert Create Object Response - relation not exist
@@ -76,7 +76,6 @@ public class CreateDataTest extends AbstractDataStoreTest {
         expectedReturnObject.errorCode = "2001";
         expectedReturnObject.messages = Collections.singletonList("relation(s) is invalid");
 
-        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
 
 
