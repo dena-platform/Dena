@@ -117,7 +117,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
     @Test
     public void test_UpdateObject_When_Relation_Is_Invalid() throws Exception {
         //////////////////////////////////////////////////////////////////////
-        //           Send Update Object Request - object id not exist
+        //           Send Update Object Request - relation is 
         //////////////////////////////////////////////////////////////////////
         TestRequestObject requestObject = new TestRequestObject();
         requestObject.setObjectId(objectId3);

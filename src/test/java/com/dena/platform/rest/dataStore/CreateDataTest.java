@@ -55,4 +55,38 @@ public class CreateDataTest extends AbstractDataStoreTest {
 
     }
 
+
+    @Test
+    public void test_CreateObject_When_Relation_Is_Invalid() throws Exception {
+        /////////////////////////////////////////////////////////////////
+        //           Send Create Object Request - object id not exist
+        /////////////////////////////////////////////////////////////////
+        TestRequestObject requestObject = new TestRequestObject();
+        requestObject.addProperty("job", "new developer");
+        requestObject.addProperty("name", "developer");
+        requestObject.getRelatedObjects().add(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
+
+        ReturnedObject actualReturnObject = performCreateObject(createJSONFromObject(requestObject));
+
+        /////////////////////////////////////////////////////////////////
+        //            Assert Create Object Response - object id not exist
+        /////////////////////////////////////////////////////////////////
+        TestObjectResponse testObjectResponse = new TestObjectResponse();
+        testObjectResponse.addProperty("job", "new developer");
+        testObjectResponse.addProperty("name", "developer");
+        testObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
+
+
+        ReturnedObject expectedReturnObject = new ReturnedObject();
+        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
+        expectedReturnObject.setCount(1L);
+        expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
+
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
+
+
+    }
+
+
 }
