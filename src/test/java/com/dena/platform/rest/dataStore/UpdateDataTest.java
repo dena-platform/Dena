@@ -117,7 +117,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
     @Test
     public void test_UpdateObject_When_Relation_Is_Invalid() throws Exception {
         //////////////////////////////////////////////////////////////////////
-        //           Send Update Object Request - relation is 
+        //           Send Update Object Request - relation is not exist
         //////////////////////////////////////////////////////////////////////
         TestRequestObject requestObject = new TestRequestObject();
         requestObject.setObjectId(objectId3);
@@ -129,7 +129,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         TestErrorResponse actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), 400, TestErrorResponse.class);
 
         ////////////////////////////////////////////////////////////////////////////
-        //            Assert Update Object Request  - object id not exist
+        //            Assert Update Object Request  - relation is not exist
         ////////////////////////////////////////////////////////////////////////////
         TestErrorResponse expectedReturnObject = new TestErrorResponse();
         expectedReturnObject.status = 400;
