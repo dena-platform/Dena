@@ -64,7 +64,7 @@ public class CreateDataTest extends AbstractDataStoreTest {
         TestRequestObject requestObject = new TestRequestObject();
         requestObject.addProperty("job", "new developer");
         requestObject.addProperty("name", "developer");
-        requestObject.getRelatedObjects().add(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
+        requestObject.getRelatedObjects().add(new TestRelatedObject(objectId1, "not_exist_relation"));
 
         TestErrorResponse actualReturnObject = performCreateObject(createJSONFromObject(requestObject), 400, TestErrorResponse.class);
 
