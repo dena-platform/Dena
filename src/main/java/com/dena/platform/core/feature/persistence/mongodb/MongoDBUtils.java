@@ -67,7 +67,7 @@ public class MongoDBUtils {
         BulkWriteResult res = mongoDatabase
                 .getCollection(collectionName)
                 .bulkWrite(updates, new BulkWriteOptions().ordered(true));
-
+        
         log.info("Updates: [{}] document(s) count", res.getModifiedCount());
     }
 
