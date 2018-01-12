@@ -67,7 +67,7 @@ public class MongoDBUtils {
         BulkWriteResult res = mongoDatabase
                 .getCollection(collectionName)
                 .bulkWrite(updates, new BulkWriteOptions().ordered(true));
-        
+
         log.info("Updates: [{}] document(s) count", res.getModifiedCount());
     }
 
@@ -94,7 +94,7 @@ public class MongoDBUtils {
 
     @SuppressWarnings("unchecked")
     public static long deleteRelationWithType(MongoDatabase mongoDatabase, String typeName1, String objectId, String typeName2) {
-        Document searchDocument = new Document("_id", new ObjectId(objectId));
+        Document searchDocument = new Document(ID, new ObjectId(objectId));
         Document update = new Document(typeName2, "");
         int deleteCount = 0;
         Optional<Document> document = findDocumentById(mongoDatabase, typeName1, objectId);
@@ -115,7 +115,7 @@ public class MongoDBUtils {
 
     public static Optional<Document> findDocumentById(MongoDatabase mongoDatabase, String collectionName, String id) {
         Document document = mongoDatabase.getCollection(collectionName)
-                .find(Filters.eq("_id", new ObjectId(id)))
+                .find(Filters.eq(ID, new ObjectId(id)))
                 .first();
 
         return Optional.ofNullable(document);
@@ -124,7 +124,7 @@ public class MongoDBUtils {
     @SuppressWarnings("unchecked")
     public static List<Document> findRelatedDocument(MongoDatabase mongoDatabase, Document parentDocument, String targetType, DenaPager pager) {
         List<ObjectId> otherObjectIds = (ArrayList<ObjectId>) parentDocument.get(targetType);
-        Bson searchDocument = Filters.in("_id", otherObjectIds);
+        Bson searchDocument = Filters.in(ID, otherObjectIds);
 
         int startIndex = (int) pager.getCount() * pager.getLimit();
 
