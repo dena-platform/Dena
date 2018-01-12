@@ -40,7 +40,7 @@ public class DenaRequestContext {
         return request;
     }
 
-    public String getRequestBody() {
+    public synchronized String getRequestBody() {
         if (StringUtils.isBlank(requestBody)) {
             try {
                 requestBody = IOUtils.toString(request.getReader());
