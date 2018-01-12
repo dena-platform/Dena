@@ -120,19 +120,18 @@ Return Value:
 
 **Update One Object**
 
-if there is a new field or new relation(new type) add to existing fields or relations. if field is exist then update field. 
+If there is a new field or new relation(new type) add to existing fields or relations. if field is exist then update field. 
 
 If relation with same type exist then replace with new specified relation. 
 
 If object_id for updating object is not found then return bad request error.
 
 If data in relation is invalid for example object_id not exist or type not found return bad request error.
- 
+
 
 return: 
 
 success: Updated object(s) count.
-
 
 
 Method: PUT
@@ -152,8 +151,8 @@ Request Body:
       "new_field":"field",
       "related_objects": [
     	 {
-      	  "id": "123123",
-      	  "type": "para"
+      	  "id": "5a5896bbe61445229c7c62f9",
+      	  "type": "Post"
     	 }
       ]
     }
@@ -169,10 +168,10 @@ Return Value:
            "field3": "javad",
            "field4": "developer",
            "new_field":"field",
-		   "related_objects": [
+		       "related_objects": [
     	  	  {
-      	  	    "id": "123123",
-      	  	    "type": "para"
+      	  	    "id": "5a5896bbe61445229c7c62f9",
+      	  	    "type": "Post"
     	      }
       		]
          }
