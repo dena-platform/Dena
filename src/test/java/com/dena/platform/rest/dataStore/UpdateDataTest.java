@@ -2,7 +2,6 @@ package com.dena.platform.rest.dataStore;
 
 import com.dena.platform.rest.dto.*;
 import com.dena.platform.utils.CommonConfig;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -24,18 +23,16 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest
 public class UpdateDataTest extends AbstractDataStoreTest {
 
-    @Ignore
     @Test
     public void test_UpdateObject() throws Exception {
         /////////////////////////////////////////////
         //           Send Update Object Request
         /////////////////////////////////////////////
         TestRequestObject requestObject = new TestRequestObject();
-        requestObject.setObjectId(objectId3);
+        requestObject.setObjectId(objectId1);
         requestObject.addProperty("job", "new developer value");
         requestObject.addProperty("new field", "new value");
-        String newObjectId = randomObjectId;
-        requestObject.getRelatedObjects().add(new TestRelatedObject(newObjectId, CommonConfig.COLLECTION_NAME));
+        requestObject.getRelatedObjects().add(new TestRelatedObject(objectId2, CommonConfig.COLLECTION_NAME));
 
         ReturnedObject actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), ReturnedObject.class);
 
@@ -43,12 +40,12 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         //            Assert Update Response
         /////////////////////////////////////////////
         TestObjectResponse testObjectResponse = new TestObjectResponse();
-        testObjectResponse.objectId = objectId3;
-        testObjectResponse.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
+        testObjectResponse.objectId = objectId1;
+        testObjectResponse.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId1;
         testObjectResponse.addProperty("job", "new developer value");
         testObjectResponse.addProperty("new field", "new value");
         testObjectResponse.addProperty("name", "javad");
-        testObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(newObjectId, CommonConfig.COLLECTION_NAME));
+        testObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(objectId2, CommonConfig.COLLECTION_NAME));
 
 
         ReturnedObject expectedReturnObject = new ReturnedObject();
@@ -60,7 +57,6 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
     }
 
-    @Ignore
     @Test
     public void test_UpdateObject_When_Object_Id_Invalid() throws Exception {
         //////////////////////////////////////////////////////////////////////
@@ -71,8 +67,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         requestObject.setObjectId(invalidObjectId);
         requestObject.addProperty("job", "new developer value");
         requestObject.addProperty("new field", "new value");
-        String newObjectId = randomObjectId;
-        requestObject.getRelatedObjects().add(new TestRelatedObject(newObjectId, CommonConfig.COLLECTION_NAME));
+        requestObject.getRelatedObjects().add(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
 
         TestErrorResponse actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), 400, TestErrorResponse.class);
 
@@ -87,7 +82,6 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
     }
 
-    @Ignore
     @Test
     public void test_UpdateObject_When_Object_Id_Not_Exist() throws Exception {
         //////////////////////////////////////////////////////////////////////
@@ -98,8 +92,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         requestObject.setObjectId(notExistObjectId);
         requestObject.addProperty("job", "new developer value");
         requestObject.addProperty("new field", "new value");
-        String newObjectId = randomObjectId;
-        requestObject.getRelatedObjects().add(new TestRelatedObject(newObjectId, CommonConfig.COLLECTION_NAME));
+        requestObject.getRelatedObjects().add(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
 
         TestErrorResponse actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), 400, TestErrorResponse.class);
 
@@ -123,8 +116,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         requestObject.setObjectId(objectId3);
         requestObject.addProperty("job", "new developer value");
         requestObject.addProperty("new field", "new value");
-        String newObjectId = randomObjectId;
-        requestObject.getRelatedObjects().add(new TestRelatedObject(newObjectId, "not_exist_relation"));
+        requestObject.getRelatedObjects().add(new TestRelatedObject(objectId1, "not_exist_relation"));
 
         TestErrorResponse actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), 400, TestErrorResponse.class);
 
