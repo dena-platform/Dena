@@ -59,7 +59,7 @@ public class CreateDataTest extends AbstractDataStoreTest {
     @Test
     public void test_CreateObject_When_Relation_Is_Invalid() throws Exception {
         /////////////////////////////////////////////////////////////////
-        //           Send Create Object Request - object id not exist
+        //           Send Create Object Request - relation not exist
         /////////////////////////////////////////////////////////////////
         TestRequestObject requestObject = new TestRequestObject();
         requestObject.addProperty("job", "new developer");
@@ -69,7 +69,7 @@ public class CreateDataTest extends AbstractDataStoreTest {
         ReturnedObject actualReturnObject = performCreateObject(createJSONFromObject(requestObject));
 
         /////////////////////////////////////////////////////////////////
-        //            Assert Create Object Response - object id not exist
+        //            Assert Create Object Response - relation not exist
         /////////////////////////////////////////////////////////////////
         TestObjectResponse testObjectResponse = new TestObjectResponse();
         testObjectResponse.addProperty("job", "new developer");
