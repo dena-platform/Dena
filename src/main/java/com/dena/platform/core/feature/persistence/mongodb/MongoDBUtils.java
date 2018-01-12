@@ -4,12 +4,10 @@ import com.dena.platform.core.feature.persistence.DenaPager;
 import com.mongodb.MongoClient;
 import com.mongodb.bulk.BulkWriteResult;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.BulkWriteOptions;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.UpdateOneModel;
-import com.mongodb.client.model.WriteModel;
+import com.mongodb.client.model.*;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
+import org.bson.BSON;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
@@ -20,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,8 +32,6 @@ public class MongoDBUtils {
     private static MongoClient mongoClient;
 
     public static final String ID = "_id";
-    public static final String APP_NAME = "app_name";
-    public static final String TYPE_NAME = "type_name";
 
     @Autowired
     public MongoDBUtils(MongoClient mongoClient) {
@@ -61,9 +58,9 @@ public class MongoDBUtils {
 
         ArrayList<WriteModel<Document>> updates = new ArrayList<>();
         documents.forEach(document -> {
-            Document id = new Document(ID, document.get(ID));
+            Bson foundDocument = Filters.eq(ID, document.get(ID));
             Document data = new Document("$set", document);
-            UpdateOneModel<Document> updateOneModel = new UpdateOneModel<>(id, data);
+            UpdateOneModel<Document> updateOneModel = new UpdateOneModel<>(foundDocument, data);
             updates.add(updateOneModel);
         });
 
@@ -77,13 +74,13 @@ public class MongoDBUtils {
     public static long deleteDocument(MongoDatabase mongoDatabase, String collectionName, List<String> documentIds) {
         List<ObjectId> objectIdList = documentIds.stream().map(ObjectId::new).collect(Collectors.toList());
 
-        DeleteResult deleteResult = mongoDatabase.getCollection(collectionName).deleteMany(Filters.in("_id", objectIdList));
+        DeleteResult deleteResult = mongoDatabase.getCollection(collectionName).deleteMany(Filters.in(ID, objectIdList));
         log.info("Deletes: [{}] document(s) count", deleteResult.getDeletedCount());
         return deleteResult.getDeletedCount();
     }
 
     public static long deleteRelationWithObjectId(MongoDatabase mongoDatabase, String typeName1, String objectId1, String typeName2, String objectId2) {
-        Document searchDocument = new Document("_id", new ObjectId(objectId1));
+        Document searchDocument = new Document(ID, new ObjectId(objectId1));
         Document update = new Document(typeName2, new ObjectId(objectId2));
 
         UpdateResult updateResult = mongoDatabase
