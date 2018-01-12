@@ -80,7 +80,7 @@ public class MongoDBUtils {
     }
 
     public static long deleteRelationWithObjectId(MongoDatabase mongoDatabase, String typeName1, String objectId1, String typeName2, String objectId2) {
-        Document searchDocument = new Document(ID, new ObjectId(objectId1));
+        Bson searchDocument = Filters.eq(ID, new ObjectId(objectId1));
         Document update = new Document(typeName2, new ObjectId(objectId2));
 
         UpdateResult updateResult = mongoDatabase
