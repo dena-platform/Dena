@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 @RestController
-@RequestMapping(value = API.API_PATH, produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value = API.API_PATH, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 public class API {
 
     public final static String API_PATH = "/v1/";
@@ -49,8 +49,7 @@ public class API {
 
 
     /**
-     * Delete only relation between object --> object or object --> target_type
-     *
+     * Delete only relation between (object --> object) or (object --> target_type)
      * @return
      */
     @DeleteMapping(path = {
