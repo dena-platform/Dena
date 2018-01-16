@@ -34,7 +34,6 @@ public class API {
         return denaRestProcessor.handleUpdateObject(denaRequestContext);
     }
 
-
     /**
      * Delete one or many specified objects
      *
@@ -50,6 +49,7 @@ public class API {
 
     /**
      * Delete only relation between (object --> object) or (object --> target_type)
+     *
      * @return
      */
     @DeleteMapping(path = {
