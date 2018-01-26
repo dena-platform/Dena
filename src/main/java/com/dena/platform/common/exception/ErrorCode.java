@@ -20,7 +20,8 @@ public enum ErrorCode {
     ObjectId_INVALID_EXCEPTION("com.dena.platform.restapi.exception.ObjectId_INVALID", "2002-400"),
     ObjectId_NOT_FOUND_EXCEPTION("com.dena.platform.restapi.exception.ObjectId_NOT_FOUND", "2003-400"),
 
-
+    // General Error - range 0-999
+    RESOURCE_NOT_FOUND("com.dena.platform.restapi.exception.RESOURCE_NOT_FOUND", "0-404"),
     GENERAL("com.dena.platform.restapi.exception.GENERAL", "999-500");
 
     private String messageCode;
@@ -37,6 +38,10 @@ public enum ErrorCode {
     }
 
     public String getErrorCode() {
-        return errorCode;
+        return errorCode.split("-")[0];
+    }
+
+    public int getHttpStatusCode() {
+        return Integer.valueOf(errorCode.split("-")[1]);
     }
 }

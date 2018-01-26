@@ -10,6 +10,7 @@ import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -54,6 +55,54 @@ public class DenaRestExceptionMapper {
         return errorResponse;
     }
 
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    @ResponseBody
+    public ErrorResponse handleDenaRestException(HttpServletRequest request, HttpServletResponse response, HttpMediaTypeNotSupportedException ex) {
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        final Locale locale = Locale.getDefault();
+
+        String message = messageSource.getMessage(ErrorCode.INVALID_MEDIA_TYPE.getMessageCode(), null, locale);
+
+        if (ex.getCause() != null) {
+            log.error("An error occurred invoking a REST service.", ex.getCause());
+        } else {
+            log.error("An error occurred invoking a REST service.", ex);
+        }
+
+        ErrorResponse errorResponse = ErrorResponseBuilder.anErrorResponse()
+                .withStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
+                .withErrorCode(ErrorCode.INVALID_MEDIA_TYPE.getErrorCode())
+                .withMessages(message)
+                .build();
+
+        return errorResponse;
+    }
+
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    @ResponseBody
+    public ErrorResponse noHandlerFound404Exception(HttpServletRequest request, HttpServletResponse response, NoHandlerFoundException ex) {
+        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+        final Locale locale = Locale.getDefault();
+
+        String message = messageSource.getMessage(ErrorCode.RESOURCE_NOT_FOUND.getMessageCode(), null, locale);
+
+        if (ex.getCause() != null) {
+            log.error("An error occurred invoking a REST service.", ex.getCause());
+        } else {
+            log.error("An error occurred invoking a REST service.", ex);
+        }
+
+        ErrorResponse errorResponse = ErrorResponseBuilder.anErrorResponse()
+                .withStatus(ErrorCode.RESOURCE_NOT_FOUND.getHttpStatusCode())
+                .withErrorCode(ErrorCode.RESOURCE_NOT_FOUND.getErrorCode())
+                .withMessages(message)
+                .build();
+
+        return errorResponse;
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ErrorResponse handleDenaRestException(HttpServletRequest request, HttpServletResponse response, Exception ex) {
@@ -72,29 +121,6 @@ public class DenaRestExceptionMapper {
         ErrorResponse errorResponse = ErrorResponseBuilder.anErrorResponse()
                 .withStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
                 .withErrorCode(ErrorCode.GENERAL.getErrorCode())
-                .withMessages(message)
-                .build();
-
-        return errorResponse;
-    }
-
-    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-    @ResponseBody
-    public ErrorResponse handleDenaRestException(HttpServletRequest request, HttpServletResponse response, HttpMediaTypeNotSupportedException ex) {
-        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        final Locale locale = Locale.getDefault();
-
-        String message = messageSource.getMessage(ErrorCode.INVALID_MEDIA_TYPE.getMessageCode(), null, locale);
-
-        if (ex.getCause() != null) {
-            log.error("An error occurred invoking a REST service.", ex.getCause());
-        } else {
-            log.error("An error occurred invoking a REST service.", ex);
-        }
-
-        ErrorResponse errorResponse = ErrorResponseBuilder.anErrorResponse()
-                .withStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
-                .withErrorCode(ErrorCode.INVALID_MEDIA_TYPE.getErrorCode())
                 .withMessages(message)
                 .build();
 

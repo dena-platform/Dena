@@ -1,15 +1,10 @@
 package com.dena.platform.restapi.exception;
 
 import com.dena.platform.common.exception.DenaException;
-import com.dena.platform.common.exception.ErrorCode;
-import org.apache.commons.lang3.Range;
-import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
-import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
@@ -41,8 +36,8 @@ public class DenaRestException extends RuntimeException {
     }
 
     public static DenaRestException buildException(DenaException denaException) {
-        String errorCode = denaException.getErrorCode().getErrorCode().split("-")[0];
-        int httpStatusCode = Integer.valueOf(denaException.getErrorCode().getErrorCode().split("-")[1]);
+        String errorCode = denaException.getErrorCode().getErrorCode();
+        int httpStatusCode = denaException.getErrorCode().getHttpStatusCode();
 
         return DenaRestExceptionBuilder.aDenaRestException()
                 .withStatusCode(httpStatusCode)
