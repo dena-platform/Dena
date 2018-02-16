@@ -250,6 +250,7 @@ Return Value:
 ## Delete Objects ##
 
 **Delete One Object**
+This API remove object completely from dena storage. If the object is successfully delete, the API returns the timestamp of deletion time in milliseconds and number of deleted object count.
 
 Method: DELETE
 
@@ -288,7 +289,7 @@ This only delete relation between parent and child and do not remove child.
 
 Method: DELETE
 
-URL: /v1/<application-id>/<type-names-1>/<object-id-1>/relation/<type-names-2>
+URL: /v1/<application-id>/<parent-type-names>/<parent-object-id>/relation/<child-type-name>
 
 Request Body: None
 
@@ -306,7 +307,7 @@ This only delete relation between parent and child and do not remove child.
 
 Method: DELETE
 
-URL: /v1/<application-id>/<type-names>/<object-id>/relation/<type-names-2>/<object-id-2>
+URL: /v1/<application-id>/<parent-object-id>/<parent-object-id>/relation/<child-type-names>/<child-object-id>
 
 Request Body: None
 
