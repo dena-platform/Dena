@@ -40,7 +40,7 @@ public class FindDataTest extends AbstractDataStoreTest {
 
         /////////////////////////////////////////////
         //            Assert Found Object
-        /////////////////////////////////////////////
+        /////////////////////////////////////////////   
         TestObjectResponse testObjectResponse = new TestObjectResponse();
         testObjectResponse.objectId = objectId3;
         testObjectResponse.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;

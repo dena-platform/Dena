@@ -303,11 +303,11 @@ Return Value:
 ----------
 **Delete Relation With Specified Child Object**
 
-This only delete relation between parent and child and do not remove child.
+This API only delete relation between parent and child and do not remove child.
 
 Method: DELETE
 
-URL: /v1/<application-id>/<parent-object-id>/<parent-object-id>/relation/<child-type-names>/<child-object-id>
+URL: /v1/<application-id>/<parent-type-names>/<parent-object-id>/relation/<child-type-names>/<child-object-id>
 
 Request Body: None
 
