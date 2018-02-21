@@ -60,6 +60,12 @@ public class API {
         return denaRestProcessor.handleDeleteRelation(denaRequestContext);
     }
 
+    /**
+     * Find object with id or find relation of an object
+     *
+     * @return
+     */
+
     @GetMapping(path = {
             "/{app-id}/{type-name}/{object-id}",
             "/{app-id}/{type-name}/{object-id}/relation/{target-type}"})
