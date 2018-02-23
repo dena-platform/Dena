@@ -10,7 +10,7 @@ Relation specifies in related_objects field.
 
 Method: POST
 
-URL: /v1/<application-id>/<type-names>
+URL: /v1/<application-id>/<type-name>
 
 Headers:
 
@@ -250,7 +250,7 @@ Return Value:
 ## Delete Objects ##
 
 **Delete One Object**
-This API remove object completely from dena storage. If the object is successfully delete, the API returns the timestamp of deletion time in milliseconds and number of deleted object count.
+This API remove object completely from Dena storage. If the object is successfully delete, the API returns the timestamp of deletion time in milliseconds and number of deleted object count.
 
 Method: DELETE
 
@@ -289,7 +289,7 @@ This only delete relation between parent and child and do not remove child.
 
 Method: DELETE
 
-URL: /v1/<application-id>/<parent-type-names>/<parent-object-id>/relation/<child-type-name>
+URL: /v1/<application-id>/<parent-type-name>/<parent-object-id>/relation/<child-type-name>
 
 Request Body: None
 
@@ -320,12 +320,15 @@ Return Value:
 
 ----------
 ## Find Object##
+By default when you get an object from Dena platform, related objects not included in the response because it may cause load performance on server or client memory.Therefore you should get related object in separate request.   
 
 1. Find object by id
 2. Find object by type supporting search clause 
 3. Find object by relation supporting search clause
 
 **Find object By Id**
+
+// Todo: remove related_objects in response. when in future we implemented auto reload feature then add it.
 
 In this case this method return only one object.
 
@@ -358,7 +361,7 @@ Return Value:
 
 
 
-**Read Objects By Type Supporting Search Clause (TO-DO)** 
+**Find Objects By Type Supporting Search Clause (TO-DO)** 
 
 Method: GET
 
@@ -409,7 +412,9 @@ Return Value:
     }
 
 
-**Read Object Relation Supporting Search Clause**
+**Find Object Relation Supporting Search Clause**
+
+// Todo: remove related_objects in response. when in future we implemented auto reload feature then add it.
 
 Suppose we have relation between two object for example in many-many or one-many relation and we want to retrieve related object. in this case we want only get 
 a portion of related object not all (because of too many object) so we use paging.
@@ -422,7 +427,7 @@ Consider following Pseudo-Code:
     
 Method: GET
 
-URL: /v1/<application-id>/<type-names>/<object-id>/relation/<target-type>?itemPerPage=50&page=4&where=???
+URL: /v1/<application-id>/<parent-type-name>/<parent-object-id>/relation/<child-type-name>?itemPerPage=50&page=4&where=???
 
 Optional Parameter
 
