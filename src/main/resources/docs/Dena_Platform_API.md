@@ -319,15 +319,16 @@ Return Value:
       }
 
 ----------
-## Read Object##
+## Find Object##
 
-1. Read object by id
-2. Read object by type supporting search clause 
-3. Read object by relation supporting search clause
+1. Find object by id
+2. Find object by type supporting search clause 
+3. Find object by relation supporting search clause
 
-**Read object By Id**
+**Find object By Id**
 
 In this case this method return only one object.
+
 
 Method: GET
 
