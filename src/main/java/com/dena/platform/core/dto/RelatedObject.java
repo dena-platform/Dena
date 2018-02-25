@@ -28,4 +28,5 @@ public class RelatedObject {
     public void setTypeName(String typeName) {
         this.typeName = typeName;
     }
+
 }
