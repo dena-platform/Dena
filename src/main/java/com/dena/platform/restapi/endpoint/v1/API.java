@@ -65,7 +65,6 @@ public class API {
      *
      * @return
      */
-
     @GetMapping(path = {
             "/{app-id}/{type-name}/{object-id}",
             "/{app-id}/{type-name}/{object-id}/relation/{target-type}"})
