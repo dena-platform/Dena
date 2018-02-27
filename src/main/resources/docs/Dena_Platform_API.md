@@ -39,7 +39,7 @@ Return Value:
        "objects": [
         {
           "URI":"/<type-name>/<object-id>",
-          "object_id": "232342424234",
+          "object_id": "5a206dc2cc2a9b26e483d664",
           "field1": "javad",
           "field2": "developer"
           "related_objects": [
