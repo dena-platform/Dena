@@ -1,14 +1,26 @@
-<configuration >
+<configuration packagingData="true">
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <!-- encoders are assigned the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS}  %-2level %logger{36} - %msg%n</pattern>
+            <pattern>%d{HH:mm:ss.SSS}  %highlight(%-5level)  %cyan(%logger{36}) - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <root level="debug">
+    <root level="WARN">
         <appender-ref ref="STDOUT"/>
     </root>
+
+
+    <logger name="org.springframework" level="INFO" />
+
+    <logger name="org.hibernate" level="INFO" />
+
+    <logger name="com.dena" level="DEBUG" />
+
+
+
+
+
 </configuration>
