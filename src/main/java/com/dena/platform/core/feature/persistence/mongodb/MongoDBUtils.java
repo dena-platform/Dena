@@ -136,7 +136,6 @@ public class MongoDBUtils {
                 .limit(pager.getLimit())
                 .into(new ArrayList<>());
 
-
         return documentList;
 
     }
