@@ -24,9 +24,10 @@ Request Body:
       "field2": "developer",
       "related_objects": [
     	 {
-      	  "id": "5a206dc2cc2a9b26e483d664",
-      	  "type": "denaObjects"
-    	 }
+          "relation_name":"comments_rel",
+          "target_type":"comments", 
+      	  "id": ["5a206dc2cc2a9b26e483d664", "5a206dc2cc2a9b26e483d634"]
+     	 }
       ]
     }
 
@@ -41,13 +42,7 @@ Return Value:
           "URI":"/<type-name>/<object-id>",
           "object_id": "5a206dc2cc2a9b26e483d664",
           "field1": "javad",
-          "field2": "developer"
-          "related_objects": [
-    	       {
-      	       "id": "5a206dc2cc2a9b26e483d664",
-      	       "type": "denaObjects"
-    	       }
-          ]          
+          "field2": "developer"               
         }
        ] 
       }
