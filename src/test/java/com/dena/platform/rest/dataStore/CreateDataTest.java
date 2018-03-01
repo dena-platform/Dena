@@ -30,8 +30,8 @@ public class CreateDataTest extends AbstractDataStoreTest {
         //           Send Create Object Request
         /////////////////////////////////////////////
         TestRequestObject requestObject = new TestRequestObject();
-        requestObject.addProperty("job", "new developer");
-        requestObject.addProperty("name", "developer");
+        requestObject.addProperty("job", "developer");
+        requestObject.addProperty("name", "javad");
         requestObject.getRelatedObjects().add(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
 
         ReturnedObject actualReturnObject = performCreateObject(createJSONFromObject(requestObject), ReturnedObject.class);
