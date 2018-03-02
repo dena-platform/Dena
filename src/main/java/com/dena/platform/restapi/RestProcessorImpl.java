@@ -4,8 +4,8 @@ import com.dena.platform.common.exception.DenaException;
 import com.dena.platform.common.exception.ErrorCode;
 import com.dena.platform.common.exception.ParameterInvalidException;
 import com.dena.platform.common.utils.DenaObjectUtils;
-import com.dena.platform.common.web.JSONMapper;
 import com.dena.platform.common.web.DenaRequestContext;
+import com.dena.platform.common.web.JSONMapper;
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
@@ -44,7 +44,9 @@ public class RestProcessorImpl implements DenaRestProcessor {
     private DenaDataStore denaDataStore;
 
     @Override
-    public ResponseEntity handleCreateObject(DenaRequestContext denaRequestContext) {
+    public ResponseEntity handleCreateObject() {
+        DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
+
         String requestBody = denaRequestContext.getRequestBody();
         String appTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String appName = denaRequestContext.getPathVariable(APP_ID);
@@ -66,7 +68,8 @@ public class RestProcessorImpl implements DenaRestProcessor {
     }
 
     @Override
-    public ResponseEntity handleUpdateObject(DenaRequestContext denaRequestContext) {
+    public ResponseEntity handleUpdateObject() {
+        DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
         String requestBody = denaRequestContext.getRequestBody();
         String appTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String appName = denaRequestContext.getPathVariable(APP_ID);
@@ -87,7 +90,9 @@ public class RestProcessorImpl implements DenaRestProcessor {
     }
 
     @Override
-    public ResponseEntity handleDeleteRelation(DenaRequestContext denaRequestContext) {
+    public ResponseEntity handleDeleteRelation() {
+        DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
+        
         String appTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String appName = denaRequestContext.getPathVariable(APP_ID);
         String objectId = denaRequestContext.getPathVariable(OBJECT_ID);
@@ -118,7 +123,9 @@ public class RestProcessorImpl implements DenaRestProcessor {
     }
 
     @Override
-    public ResponseEntity handleDeleteObject(DenaRequestContext denaRequestContext) {
+    public ResponseEntity handleDeleteObject() {
+        DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
+
         String appId = denaRequestContext.getPathVariable(APP_ID);
         String typeName = denaRequestContext.getPathVariable(TYPE_NAME);
         List<String> objectIds = Arrays.asList(denaRequestContext.getPathVariable(OBJECT_ID).split(","));
@@ -151,7 +158,9 @@ public class RestProcessorImpl implements DenaRestProcessor {
     }
 
     @Override
-    public ResponseEntity handleFindObject(DenaRequestContext denaRequestContext) {
+    public ResponseEntity handleFindObject() {
+        DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
+
         String typeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String appId = denaRequestContext.getPathVariable(APP_ID);
         String objectId = denaRequestContext.getPathVariable(OBJECT_ID);
