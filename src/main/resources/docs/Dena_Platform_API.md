@@ -6,7 +6,6 @@
 
 **Create Single Object**
 
-Relation specifies in related_objects field. 
 
 Method: POST
 
@@ -20,15 +19,8 @@ Content-Type:application/json
 Request Body: 
 
     {
-      "field1": "javad",
-      "field2": "developer",
-      "related_objects": [
-    	 {
-          "relation_name":"comments_rel",
-          "target_type":"comments", 
-      	  "id": ["5a206dc2cc2a9b26e483d664", "5a206dc2cc2a9b26e483d634"]
-     	 }
-      ]
+      "name": "javad",
+      "job": "developer",
     }
 
 
@@ -112,7 +104,59 @@ Return Value:
 
 ----------
 ## Create Relation ##
-There is two way to create relation between object 
+There is two approach to create relation between objects.
+
+1. Create relation when requesting create new object.
+2. Use separate API for creating relation between objects.
+
+**Create relation when requesting create new object** 
+
+Relation specifies in related_objects field. 
+
+
+Method: POST
+
+URL: /v1/<application-id>/<type-name>
+
+Headers:
+
+Content-Type:application/json
+
+
+Request Body: 
+
+    {
+      "field1": "javad",
+      "field2": "developer",
+      "related_objects": [
+    	 {
+          "relation_name":"comments_rel",
+          "target_type":"comments", 
+      	  "id": ["5a206dc2cc2a9b26e483d664", "5a206dc2cc2a9b26e483d634"]
+     	 }
+      ]
+    }
+
+
+Return Value:
+
+      {
+       "timestamp" : timestamp in milliseconds,
+       "count" : number of created object(s),
+       "objects": [
+        {
+          "URI":"/<type-name>/<object-id>",
+          "object_id": "5a206dc2cc2a9b26e483d664",
+          "field1": "javad",
+          "field2": "developer"               
+        }
+       ] 
+      }
+
+
+**Use separate API for creating relation between objects** (TO-DO)
+
+ 
 
 
 ----------

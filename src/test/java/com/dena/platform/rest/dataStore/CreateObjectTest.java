@@ -30,9 +30,9 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         //           Send Create Object Request
         /////////////////////////////////////////////
         TestRequestObject requestObject = new TestRequestObject();
-        requestObject.addProperty("job", "developer");
         requestObject.addProperty("name", "javad");
-        requestObject.getRelatedObjects().add(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
+        requestObject.addProperty("job", "developer");
+//        requestObject.getRelatedObjects().add(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
 
         ReturnedObject actualReturnObject = performCreateObject(createJSONFromObject(requestObject), ReturnedObject.class);
 
@@ -40,8 +40,8 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         //            Assert Create Object Response
         /////////////////////////////////////////////
         TestObjectResponse testObjectResponse = new TestObjectResponse();
-        testObjectResponse.addProperty("job", "new developer");
-        testObjectResponse.addProperty("name", "developer");
+        testObjectResponse.addProperty("name", "javad");
+        testObjectResponse.addProperty("job", "developer");
         testObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
 
 
