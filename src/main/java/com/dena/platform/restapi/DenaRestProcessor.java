@@ -1,6 +1,6 @@
 package com.dena.platform.restapi;
 
-import com.dena.platform.core.DenaRequestContext;
+import com.dena.platform.common.web.DenaRequestContext;
 import org.springframework.http.ResponseEntity;
 
 /**

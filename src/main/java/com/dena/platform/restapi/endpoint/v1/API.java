@@ -1,6 +1,6 @@
 package com.dena.platform.restapi.endpoint.v1;
 
-import com.dena.platform.core.DenaRequestContext;
+import com.dena.platform.common.web.DenaRequestContext;
 import com.dena.platform.restapi.DenaRestProcessor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +19,14 @@ public class API {
     public final static String API_PATH = "/v1/";
 
     @Resource(name = "denaRestEntityProcessorImpl")
-    private DenaRestProcessor denaRestProcessor;
+    protected DenaRestProcessor denaRestProcessor;
 
-
+    /**
+     * Create new object in data store. This webservice may also create relation between objects
+     *
+     * @param request New object (may contain relation) to create in data store.
+     * @return number of created objects
+     */
     @PostMapping(path = "/{app-id}/{type-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity createObjects(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
