@@ -29,6 +29,7 @@ public class DenaRequestFilter extends AbstractDenaFilter {
             denaRequestProcessor.processRequest((HttpServletRequest) request);
             chain.doFilter(request, response);
         } catch (Exception ex) {
+
         } finally {
             denaRequestProcessor.postProcess();
         }
