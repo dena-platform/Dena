@@ -5,7 +5,7 @@ import com.dena.platform.common.exception.ErrorCode;
 import com.dena.platform.common.exception.ParameterInvalidException;
 import com.dena.platform.common.utils.DenaObjectUtils;
 import com.dena.platform.common.web.JSONMapper;
-import com.dena.platform.core.DenaRequestContext;
+import com.dena.platform.common.web.DenaRequestContext;
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
@@ -14,7 +14,6 @@ import com.dena.platform.restapi.dto.response.DenaObjectResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse.DenaResponseBuilder;
 import com.dena.platform.restapi.exception.DenaRestException;
-import com.dena.platform.restapi.exception.DenaRestException.DenaRestExceptionBuilder;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -27,7 +26,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**

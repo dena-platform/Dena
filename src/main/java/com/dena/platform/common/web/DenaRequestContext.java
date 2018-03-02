@@ -1,5 +1,6 @@
-package com.dena.platform.core;
+package com.dena.platform.common.web;
 
+import com.dena.platform.common.utils.ThreadLocalManager;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -12,13 +13,35 @@ import java.util.Map;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
+ * An holder class that contain various request data.
+ *
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 public class DenaRequestContext {
     private final static Logger log = getLogger(DenaRequestContext.class);
 
     private HttpServletRequest request;
+
     private String requestBody;
+
+
+    private final static ThreadLocal<DenaRequestContext> ZAGROS_REQUEST_CONTEXT = ThreadLocalManager.createThreadLocal(DenaRequestContext.class);
+
+
+    public DenaRequestContext(HttpServletRequest request) {
+        this.request = request;
+    }
+
+
+    public static DenaRequestContext getDenaRequestContext() {
+        return ZAGROS_REQUEST_CONTEXT.get();
+    }
+
+
+    public static void setDenaRequestContext(DenaRequestContext zagrosRequestContext) {
+        ZAGROS_REQUEST_CONTEXT.set(zagrosRequestContext);
+    }
+
 
     public boolean isPostRequest() {
         return RequestMethod.POST.name().equalsIgnoreCase(request.getMethod());
@@ -52,10 +75,6 @@ public class DenaRequestContext {
         return requestBody;
     }
 
-
-    public DenaRequestContext(HttpServletRequest request) {
-        this.request = request;
-    }
 
     public String getPathVariable(String pathName) {
         Object val = ((Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE)).get(pathName);
