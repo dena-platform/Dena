@@ -22,7 +22,7 @@ import static org.junit.Assert.assertTrue;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CreateDataTest extends AbstractDataStoreTest {
+public class CreateObjectTest extends AbstractDataStoreTest {
     @Test
     public void test_CreateObject() throws Exception {
 
