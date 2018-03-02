@@ -39,16 +39,16 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Assert Create Object Response
         /////////////////////////////////////////////
-        TestObjectResponse testObjectResponse = new TestObjectResponse();
-        testObjectResponse.addProperty("name", "javad");
-        testObjectResponse.addProperty("job", "developer");
-        testObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
+        TestObjectResponse expectedObjectResponse = new TestObjectResponse();
+        expectedObjectResponse.addProperty("name", "javad");
+        expectedObjectResponse.addProperty("job", "developer");
+        expectedObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
 
 
         ReturnedObject expectedReturnObject = new ReturnedObject();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(1L);
-        expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
+        expectedReturnObject.setTestObjectResponseList(Collections.singletonList(expectedObjectResponse));
 
         assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
