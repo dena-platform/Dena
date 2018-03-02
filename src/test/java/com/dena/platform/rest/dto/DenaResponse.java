@@ -14,7 +14,7 @@ import java.util.List;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class ReturnedObject {
+public class DenaResponse {
 
     @JsonProperty("timestamp")
     private Long timestamp;
@@ -69,7 +69,7 @@ public class ReturnedObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ReturnedObject that = (ReturnedObject) o;
+        DenaResponse that = (DenaResponse) o;
 
         if (count != that.count) return false;
         if (!TestUtils.isTimeEqualRegardlessOfSecond(Long.valueOf(timestamp), Long.valueOf(that.getTimestamp()))) {

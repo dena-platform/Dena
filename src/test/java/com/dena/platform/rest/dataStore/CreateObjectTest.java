@@ -1,8 +1,6 @@
 package com.dena.platform.rest.dataStore;
 
 import com.dena.platform.rest.dto.*;
-import com.dena.platform.utils.CommonConfig;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -10,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.Collections;
 
 import static com.dena.platform.utils.JSONMapper.createJSONFromObject;
@@ -34,7 +31,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         requestObject.addProperty("job", "developer");
 //        requestObject.getRelatedObjects().add(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
 
-        ReturnedObject actualReturnObject = performCreateObject(createJSONFromObject(requestObject), ReturnedObject.class);
+        DenaResponse actualReturnObject = performCreateObject(createJSONFromObject(requestObject), DenaResponse.class);
 
         /////////////////////////////////////////////
         //            Assert Create Object Response
@@ -42,10 +39,10 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         TestObjectResponse expectedObjectResponse = new TestObjectResponse();
         expectedObjectResponse.addProperty("name", "javad");
         expectedObjectResponse.addProperty("job", "developer");
-        expectedObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
+//        expectedObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
 
 
-        ReturnedObject expectedReturnObject = new ReturnedObject();
+        DenaResponse expectedReturnObject = new DenaResponse();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTestObjectResponseList(Collections.singletonList(expectedObjectResponse));
