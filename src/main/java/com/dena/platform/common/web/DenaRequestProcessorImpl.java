@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Component("denaRequestProcessor")
 public class DenaRequestProcessorImpl implements DenaRequestProcessor {
+
     @Override
     public void processRequest(HttpServletRequest request) {
         DenaRequestContext denaRequestContext = new DenaRequestContext(request);
