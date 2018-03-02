@@ -24,19 +24,16 @@ public class API {
     /**
      * Create new object in data store. This webservice may also create relation between objects
      *
-     * @param request New object (may contain relation) to create in data store.
      * @return number of created objects
      */
     @PostMapping(path = "/{app-id}/{type-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity createObjects(HttpServletRequest request) {
-        DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-        return denaRestProcessor.handleCreateObject(denaRequestContext);
+    public ResponseEntity createObjects() {
+        return denaRestProcessor.handleCreateObject();
     }
 
     @PutMapping(path = "/{app-id}/{type-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity updateObjects(HttpServletRequest request) {
-        DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-        return denaRestProcessor.handleUpdateObject(denaRequestContext);
+    public ResponseEntity updateObjects() {
+        return denaRestProcessor.handleUpdateObject();
     }
 
     /**
@@ -45,9 +42,8 @@ public class API {
      * @return
      */
     @DeleteMapping(path = "/{app-id}/{type-name}/{object-id}")
-    public ResponseEntity deleteObjects(HttpServletRequest request) {
-        DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-        return denaRestProcessor.handleDeleteObject(denaRequestContext);
+    public ResponseEntity deleteObjects() {
+        return denaRestProcessor.handleDeleteObject();
 
     }
 
@@ -60,9 +56,8 @@ public class API {
     @DeleteMapping(path = {
             "/{app-id}/{type-name}/{object-id}/relation/{type-name-2}/{object-id-2}",
             "/{app-id}/{type-name}/{object-id}/relation/{type-name-2}"})
-    public ResponseEntity deleteRelationWithObjectId(HttpServletRequest request) {
-        DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-        return denaRestProcessor.handleDeleteRelation(denaRequestContext);
+    public ResponseEntity deleteRelationWithObjectId() {
+        return denaRestProcessor.handleDeleteRelation();
     }
 
     /**
@@ -73,9 +68,8 @@ public class API {
     @GetMapping(path = {
             "/{app-id}/{type-name}/{object-id}",
             "/{app-id}/{type-name}/{object-id}/relation/{target-type}"})
-    public ResponseEntity findObject(HttpServletRequest request) {
-        DenaRequestContext denaRequestContext = new DenaRequestContext(request);
-        return denaRestProcessor.handleFindObject(denaRequestContext);
+    public ResponseEntity findObject() {
+        return denaRestProcessor.handleFindObject();
 
     }
 

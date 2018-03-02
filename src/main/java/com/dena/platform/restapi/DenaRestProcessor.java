@@ -1,6 +1,5 @@
 package com.dena.platform.restapi;
 
-import com.dena.platform.common.web.DenaRequestContext;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -8,14 +7,14 @@ import org.springframework.http.ResponseEntity;
  */
 public interface DenaRestProcessor {
 
-    ResponseEntity handleCreateObject(DenaRequestContext denaRequestContext);
+    ResponseEntity handleCreateObject();
 
-    ResponseEntity handleUpdateObject(DenaRequestContext denaRequestContext);
+    ResponseEntity handleUpdateObject();
 
-    ResponseEntity handleDeleteRelation(DenaRequestContext denaRequestContext);
+    ResponseEntity handleDeleteRelation();
 
-    ResponseEntity handleDeleteObject(DenaRequestContext denaRequestContext);
+    ResponseEntity handleDeleteObject();
 
-    ResponseEntity handleFindObject(DenaRequestContext denaRequestContext);
+    ResponseEntity handleFindObject();
 
 }

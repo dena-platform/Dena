@@ -7,7 +7,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface DenaRequestProcessor {
     /**
-     * Process request after security.
+     * Process incoming http request.
+     *
      * @param request
      */
     void processRequest(HttpServletRequest request);
