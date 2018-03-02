@@ -7,6 +7,7 @@ import com.mongodb.MongoClient;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.junit.Before;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -25,6 +26,8 @@ import static com.dena.platform.utils.JSONMapper.createObjectFromJSON;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
+
+@AutoConfigureMockMvc
 public class AbstractDataStoreTest {
     protected final String objectId1 = "5a316b1b4e5f450104c31909";
     protected final String objectId2 = "5a1bd6176f017921441d4a50";
@@ -32,7 +35,7 @@ public class AbstractDataStoreTest {
 
     protected final String randomObjectId = ObjectId.get().toHexString();
 
-
+    @Resource
     protected MockMvc mockMvc;
 
     @Resource
@@ -45,9 +48,8 @@ public class AbstractDataStoreTest {
     @Before
     public void setup() {
 
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)
-                .addFilters(new DenaRequestFilter())
-                .build();
+//        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)
+//                .build();
 
 
         //////////////////////////////////////////////////////

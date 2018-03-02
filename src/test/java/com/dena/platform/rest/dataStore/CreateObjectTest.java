@@ -4,7 +4,9 @@ import com.dena.platform.rest.dto.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.Instant;
@@ -19,6 +21,7 @@ import static org.junit.Assert.assertTrue;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
+
 public class CreateObjectTest extends AbstractDataStoreTest {
     @Test
     public void test_CreateObject() throws Exception {
