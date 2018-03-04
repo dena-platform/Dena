@@ -27,6 +27,13 @@ public class DenaObjectResponse {
     @JsonProperty(value = "object_uri")
     private String objectURI;
 
+    @JsonProperty("update_time")
+    private String updateTime;
+
+    @JsonProperty("creation_time")
+    private String createTime;
+
+
     @JsonAnyGetter
     public Map<String, Object> getAllFields() {
         return fields;
@@ -59,6 +66,22 @@ public class DenaObjectResponse {
 
     public void setObjectId(String objectId) {
         this.objectId = objectId;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 
     public List<RelatedObject> getRelatedObjects() {

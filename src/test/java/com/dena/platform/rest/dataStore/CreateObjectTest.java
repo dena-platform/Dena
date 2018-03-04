@@ -6,6 +6,7 @@ import com.dena.platform.utils.CommonConfig;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 
+import java.time.Instant;
 import java.util.Collections;
 
 import static com.dena.platform.utils.JSONMapper.createJSONFromObject;
@@ -34,8 +35,8 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         TestObjectResponse expectedObjectResponse = new TestObjectResponse();
         expectedObjectResponse.objectURI = "/" + CommonConfig.APP_ID + "/" + CommonConfig.COLLECTION_NAME;
-        expectedObjectResponse.createTime=
-        expectedObjectResponse.addProperty("name", "javad");
+        expectedObjectResponse.createTime =actualReturnObject.get
+                expectedObjectResponse.addProperty("name", "javad");
         expectedObjectResponse.addProperty("job", "developer");
 
 //        expectedObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
@@ -46,7 +47,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTestObjectResponseList(Collections.singletonList(expectedObjectResponse));
 
-        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), expectedReturnObject.getTimestamp()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
 
     }
