@@ -34,7 +34,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         requestObject.addProperty("new field", "new value");
         requestObject.getRelatedObjects().add(new TestRelatedObject(objectId2, CommonConfig.COLLECTION_NAME));
 
-        DenaResponse actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), DenaResponse.class);
+        TestDenaResponse actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), TestDenaResponse.class);
 
         /////////////////////////////////////////////
         //            Assert Update Response
@@ -48,7 +48,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         testObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(objectId2, CommonConfig.COLLECTION_NAME));
 
 
-        DenaResponse expectedReturnObject = new DenaResponse();
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
