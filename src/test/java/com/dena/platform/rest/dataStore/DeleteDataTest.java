@@ -1,6 +1,6 @@
 package com.dena.platform.rest.dataStore;
 
-import com.dena.platform.rest.dto.DenaResponse;
+import com.dena.platform.rest.dto.TestDenaResponse;
 import com.dena.platform.rest.dto.TestErrorResponse;
 import com.dena.platform.rest.dto.TestObjectResponse;
 import com.dena.platform.rest.dto.TestRelatedObject;
@@ -31,12 +31,12 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Send Delete Objects Request
         /////////////////////////////////////////////
-        DenaResponse actualReturnObject = performDeleteRequest(Arrays.asList(objectId1, objectId2, objectId3), 200, DenaResponse.class);
+        TestDenaResponse actualReturnObject = performDeleteRequest(Arrays.asList(objectId1, objectId2, objectId3), 200, TestDenaResponse.class);
 
         /////////////////////////////////////////////
         //            Assert Deleted Object
         /////////////////////////////////////////////
-        DenaResponse expectedReturnObject = new DenaResponse();
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(3L);
 
@@ -69,9 +69,9 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         //            Send Delete Object Request - object id not exist
         //////////////////////////////////////////////////////////////////
 
-        DenaResponse actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId), 200, DenaResponse.class);
+        TestDenaResponse actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId), 200, TestDenaResponse.class);
 
-        DenaResponse expectedReturnObject = new DenaResponse();
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(0L);
 
@@ -85,9 +85,9 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         //////////////////////////////////////////////////////////////////
         //            Send Delete Object Request - app id not exist
         //////////////////////////////////////////////////////////////////
-        DenaResponse actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId), "/v1/invalid_app_id/denaTestCollection/", 200, DenaResponse.class);
+        TestDenaResponse actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId), "/v1/invalid_app_id/denaTestCollection/", 200, TestDenaResponse.class);
 
-        DenaResponse expectedReturnObject = new DenaResponse();
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(0L);
 
@@ -104,12 +104,12 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Send Delete Relation
         /////////////////////////////////////////////
-        DenaResponse actualReturnObject = performDeleteRelationWithObject(objectId3, CommonConfig.COLLECTION_NAME, 200, objectId1, DenaResponse.class);
+        TestDenaResponse actualReturnObject = performDeleteRelationWithObject(objectId3, CommonConfig.COLLECTION_NAME, 200, objectId1, TestDenaResponse.class);
 
         /////////////////////////////////////////////
         //            Assert Delete Relation
         /////////////////////////////////////////////
-        DenaResponse expectedReturnObject = new DenaResponse();
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(1L);
 
@@ -120,7 +120,7 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         //            Check Response Find
         /////////////////////////////////////////////
         actualReturnObject = performFindRequest(objectId3);
-        expectedReturnObject = new DenaResponse();
+        expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
@@ -159,12 +159,12 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Send Delete Relation
         /////////////////////////////////////////////
-        DenaResponse actualReturnObject = performDeleteRelation(objectId3, CommonConfig.COLLECTION_NAME);
+        TestDenaResponse actualReturnObject = performDeleteRelation(objectId3, CommonConfig.COLLECTION_NAME);
 
         /////////////////////////////////////////////
         //            Assert Delete Relation
         /////////////////////////////////////////////
-        DenaResponse expectedReturnObject = new DenaResponse();
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(2L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
@@ -176,7 +176,7 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         //            Check Response Find
         /////////////////////////////////////////////
         actualReturnObject = performFindRequest(objectId3);
-        expectedReturnObject = new DenaResponse();
+        expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
@@ -197,9 +197,9 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////////////////////////////////
         //            Send Delete Relation - Invalid relation name
         /////////////////////////////////////////////////////////////////////////
-        DenaResponse actualReturnObject = performDeleteRelationWithObject(objectId3, "not_exist_relation", 200, objectId1, DenaResponse.class);
+        TestDenaResponse actualReturnObject = performDeleteRelationWithObject(objectId3, "not_exist_relation", 200, objectId1, TestDenaResponse.class);
 
-        DenaResponse expectedReturnObject = new DenaResponse();
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(0L);
 

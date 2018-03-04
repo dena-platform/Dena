@@ -1,6 +1,6 @@
 package com.dena.platform.rest.dataStore;
 
-import com.dena.platform.rest.dto.DenaResponse;
+import com.dena.platform.rest.dto.TestDenaResponse;
 import com.dena.platform.rest.dto.TestObjectResponse;
 import com.dena.platform.rest.dto.TestRelatedObject;
 import com.dena.platform.utils.CommonConfig;
@@ -32,9 +32,9 @@ public class FindDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Send Find Object Request
         /////////////////////////////////////////////
-        DenaResponse actualReturnObject = performFindRequest(objectId3);
+        TestDenaResponse actualReturnObject = performFindRequest(objectId3);
 
-        DenaResponse expectedReturnObject = new DenaResponse();
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
@@ -60,12 +60,12 @@ public class FindDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Send Find Object Request
         /////////////////////////////////////////////
-        DenaResponse actualReturnObject = performFindRelationRequest(objectId3, CommonConfig.COLLECTION_NAME);
+        TestDenaResponse actualReturnObject = performFindRelationRequest(objectId3, CommonConfig.COLLECTION_NAME);
 
         /////////////////////////////////////////////
         //            Assert Found Object
         /////////////////////////////////////////////
-        DenaResponse expectedReturnObject = new DenaResponse();
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.setCount(2L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
@@ -97,12 +97,12 @@ public class FindDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Send Find Object Request
         /////////////////////////////////////////////
-        DenaResponse actualReturnObject = performFindRequest(randomObjectId);
+        TestDenaResponse actualReturnObject = performFindRequest(randomObjectId);
 
         /////////////////////////////////////////////
         //            Assert Found Object
         /////////////////////////////////////////////
-        DenaResponse expectedReturnObject = new DenaResponse();
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.setCount(0L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 

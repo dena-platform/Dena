@@ -24,6 +24,13 @@ public class TestObjectResponse {
     @JsonProperty(value = "object_uri")
     public String objectURI;
 
+    @JsonProperty("update_time")
+    public String updateTime;
+
+    @JsonProperty("creation_time")
+    public String createTime;
+
+
     @JsonProperty(value = "related_objects")
     public List<TestRelatedObject> testRelatedObjects = new ArrayList<>();
 

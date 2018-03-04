@@ -1,6 +1,6 @@
 package com.dena.platform.rest.dataStore;
 
-import com.dena.platform.rest.dto.DenaResponse;
+import com.dena.platform.rest.dto.TestDenaResponse;
 import com.dena.platform.utils.CommonConfig;
 import com.mongodb.MongoClient;
 import org.bson.Document;
@@ -88,24 +88,24 @@ public class AbstractDataStoreTest {
     }
 
 
-    protected DenaResponse performFindRequest(String objectId1) throws Exception {
+    protected TestDenaResponse performFindRequest(String objectId1) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId1))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, DenaResponse.class);
+        return createObjectFromJSON(returnContent, TestDenaResponse.class);
     }
 
-    protected DenaResponse performFindRelationRequest(String objectId1, String targetType) throws Exception {
+    protected TestDenaResponse performFindRelationRequest(String objectId1, String targetType) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId1 + "/relation/" + targetType))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, DenaResponse.class);
+        return createObjectFromJSON(returnContent, TestDenaResponse.class);
     }
 
     protected <T> T performDeleteRequest(List<String> objectList, int status, Class<T> klass) throws Exception {
@@ -134,14 +134,14 @@ public class AbstractDataStoreTest {
 
     }
 
-    protected DenaResponse performDeleteRelation(String type1, String relationName) throws Exception {
+    protected TestDenaResponse performDeleteRelation(String type1, String relationName) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + type1 + "/relation/" + relationName))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, DenaResponse.class);
+        return createObjectFromJSON(returnContent, TestDenaResponse.class);
 
     }
 
