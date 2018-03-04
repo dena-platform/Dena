@@ -11,10 +11,14 @@ Method: POST
 
 URL: /v1/<application-id>/<type-name>
 
+
+
+
 Headers:
 
 Content-Type:application/json
 
+***Example:***
 
 Request Body: 
 
