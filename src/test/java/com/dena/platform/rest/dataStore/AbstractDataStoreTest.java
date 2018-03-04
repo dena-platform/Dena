@@ -1,21 +1,21 @@
 package com.dena.platform.rest.dataStore;
 
-import com.dena.platform.common.web.filter.DenaRequestFilter;
 import com.dena.platform.rest.dto.DenaResponse;
 import com.dena.platform.utils.CommonConfig;
 import com.mongodb.MongoClient;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.junit.Before;
+import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
@@ -28,6 +28,8 @@ import static com.dena.platform.utils.JSONMapper.createObjectFromJSON;
  */
 
 @AutoConfigureMockMvc
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class AbstractDataStoreTest {
     protected final String objectId1 = "5a316b1b4e5f450104c31909";
     protected final String objectId2 = "5a1bd6176f017921441d4a50";
@@ -39,17 +41,10 @@ public class AbstractDataStoreTest {
     protected MockMvc mockMvc;
 
     @Resource
-    protected WebApplicationContext wac;
-
-    @Resource
     protected MongoClient mongoClient;
-
 
     @Before
     public void setup() {
-
-//        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)
-//                .build();
 
 
         //////////////////////////////////////////////////////
