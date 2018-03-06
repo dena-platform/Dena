@@ -9,6 +9,7 @@ import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.mongodb.client.MongoDatabase;
 import org.apache.commons.collections4.CollectionUtils;
 import org.bson.Document;
+import org.bson.types.BSONTimestamp;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,10 +54,11 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             denaObjects.forEach(denaObject -> {
 
                 ObjectId objectId = ObjectId.get();
-                denaObject.setObjectId(objectId.toHexString());
 
                 Document document = new Document();
                 document.put(MongoDBUtils.ID, objectId);
+                document.put(UPDATE_TIME_FIELD, null);
+                document.put(CREATE_TIME_FIELD, new BSONTimestamp());
 
                 document.putAll(denaObject.getFields());
 

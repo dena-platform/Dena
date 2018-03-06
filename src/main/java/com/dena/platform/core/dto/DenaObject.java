@@ -19,6 +19,13 @@ public class DenaObject {
     @JsonProperty(value = "object_id")
     private String objectId;
 
+    @JsonProperty("update_time")
+    private Long updateTime;
+
+    @JsonProperty("create_time")
+    private Long createTime;
+
+
     @JsonProperty(value = "related_objects")
     private List<RelatedObject> relatedObjects = new ArrayList<>();
 
@@ -54,6 +61,22 @@ public class DenaObject {
 
     public void setObjectId(String objectId) {
         this.objectId = objectId;
+    }
+
+    public Long getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Long updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
     }
 }
 
