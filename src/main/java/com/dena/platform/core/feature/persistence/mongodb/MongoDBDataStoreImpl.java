@@ -39,7 +39,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         try {
             mongoDatabase = MongoDBUtils.getDataBase(appName);
         } catch (Exception ex) {
-            throw new DataStoreException("Error in updating objects", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
+            throw new DataStoreException("Error in creating objects", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
 
 

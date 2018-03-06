@@ -37,6 +37,8 @@ Return Value:
         {
           "URI":"/<type-name>/<object-id>",
           "object_id": "5a206dc2cc2a9b26e483d664",
+          "create_time": timestamp in milliseconds,
+          "update_time": null,
           "field1": "javad",
           "field2": "developer"               
         }

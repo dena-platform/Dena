@@ -25,10 +25,10 @@ public class TestObjectResponse {
     public String objectURI;
 
     @JsonProperty("update_time")
-    public String updateTime;
+    public Long updateTime;
 
-    @JsonProperty("creation_time")
-    public String createTime;
+    @JsonProperty("create_time")
+    public Long createTime;
 
 
     @JsonProperty(value = "related_objects")

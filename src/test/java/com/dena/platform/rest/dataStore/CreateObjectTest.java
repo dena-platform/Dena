@@ -11,6 +11,7 @@ import java.util.Collections;
 
 import static com.dena.platform.utils.JSONMapper.createJSONFromObject;
 import static com.dena.platform.utils.TestUtils.isTimeEqualRegardlessOfSecond;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -34,9 +35,10 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         //            Assert Create Object Response
         /////////////////////////////////////////////
         TestObjectResponse expectedObjectResponse = new TestObjectResponse();
+        expectedObjectResponse.createTime = actualReturnObject.getDenaObjectResponseList().get(0).getCreateTime();
+        expectedObjectResponse.updateTime = actualReturnObject.getDenaObjectResponseList().get(0).getUpdateTime();
         expectedObjectResponse.objectURI = "/" + CommonConfig.APP_ID + "/" + CommonConfig.COLLECTION_NAME;
-        expectedObjectResponse.createTime =actualReturnObject.get
-                expectedObjectResponse.addProperty("name", "javad");
+        expectedObjectResponse.addProperty("name", "javad");
         expectedObjectResponse.addProperty("job", "developer");
 
 //        expectedObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
@@ -47,7 +49,11 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTestObjectResponseList(Collections.singletonList(expectedObjectResponse));
 
-        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        // assert timestamp
+        assertTrue(isTimeEqualRegardlessOfSecond(expectedReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(expectedObjectResponse.createTime, Instant.now().toEpochMilli()));
+        assertNull("update time in creating object should be null", expectedObjectResponse.updateTime);
+
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
 
     }

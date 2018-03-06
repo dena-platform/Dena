@@ -55,6 +55,10 @@ public class DenaResponse {
         this.page = page;
     }
 
+    public List<DenaObjectResponse> getDenaObjectResponseList() {
+        return denaObjectResponseList;
+    }
+
     public static final class DenaResponseBuilder {
         private Long timestamp;
         private Long count;
