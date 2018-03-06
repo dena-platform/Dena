@@ -28,10 +28,10 @@ public class DenaObjectResponse {
     private String objectURI;
 
     @JsonProperty("update_time")
-    private String updateTime;
+    private Long updateTime;
 
     @JsonProperty("creation_time")
-    private String createTime;
+    private Long createTime;
 
 
     @JsonAnyGetter
@@ -68,19 +68,19 @@ public class DenaObjectResponse {
         this.objectId = objectId;
     }
 
-    public String getUpdateTime() {
+    public Long getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(String updateTime) {
+    public void setUpdateTime(Long updateTime) {
         this.updateTime = updateTime;
     }
 
-    public String getCreateTime() {
+    public Long getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(Long createTime) {
         this.createTime = createTime;
     }
 
