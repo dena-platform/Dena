@@ -154,7 +154,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
             return MongoDBUtils.deleteRelationWithObjectId(mongoDatabase, parentTypeName, parentObjectId, childTypeName, childObjectId);
         } catch (Exception ex) {
-            throw new DataStoreException("Error in delete relation", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
+            throw new DataStoreException("Error in deleting relation", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
     }
 
