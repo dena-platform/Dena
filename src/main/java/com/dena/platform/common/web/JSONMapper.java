@@ -16,6 +16,8 @@ import java.util.List;
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 public class JSONMapper {
+
+
     private final static ObjectMapper JSON_MAPPER = new ObjectMapper().enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 
     public static <T> String createJSONFromObject(final T object) throws InvalidJSONException {
