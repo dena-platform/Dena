@@ -60,14 +60,13 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 bsonDocument.put(MongoDBUtils.ID, new BsonObjectId(objectId));
                 bsonDocument.put(UPDATE_TIME_FIELD, new BsonNull());
                 bsonDocument.put(CREATE_TIME_FIELD, new BsonDateTime(Instant.now().toEpochMilli()));
-
-
-                bsonDocument.putAll(denaObject.getFields());
+                addFieldsToBsonDocument(bsonDocument, denaObject.getFields());
 
                 // add relation
-                if (CollectionUtils.isNotEmpty(denaObject.getRelatedObjects())) {
-                    bsonDocument.putAll(getRelation(denaObject));
-                }
+//                if (CollectionUtils.isNotEmpty(denaObject.getRelatedObjects())) {
+//                    bsonDocument.putAll(getRelation(denaObject));
+//                }
+
                 bsonDocuments.add(bsonDocument);
                 ids.add(objectId.toString());
             });
@@ -337,8 +336,8 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     private void addFieldsToBsonDocument(BsonDocument bsonDocument, Map<String, Object> properties) {
         if (MapUtils.isNotEmpty(properties)) {
             properties.forEach((fieldName, fieldValue) -> {
-                BsonValueTypeMapper.createBsonValue(fieldValue.getClass());
-                bsonDocument.put(fieldName, );
+                BsonValue bsonValue = BsonValueTypeMapper.createBsonValue(fieldValue);
+                bsonDocument.put(fieldName, bsonValue);
             });
         }
     }

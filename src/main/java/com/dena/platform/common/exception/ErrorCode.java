@@ -19,6 +19,7 @@ public enum ErrorCode {
     RELATION_INVALID_EXCEPTION("com.dena.platform.restapi.exception.RELATION_INVALID", "2001-400"),
     ObjectId_INVALID_EXCEPTION("com.dena.platform.restapi.exception.ObjectId_INVALID", "2002-400"),
     ObjectId_NOT_FOUND_EXCEPTION("com.dena.platform.restapi.exception.ObjectId_NOT_FOUND", "2003-400"),
+    FIELD_NOT_FOUND_EXCEPTION("com.dena.platform.restapi.exception.ObjectId_NOT_FOUND", "2004-400"),
 
     // General Error - range 0-999
     RESOURCE_NOT_FOUND("com.dena.platform.restapi.exception.RESOURCE_NOT_FOUND", "0-404"),
