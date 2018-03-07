@@ -30,20 +30,19 @@ Request Body:
 
 Return Value:
 
-      {
-       "timestamp" : timestamp in milliseconds,
-       "count" : number of created object(s),
-       "objects": [
-        {
-          "URI":"/<type-name>/<object-id>",
-          "object_id": "5a206dc2cc2a9b26e483d664",
-          "create_time": timestamp in milliseconds,
-          "update_time": null,
-          "field1": "javad",
-          "field2": "developer"               
-        }
-       ] 
-      }
+    {
+    	"timestamp": 1520431834412,
+    	"count": 1,
+    	"objects": [
+    	 {
+    		"object_id": "5a9ff2dad41a3b1a508ae005",
+    		"field1": "javad",
+    		"create_time": 1520431834404,
+    		"object_uri": "/posts/5a9ff2dad41a3b1a508ae005",
+    		"field2": "developer"
+   		 }
+		]
+    }
 
 
 **Create Bulk Objects**

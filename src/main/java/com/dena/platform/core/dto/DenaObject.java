@@ -25,6 +25,8 @@ public class DenaObject {
     @JsonProperty("create_time")
     private Long createTime;
 
+    @JsonProperty(value = "object_uri")
+    private String objectURI;
 
     @JsonProperty(value = "related_objects")
     private List<RelatedObject> relatedObjects = new ArrayList<>();
@@ -77,6 +79,14 @@ public class DenaObject {
 
     public void setCreateTime(Long createTime) {
         this.createTime = createTime;
+    }
+
+    public String getObjectURI() {
+        return objectURI;
+    }
+
+    public void setObjectURI(String objectURI) {
+        this.objectURI = objectURI;
     }
 }
 
