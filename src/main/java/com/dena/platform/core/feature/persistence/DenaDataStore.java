@@ -13,6 +13,8 @@ public interface DenaDataStore {
 
     String CREATE_TIME_FIELD = "create_time";
 
+    String OBJECT_URI_FIELD = "object_uri";
+
 
     List<DenaObject> storeObjects(List<DenaObject> denaObject, String appName, String typeName);
 

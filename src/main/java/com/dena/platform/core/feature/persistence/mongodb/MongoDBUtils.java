@@ -46,7 +46,7 @@ public class MongoDBUtils {
     }
 
     public static void createDocument(MongoDatabase mongoDatabase, String collectionName, List<BsonDocument> document) {
-        Assert.hasLength(collectionName, "collection should not be empty or null ");
+        Assert.hasLength(collectionName, "Collection should not be empty or null");
         Assert.notEmpty(document, "Document should not be null");
 
         mongoDatabase

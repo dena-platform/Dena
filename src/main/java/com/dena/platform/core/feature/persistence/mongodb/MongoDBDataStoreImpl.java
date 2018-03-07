@@ -1,6 +1,7 @@
 package com.dena.platform.core.feature.persistence.mongodb;
 
 import com.dena.platform.common.exception.ErrorCode;
+import com.dena.platform.common.utils.DenaObjectUtils;
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.dto.RelatedObject;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
@@ -15,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -59,7 +59,8 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 BsonDocument bsonDocument = new BsonDocument();
                 bsonDocument.put(MongoDBUtils.ID, new BsonObjectId(objectId));
                 bsonDocument.put(UPDATE_TIME_FIELD, new BsonNull());
-                bsonDocument.put(CREATE_TIME_FIELD, new BsonDateTime(Instant.now().toEpochMilli()));
+                bsonDocument.put(CREATE_TIME_FIELD, new BsonDateTime(DenaObjectUtils.timeStamp()));
+                bsonDocument.put(OBJECT_URI_FIELD, new BsonString(DenaObjectUtils.getURIForResource(typeName, objectId.toString())));
                 addFieldsToBsonDocument(bsonDocument, denaObject.getFields());
 
                 // add relation
@@ -73,7 +74,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
             MongoDBUtils.createDocument(mongoDatabase, typeName, bsonDocuments);
 
-            // todo : performance- use better approach to find object with ids (bulk find)
+            // todo : performance - use better approach to find object with ids (bulk find)
             ids.forEach(id -> {
                 returnObject.add(findObject(appName, typeName, id));
             });
