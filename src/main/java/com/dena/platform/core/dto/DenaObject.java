@@ -13,6 +13,7 @@ import java.util.Map;
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonPropertyOrder(value = {"object_id", "update_time", "create_time", "object_uri", "related_objects"})
 public class DenaObject {
     private Map<String, Object> fields = new HashMap<>();
 

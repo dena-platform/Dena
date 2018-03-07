@@ -31,12 +31,11 @@ public class ApplicationContextConfig {
         return messageSource;
     }
 
-    @Bean
-    public Jackson2ObjectMapperBuilder objectMapperBuilder() {
-
-        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-        builder.featuresToEnable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY);
-
-        return builder;
-    }
+//    @Bean
+//    public Jackson2ObjectMapperBuilder objectMapperBuilder() {
+//
+//        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
+//
+//        return builder;
+//    }
 }
