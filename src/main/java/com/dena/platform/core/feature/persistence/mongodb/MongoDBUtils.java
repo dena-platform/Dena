@@ -4,10 +4,13 @@ import com.dena.platform.core.feature.persistence.DenaPager;
 import com.mongodb.MongoClient;
 import com.mongodb.bulk.BulkWriteResult;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.*;
+import com.mongodb.client.model.BulkWriteOptions;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.UpdateOneModel;
+import com.mongodb.client.model.WriteModel;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
-import org.bson.BSON;
+import org.bson.BsonDocument;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
@@ -18,7 +21,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,12 +45,12 @@ public class MongoDBUtils {
 
     }
 
-    public static void createDocument(MongoDatabase mongoDatabase, String collectionName, List<? extends Document> document) {
+    public static void createDocument(MongoDatabase mongoDatabase, String collectionName, List<BsonDocument> document) {
         Assert.hasLength(collectionName, "collection should not be empty or null ");
         Assert.notEmpty(document, "Document should not be null");
 
         mongoDatabase
-                .getCollection(collectionName)
+                .getCollection(collectionName, BsonDocument.class)
                 .insertMany(document);
 
         log.info("Creating document(s) [{}] successfully", document);
