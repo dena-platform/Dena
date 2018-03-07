@@ -17,6 +17,7 @@
 
     <logger name="org.hibernate" level="INFO" />
 
+
     <logger name="com.dena" level="DEBUG" />
 
 

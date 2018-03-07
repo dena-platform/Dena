@@ -8,13 +8,14 @@ import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.mongodb.client.MongoDatabase;
 import org.apache.commons.collections4.CollectionUtils;
-import org.bson.Document;
-import org.bson.types.BSONTimestamp;
+import org.apache.commons.collections4.MapUtils;
+import org.bson.*;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
     @Override
     public List<DenaObject> storeObjects(final List<DenaObject> denaObjects, final String appName, final String typeName) {
-        List<Document> documentList = new ArrayList<>();
+        List<BsonDocument> bsonDocuments = new ArrayList<>();
         List<DenaObject> returnObject = new ArrayList<>();
         MongoDatabase mongoDatabase;
 
@@ -55,22 +56,23 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
                 ObjectId objectId = ObjectId.get();
 
-                Document document = new Document();
-                document.put(MongoDBUtils.ID, objectId);
-                document.put(UPDATE_TIME_FIELD, null);
-                document.put(CREATE_TIME_FIELD, new BSONTimestamp());
+                BsonDocument bsonDocument = new BsonDocument();
+                bsonDocument.put(MongoDBUtils.ID, new BsonObjectId(objectId));
+                bsonDocument.put(UPDATE_TIME_FIELD, new BsonNull());
+                bsonDocument.put(CREATE_TIME_FIELD, new BsonDateTime(Instant.now().toEpochMilli()));
 
-                document.putAll(denaObject.getFields());
+
+                bsonDocument.putAll(denaObject.getFields());
 
                 // add relation
                 if (CollectionUtils.isNotEmpty(denaObject.getRelatedObjects())) {
-                    document.putAll(getRelation(denaObject));
+                    bsonDocument.putAll(getRelation(denaObject));
                 }
-                documentList.add(document);
+                bsonDocuments.add(bsonDocument);
                 ids.add(objectId.toString());
             });
 
-            MongoDBUtils.createDocument(mongoDatabase, typeName, documentList);
+            MongoDBUtils.createDocument(mongoDatabase, typeName, bsonDocuments);
 
             // todo : performance- use better approach to find object with ids (bulk find)
             ids.forEach(id -> {
@@ -324,6 +326,21 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
         return result;
 
+    }
+
+    /**
+     * Recognize field type and add to document
+     *
+     * @param bsonDocument
+     * @param properties
+     */
+    private void addFieldsToBsonDocument(BsonDocument bsonDocument, Map<String, Object> properties) {
+        if (MapUtils.isNotEmpty(properties)) {
+            properties.forEach((fieldName, fieldValue) -> {
+                BsonValueTypeMapper.createBsonValue(fieldValue.getClass());
+                bsonDocument.put(fieldName, );
+            });
+        }
     }
 
 }
