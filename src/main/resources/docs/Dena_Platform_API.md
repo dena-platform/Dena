@@ -11,7 +11,9 @@ Method: POST
 
 URL: /v1/<application-id>/<type-name>
 
+Body:
 
+{json fields}
 
 
 Headers:
