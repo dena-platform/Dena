@@ -1,13 +1,11 @@
 package com.dena.platform.restapi.endpoint.v1;
 
-import com.dena.platform.common.web.DenaRequestContext;
 import com.dena.platform.restapi.DenaRestProcessor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
