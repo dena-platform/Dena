@@ -170,7 +170,6 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public DenaObject findObject(String appName, String typeName, String objectId) {
         try {
@@ -222,7 +221,6 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
 
-    @SuppressWarnings("unchecked")
     @Override
     public List<DenaObject> findObjectRelation(String appName, String parentType, String objectId, String targetType, DenaPager denaPager) {
         try {
