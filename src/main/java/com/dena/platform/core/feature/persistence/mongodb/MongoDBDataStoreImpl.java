@@ -200,6 +200,8 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                     }
                 } else if (entry.getKey().equals(MongoDBUtils.ID)) {  // type is id
                     denaObject.setObjectId(entry.getValue().toString());
+                } else if (entry.getKey().equals(UPDATE_TIME_FIELD)) {  // type is id
+                    denaObject.setUpdateTime(BsonValueTypeMapper.createBsonValue(entry.getValue().toString());
                 } else { // normal key -> value
                     denaObject.addProperty(entry.getKey(), entry.getValue());
                 }

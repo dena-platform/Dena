@@ -4,9 +4,10 @@ import com.dena.platform.common.exception.ErrorCode;
 import com.dena.platform.common.exception.InvalidJSONException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,10 +16,16 @@ import java.util.List;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
+@Component
 public class JSONMapper {
 
 
-    private final static ObjectMapper JSON_MAPPER = new ObjectMapper().enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+    private static ObjectMapper JSON_MAPPER;
+
+    @Autowired
+    public JSONMapper(ObjectMapper objectMapper) {
+        JSONMapper.JSON_MAPPER = objectMapper;
+    }
 
     public static <T> String createJSONFromObject(final T object) throws InvalidJSONException {
         try {

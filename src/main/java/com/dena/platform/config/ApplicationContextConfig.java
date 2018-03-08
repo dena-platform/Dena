@@ -1,13 +1,13 @@
 package com.dena.platform.config;
 
-import com.dena.platform.common.config.DenaConfigReader;
-import com.fasterxml.jackson.databind.MapperFeature;
+import com.dena.platform.restapi.Serilizer.DenaResponseModule;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
@@ -31,11 +31,14 @@ public class ApplicationContextConfig {
         return messageSource;
     }
 
-//    @Bean
-//    public Jackson2ObjectMapperBuilder objectMapperBuilder() {
-//
-//        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-//
-//        return builder;
-//    }
+    @Bean(name = "jacksonObjectMapper")
+    public ObjectMapper objectMapper() {
+        final ObjectMapper JSON_MAPPER = new ObjectMapper();
+
+        JSON_MAPPER.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+        JSON_MAPPER.registerModule(new DenaResponseModule());
+
+
+        return JSON_MAPPER;
+    }
 }
