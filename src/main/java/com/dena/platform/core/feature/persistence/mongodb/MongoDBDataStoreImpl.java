@@ -58,8 +58,8 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
                 BsonDocument bsonDocument = new BsonDocument();
                 bsonDocument.put(MongoDBUtils.ID, new BsonObjectId(objectId));
-                bsonDocument.put(UPDATE_TIME_FIELD, new BsonNull());
                 bsonDocument.put(CREATE_TIME_FIELD, new BsonDateTime(DenaObjectUtils.timeStamp()));
+                bsonDocument.put(UPDATE_TIME_FIELD, new BsonNull());
                 bsonDocument.put(OBJECT_URI_FIELD, new BsonString(DenaObjectUtils.getURIForResource(typeName, objectId.toString())));
                 addFieldsToBsonDocument(bsonDocument, denaObject.getFields());
 
@@ -203,7 +203,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                         denaObject.addProperty(fieldName, fieldValue);
                     }
                 } else if (fieldName.equals(MongoDBUtils.ID)) {  // type is id
-                    denaObject.setObjectId(fieldValue.asObjectId().toString());
+                    denaObject.setObjectId(fieldValue.asObjectId().getValue().toString());
                 } else if (fieldName.equals(UPDATE_TIME_FIELD)) {  // type is update time field
                     denaObject.setUpdateTime(fieldValue.isNull() ? null : fieldValue.asDateTime().getValue());
                 } else if (fieldName.equals(CREATE_TIME_FIELD)) {  // type is create time field
