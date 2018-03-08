@@ -189,8 +189,8 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                     BsonArray values = fieldValue.asArray();
                     // is type relation?
                     if (values.size() > 0 && values.get(0).isObjectId()) {
-                        ArrayList<ObjectId> objectIdList = BsonTypeMapper.convertBsonArrayToJavaArray(values, ObjectId.class);
-                        List<String> idString = objectIdList.stream()
+                        ArrayList<Object> listOfObjectId = BsonTypeMapper.convertBsonArrayToJavaArray(values);
+                        List<String> idString = listOfObjectId.stream()
                                 .map(Object::toString)
                                 .collect(Collectors.toList());
 
@@ -199,13 +199,14 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                     }
                     // this type is normal array
                     else {
-                        denaObject.addProperty(fieldName, fieldValue);
+                        ArrayList<Object> listOfObject = BsonTypeMapper.convertBsonArrayToJavaArray(values);
+                        denaObject.addProperty(fieldName, listOfObject);
                     }
-                } else if (fieldName.equals(MongoDBUtils.ID)) {  // type is id
+                } else if (fieldName.equals(MongoDBUtils.ID)) {  // type is id field
                     denaObject.setObjectId(fieldValue.asObjectId().getValue().toString());
-                } else if (fieldName.equals(UPDATE_TIME_FIELD)) {  // type is update time field
+                } else if (fieldName.equals(UPDATE_TIME_FIELD)) {  // type is update_time field
                     denaObject.setUpdateTime(fieldValue.isNull() ? null : fieldValue.asDateTime().getValue());
-                } else if (fieldName.equals(CREATE_TIME_FIELD)) {  // type is create time field
+                } else if (fieldName.equals(CREATE_TIME_FIELD)) {  // type is create_time field
                     denaObject.setCreateTime(fieldValue.isNull() ? null : fieldValue.asDateTime().getValue());
                 } else if (fieldName.equals(OBJECT_URI_FIELD)) {  // type is uri field
                     denaObject.setObjectURI(fieldValue.asString().getValue());

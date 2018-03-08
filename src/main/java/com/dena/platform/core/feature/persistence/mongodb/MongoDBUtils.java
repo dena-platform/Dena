@@ -123,9 +123,8 @@ public class MongoDBUtils {
         return Optional.ofNullable(bsonDocument);
     }
 
-    @SuppressWarnings("unchecked")
     public static List<Document> findRelatedDocument(MongoDatabase mongoDatabase, BsonDocument parentDocument, String targetType, DenaPager pager) {
-        List<ObjectId> otherObjectIds = BsonTypeMapper.convertBsonArrayToJavaArray(parentDocument.get(targetType).asArray(), ObjectId.class);
+        List<Object> otherObjectIds = BsonTypeMapper.convertBsonArrayToJavaArray(parentDocument.get(targetType).asArray());
         Bson searchDocument = Filters.in(ID, otherObjectIds);
 
         int startIndex = (int) pager.getCount() * pager.getLimit();
