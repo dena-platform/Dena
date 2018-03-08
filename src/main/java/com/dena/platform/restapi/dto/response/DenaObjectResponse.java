@@ -1,7 +1,10 @@
 package com.dena.platform.restapi.dto.response;
 
 import com.dena.platform.core.dto.RelatedObject;
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -14,15 +17,11 @@ import java.util.Map;
  */
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class DenaObjectResponse {
     private Map<String, Object> fields = new LinkedHashMap<>();
 
     @JsonProperty(value = "object_id")
     private String objectId;
-
-    @JsonProperty(value = "related_objects")
-    private List<RelatedObject> relatedObjects = new ArrayList<>();
 
     @JsonProperty(value = "object_uri")
     private String objectURI;
@@ -32,6 +31,9 @@ public class DenaObjectResponse {
 
     @JsonProperty("creation_time")
     private Long createTime;
+
+    @JsonProperty(value = "related_objects")
+    private List<RelatedObject> relatedObjects = new ArrayList<>();
 
 
     @JsonAnyGetter
