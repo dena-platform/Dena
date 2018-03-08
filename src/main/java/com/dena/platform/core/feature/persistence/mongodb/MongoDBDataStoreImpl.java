@@ -338,7 +338,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     /**
-     * Recognize field type and add to document
+     * Recognize field value type and add to bson document
      *
      * @param bsonDocument
      * @param properties

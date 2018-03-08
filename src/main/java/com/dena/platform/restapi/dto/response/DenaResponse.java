@@ -15,8 +15,8 @@ public class DenaResponse {
     @JsonProperty("timestamp")
     private Long timestamp;
 
-    @JsonProperty("count")
-    private Long count;
+    @JsonProperty("create_object_count")
+    private Long countObjectCount;
 
     @JsonProperty("total_count")
     private Long totalCount;
@@ -35,12 +35,12 @@ public class DenaResponse {
         this.timestamp = timestamp;
     }
 
-    public Long getCount() {
-        return count;
+    public Long getCountObjectCount() {
+        return countObjectCount;
     }
 
-    public void setCount(Long count) {
-        this.count = count;
+    public void setCountObjectCount(Long countObjectCount) {
+        this.countObjectCount = countObjectCount;
     }
 
     public void setDenaObjectResponseList(List<DenaObjectResponse> denaObjectResponseList) {
@@ -78,12 +78,12 @@ public class DenaResponse {
             return this;
         }
 
-        public DenaResponseBuilder withCount(Long count) {
+        public DenaResponseBuilder withCreateObjectCount(Long count) {
             this.count = count;
             return this;
         }
 
-        public DenaResponseBuilder withCount(Integer count) {
+        public DenaResponseBuilder withCreateObjectCount(Integer count) {
             this.count = Long.valueOf(count);
             return this;
         }
@@ -106,7 +106,7 @@ public class DenaResponse {
         public DenaResponse build() {
             DenaResponse denaResponse = new DenaResponse();
             denaResponse.setTimestamp(timestamp);
-            denaResponse.setCount(count);
+            denaResponse.setCountObjectCount(count);
             denaResponse.setDenaObjectResponseList(denaObjectResponseList);
             denaResponse.setTotalCount(totalCount);
             denaResponse.setPage(page);
