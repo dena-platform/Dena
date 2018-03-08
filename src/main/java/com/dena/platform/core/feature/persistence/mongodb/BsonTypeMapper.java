@@ -57,10 +57,10 @@ public class BsonTypeMapper {
     }
 
 
-    public static <T> ArrayList<T> convertBsonArrayToJavaArray(BsonArray bsonArray, Class<T> klass) {
-        ArrayList<T> returnList = new ArrayList<>();
-        bsonArray.forEach(bsonValue1 -> {
-            returnList.add(klass.cast(bsonValue1));
+    public static ArrayList<Object> convertBsonArrayToJavaArray(BsonArray bsonArray) {
+        ArrayList<Object> returnList = new ArrayList<>();
+        bsonArray.forEach(bv -> {
+            returnList.add(convertBsonToJava(bv));
         });
 
         return returnList;
@@ -68,7 +68,7 @@ public class BsonTypeMapper {
 
     public static Object convertBsonToJava(BsonValue bsonValue) {
         if (bsonValue.isObjectId()) {
-            return bsonValue.asObjectId().getValue().toString();
+            return bsonValue.asObjectId().getValue();
         } else if (bsonValue.isNull()) {
             return null;
         } else if (bsonValue.isBinary()) {
