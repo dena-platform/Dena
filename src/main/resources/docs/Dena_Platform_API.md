@@ -13,7 +13,7 @@ URL: /v1/<application-id>/<type-name>
 
 Body:
 
-{json fields}
+{JSON}
 
 
 Headers:
@@ -32,19 +32,19 @@ Request Body:
 
 Return Value:
 
-    {
-    	"timestamp": 1520431834412,
-    	"count": 1,
-    	"objects": [
-    	 {
-    		"object_id": "5a9ff2dad41a3b1a508ae005",
-    		"field1": "javad",
-    		"create_time": 1520431834404,
-    		"object_uri": "/posts/5a9ff2dad41a3b1a508ae005",
-    		"field2": "developer"
-   		 }
-		]
-    }
+      {
+        "timestamp": 1520504910721,
+        "count": 1,
+        "objects": [
+         {
+           "object_id": "5aa1104e99d0b323487d38a1",
+           "object_uri": "/posts/5aa1104e99d0b323487d38a1",
+           "update_time": null,
+           "creation_time": 1520504910672,
+           "related_objects": []
+         }
+        ]
+      }
 
 
 **Create Bulk Objects**
