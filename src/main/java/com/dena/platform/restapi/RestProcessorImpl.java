@@ -57,7 +57,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
             List<DenaObject> returnObject = denaDataStore.storeObjects(denaObjects, appName, appTypeName);
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
-                    .withObjectResponseList(createObjectResponse(returnObject, appTypeName))
+                    .withObjectResponseList(createObjectResponse(returnObject))
                     .withCount(returnObject.size())
                     .withTimestamp(DenaObjectUtils.timeStamp())
                     .build();
@@ -79,7 +79,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         try {
             List<DenaObject> returnObject = denaDataStore.updateObjects(denaObjects, appName, appTypeName);
             DenaResponse response = DenaResponseBuilder.aDenaResponse()
-                    .withObjectResponseList(createObjectResponse(returnObject, appTypeName))
+                    .withObjectResponseList(createObjectResponse(returnObject))
                     .withCount(returnObject.size())
                     .withTimestamp(DenaObjectUtils.timeStamp())
                     .build();
@@ -175,7 +175,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
                 if (denaObject != null) {
                     resultObject = Collections.singletonList(denaObject);
-                    denaResponse = makeDenaResponse(1L, createObjectResponse(resultObject, typeName));
+                    denaResponse = makeDenaResponse(1L, createObjectResponse(resultObject));
                 } else {
                     denaResponse = makeDenaResponse(0L, null);
                 }
@@ -187,7 +187,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
                 denaResponse = DenaResponseBuilder.aDenaResponse()
                         .withCount(resultObject.size())
-                        .withObjectResponseList(createObjectResponse(resultObject, typeName))
+                        .withObjectResponseList(createObjectResponse(resultObject))
                         .withTotalCount(denaPager.getCount())
                         .withPage(denaPager.getPage())
                         .withTimestamp(DenaObjectUtils.timeStamp())
@@ -201,7 +201,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     }
 
 
-    private List<DenaObjectResponse> createObjectResponse(List<DenaObject> denaObjects, String typeName) {
+    private List<DenaObjectResponse> createObjectResponse(List<DenaObject> denaObjects) {
         List<DenaObjectResponse> denaObjectResponses = new ArrayList<>();
         denaObjects.forEach(denaObject -> {
             DenaObjectResponse objectResponse = new DenaObjectResponse();
