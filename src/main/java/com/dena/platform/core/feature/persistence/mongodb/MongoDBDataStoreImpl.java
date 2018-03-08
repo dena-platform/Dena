@@ -190,7 +190,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                     BsonArray values = fieldValue.asArray();
                     // is type relation?
                     if (values.size() > 0 && values.get(0).isObjectId()) {
-                        ArrayList<ObjectId> objectIdList = BsonValueTypeMapper.convertBsonArrayToJavaArray(values, ObjectId.class);
+                        ArrayList<ObjectId> objectIdList = BsonTypeMapper.convertBsonArrayToJavaArray(values, ObjectId.class);
                         List<String> idString = objectIdList.stream()
                                 .map(Object::toString)
                                 .collect(Collectors.toList());
@@ -211,7 +211,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 } else if (fieldName.equals(OBJECT_URI_FIELD)) {  // type is uri field
                     denaObject.setObjectURI(fieldValue.asString().getValue());
                 } else { // normal key -> value
-                    denaObject.addProperty(entry.getKey(), entry.getValue());
+                    denaObject.addProperty(fieldName, BsonTypeMapper.convertBsonToJava(fieldValue));
                 }
             }
 
@@ -347,7 +347,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     private void addFieldsToBsonDocument(BsonDocument bsonDocument, Map<String, Object> properties) {
         if (MapUtils.isNotEmpty(properties)) {
             properties.forEach((fieldName, fieldValue) -> {
-                BsonValue bsonValue = BsonValueTypeMapper.convertToBsonValue(fieldValue);
+                BsonValue bsonValue = BsonTypeMapper.convertObjectToBsonValue(fieldValue);
                 bsonDocument.put(fieldName, bsonValue);
             });
         }

@@ -17,18 +17,18 @@ import java.util.Objects;
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 
-public class BsonValueTypeMapper {
-    private final static Logger log = LoggerFactory.getLogger(BsonValueTypeMapper.class);
+public class BsonTypeMapper {
+    private final static Logger log = LoggerFactory.getLogger(BsonTypeMapper.class);
 
     @SuppressWarnings("unchecked")
-    public static BsonValue convertToBsonValue(Object fieldValue) {
+    public static BsonValue convertObjectToBsonValue(Object fieldValue) {
 
         if (fieldValue instanceof List) {
             List<Object> listOfValues = (List<Object>) fieldValue;
             if (((List) fieldValue).size() > 0) {
                 List<BsonValue> bsonValueList = new ArrayList<>();
                 for (Object val : listOfValues) {
-                    bsonValueList.add(convertToBsonValue(val));
+                    bsonValueList.add(convertObjectToBsonValue(val));
                 }
                 return new BsonArray(bsonValueList);
             }
@@ -50,20 +50,49 @@ public class BsonValueTypeMapper {
             return new BsonNull();
         }
 
-        log.error("Type of field [{}] not found in mapping", fieldValue.getClass());
+        log.error("Type of java field [{}] not found in mapping", fieldValue.getClass());
 
         throw new DataStoreException("Type of field not found", ErrorCode.FIELD_NOT_FOUND_EXCEPTION);
 
     }
 
 
-    public static <T> ArrayList<T> convertBsonArrayToJavaArray(BsonArray bsonValue, Class<T> klass) {
+    public static <T> ArrayList<T> convertBsonArrayToJavaArray(BsonArray bsonArray, Class<T> klass) {
         ArrayList<T> returnList = new ArrayList<>();
-        bsonValue.forEach(bsonValue1 -> {
+        bsonArray.forEach(bsonValue1 -> {
             returnList.add(klass.cast(bsonValue1));
         });
 
         return returnList;
+    }
+
+    public static Object convertBsonToJava(BsonValue bsonValue) {
+        if (bsonValue.isObjectId()) {
+            return bsonValue.asObjectId().getValue().toString();
+        } else if (bsonValue.isNull()) {
+            return null;
+        } else if (bsonValue.isBinary()) {
+            return bsonValue.asBinary().getData();
+        } else if (bsonValue.isBoolean()) {
+            return bsonValue.asBoolean().getValue();
+        } else if (bsonValue.isDateTime()) {
+            return bsonValue.asDateTime().getValue();
+        } else if (bsonValue.isDecimal128()) {
+            return bsonValue.asDecimal128().getValue().bigDecimalValue();
+        } else if (bsonValue.isDouble()) {
+            return bsonValue.asDouble().getValue();
+        } else if (bsonValue.isInt32()) {
+            return bsonValue.asInt32().getValue();
+        } else if (bsonValue.isInt64()) {
+            return bsonValue.asInt64().getValue();
+        } else if (bsonValue.isString()) {
+            return bsonValue.asString().getValue();
+        }
+
+        log.error("Type of bson field [{}] not found in mapping", bsonValue.getBsonType());
+
+        throw new DataStoreException("Type of bson field not found", ErrorCode.FIELD_NOT_FOUND_EXCEPTION);
+
     }
 
 }
