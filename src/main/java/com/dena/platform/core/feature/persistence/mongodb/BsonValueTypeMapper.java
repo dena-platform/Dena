@@ -21,14 +21,14 @@ public class BsonValueTypeMapper {
     private final static Logger log = LoggerFactory.getLogger(BsonValueTypeMapper.class);
 
     @SuppressWarnings("unchecked")
-    public static BsonValue createBsonValue(Object fieldValue) {
+    public static BsonValue convertToBsonValue(Object fieldValue) {
 
         if (fieldValue instanceof List) {
             List<Object> listOfValues = (List<Object>) fieldValue;
             if (((List) fieldValue).size() > 0) {
                 List<BsonValue> bsonValueList = new ArrayList<>();
                 for (Object val : listOfValues) {
-                    bsonValueList.add(createBsonValue(val));
+                    bsonValueList.add(convertToBsonValue(val));
                 }
                 return new BsonArray(bsonValueList);
             }
@@ -54,8 +54,16 @@ public class BsonValueTypeMapper {
 
         throw new DataStoreException("Type of field not found", ErrorCode.FIELD_NOT_FOUND_EXCEPTION);
 
-
     }
 
+
+    public static <T> ArrayList<T> convertBsonArrayToJavaArray(BsonArray bsonValue, Class<T> klass) {
+        ArrayList<T> returnList = new ArrayList<>();
+        bsonValue.forEach(bsonValue1 -> {
+            returnList.add(klass.cast(bsonValue1));
+        });
+
+        return returnList;
+    }
 
 }

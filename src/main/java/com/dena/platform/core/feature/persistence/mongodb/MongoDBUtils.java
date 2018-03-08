@@ -99,7 +99,7 @@ public class MongoDBUtils {
         Document searchDocument = new Document(ID, new ObjectId(objectId));
         Document update = new Document(typeName2, "");
         int deleteCount = 0;
-        Optional<Document> document = findDocumentById(mongoDatabase, typeName1, objectId);
+        Optional<BsonDocument> document = findDocumentById(mongoDatabase, typeName1, objectId);
 
         if (document.isPresent()) {
             deleteCount = ((List<ObjectId>) document.get().get(typeName2)).size();
@@ -115,17 +115,17 @@ public class MongoDBUtils {
     }
 
 
-    public static Optional<Document> findDocumentById(MongoDatabase mongoDatabase, String collectionName, String id) {
-        Document document = mongoDatabase.getCollection(collectionName)
+    public static Optional<BsonDocument> findDocumentById(MongoDatabase mongoDatabase, String collectionName, String id) {
+        BsonDocument bsonDocument = mongoDatabase.getCollection(collectionName, BsonDocument.class)
                 .find(Filters.eq(ID, new ObjectId(id)))
                 .first();
 
-        return Optional.ofNullable(document);
+        return Optional.ofNullable(bsonDocument);
     }
 
     @SuppressWarnings("unchecked")
-    public static List<Document> findRelatedDocument(MongoDatabase mongoDatabase, Document parentDocument, String targetType, DenaPager pager) {
-        List<ObjectId> otherObjectIds = (ArrayList<ObjectId>) parentDocument.get(targetType);
+    public static List<Document> findRelatedDocument(MongoDatabase mongoDatabase, BsonDocument parentDocument, String targetType, DenaPager pager) {
+        List<ObjectId> otherObjectIds = BsonValueTypeMapper.convertBsonArrayToJavaArray(parentDocument.get(targetType).asArray(), ObjectId.class);
         Bson searchDocument = Filters.in(ID, otherObjectIds);
 
         int startIndex = (int) pager.getCount() * pager.getLimit();

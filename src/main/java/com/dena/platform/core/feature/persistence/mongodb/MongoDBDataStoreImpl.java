@@ -177,31 +177,39 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
             DenaObject denaObject = new DenaObject();
 
-            Optional<Document> document = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId);
-            if (!document.isPresent()) {
+            Optional<BsonDocument> bsonDocument = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId);
+            if (!bsonDocument.isPresent()) {
                 return null;
             }
 
-            for (Map.Entry<String, Object> entry : document.get().entrySet()) {
-                if (entry.getValue() instanceof ArrayList) {
+            for (Map.Entry<String, BsonValue> entry : bsonDocument.get().entrySet()) {
+                String fieldName = entry.getKey();
+                BsonValue fieldValue = entry.getValue();
+
+                if (fieldValue.isArray()) {
+                    BsonArray values = fieldValue.asArray();
                     // is type relation?
-                    if (((ArrayList) entry.getValue()).size() > 0 && ((ArrayList) entry.getValue()).get(0) instanceof ObjectId) {
-                        ArrayList<ObjectId> objectIdList = (ArrayList<ObjectId>) entry.getValue();
+                    if (values.size() > 0 && values.get(0).isObjectId()) {
+                        ArrayList<ObjectId> objectIdList = BsonValueTypeMapper.convertBsonArrayToJavaArray(values, ObjectId.class);
                         List<String> idString = objectIdList.stream()
                                 .map(Object::toString)
                                 .collect(Collectors.toList());
 
-                        List<RelatedObject> relatedObjectList = convertToRelatedObject(entry.getKey(), idString);
+                        List<RelatedObject> relatedObjectList = convertToRelatedObject(fieldName, idString);
                         denaObject.setRelatedObjects(relatedObjectList);
                     }
                     // this type is normal array
                     else {
-                        denaObject.addProperty(entry.getKey(), entry.getValue());
+                        denaObject.addProperty(fieldName, fieldValue);
                     }
-                } else if (entry.getKey().equals(MongoDBUtils.ID)) {  // type is id
-                    denaObject.setObjectId(entry.getValue().toString());
-                } else if (entry.getKey().equals(UPDATE_TIME_FIELD)) {  // type is id
-                    denaObject.setUpdateTime(BsonValueTypeMapper.createBsonValue(entry.getValue().toString());
+                } else if (fieldName.equals(MongoDBUtils.ID)) {  // type is id
+                    denaObject.setObjectId(fieldValue.asObjectId().toString());
+                } else if (fieldName.equals(UPDATE_TIME_FIELD)) {  // type is update time field
+                    denaObject.setUpdateTime(fieldValue.isNull() ? null : fieldValue.asDateTime().getValue());
+                } else if (fieldName.equals(CREATE_TIME_FIELD)) {  // type is create time field
+                    denaObject.setCreateTime(fieldValue.isNull() ? null : fieldValue.asDateTime().getValue());
+                } else if (fieldName.equals(OBJECT_URI_FIELD)) {  // type is uri field
+                    denaObject.setObjectURI(fieldValue.asString().getValue());
                 } else { // normal key -> value
                     denaObject.addProperty(entry.getKey(), entry.getValue());
                 }
@@ -219,7 +227,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     public List<DenaObject> findObjectRelation(String appName, String parentType, String objectId, String targetType, DenaPager denaPager) {
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
-            Optional<Document> parentDocument = MongoDBUtils.findDocumentById(mongoDatabase, parentType, objectId);
+            Optional<BsonDocument> parentDocument = MongoDBUtils.findDocumentById(mongoDatabase, parentType, objectId);
 
             if (!parentDocument.isPresent()) {
                 return null;
@@ -339,7 +347,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     private void addFieldsToBsonDocument(BsonDocument bsonDocument, Map<String, Object> properties) {
         if (MapUtils.isNotEmpty(properties)) {
             properties.forEach((fieldName, fieldValue) -> {
-                BsonValue bsonValue = BsonValueTypeMapper.createBsonValue(fieldValue);
+                BsonValue bsonValue = BsonValueTypeMapper.convertToBsonValue(fieldValue);
                 bsonDocument.put(fieldName, bsonValue);
             });
         }
