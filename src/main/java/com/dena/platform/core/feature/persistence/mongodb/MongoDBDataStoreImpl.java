@@ -43,7 +43,6 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         } catch (Exception ex) {
             throw new DataStoreException("Error in creating objects", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
-        
 
         denaObjects.forEach(denaObject -> {
             checkRelationValidity(mongoDatabase, denaObject.getRelatedObjects());
