@@ -28,3 +28,6 @@ target/
 # Microsoft word temp files
 **/~$cument.docx
 **/main/resources/docs/*.tmp
+
+# JRebel config
+/src/main/resources/rebel.xml
