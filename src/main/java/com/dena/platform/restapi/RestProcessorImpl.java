@@ -92,7 +92,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     @Override
     public ResponseEntity handleDeleteRelation() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
-        
+
         String appTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String appName = denaRequestContext.getPathVariable(APP_ID);
         String objectId = denaRequestContext.getPathVariable(OBJECT_ID);
@@ -206,9 +206,11 @@ public class RestProcessorImpl implements DenaRestProcessor {
         denaObjects.forEach(denaObject -> {
             DenaObjectResponse objectResponse = new DenaObjectResponse();
             objectResponse.setObjectId(denaObject.getObjectId());
-            objectResponse.setFields(denaObject.getFields());
+            objectResponse.setCreateTime(denaObject.getCreateTime());
+            objectResponse.setUpdateTime(denaObject.getUpdateTime());
             objectResponse.setObjectURI(denaObject.getObjectURI());
             objectResponse.setRelatedObjects(denaObject.getRelatedObjects());
+            objectResponse.setFields(denaObject.getFields());
             denaObjectResponses.add(objectResponse);
         });
 
