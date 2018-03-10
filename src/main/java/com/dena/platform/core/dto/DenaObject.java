@@ -13,11 +13,10 @@ import java.util.Map;
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@JsonPropertyOrder(value = {"object_id", "update_time", "create_time", "object_uri", "related_objects"})
 public class DenaObject {
     private Map<String, Object> fields = new HashMap<>();
 
-    @JsonProperty(value = "object_id")
+    @JsonProperty("object_id")
     private String objectId;
 
     @JsonProperty("update_time")
@@ -26,10 +25,10 @@ public class DenaObject {
     @JsonProperty("create_time")
     private Long createTime;
 
-    @JsonProperty(value = "object_uri")
+    @JsonProperty("object_uri")
     private String objectURI;
 
-    @JsonProperty(value = "related_objects")
+    @JsonProperty("related_objects")
     private List<RelatedObject> relatedObjects = new ArrayList<>();
 
     public List<RelatedObject> getRelatedObjects() {
