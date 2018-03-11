@@ -15,7 +15,7 @@ import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE;
  */
 @JsonAutoDetect(fieldVisibility = NONE, getterVisibility = NONE, setterVisibility = NONE)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class TestObjectResponse {
+public class TestObjectResponseDTO {
     private Map<String, Object> fields = new LinkedHashMap<>();
 
     @JsonProperty("object_id")
@@ -32,7 +32,7 @@ public class TestObjectResponse {
 
 
     @JsonProperty(value = "related_objects")
-    public List<TestRelatedObject> testRelatedObjects = new ArrayList<>();
+    public List<TestRelatedObjectDTO> testRelatedObjectDTOS = new ArrayList<>();
 
     @JsonAnyGetter
     public Map<String, Object> getAllFields() {
@@ -52,7 +52,7 @@ public class TestObjectResponse {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        TestObjectResponse that = (TestObjectResponse) o;
+        TestObjectResponseDTO that = (TestObjectResponseDTO) o;
 
         if (fields != null ? !fields.equals(that.fields) : that.fields != null) return false;
         return objectId.equals(that.objectId);

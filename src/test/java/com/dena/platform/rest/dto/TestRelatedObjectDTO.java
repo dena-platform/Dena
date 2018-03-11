@@ -5,17 +5,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
-public class TestRelatedObject {
+public class TestRelatedObjectDTO {
     @JsonProperty(value = "id", required = true)
     private String relatedObjectId;
 
     @JsonProperty(value = "type", required = true)
     private String typeName;
 
-    public TestRelatedObject() {
+    public TestRelatedObjectDTO() {
     }
 
-    public TestRelatedObject(String relatedObjectId, String typeName) {
+    public TestRelatedObjectDTO(String relatedObjectId, String typeName) {
         this.relatedObjectId = relatedObjectId;
         this.typeName = typeName;
     }

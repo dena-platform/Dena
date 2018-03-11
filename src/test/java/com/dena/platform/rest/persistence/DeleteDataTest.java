@@ -1,9 +1,9 @@
-package com.dena.platform.rest.dataStore;
+package com.dena.platform.rest.persistence;
 
-import com.dena.platform.rest.dto.TestDenaResponse;
-import com.dena.platform.rest.dto.TestErrorResponse;
-import com.dena.platform.rest.dto.TestObjectResponse;
-import com.dena.platform.rest.dto.TestRelatedObject;
+import com.dena.platform.rest.dto.TestDenaResponseDTO;
+import com.dena.platform.rest.dto.TestErrorResponseDTO;
+import com.dena.platform.rest.dto.TestObjectResponseDTO;
+import com.dena.platform.rest.dto.TestRelatedObjectDTO;
 import com.dena.platform.utils.CommonConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,12 +31,12 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Send Delete Objects Request
         /////////////////////////////////////////////
-        TestDenaResponse actualReturnObject = performDeleteRequest(Arrays.asList(objectId1, objectId2, objectId3), 200, TestDenaResponse.class);
+        TestDenaResponseDTO actualReturnObject = performDeleteRequest(Arrays.asList(objectId1, objectId2, objectId3), 200, TestDenaResponseDTO.class);
 
         /////////////////////////////////////////////
         //            Assert Deleted Object
         /////////////////////////////////////////////
-        TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(3L);
 
@@ -53,9 +53,9 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         //            Send Delete Object Request - Invalid object id format
         /////////////////////////////////////////////////////////////////////////
         String invalidObjectId = "5a1bd6176f";
-        TestErrorResponse actualReturnObject = performDeleteRequest(Collections.singletonList(invalidObjectId), 400, TestErrorResponse.class);
+        TestErrorResponseDTO actualReturnObject = performDeleteRequest(Collections.singletonList(invalidObjectId), 400, TestErrorResponseDTO.class);
 
-        TestErrorResponse expectedReturnObject = new TestErrorResponse();
+        TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "2002";
         expectedReturnObject.messages = Arrays.asList("objectId is invalid");
@@ -69,9 +69,9 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         //            Send Delete Object Request - object id not exist
         //////////////////////////////////////////////////////////////////
 
-        TestDenaResponse actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId), 200, TestDenaResponse.class);
+        TestDenaResponseDTO actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId), 200, TestDenaResponseDTO.class);
 
-        TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(0L);
 
@@ -85,9 +85,9 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         //////////////////////////////////////////////////////////////////
         //            Send Delete Object Request - app id not exist
         //////////////////////////////////////////////////////////////////
-        TestDenaResponse actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId), "/v1/invalid_app_id/denaTestCollection/", 200, TestDenaResponse.class);
+        TestDenaResponseDTO actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId), "/v1/invalid_app_id/denaTestCollection/", 200, TestDenaResponseDTO.class);
 
-        TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(0L);
 
@@ -104,12 +104,12 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Send Delete Relation
         /////////////////////////////////////////////
-        TestDenaResponse actualReturnObject = performDeleteRelationWithObject(objectId3, CommonConfig.COLLECTION_NAME, 200, objectId1, TestDenaResponse.class);
+        TestDenaResponseDTO actualReturnObject = performDeleteRelationWithObject(objectId3, CommonConfig.COLLECTION_NAME, 200, objectId1, TestDenaResponseDTO.class);
 
         /////////////////////////////////////////////
         //            Assert Delete Relation
         /////////////////////////////////////////////
-        TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(1L);
 
@@ -120,17 +120,17 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         //            Check Response Find
         /////////////////////////////////////////////
         actualReturnObject = performFindRequest(objectId3);
-        expectedReturnObject = new TestDenaResponse();
+        expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
-        TestObjectResponse testObjectResponse = new TestObjectResponse();
-        testObjectResponse.objectId = objectId3;
-        testObjectResponse.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
-        testObjectResponse.addProperty("name", "javad");
-        testObjectResponse.addProperty("job", "developer");
-        testObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(objectId2, CommonConfig.COLLECTION_NAME));
-        expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
+        TestObjectResponseDTO testObjectResponseDTO = new TestObjectResponseDTO();
+        testObjectResponseDTO.objectId = objectId3;
+        testObjectResponseDTO.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
+        testObjectResponseDTO.addProperty("name", "javad");
+        testObjectResponseDTO.addProperty("job", "developer");
+        testObjectResponseDTO.testRelatedObjectDTOS = Collections.singletonList(new TestRelatedObjectDTO(objectId2, CommonConfig.COLLECTION_NAME));
+        expectedReturnObject.setTestObjectResponseDTOList(Collections.singletonList(testObjectResponseDTO));
 
         assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
@@ -143,9 +143,9 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         //            Send Delete Relation - Invalid object id format
         /////////////////////////////////////////////////////////////////////////
         String invalidObjectId = "5a1bd6176f";
-        TestErrorResponse actualReturnObject = performDeleteRelationWithObject(invalidObjectId, CommonConfig.COLLECTION_NAME, 400, objectId1, TestErrorResponse.class);
+        TestErrorResponseDTO actualReturnObject = performDeleteRelationWithObject(invalidObjectId, CommonConfig.COLLECTION_NAME, 400, objectId1, TestErrorResponseDTO.class);
 
-        TestErrorResponse expectedReturnObject = new TestErrorResponse();
+        TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "2002";
         expectedReturnObject.messages = Arrays.asList("objectId is invalid");
@@ -159,12 +159,12 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Send Delete Relation
         /////////////////////////////////////////////
-        TestDenaResponse actualReturnObject = performDeleteRelation(objectId3, CommonConfig.COLLECTION_NAME);
+        TestDenaResponseDTO actualReturnObject = performDeleteRelation(objectId3, CommonConfig.COLLECTION_NAME);
 
         /////////////////////////////////////////////
         //            Assert Delete Relation
         /////////////////////////////////////////////
-        TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(2L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
@@ -176,16 +176,16 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         //            Check Response Find
         /////////////////////////////////////////////
         actualReturnObject = performFindRequest(objectId3);
-        expectedReturnObject = new TestDenaResponse();
+        expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
-        TestObjectResponse testObjectResponse = new TestObjectResponse();
-        testObjectResponse.objectId = objectId3;
-        testObjectResponse.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
-        testObjectResponse.addProperty("name", "javad");
-        testObjectResponse.addProperty("job", "developer");
-        expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
+        TestObjectResponseDTO testObjectResponseDTO = new TestObjectResponseDTO();
+        testObjectResponseDTO.objectId = objectId3;
+        testObjectResponseDTO.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
+        testObjectResponseDTO.addProperty("name", "javad");
+        testObjectResponseDTO.addProperty("job", "developer");
+        expectedReturnObject.setTestObjectResponseDTOList(Collections.singletonList(testObjectResponseDTO));
 
         assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
@@ -197,9 +197,9 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////////////////////////////////
         //            Send Delete Relation - Invalid relation name
         /////////////////////////////////////////////////////////////////////////
-        TestDenaResponse actualReturnObject = performDeleteRelationWithObject(objectId3, "not_exist_relation", 200, objectId1, TestDenaResponse.class);
+        TestDenaResponseDTO actualReturnObject = performDeleteRelationWithObject(objectId3, "not_exist_relation", 200, objectId1, TestDenaResponseDTO.class);
 
-        TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
         expectedReturnObject.setCount(0L);
 
