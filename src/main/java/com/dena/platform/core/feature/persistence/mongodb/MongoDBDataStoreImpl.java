@@ -6,6 +6,7 @@ import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.dto.RelatedObject;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
+import com.dena.platform.core.feature.persistence.RelationType;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.mongodb.client.MongoDatabase;
 import org.apache.commons.collections4.CollectionUtils;
@@ -182,9 +183,26 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 String fieldName = entry.getKey();
                 BsonValue fieldValue = entry.getValue();
 
-                if (fieldValue.isDocument()) {
+                if (fieldValue.isDocument() && fieldValue.asDocument().containsKey(MongoDBUtils.RELATION_TYPE)) {
                     // this field is relation
-                    
+                    BsonDocument relatedDocument = fieldValue.asDocument();
+
+                    BsonArray idArray = relatedDocument.getArray(MongoDBUtils.RELATION_IDS);
+                    List<String> idStringArray = BsonTypeMapper.convertBSONArrayToJavaArray(idArray)
+                            .stream()
+                            .map(Object::toString)
+                            .collect(Collectors.toList());
+
+                    String relationTargetName = relatedDocument.getString(MongoDBUtils.RELATION_TARGET_NAME).getValue();
+                    String relationTypeName = relatedDocument.getString(MongoDBUtils.RELATION_TYPE).getValue();
+
+
+                    RelatedObject relatedObject = new RelatedObject();
+                    relatedObject.setIds(idStringArray);
+                    relatedObject.setType(relationTypeName);
+                    relatedObject.setTargetName(relationTargetName);
+
+                    denaObject.addRelatedObjects(relatedObject);
 
                 } else if (fieldValue.isArray()) {
                     BsonArray values = fieldValue.asArray();
@@ -306,7 +324,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         }
 
         if (!isParameterValid) {
-            throw new DataStoreException(String.format("ObjectId [%s} invalid exception", objectId), ErrorCode.ObjectId_INVALID_EXCEPTION);
+            throw new DataStoreException(String.format("ObjectId [%s] invalid exception", objectId), ErrorCode.ObjectId_INVALID_EXCEPTION);
         }
     }
 
@@ -316,8 +334,15 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         denaObject.getRelatedObjects()
                 .forEach(relatedObject -> {
                     BsonDocument relation = new BsonDocument();
-                    relation.put(MongoDBUtils.RELATED_TARGET_NAME, new BsonString(relatedObject.getTargetName()));
-                    relation.put(MongoDBUtils.RELATED_IDS, BsonTypeMapper.convertObjectToBSONValue(relatedObject.getIds()));
+                    relation.put(MongoDBUtils.RELATION_TARGET_NAME, new BsonString(relatedObject.getTargetName()));
+
+                    List<ObjectId> objectIds = relatedObject.getIds()
+                            .stream()
+                            .map(ObjectId::new)
+                            .collect(Collectors.toList());
+                    relation.put(MongoDBUtils.RELATION_IDS, BsonTypeMapper.convertObjectToBSONValue(objectIds));
+
+                    relation.put(MongoDBUtils.RELATION_TYPE, new BsonString(RelationType.RELATION_1_TO_1.name));
 
                     references.put(relatedObject.getRelationName(), relation);
 

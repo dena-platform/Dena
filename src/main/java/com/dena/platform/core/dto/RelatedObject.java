@@ -8,6 +8,9 @@ import java.util.List;
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 public class RelatedObject {
+    @JsonProperty(value = "type", required = true)
+    private String type;
+
     @JsonProperty(value = "relation_name", required = true)
     private String relationName;
 
@@ -16,6 +19,15 @@ public class RelatedObject {
 
     @JsonProperty(value = "ids", required = true)
     private List<String> ids;
+
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
 
     public String getTargetName() {
@@ -41,4 +53,5 @@ public class RelatedObject {
     public void setIds(List<String> ids) {
         this.ids = ids;
     }
+
 }

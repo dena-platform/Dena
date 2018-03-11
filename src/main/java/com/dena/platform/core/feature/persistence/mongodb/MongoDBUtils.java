@@ -37,8 +37,10 @@ public class MongoDBUtils {
     public static final String ID = "_id";
 
     // related objects field name
-    public static final String RELATED_TARGET_NAME = "target_name";
-    public static final String RELATED_IDS = "ids";
+    public static final String RELATION_TARGET_NAME = "target_name";
+    public static final String RELATION_IDS = "ids";
+    public static final String RELATION_TYPE = "relation_type";
+
 
 
     @Autowired
