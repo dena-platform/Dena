@@ -41,7 +41,6 @@ Return Value:
            "object_uri": "/posts/5aa1104e99d0b323487d38a1",
            "update_time": null,
            "creation_time": 1520504910672,
-           "related_objects": []
          }
         ]
       }
