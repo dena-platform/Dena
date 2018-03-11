@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,6 +35,11 @@ public class MongoDBUtils {
     private static MongoClient mongoClient;
 
     public static final String ID = "_id";
+
+    // related objects field name
+    public static final String RELATED_TARGET_NAME = "target_name";
+    public static final String RELATED_IDS = "ids";
+
 
     @Autowired
     public MongoDBUtils(MongoClient mongoClient) {
@@ -123,8 +129,23 @@ public class MongoDBUtils {
         return Optional.ofNullable(bsonDocument);
     }
 
+    public static List<BsonDocument> findDocumentById(MongoDatabase mongoDatabase, String collectionName, List<String> idList) {
+        List<ObjectId> objectIds = new ArrayList<>();
+        List<BsonDocument> returnList = new LinkedList<>();
+
+        idList.forEach(id -> {
+            objectIds.add(new ObjectId(id));
+        });
+
+        mongoDatabase.getCollection(collectionName, BsonDocument.class)
+                .find(Filters.eq(ID, objectIds)).into(returnList);
+
+
+        return returnList;
+    }
+
     public static List<Document> findRelatedDocument(MongoDatabase mongoDatabase, BsonDocument parentDocument, String targetType, DenaPager pager) {
-        List<Object> otherObjectIds = BsonTypeMapper.convertBsonArrayToJavaArray(parentDocument.get(targetType).asArray());
+        List<Object> otherObjectIds = BsonTypeMapper.convertBSONArrayToJavaArray(parentDocument.get(targetType).asArray());
         Bson searchDocument = Filters.in(ID, otherObjectIds);
 
         int startIndex = (int) pager.getCount() * pager.getLimit();
@@ -139,6 +160,18 @@ public class MongoDBUtils {
 
         return documentList;
 
+    }
+
+    /**
+     * Check if collection name exist in database
+     *
+     * @param mongoDatabase  Instance of Mongo database
+     * @param collectionName Name of collection that we wand search for
+     * @return
+     */
+    public static boolean isCollectionExist(final MongoDatabase mongoDatabase, final String collectionName) {
+        List<String> collectionList = mongoDatabase.listCollectionNames().into(new ArrayList<>());
+        return collectionList.contains(collectionName);
     }
 
 }

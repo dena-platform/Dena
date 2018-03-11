@@ -63,9 +63,9 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 addFieldsToBsonDocument(bsonDocument, denaObject.getFields());
 
                 // add relation
-//                if (CollectionUtils.isNotEmpty(denaObject.getRelatedObjects())) {
-//                    bsonDocument.putAll(getRelation(denaObject));
-//                }
+                if (CollectionUtils.isNotEmpty(denaObject.getRelatedObjects())) {
+                    bsonDocument.putAll(getRelation(denaObject));
+                }
 
                 bsonDocuments.add(bsonDocument);
                 ids.add(objectId.toString());
@@ -186,19 +186,13 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
                 if (fieldValue.isArray()) {
                     BsonArray values = fieldValue.asArray();
-                    // is type relation?
-                    if (values.size() > 0 && values.get(0).isObjectId()) {
-                        ArrayList<Object> listOfObjectId = BsonTypeMapper.convertBsonArrayToJavaArray(values);
-                        List<String> idString = listOfObjectId.stream()
-                                .map(Object::toString)
-                                .collect(Collectors.toList());
 
-                        List<RelatedObject> relatedObjectList = convertToRelatedObject(fieldName, idString);
-                        denaObject.setRelatedObjects(relatedObjectList);
-                    }
-                    // this type is normal array
-                    else {
-                        ArrayList<Object> listOfObject = BsonTypeMapper.convertBsonArrayToJavaArray(values);
+                    if (values.size() > 0 && values.get(0).isObjectId()) {
+                        // this type is relation?
+                        log.trace("We ignore [{}]. because it is relation type.", fieldName);
+                    } else {
+                        // this type is normal array
+                        ArrayList<Object> listOfObject = BsonTypeMapper.convertBSONArrayToJavaArray(values);
                         denaObject.addProperty(fieldName, listOfObject);
                     }
                 } else if (fieldName.equals(MongoDBUtils.ID)) {  // type is id field
@@ -210,7 +204,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 } else if (fieldName.equals(OBJECT_URI_FIELD)) {  // type is uri field
                     denaObject.setObjectURI(fieldValue.asString().getValue());
                 } else { // normal key -> value
-                    denaObject.addProperty(fieldName, BsonTypeMapper.convertBsonToJava(fieldValue));
+                    denaObject.addProperty(fieldName, BsonTypeMapper.convertBSONToJava(fieldValue));
                 }
             }
 
@@ -272,8 +266,18 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             boolean isObjectIdValid;
             // todo: use count to check relation validity for performance reason
             try {
-                isObjectIdValid = relatedObjectList.stream().allMatch(relatedObject ->
-                        MongoDBUtils.findDocumentById(mongoDatabase, relatedObject.getTypeName(), relatedObject.getRelatedObjectId()).isPresent());
+                isObjectIdValid = relatedObjectList
+                        .stream()
+                        .allMatch(relatedObject -> {
+                            // check if target type is exist
+                            boolean isCollectionExist = MongoDBUtils.isCollectionExist(mongoDatabase, relatedObject.getRelationName());
+                            boolean isDocumentsExist = MongoDBUtils
+                                    .findDocumentById(mongoDatabase, relatedObject.getTargetName(), relatedObject.getIds()).size() == relatedObject.getIds().size();
+
+                            return isCollectionExist && isDocumentsExist;
+                        });
+
+
             } catch (IllegalArgumentException ex) {
                 // in case of invalid object id, relation is invalid
                 isObjectIdValid = false;
@@ -310,14 +314,17 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         }
     }
 
-    private Map<String, List<ObjectId>> getRelation(DenaObject denaObject) {
-        Map<String, List<ObjectId>> references = new HashMap<>();
+    private Map<String, BsonValue> getRelation(DenaObject denaObject) {
+        Map<String, BsonValue> references = new HashMap<>();
 
         denaObject.getRelatedObjects()
                 .forEach(relatedObject -> {
-                    references.putIfAbsent(relatedObject.getTypeName(), new ArrayList<>());
-                    ObjectId objectId = new ObjectId(relatedObject.getRelatedObjectId());
-                    references.get(relatedObject.getTypeName()).add(objectId);
+                    BsonDocument relation = new BsonDocument();
+                    relation.put(MongoDBUtils.RELATED_TARGET_NAME, new BsonString(relatedObject.getTargetName()));
+                    relation.put(MongoDBUtils.RELATED_IDS, BsonTypeMapper.convertObjectToBSONValue(relatedObject.getIds()));
+
+                    references.put(relatedObject.getRelationName(), relation);
+
                 });
 
         return references;
@@ -327,8 +334,8 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
         List<RelatedObject> result = objectIdList.stream().map(id -> {
             RelatedObject relatedObject = new RelatedObject();
-            relatedObject.setRelatedObjectId(id);
-            relatedObject.setTypeName(type);
+            relatedObject.setIds(objectIdList);
+            relatedObject.setTargetName(type);
             return relatedObject;
         }).collect(Collectors.toList());
 
@@ -345,7 +352,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     private void addFieldsToBsonDocument(BsonDocument bsonDocument, Map<String, Object> properties) {
         if (MapUtils.isNotEmpty(properties)) {
             properties.forEach((fieldName, fieldValue) -> {
-                BsonValue bsonValue = BsonTypeMapper.convertObjectToBsonValue(fieldValue);
+                BsonValue bsonValue = BsonTypeMapper.convertObjectToBSONValue(fieldValue);
                 bsonDocument.put(fieldName, bsonValue);
             });
         }
