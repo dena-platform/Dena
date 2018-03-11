@@ -182,17 +182,15 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 String fieldName = entry.getKey();
                 BsonValue fieldValue = entry.getValue();
 
-                if (fieldValue.isArray()) {
-                    BsonArray values = fieldValue.asArray();
+                if (fieldValue.isDocument()) {
+                    // this field is relation
+                    
 
-                    if (values.size() > 0 && values.get(0).isObjectId()) {
-                        // this type is relation?
-                        log.trace("We ignore [{}]. because it is relation type.", fieldName);
-                    } else {
-                        // this type is normal array
-                        ArrayList<Object> listOfObject = BsonTypeMapper.convertBSONArrayToJavaArray(values);
-                        denaObject.addProperty(fieldName, listOfObject);
-                    }
+                } else if (fieldValue.isArray()) {
+                    BsonArray values = fieldValue.asArray();
+                    // this field is normal array
+                    ArrayList<Object> listOfObject = BsonTypeMapper.convertBSONArrayToJavaArray(values);
+                    denaObject.addProperty(fieldName, listOfObject);
                 } else if (fieldName.equals(MongoDBUtils.ID)) {  // type is id field
                     denaObject.setObjectId(fieldValue.asObjectId().getValue().toString());
                 } else if (fieldName.equals(UPDATE_TIME_FIELD)) {  // type is update_time field
