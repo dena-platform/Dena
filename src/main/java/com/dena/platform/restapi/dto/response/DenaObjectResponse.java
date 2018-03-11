@@ -1,15 +1,12 @@
 package com.dena.platform.restapi.dto.response;
 
-import com.dena.platform.core.dto.RelatedObject;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,15 +29,10 @@ public class DenaObjectResponse {
     @JsonProperty("creation_time")
     private Long createTime;
 
-    @JsonProperty(value = "related_objects")
-    private List<RelatedObject> relatedObjects = new ArrayList<>();
-
-
     @JsonAnyGetter
     public Map<String, Object> getAllFields() {
         return fields;
     }
-
 
     @JsonAnySetter
     public void addProperty(String name, Object value) {
@@ -48,7 +40,6 @@ public class DenaObjectResponse {
             fields.put(name, value);
         }
     }
-
 
     public void setFields(Map<String, Object> fields) {
         this.fields = fields;
@@ -86,11 +77,4 @@ public class DenaObjectResponse {
         this.createTime = createTime;
     }
 
-    public List<RelatedObject> getRelatedObjects() {
-        return relatedObjects;
-    }
-
-    public void setRelatedObjects(List<RelatedObject> relatedObjects) {
-        this.relatedObjects = relatedObjects;
-    }
 }

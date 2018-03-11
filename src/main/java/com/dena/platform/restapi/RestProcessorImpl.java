@@ -209,7 +209,6 @@ public class RestProcessorImpl implements DenaRestProcessor {
             objectResponse.setCreateTime(denaObject.getCreateTime());
             objectResponse.setUpdateTime(denaObject.getUpdateTime());
             objectResponse.setObjectURI(denaObject.getObjectURI());
-            objectResponse.setRelatedObjects(denaObject.getRelatedObjects());
             objectResponse.setFields(denaObject.getFields());
             denaObjectResponses.add(objectResponse);
         });
