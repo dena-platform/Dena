@@ -19,8 +19,6 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
 public class UpdateDataTest extends AbstractDataStoreTest {
 
     @Test
