@@ -2,31 +2,43 @@ package com.dena.platform.core.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 public class RelatedObject {
-    @JsonProperty(value = "id", required = true)
-    private String relatedObjectId;
+    @JsonProperty(value = "relation_name", required = true)
+    private String relationName;
 
-    @JsonProperty(value = "type", required = true)
-    private String typeName;
+    @JsonProperty(value = "target_name", required = true)
+    private String targetName;
+
+    @JsonProperty(value = "ids", required = true)
+    private List<String> ids;
 
 
-    public String getRelatedObjectId() {
-        return relatedObjectId;
+    public String getTargetName() {
+        return targetName;
     }
 
-    public void setRelatedObjectId(String relatedObjectId) {
-        this.relatedObjectId = relatedObjectId;
+    public void setTargetName(String targetName) {
+        this.targetName = targetName;
     }
 
-    public String getTypeName() {
-        return typeName;
+    public String getRelationName() {
+        return relationName;
     }
 
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
+    public void setRelationName(String relationName) {
+        this.relationName = relationName;
     }
 
+    public List<String> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<String> ids) {
+        this.ids = ids;
+    }
 }

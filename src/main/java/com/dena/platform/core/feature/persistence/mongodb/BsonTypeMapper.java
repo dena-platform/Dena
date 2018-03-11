@@ -21,14 +21,14 @@ public class BsonTypeMapper {
     private final static Logger log = LoggerFactory.getLogger(BsonTypeMapper.class);
 
     @SuppressWarnings("unchecked")
-    public static BsonValue convertObjectToBsonValue(Object fieldValue) {
+    public static BsonValue convertObjectToBSONValue(Object fieldValue) {
 
         if (fieldValue instanceof List) {
             List<Object> listOfValues = (List<Object>) fieldValue;
             if (((List) fieldValue).size() > 0) {
                 List<BsonValue> bsonValueList = new ArrayList<>();
                 for (Object val : listOfValues) {
-                    bsonValueList.add(convertObjectToBsonValue(val));
+                    bsonValueList.add(convertObjectToBSONValue(val));
                 }
                 return new BsonArray(bsonValueList);
             }
@@ -57,16 +57,14 @@ public class BsonTypeMapper {
     }
 
 
-    public static ArrayList<Object> convertBsonArrayToJavaArray(BsonArray bsonArray) {
+    public static ArrayList<Object> convertBSONArrayToJavaArray(BsonArray bsonArray) {
         ArrayList<Object> returnList = new ArrayList<>();
-        bsonArray.forEach(bv -> {
-            returnList.add(convertBsonToJava(bv));
-        });
+        bsonArray.forEach(bv -> returnList.add(convertBSONToJava(bv)));
 
         return returnList;
     }
 
-    public static Object convertBsonToJava(BsonValue bsonValue) {
+    public static Object convertBSONToJava(BsonValue bsonValue) {
         if (bsonValue.isObjectId()) {
             return bsonValue.asObjectId().getValue();
         } else if (bsonValue.isNull()) {

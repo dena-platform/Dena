@@ -88,8 +88,8 @@ Return Value:
           "field2": "developer",
           "related_objects": [
     	       {
-      	       "id": "123123",
-      	       "type": "denaObjects"
+      	         "id": "123123",
+      	         "type": "denaObjects"
     	       }
         },
         {
@@ -99,8 +99,8 @@ Return Value:
           "field2": "developer",
           "related_objects": [
     	       {
-      	       "id": "43345",
-      	       "type": "denaObjects"
+      	         "id": "43345",
+      	         "type": "denaObjects"
     	       }
 
           
@@ -111,6 +111,8 @@ Return Value:
 
 ----------
 ## Create Relation ##
+Related object should exist before calling this API.
+
 There is two approach to create relation between objects.
 
 1. Create relation when requesting create new object.
@@ -119,6 +121,22 @@ There is two approach to create relation between objects.
 **Create relation when requesting create new object** 
 
 Relation specifies in related_objects field. 
+
+> 
+Begin Implementation Detail
+
+related_objects contain three field
+
+1. relation_name: name of relation in Dena platform. we store it so when we retrieve a Dena object we can recognize field. 
+2. target_type: name of destination relation type.To recognize destination type for example when we want show destination type in panel.   
+3. id: ids of destination type. 
+
+In response to client Dena do not return relation objects because of object because of performance.
+
+
+> 
+End Implementation Detail
+
 
 
 Method: POST
@@ -129,6 +147,11 @@ Headers:
 
 Content-Type:application/json
 
+Body:
+
+{JSON}
+
+***Example:***
 
 Request Body: 
 
@@ -138,7 +161,7 @@ Request Body:
       "related_objects": [
     	 {
           "relation_name":"comments_rel",
-          "target_type":"comments", 
+          "target_name":"comments", 
       	  "id": ["5a206dc2cc2a9b26e483d664", "5a206dc2cc2a9b26e483d634"]
      	 }
       ]
