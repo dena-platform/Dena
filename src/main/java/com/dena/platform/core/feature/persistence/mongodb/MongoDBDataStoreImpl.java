@@ -45,10 +45,6 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             throw new DataStoreException("Error in creating objects", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
 
-        denaObjects.forEach(denaObject -> {
-            checkRelationValidity(mongoDatabase, denaObject.getDenaRelations());
-        });
-
         List<String> ids = new ArrayList<>();
         try {
 
@@ -58,13 +54,14 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
                 BsonDocument bsonDocument = new BsonDocument();
                 bsonDocument.put(MongoDBUtils.ID, new BsonObjectId(objectId));
-                bsonDocument.put(CREATE_TIME_FIELD, new BsonDateTime(DenaObjectUtils.timeStamp()));
-                bsonDocument.put(UPDATE_TIME_FIELD, new BsonNull());
-                bsonDocument.put(OBJECT_URI_FIELD, new BsonString(DenaObjectUtils.getURIForResource(typeName, objectId.toString())));
+                bsonDocument.put(MongoDBUtils.CREATE_TIME_FIELD, new BsonDateTime(DenaObjectUtils.timeStamp()));
+                bsonDocument.put(MongoDBUtils.UPDATE_TIME_FIELD, new BsonNull());
+                bsonDocument.put(MongoDBUtils.OBJECT_URI_FIELD, new BsonString(DenaObjectUtils.getURIForResource(typeName, objectId.toString())));
                 addFieldsToBsonDocument(bsonDocument, denaObject.getFields());
 
                 // add relation
                 if (CollectionUtils.isNotEmpty(denaObject.getDenaRelations())) {
+                    checkRelationValidity(mongoDatabase, denaObject.getDenaRelations());
                     bsonDocument.putAll(getRelation(denaObject));
                 }
 
@@ -211,11 +208,11 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                     denaObject.addProperty(fieldName, listOfObject);
                 } else if (fieldName.equals(MongoDBUtils.ID)) {  // type is id field
                     denaObject.setObjectId(fieldValue.asObjectId().getValue().toString());
-                } else if (fieldName.equals(UPDATE_TIME_FIELD)) {  // type is update_time field
+                } else if (fieldName.equals(MongoDBUtils.UPDATE_TIME_FIELD)) {  // type is update_time field
                     denaObject.setUpdateTime(fieldValue.isNull() ? null : fieldValue.asDateTime().getValue());
-                } else if (fieldName.equals(CREATE_TIME_FIELD)) {  // type is create_time field
+                } else if (fieldName.equals(MongoDBUtils.CREATE_TIME_FIELD)) {  // type is create_time field
                     denaObject.setCreateTime(fieldValue.isNull() ? null : fieldValue.asDateTime().getValue());
-                } else if (fieldName.equals(OBJECT_URI_FIELD)) {  // type is uri field
+                } else if (fieldName.equals(MongoDBUtils.OBJECT_URI_FIELD)) {  // type is uri field
                     denaObject.setObjectURI(fieldValue.asString().getValue());
                 } else { // normal key -> value
                     denaObject.addProperty(fieldName, BsonTypeMapper.convertBSONToJava(fieldValue));
@@ -277,6 +274,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     private void checkRelationValidity(MongoDatabase mongoDatabase, List<DenaRelation> denaRelationList) {
 
         if (CollectionUtils.isNotEmpty(denaRelationList)) {
+            log.debug("Check validity for relation [{}]", denaRelationList);
             boolean isObjectIdValid;
             // todo: use count to check relation validity for performance reason
             try {
@@ -328,7 +326,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     private Map<String, BsonValue> getRelation(DenaObject denaObject) {
-        Map<String, BsonValue> references = new HashMap<>();
+        Map<String, BsonValue> relations = new HashMap<>();
 
         denaObject.getDenaRelations()
                 .forEach(denaRelation -> {
@@ -343,11 +341,11 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
                     relation.put(MongoDBUtils.RELATION_TYPE, new BsonString(RelationType.RELATION_1_TO_1.name));
 
-                    references.put(denaRelation.getRelationName(), relation);
+                    relations.put(denaRelation.getRelationName(), relation);
 
                 });
 
-        return references;
+        return relations;
     }
 
     private List<DenaRelation> convertToRelatedObject(String type, List<String> objectIdList) {

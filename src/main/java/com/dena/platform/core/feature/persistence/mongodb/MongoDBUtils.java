@@ -35,12 +35,15 @@ public class MongoDBUtils {
     private static MongoClient mongoClient;
 
     public static final String ID = "_id";
+    public static final String UPDATE_TIME_FIELD = "update_time";
+    public static final String CREATE_TIME_FIELD = "create_time";
+    public static final String OBJECT_URI_FIELD = "object_uri";
+
 
     // related objects field name
     public static final String RELATION_TARGET_NAME = "target_name";
     public static final String RELATION_IDS = "ids";
     public static final String RELATION_TYPE = "relation_type";
-
 
 
     @Autowired
