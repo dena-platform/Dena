@@ -51,7 +51,7 @@ public class MongoDBUtils {
 
     }
 
-    public static void createDocument(MongoDatabase mongoDatabase, String collectionName, List<BsonDocument> document) {
+    public static void bulkCreateDocuments(MongoDatabase mongoDatabase, String collectionName, List<BsonDocument> document) {
         Assert.hasLength(collectionName, "Collection should not be empty or null");
         Assert.notEmpty(document, "Document should not be null");
 
@@ -138,7 +138,8 @@ public class MongoDBUtils {
         });
 
         mongoDatabase.getCollection(collectionName, BsonDocument.class)
-                .find(Filters.eq(ID, objectIds)).into(returnList);
+                .find(Filters.in(ID, objectIds))
+                .into(returnList);
 
 
         return returnList;
