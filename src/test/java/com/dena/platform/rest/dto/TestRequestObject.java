@@ -1,6 +1,5 @@
 package com.dena.platform.rest.dto;
 
-import com.dena.platform.core.dto.RelatedObject;
 import com.fasterxml.jackson.annotation.*;
 import org.apache.commons.lang3.StringUtils;
 

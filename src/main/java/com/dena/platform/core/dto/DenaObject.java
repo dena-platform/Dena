@@ -26,18 +26,18 @@ public class DenaObject {
     private String objectURI;
 
     @JsonProperty("related_objects")
-    private List<RelatedObject> relatedObjects = new ArrayList<>();
+    private List<DenaRelation> denaRelations = new ArrayList<>();
 
-    public List<RelatedObject> getRelatedObjects() {
-        return Collections.unmodifiableList(relatedObjects);
+    public List<DenaRelation> getDenaRelations() {
+        return Collections.unmodifiableList(denaRelations);
     }
 
-    public void setRelatedObjects(List<RelatedObject> relatedObjects) {
-        this.relatedObjects = relatedObjects;
+    public void setDenaRelations(List<DenaRelation> denaRelations) {
+        this.denaRelations = denaRelations;
     }
 
-    public void addRelatedObjects(RelatedObject relatedObject) {
-        this.relatedObjects.add(relatedObject);
+    public void addRelatedObjects(DenaRelation denaRelation) {
+        this.denaRelations.add(denaRelation);
     }
 
 
