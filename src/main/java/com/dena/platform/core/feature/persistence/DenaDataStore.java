@@ -9,12 +9,6 @@ import java.util.List;
  */
 
 public interface DenaDataStore {
-    String UPDATE_TIME_FIELD = "update_time";
-
-    String CREATE_TIME_FIELD = "create_time";
-
-    String OBJECT_URI_FIELD = "object_uri";
-
 
     List<DenaObject> storeObjects(List<DenaObject> denaObject, String appName, String typeName);
 
