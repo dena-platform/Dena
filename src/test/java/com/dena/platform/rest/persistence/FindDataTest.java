@@ -1,8 +1,8 @@
-package com.dena.platform.rest.dataStore;
+package com.dena.platform.rest.persistence;
 
-import com.dena.platform.rest.dto.TestDenaResponse;
-import com.dena.platform.rest.dto.TestObjectResponse;
-import com.dena.platform.rest.dto.TestRelatedObject;
+import com.dena.platform.rest.dto.TestDenaResponseDTO;
+import com.dena.platform.rest.dto.TestObjectResponseDTO;
+import com.dena.platform.rest.dto.TestRelatedObjectDTO;
 import com.dena.platform.utils.CommonConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,22 +32,22 @@ public class FindDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Send Find Object Request
         /////////////////////////////////////////////
-        TestDenaResponse actualReturnObject = performFindRequest(objectId3);
+        TestDenaResponseDTO actualReturnObject = performFindRequest(objectId3);
 
-        TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.setCount(1L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
         /////////////////////////////////////////////
         //            Assert Found Object
         /////////////////////////////////////////////   
-        TestObjectResponse testObjectResponse = new TestObjectResponse();
-        testObjectResponse.objectId = objectId3;
-        testObjectResponse.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
-        testObjectResponse.addProperty("name", "javad");
-        testObjectResponse.addProperty("job", "developer");
-        testObjectResponse.testRelatedObjects = Arrays.asList(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME), new TestRelatedObject(objectId2, CommonConfig.COLLECTION_NAME));
-        expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
+        TestObjectResponseDTO testObjectResponseDTO = new TestObjectResponseDTO();
+        testObjectResponseDTO.objectId = objectId3;
+        testObjectResponseDTO.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
+        testObjectResponseDTO.addProperty("name", "javad");
+        testObjectResponseDTO.addProperty("job", "developer");
+        testObjectResponseDTO.testRelatedObjectDTOS = Arrays.asList(new TestRelatedObjectDTO(objectId1, CommonConfig.COLLECTION_NAME), new TestRelatedObjectDTO(objectId2, CommonConfig.COLLECTION_NAME));
+        expectedReturnObject.setTestObjectResponseDTOList(Collections.singletonList(testObjectResponseDTO));
 
         // check timestamp field of returned object
         assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
@@ -60,29 +60,29 @@ public class FindDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Send Find Object Request
         /////////////////////////////////////////////
-        TestDenaResponse actualReturnObject = performFindRelationRequest(objectId3, CommonConfig.COLLECTION_NAME);
+        TestDenaResponseDTO actualReturnObject = performFindRelationRequest(objectId3, CommonConfig.COLLECTION_NAME);
 
         /////////////////////////////////////////////
         //            Assert Found Object
         /////////////////////////////////////////////
-        TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.setCount(2L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 
 
-        TestObjectResponse testObjectResponse1 = new TestObjectResponse();
-        testObjectResponse1.objectId = objectId1;
-        testObjectResponse1.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId1;
-        testObjectResponse1.addProperty("name", "javad");
-        testObjectResponse1.addProperty("job", "developer");
+        TestObjectResponseDTO testObjectResponseDTO1 = new TestObjectResponseDTO();
+        testObjectResponseDTO1.objectId = objectId1;
+        testObjectResponseDTO1.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId1;
+        testObjectResponseDTO1.addProperty("name", "javad");
+        testObjectResponseDTO1.addProperty("job", "developer");
 
-        TestObjectResponse testObjectResponse2 = new TestObjectResponse();
-        testObjectResponse2.objectId = objectId2;
-        testObjectResponse2.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId2;
-        testObjectResponse2.addProperty("name", "javad");
-        testObjectResponse2.addProperty("job", "developer");
+        TestObjectResponseDTO testObjectResponseDTO2 = new TestObjectResponseDTO();
+        testObjectResponseDTO2.objectId = objectId2;
+        testObjectResponseDTO2.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId2;
+        testObjectResponseDTO2.addProperty("name", "javad");
+        testObjectResponseDTO2.addProperty("job", "developer");
 
-        expectedReturnObject.setTestObjectResponseList(Arrays.asList(testObjectResponse1, testObjectResponse2));
+        expectedReturnObject.setTestObjectResponseDTOList(Arrays.asList(testObjectResponseDTO1, testObjectResponseDTO2));
 
 
         // check timestamp field of returned object
@@ -97,12 +97,12 @@ public class FindDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Send Find Object Request
         /////////////////////////////////////////////
-        TestDenaResponse actualReturnObject = performFindRequest(randomObjectId);
+        TestDenaResponseDTO actualReturnObject = performFindRequest(randomObjectId);
 
         /////////////////////////////////////////////
         //            Assert Found Object
         /////////////////////////////////////////////
-        TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.setCount(0L);
         expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
 

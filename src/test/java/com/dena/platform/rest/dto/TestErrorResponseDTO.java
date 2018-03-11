@@ -10,7 +10,7 @@ import java.util.List;
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 @JsonAutoDetect
-public class TestErrorResponse {
+public class TestErrorResponseDTO {
     @JsonProperty("status")
     public int status;
 

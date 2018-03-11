@@ -14,7 +14,7 @@ import java.util.List;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class TestDenaResponse {
+public class TestDenaResponseDTO {
 
     @JsonProperty("timestamp")
     private Long timestamp;
@@ -29,7 +29,7 @@ public class TestDenaResponse {
     private Long page;
 
     @JsonProperty("objects")
-    private List<TestObjectResponse> testObjectResponseList = new ArrayList<>();
+    private List<TestObjectResponseDTO> testObjectResponseDTOList = new ArrayList<>();
 
 
     public Long getTimestamp() {
@@ -48,12 +48,12 @@ public class TestDenaResponse {
         this.count = count;
     }
 
-    public List<TestObjectResponse> getTestObjectResponseList() {
-        return testObjectResponseList;
+    public List<TestObjectResponseDTO> getTestObjectResponseDTOList() {
+        return testObjectResponseDTOList;
     }
 
-    public void setTestObjectResponseList(List<TestObjectResponse> testObjectResponseList) {
-        this.testObjectResponseList = testObjectResponseList;
+    public void setTestObjectResponseDTOList(List<TestObjectResponseDTO> testObjectResponseDTOList) {
+        this.testObjectResponseDTOList = testObjectResponseDTOList;
     }
 
     public void setTotalCount(Long totalCount) {
@@ -69,20 +69,20 @@ public class TestDenaResponse {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        TestDenaResponse that = (TestDenaResponse) o;
+        TestDenaResponseDTO that = (TestDenaResponseDTO) o;
 
         if (count != that.count) return false;
         if (!TestUtils.isTimeEqualRegardlessOfSecond(Long.valueOf(timestamp), Long.valueOf(that.getTimestamp()))) {
             return false;
         }
-        return testObjectResponseList != null ? testObjectResponseList.equals(that.testObjectResponseList) : that.testObjectResponseList == null;
+        return testObjectResponseDTOList != null ? testObjectResponseDTOList.equals(that.testObjectResponseDTOList) : that.testObjectResponseDTOList == null;
     }
 
     @Override
     public int hashCode() {
         int result = timestamp.hashCode();
         result = 31 * result + (int) (count ^ (count >>> 32));
-        result = 31 * result + (testObjectResponseList != null ? testObjectResponseList.hashCode() : 0);
+        result = 31 * result + (testObjectResponseDTOList != null ? testObjectResponseDTOList.hashCode() : 0);
         return result;
     }
 }

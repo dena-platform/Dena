@@ -13,20 +13,20 @@ import java.util.Map;
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class TestRequestObject {
+public class TestRequestObjectDTO {
     private Map<String, Object> fields = new HashMap<>();
 
     @JsonProperty(value = "object_id")
     private String objectId;
 
     @JsonProperty(value = "related_objects")
-    private List<TestRelatedObject> relatedObjects = new ArrayList<>();
+    private List<TestRelatedObjectDTO> relatedObjects = new ArrayList<>();
 
-    public List<TestRelatedObject> getRelatedObjects() {
+    public List<TestRelatedObjectDTO> getRelatedObjects() {
         return relatedObjects;
     }
 
-    public void setRelatedObjects(List<TestRelatedObject> relatedObjects) {
+    public void setRelatedObjects(List<TestRelatedObjectDTO> relatedObjects) {
         this.relatedObjects = relatedObjects;
     }
 
