@@ -3,10 +3,7 @@ package com.dena.platform.core.dto;
 import com.fasterxml.jackson.annotation.*;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
@@ -32,11 +29,15 @@ public class DenaObject {
     private List<RelatedObject> relatedObjects = new ArrayList<>();
 
     public List<RelatedObject> getRelatedObjects() {
-        return relatedObjects;
+        return Collections.unmodifiableList(relatedObjects);
     }
 
     public void setRelatedObjects(List<RelatedObject> relatedObjects) {
         this.relatedObjects = relatedObjects;
+    }
+
+    public void addRelatedObjects(RelatedObject relatedObject) {
+        this.relatedObjects.add(relatedObject);
     }
 
 
