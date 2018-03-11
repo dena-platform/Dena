@@ -268,7 +268,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                         .stream()
                         .allMatch(relatedObject -> {
                             // check if target type is exist
-                            boolean isCollectionExist = MongoDBUtils.isCollectionExist(mongoDatabase, relatedObject.getRelationName());
+                            boolean isCollectionExist = MongoDBUtils.isCollectionExist(mongoDatabase, relatedObject.getTargetName());
                             boolean isDocumentsExist = MongoDBUtils
                                     .findDocumentById(mongoDatabase, relatedObject.getTargetName(), relatedObject.getIds()).size() == relatedObject.getIds().size();
 
