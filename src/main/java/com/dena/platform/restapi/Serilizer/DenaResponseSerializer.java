@@ -20,7 +20,6 @@ public class DenaResponseSerializer extends JsonSerializer<DenaObjectResponse> {
         gen.writeStringField("object_uri", value.getObjectURI());
         gen.writeObjectField("update_time", value.getUpdateTime());
         gen.writeObjectField("creation_time", value.getCreateTime());
-        gen.writeObjectField("related_objects", value.getRelatedObjects());
         gen.writeEndObject();
     }
 }
