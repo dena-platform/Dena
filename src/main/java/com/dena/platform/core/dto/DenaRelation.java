@@ -2,12 +2,13 @@ package com.dena.platform.core.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
-public class RelatedObject {
+public class DenaRelation {
     @JsonProperty(value = "type", required = true)
     private String type;
 
@@ -18,7 +19,7 @@ public class RelatedObject {
     private String targetName;
 
     @JsonProperty(value = "ids", required = true)
-    private List<String> ids;
+    private List<String> ids = new ArrayList<>();
 
 
     public String getType() {

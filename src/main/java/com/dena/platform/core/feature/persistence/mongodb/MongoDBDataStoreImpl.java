@@ -3,7 +3,7 @@ package com.dena.platform.core.feature.persistence.mongodb;
 import com.dena.platform.common.exception.ErrorCode;
 import com.dena.platform.common.utils.DenaObjectUtils;
 import com.dena.platform.core.dto.DenaObject;
-import com.dena.platform.core.dto.RelatedObject;
+import com.dena.platform.core.dto.DenaRelation;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.persistence.RelationType;
@@ -46,7 +46,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         }
 
         denaObjects.forEach(denaObject -> {
-            checkRelationValidity(mongoDatabase, denaObject.getRelatedObjects());
+            checkRelationValidity(mongoDatabase, denaObject.getDenaRelations());
         });
 
         List<String> ids = new ArrayList<>();
@@ -64,7 +64,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 addFieldsToBsonDocument(bsonDocument, denaObject.getFields());
 
                 // add relation
-                if (CollectionUtils.isNotEmpty(denaObject.getRelatedObjects())) {
+                if (CollectionUtils.isNotEmpty(denaObject.getDenaRelations())) {
                     bsonDocument.putAll(getRelation(denaObject));
                 }
 
@@ -100,7 +100,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         }
 
         denaObjects.forEach(denaObject -> {
-            checkRelationValidity(mongoDatabase, denaObject.getRelatedObjects());
+            checkRelationValidity(mongoDatabase, denaObject.getDenaRelations());
             checkObjectIdExist(mongoDatabase, typeName, denaObject.getObjectId());
         });
 
@@ -113,7 +113,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 document.putAll(denaObject.getFields());
 
                 // update relation
-                if (CollectionUtils.isNotEmpty(denaObject.getRelatedObjects())) {
+                if (CollectionUtils.isNotEmpty(denaObject.getDenaRelations())) {
                     document.putAll(getRelation(denaObject));
                 }
                 documentList.add(document);
@@ -197,12 +197,12 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                     String relationTypeName = relatedDocument.getString(MongoDBUtils.RELATION_TYPE).getValue();
 
 
-                    RelatedObject relatedObject = new RelatedObject();
-                    relatedObject.setIds(idStringArray);
-                    relatedObject.setType(relationTypeName);
-                    relatedObject.setTargetName(relationTargetName);
+                    DenaRelation denaRelation = new DenaRelation();
+                    denaRelation.setIds(idStringArray);
+                    denaRelation.setType(relationTypeName);
+                    denaRelation.setTargetName(relationTargetName);
 
-                    denaObject.addRelatedObjects(relatedObject);
+                    denaObject.addRelatedObjects(denaRelation);
 
                 } else if (fieldValue.isArray()) {
                     BsonArray values = fieldValue.asArray();
@@ -252,8 +252,8 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                                     .map(Object::toString)
                                     .collect(Collectors.toList());
 
-                            List<RelatedObject> relatedObjectList = convertToRelatedObject(entry.getKey(), idString);
-                            denaObject.getRelatedObjects().addAll(relatedObjectList);
+                            List<DenaRelation> denaRelationList = convertToRelatedObject(entry.getKey(), idString);
+                            denaObject.getDenaRelations().addAll(denaRelationList);
                         } else {
                             denaObject.addProperty(entry.getKey(), entry.getValue());  // this type is normal array
                         }
@@ -274,23 +274,22 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
 
-    private void checkRelationValidity(MongoDatabase mongoDatabase, List<RelatedObject> relatedObjectList) {
+    private void checkRelationValidity(MongoDatabase mongoDatabase, List<DenaRelation> denaRelationList) {
 
-        if (CollectionUtils.isNotEmpty(relatedObjectList)) {
+        if (CollectionUtils.isNotEmpty(denaRelationList)) {
             boolean isObjectIdValid;
             // todo: use count to check relation validity for performance reason
             try {
-                isObjectIdValid = relatedObjectList
+                isObjectIdValid = denaRelationList
                         .stream()
-                        .allMatch(relatedObject -> {
+                        .allMatch(denaRelation -> {
                             // check if target type is exist
-                            boolean isCollectionExist = MongoDBUtils.isCollectionExist(mongoDatabase, relatedObject.getTargetName());
+                            boolean isCollectionExist = MongoDBUtils.isCollectionExist(mongoDatabase, denaRelation.getTargetName());
                             boolean isDocumentsExist = MongoDBUtils
-                                    .findDocumentById(mongoDatabase, relatedObject.getTargetName(), relatedObject.getIds()).size() == relatedObject.getIds().size();
+                                    .findDocumentById(mongoDatabase, denaRelation.getTargetName(), denaRelation.getIds()).size() == denaRelation.getIds().size();
 
                             return isCollectionExist && isDocumentsExist;
                         });
-
 
             } catch (IllegalArgumentException ex) {
                 // in case of invalid object id, relation is invalid
@@ -331,12 +330,12 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     private Map<String, BsonValue> getRelation(DenaObject denaObject) {
         Map<String, BsonValue> references = new HashMap<>();
 
-        denaObject.getRelatedObjects()
-                .forEach(relatedObject -> {
+        denaObject.getDenaRelations()
+                .forEach(denaRelation -> {
                     BsonDocument relation = new BsonDocument();
-                    relation.put(MongoDBUtils.RELATION_TARGET_NAME, new BsonString(relatedObject.getTargetName()));
+                    relation.put(MongoDBUtils.RELATION_TARGET_NAME, new BsonString(denaRelation.getTargetName()));
 
-                    List<ObjectId> objectIds = relatedObject.getIds()
+                    List<ObjectId> objectIds = denaRelation.getIds()
                             .stream()
                             .map(ObjectId::new)
                             .collect(Collectors.toList());
@@ -344,20 +343,20 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
                     relation.put(MongoDBUtils.RELATION_TYPE, new BsonString(RelationType.RELATION_1_TO_1.name));
 
-                    references.put(relatedObject.getRelationName(), relation);
+                    references.put(denaRelation.getRelationName(), relation);
 
                 });
 
         return references;
     }
 
-    private List<RelatedObject> convertToRelatedObject(String type, List<String> objectIdList) {
+    private List<DenaRelation> convertToRelatedObject(String type, List<String> objectIdList) {
 
-        List<RelatedObject> result = objectIdList.stream().map(id -> {
-            RelatedObject relatedObject = new RelatedObject();
-            relatedObject.setIds(objectIdList);
-            relatedObject.setTargetName(type);
-            return relatedObject;
+        List<DenaRelation> result = objectIdList.stream().map(id -> {
+            DenaRelation denaRelation = new DenaRelation();
+            denaRelation.setIds(objectIdList);
+            denaRelation.setTargetName(type);
+            return denaRelation;
         }).collect(Collectors.toList());
 
         return result;
