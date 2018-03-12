@@ -13,12 +13,11 @@
     </root>
 
 
-    <logger name="org.springframework" level="INFO" />
+    <logger name="org.springframework" level="INFO"/>
 
-    <logger name="com.dena" level="DEBUG" />
+    <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="DEBUG"/>
 
-
-
+    <logger name="com.dena" level="DEBUG"/>
 
 
 </configuration>

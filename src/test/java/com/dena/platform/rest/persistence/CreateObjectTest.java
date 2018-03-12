@@ -35,6 +35,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         //            Assert Create Object Response
         /////////////////////////////////////////////
         TestObjectResponseDTO expectedObjectResponse = new TestObjectResponseDTO();
+        expectedObjectResponse.objectId = actualReturnObject.getDenaObjectResponseList().get(0).getObjectId();
         expectedObjectResponse.createTime = actualReturnObject.getDenaObjectResponseList().get(0).getCreateTime();
         expectedObjectResponse.updateTime = actualReturnObject.getDenaObjectResponseList().get(0).getUpdateTime();
         expectedObjectResponse.objectURI = "/" + CommonConfig.APP_ID + "/" + CommonConfig.COLLECTION_NAME;
@@ -45,12 +46,12 @@ public class CreateObjectTest extends AbstractDataStoreTest {
 
 
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
-        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
-        expectedReturnObject.setCount(1L);
+        expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
+        expectedReturnObject.createObjectCount = 1L;
         expectedReturnObject.setTestObjectResponseDTOList(Collections.singletonList(expectedObjectResponse));
 
         // assert timestamp
-        assertTrue(isTimeEqualRegardlessOfSecond(expectedReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(expectedReturnObject.timestamp, Instant.now().toEpochMilli()));
         assertTrue(isTimeEqualRegardlessOfSecond(expectedObjectResponse.createTime, Instant.now().toEpochMilli()));
         assertNull("update time in creating object should be null", expectedObjectResponse.updateTime);
 

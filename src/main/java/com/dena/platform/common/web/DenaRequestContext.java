@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -20,7 +21,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class DenaRequestContext {
     private final static Logger log = getLogger(DenaRequestContext.class);
 
-    private HttpServletRequest request;
+    private ContentCachingRequestWrapper request;
 
     private String requestBody;
 
@@ -28,7 +29,7 @@ public class DenaRequestContext {
     private final static ThreadLocal<DenaRequestContext> ZAGROS_REQUEST_CONTEXT = ThreadLocalManager.createThreadLocal(DenaRequestContext.class);
 
 
-    public DenaRequestContext(HttpServletRequest request) {
+    public DenaRequestContext(ContentCachingRequestWrapper request) {
         this.request = request;
     }
 

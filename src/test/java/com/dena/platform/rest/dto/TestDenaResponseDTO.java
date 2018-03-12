@@ -17,36 +17,20 @@ import java.util.List;
 public class TestDenaResponseDTO {
 
     @JsonProperty("timestamp")
-    private Long timestamp;
+    public Long timestamp;
 
-    @JsonProperty("count")
-    private long count;
+    @JsonProperty("create_object_count")
+    public long createObjectCount;
 
     @JsonProperty("total_count")
-    private Long totalCount;
+    public Long totalCount;
 
     @JsonProperty("page")
-    private Long page;
+    public Long page;
 
     @JsonProperty("objects")
     private List<TestObjectResponseDTO> testObjectResponseDTOList = new ArrayList<>();
 
-
-    public Long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Long timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public long getCount() {
-        return count;
-    }
-
-    public void setCount(long count) {
-        this.count = count;
-    }
 
     public List<TestObjectResponseDTO> getTestObjectResponseDTOList() {
         return testObjectResponseDTOList;
@@ -56,14 +40,6 @@ public class TestDenaResponseDTO {
         this.testObjectResponseDTOList = testObjectResponseDTOList;
     }
 
-    public void setTotalCount(Long totalCount) {
-        this.totalCount = totalCount;
-    }
-
-    public void setPage(Long page) {
-        this.page = page;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,8 +47,8 @@ public class TestDenaResponseDTO {
 
         TestDenaResponseDTO that = (TestDenaResponseDTO) o;
 
-        if (count != that.count) return false;
-        if (!TestUtils.isTimeEqualRegardlessOfSecond(Long.valueOf(timestamp), Long.valueOf(that.getTimestamp()))) {
+        if (createObjectCount != that.createObjectCount) return false;
+        if (!TestUtils.isTimeEqualRegardlessOfSecond(Long.valueOf(timestamp), that.timestamp)) {
             return false;
         }
         return testObjectResponseDTOList != null ? testObjectResponseDTOList.equals(that.testObjectResponseDTOList) : that.testObjectResponseDTOList == null;
@@ -81,7 +57,7 @@ public class TestDenaResponseDTO {
     @Override
     public int hashCode() {
         int result = timestamp.hashCode();
-        result = 31 * result + (int) (count ^ (count >>> 32));
+        result = 31 * result + (int) (createObjectCount ^ (createObjectCount >>> 32));
         result = 31 * result + (testObjectResponseDTOList != null ? testObjectResponseDTOList.hashCode() : 0);
         return result;
     }
