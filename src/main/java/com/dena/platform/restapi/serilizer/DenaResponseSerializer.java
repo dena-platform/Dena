@@ -1,4 +1,4 @@
-package com.dena.platform.restapi.Serilizer;
+package com.dena.platform.restapi.serilizer;
 
 import com.dena.platform.common.utils.java8Utils.LambdaWrapper;
 import com.dena.platform.restapi.dto.response.DenaObjectResponse;
