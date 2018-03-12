@@ -32,6 +32,8 @@ public class MongoDBUtils {
     private static MongoClient mongoClient;
 
     public static final String ID = "_id";
+
+    // general object field name
     public static final String UPDATE_TIME_FIELD = "update_time";
     public static final String CREATE_TIME_FIELD = "create_time";
     public static final String OBJECT_URI_FIELD = "object_uri";
@@ -169,7 +171,7 @@ public class MongoDBUtils {
     }
 
     /**
-     * Check if collection name exist in database
+     * Return true if collection name exist in database
      *
      * @param mongoDatabase  Instance of Mongo database
      * @param collectionName Name of collection that we wand search for

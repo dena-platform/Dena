@@ -38,7 +38,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         expectedObjectResponse.objectId = actualReturnObject.getDenaObjectResponseList().get(0).getObjectId();
         expectedObjectResponse.createTime = actualReturnObject.getDenaObjectResponseList().get(0).getCreateTime();
         expectedObjectResponse.updateTime = actualReturnObject.getDenaObjectResponseList().get(0).getUpdateTime();
-        expectedObjectResponse.objectURI = "/" + CommonConfig.APP_ID + "/" + CommonConfig.COLLECTION_NAME;
+        expectedObjectResponse.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + expectedObjectResponse.objectId;
         expectedObjectResponse.addProperty("name", "javad");
         expectedObjectResponse.addProperty("job", "developer");
 
