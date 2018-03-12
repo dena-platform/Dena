@@ -1,6 +1,6 @@
 package com.dena.platform.common.web;
 
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.util.ContentCachingRequestWrapper;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
@@ -11,7 +11,7 @@ public interface DenaRequestProcessor {
      *
      * @param request
      */
-    void processRequest(HttpServletRequest request);
+    void processRequest(ContentCachingRequestWrapper request);
 
     void postProcess();
 }
