@@ -69,7 +69,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 ids.add(objectId.toString());
             });
 
-            MongoDBUtils.bulkCreateDocuments(mongoDatabase, typeName, bsonDocuments);
+            MongoDBUtils.createDocuments(mongoDatabase, typeName, bsonDocuments.toArray(new BsonDocument[bsonDocuments.size()]));
 
             // todo : performance - use better approach to find object with ids (bulk find)
             ids.forEach(id -> returnObject.add(findObject(appName, typeName, id)));

@@ -20,10 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -56,15 +53,18 @@ public class MongoDBUtils {
 
     }
 
-    public static void bulkCreateDocuments(MongoDatabase mongoDatabase, String collectionName, List<BsonDocument> document) {
-        Assert.hasLength(collectionName, "Collection should not be empty or null");
-        Assert.notEmpty(document, "Document should not be null");
+    public static void createDocuments(MongoDatabase mongoDatabase, String collectionName, BsonDocument... bsonDocuments) {
+        Assert.hasLength(collectionName, "Collection should not be empty");
+        Assert.notEmpty(bsonDocuments, "Documents should not be empty");
+
+
+        List<BsonDocument> bsonDocumentList = Arrays.asList(bsonDocuments);
 
         mongoDatabase
                 .getCollection(collectionName, BsonDocument.class)
-                .insertMany(document);
+                .insertMany(bsonDocumentList);
 
-        log.info("Creating document(s) [{}] successfully", document);
+        log.info("Creating document(s) [{}] successfully", bsonDocumentList);
     }
 
     public static void updateDocument(MongoDatabase mongoDatabase, String collectionName, List<? extends Document> documents) {
