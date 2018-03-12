@@ -54,7 +54,7 @@ public class JSONMapper {
         }
     }
 
-    public static HashMap<String, Object> createHashMapFromJSON(final String jsonString) throws InvalidJSONException {
+    public static HashMap<String, Object> convertToHashMapFromJSON(final String jsonString) throws InvalidJSONException {
         HashMap<String, Object> map;
         try {
             map = JSON_MAPPER.readValue(jsonString, new TypeReference<HashMap<String, Object>>() {
