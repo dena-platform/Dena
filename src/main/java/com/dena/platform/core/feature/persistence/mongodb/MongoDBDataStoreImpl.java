@@ -39,15 +39,10 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             return Collections.emptyList();
         }
 
-        try {
-            mongoDatabase = MongoDBUtils.getDataBase(appName);
-        } catch (Exception ex) {
-            throw new DataStoreException("Error in creating objects", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
-        }
 
         List<String> ids = new ArrayList<>();
         try {
-
+            mongoDatabase = MongoDBUtils.getDataBase(appName);
             denaObjects.forEach(denaObject -> {
 
                 ObjectId objectId = ObjectId.get();
@@ -75,6 +70,8 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             ids.forEach(id -> returnObject.add(findObject(appName, typeName, id)));
 
             return returnObject;
+        } catch (DataStoreException ex) {
+            throw ex;
         } catch (Exception ex) {
             throw new DataStoreException("Error in storing object(s)", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
