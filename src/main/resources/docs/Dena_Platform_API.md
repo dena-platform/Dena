@@ -47,30 +47,52 @@ Return Value:
 
 
 **Create Bulk Objects**
+This API is same is above with the exception that the request can contain 
+multiple request.
+
+Method: POST
+
+URL: /v1/<application-id>/<type-name>
+
+Body:
+
+{JSON Array}
+
+
+Headers:
+
+Content-Type:application/json
+
+***Example:***
+ 
 Request Body: 
 
-    [
-      {
-        "field1": "javad",
-        "field2": "developer",
-        "related_objects": [
+  	 [
+  		{
+   		 "field1": "javad",
+   		 "field2": "developer",
+   		 "related_objects": [
+      	  {
+       	   "relation_name": "comments_rel",
+      	   "target_name": "comments",
+      	   "ids": [
+      	     "5aa52335d41a3b18c8bdbe28"
+      	    ]
+     	  }]
+ 	    },
+ 	 {
+    	"field1": "ali",
+    	"field2": "developer",
+    	"related_objects": [
       	 {
-       	  "id": "123123",
-       	  "type": "denaObjects"
-      	 }
-       ]
-      },
-      {
-        "field1": "ali",
-        "field2": "developer",
-        "related_objects": [
-      	 {
-       	  "id": "43345",
-       	  "type": "denaObjects"
-      	 }
-       ]
-      }
-    ]
+            "relation_name": "comments_rel",
+        	"target_name": "comments",
+            "ids": [
+               "5aa52335d41a3b18c8bdbe28"
+             ]
+          }]
+  		 }
+      ]
 
 
 
