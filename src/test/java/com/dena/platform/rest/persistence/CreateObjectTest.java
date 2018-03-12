@@ -27,7 +27,6 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
         requestObject.addProperty("name", "javad");
         requestObject.addProperty("job", "developer");
-//        requestObject.getRelatedObjects().add(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
 
         DenaResponse actualReturnObject = performCreateObject(createJSONFromObject(requestObject), DenaResponse.class);
 
@@ -41,8 +40,6 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         expectedObjectResponse.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + expectedObjectResponse.objectId;
         expectedObjectResponse.addProperty("name", "javad");
         expectedObjectResponse.addProperty("job", "developer");
-
-//        expectedObjectResponse.testRelatedObjects = Collections.singletonList(new TestRelatedObject(objectId1, CommonConfig.COLLECTION_NAME));
 
 
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
@@ -59,6 +56,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
 
     }
 
+    // todo: create a method that store object with relation
 
     @Test
     public void test_CreateObject_When_Relation_Is_Invalid() throws Exception {
@@ -68,7 +66,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
         requestObject.addProperty("job", "new developer");
         requestObject.addProperty("name", "developer");
-        requestObject.getRelatedObjects().add(new TestRelatedObjectDTO(objectId1, "not_exist_relation"));
+        requestObject.getRelatedObjects().add(new TestDenaRelationDTO(objectId1, "not_exist_relation"));
 
         TestErrorResponseDTO actualReturnObject = performCreateObject(createJSONFromObject(requestObject), 400, TestErrorResponseDTO.class);
 

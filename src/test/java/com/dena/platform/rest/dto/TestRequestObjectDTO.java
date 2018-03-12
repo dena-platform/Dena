@@ -20,13 +20,13 @@ public class TestRequestObjectDTO {
     private String objectId;
 
     @JsonProperty(value = "related_objects")
-    private List<TestRelatedObjectDTO> relatedObjects = new ArrayList<>();
+    private List<TestDenaRelationDTO> relatedObjects = new ArrayList<>();
 
-    public List<TestRelatedObjectDTO> getRelatedObjects() {
+    public List<TestDenaRelationDTO> getRelatedObjects() {
         return relatedObjects;
     }
 
-    public void setRelatedObjects(List<TestRelatedObjectDTO> relatedObjects) {
+    public void setRelatedObjects(List<TestDenaRelationDTO> relatedObjects) {
         this.relatedObjects = relatedObjects;
     }
 
