@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
@@ -16,10 +17,7 @@ public class DenaResponse {
     private Long timestamp;
 
     @JsonProperty("create_object_count")
-    private Long countObjectCount;
-
-    @JsonProperty("total_count")
-    private Long totalCount;
+    private Long createObjectCount;
 
     @JsonProperty("page")
     private Long page;
@@ -35,21 +33,18 @@ public class DenaResponse {
         this.timestamp = timestamp;
     }
 
-    public Long getCountObjectCount() {
-        return countObjectCount;
+    public Long getCreateObjectCount() {
+        return createObjectCount;
     }
 
-    public void setCountObjectCount(Long countObjectCount) {
-        this.countObjectCount = countObjectCount;
+    public void setCreateObjectCount(Long createObjectCount) {
+        this.createObjectCount = createObjectCount;
     }
 
     public void setDenaObjectResponseList(List<DenaObjectResponse> denaObjectResponseList) {
         this.denaObjectResponseList = denaObjectResponseList;
     }
 
-    public void setTotalCount(Long totalCount) {
-        this.totalCount = totalCount;
-    }
 
     public void setPage(Long page) {
         this.page = page;
@@ -61,8 +56,7 @@ public class DenaResponse {
 
     public static final class DenaResponseBuilder {
         private Long timestamp;
-        private Long count;
-        private Long totalCount;
+        private Long createObjectCount;
         private Long page;
         private List<DenaObjectResponse> denaObjectResponseList = new ArrayList<>();
 
@@ -79,22 +73,17 @@ public class DenaResponse {
         }
 
         public DenaResponseBuilder withCreateObjectCount(Long count) {
-            this.count = count;
+            this.createObjectCount = count;
             return this;
         }
 
         public DenaResponseBuilder withCreateObjectCount(Integer count) {
-            this.count = Long.valueOf(count);
+            this.createObjectCount = Long.valueOf(count);
             return this;
         }
 
         public DenaResponseBuilder withObjectResponseList(List<DenaObjectResponse> denaObjectResponseList) {
             this.denaObjectResponseList = denaObjectResponseList;
-            return this;
-        }
-
-        public DenaResponseBuilder withTotalCount(long totalCount) {
-            this.totalCount = totalCount;
             return this;
         }
 
@@ -106,9 +95,8 @@ public class DenaResponse {
         public DenaResponse build() {
             DenaResponse denaResponse = new DenaResponse();
             denaResponse.setTimestamp(timestamp);
-            denaResponse.setCountObjectCount(count);
+            denaResponse.setCreateObjectCount(createObjectCount);
             denaResponse.setDenaObjectResponseList(denaObjectResponseList);
-            denaResponse.setTotalCount(totalCount);
             denaResponse.setPage(page);
             return denaResponse;
         }

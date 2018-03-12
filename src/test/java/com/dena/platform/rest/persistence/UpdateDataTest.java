@@ -3,10 +3,7 @@ package com.dena.platform.rest.persistence;
 import com.dena.platform.rest.dto.*;
 import com.dena.platform.utils.CommonConfig;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.Instant;
 import java.util.Arrays;
@@ -47,11 +44,11 @@ public class UpdateDataTest extends AbstractDataStoreTest {
 
 
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
-        expectedReturnObject.setTimestamp(actualReturnObject.getTimestamp());
-        expectedReturnObject.setCount(1L);
+        expectedReturnObject.timestamp = actualReturnObject.timestamp;
+        expectedReturnObject.totalCount = (1L);
         expectedReturnObject.setTestObjectResponseDTOList(Collections.singletonList(testObjectResponseDTO));
 
-        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.timestamp, Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
     }
 

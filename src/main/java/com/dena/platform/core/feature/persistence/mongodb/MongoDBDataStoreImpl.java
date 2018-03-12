@@ -76,7 +76,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
             return returnObject;
         } catch (Exception ex) {
-            throw new DataStoreException("Error in storing object", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
+            throw new DataStoreException("Error in storing object(s)", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
     }
 

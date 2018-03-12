@@ -7,11 +7,9 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
@@ -24,12 +22,12 @@ public class DenaRequestFilter extends AbstractDenaFilter {
     protected DenaRequestProcessor denaRequestProcessor;
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) {
         try {
             denaRequestProcessor.processRequest((HttpServletRequest) request);
             chain.doFilter(request, response);
         } catch (Exception ex) {
-
+            log.error("Error in processing request", ex);
         } finally {
             denaRequestProcessor.postProcess();
         }
