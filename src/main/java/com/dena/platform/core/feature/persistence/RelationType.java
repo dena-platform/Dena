@@ -8,11 +8,11 @@ public enum RelationType {
     RELATION_1_TO_1("ONE-TO-ONE"),
     RELATION_1_TO_N("ONE-TO-MANY");
 
-    public final String name;
+    public final String value;
 
 
-    RelationType(String name) {
-        this.name = name;
+    RelationType(String value) {
+        this.value = value;
     }
 
 

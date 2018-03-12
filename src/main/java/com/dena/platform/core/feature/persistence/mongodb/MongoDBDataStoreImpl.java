@@ -339,7 +339,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                             .collect(Collectors.toList());
                     relation.put(MongoDBUtils.RELATION_IDS, BsonTypeMapper.convertObjectToBSONValue(objectIds));
 
-                    relation.put(MongoDBUtils.RELATION_TYPE, new BsonString(RelationType.RELATION_1_TO_1.name));
+                    relation.put(MongoDBUtils.RELATION_TYPE, new BsonString(RelationType.RELATION_1_TO_1.value));
 
                     relations.put(denaRelation.getRelationName(), relation);
 

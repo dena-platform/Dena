@@ -1,5 +1,6 @@
 package com.dena.platform.rest.persistence;
 
+import com.dena.platform.core.feature.persistence.RelationType;
 import com.dena.platform.rest.dto.*;
 import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.utils.CommonConfig;
@@ -56,7 +57,8 @@ public class CreateObjectTest extends AbstractDataStoreTest {
 
     }
 
-    // todo: create a method that store object with relation
+    // todo: create a test method that store object with valid relation and
+    // then check relation is store with valid data
 
     @Test
     public void test_CreateObject_When_Relation_Is_Invalid() throws Exception {
@@ -64,9 +66,16 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         //           Send Create Object Request - relation not exist
         /////////////////////////////////////////////////////////////////
         TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
-        requestObject.addProperty("job", "new developer");
-        requestObject.addProperty("name", "developer");
-        requestObject.getRelatedObjects().add(new TestDenaRelationDTO(objectId1, "not_exist_relation"));
+        requestObject.addProperty("name", "javad");
+        requestObject.addProperty("job", "developer");
+
+        TestDenaRelationDTO testDenaRelationDTO = new TestDenaRelationDTO();
+        testDenaRelationDTO.setType(RelationType.RELATION_1_TO_1.value);
+        testDenaRelationDTO.setRelationName("new_relation");
+        testDenaRelationDTO.setIds(Collections.singletonList(objectId1));
+        testDenaRelationDTO.setTargetName("not_exist_target");
+
+        requestObject.addRelatedObject(testDenaRelationDTO);
 
         TestErrorResponseDTO actualReturnObject = performCreateObject(createJSONFromObject(requestObject), 400, TestErrorResponseDTO.class);
 

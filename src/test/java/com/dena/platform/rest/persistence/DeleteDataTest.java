@@ -124,7 +124,7 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         testObjectResponseDTO.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
         testObjectResponseDTO.addProperty("name", "javad");
         testObjectResponseDTO.addProperty("job", "developer");
-        testObjectResponseDTO.testDenaRelationDTOS = Collections.singletonList(new TestDenaRelationDTO(objectId2, CommonConfig.COLLECTION_NAME));
+//        testObjectResponseDTO.testDenaRelationDTOS = Collections.singletonList(new TestDenaRelationDTO(objectId2, CommonConfig.COLLECTION_NAME));
         expectedReturnObject.setTestObjectResponseDTOList(Collections.singletonList(testObjectResponseDTO));
 
         assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.timestamp, Instant.now().toEpochMilli()));

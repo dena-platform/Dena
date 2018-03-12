@@ -22,6 +22,10 @@ public class TestRequestObjectDTO {
     @JsonProperty(value = "related_objects")
     private List<TestDenaRelationDTO> relatedObjects = new ArrayList<>();
 
+    public void addRelatedObject(TestDenaRelationDTO testDenaRelationDTO) {
+        relatedObjects.add(testDenaRelationDTO);
+    }
+
     public List<TestDenaRelationDTO> getRelatedObjects() {
         return relatedObjects;
     }
