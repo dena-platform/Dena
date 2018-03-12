@@ -11,7 +11,7 @@ import java.util.*;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class DenaObject {
-    private Map<String, Object> fields = new HashMap<>();
+    private Map<String, Object> otherFields = new HashMap<>();
 
     @JsonProperty("object_id")
     private String objectId;
@@ -44,18 +44,18 @@ public class DenaObject {
     @JsonAnySetter
     public void addProperty(String name, Object value) {
         if (StringUtils.isNoneBlank(name) && value != null) {
-            fields.put(name, value);
+            otherFields.put(name, value);
         }
     }
 
     @JsonAnyGetter
     public Map<String, Object> getAllFields() {
-        return fields;
+        return otherFields;
     }
 
 
-    public Map<String, Object> getFields() {
-        return fields;
+    public Map<String, Object> getOtherFields() {
+        return otherFields;
     }
 
     public String getObjectId() {
