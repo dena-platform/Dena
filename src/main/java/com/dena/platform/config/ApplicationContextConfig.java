@@ -1,6 +1,6 @@
 package com.dena.platform.config;
 
-import com.dena.platform.restapi.Serilizer.DenaResponseModule;
+import com.dena.platform.restapi.serilizer.DenaResponseModule;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,7 +8,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
