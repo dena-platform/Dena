@@ -10,6 +10,7 @@ import com.mongodb.client.model.UpdateOneModel;
 import com.mongodb.client.model.WriteModel;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
+import org.apache.commons.collections4.CollectionUtils;
 import org.bson.BsonDocument;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -20,7 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -112,10 +116,10 @@ public class MongoDBUtils {
         Document searchDocument = new Document(ID, new ObjectId(objectId));
         Document update = new Document(typeName2, "");
         int deleteCount = 0;
-        Optional<BsonDocument> document = findDocumentById(mongoDatabase, typeName1, objectId);
+        List<BsonDocument> bsonDocuments = findDocumentById(mongoDatabase, typeName1, objectId);
 
-        if (document.isPresent()) {
-            deleteCount = ((List<ObjectId>) document.get().get(typeName2)).size();
+        if (CollectionUtils.isNotEmpty(bsonDocuments)) {
+            deleteCount = ((List<ObjectId>) bsonDocuments.get(0).get(typeName2)).size();
         }
 
         UpdateResult updateResult = mongoDatabase
@@ -127,22 +131,13 @@ public class MongoDBUtils {
         return deleteCount;
     }
 
-
-    public static Optional<BsonDocument> findDocumentById(MongoDatabase mongoDatabase, String collectionName, String id) {
-        BsonDocument bsonDocument = mongoDatabase.getCollection(collectionName, BsonDocument.class)
-                .find(Filters.eq(ID, new ObjectId(id)))
-                .first();
-
-        return Optional.ofNullable(bsonDocument);
-    }
-
-    public static List<BsonDocument> findDocumentById(MongoDatabase mongoDatabase, String collectionName, List<String> idList) {
+    public static List<BsonDocument> findDocumentById(MongoDatabase mongoDatabase, String collectionName, String... idList) {
         List<ObjectId> objectIds = new ArrayList<>();
         List<BsonDocument> returnList = new LinkedList<>();
 
-        idList.forEach(id -> {
+        for (String id : idList) {
             objectIds.add(new ObjectId(id));
-        });
+        }
 
         mongoDatabase.getCollection(collectionName, BsonDocument.class)
                 .find(Filters.in(ID, objectIds))

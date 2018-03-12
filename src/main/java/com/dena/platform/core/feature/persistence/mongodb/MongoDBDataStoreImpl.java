@@ -168,12 +168,12 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
             DenaObject denaObject = new DenaObject();
 
-            Optional<BsonDocument> bsonDocument = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId);
-            if (!bsonDocument.isPresent()) {
+            List<BsonDocument> bsonDocuments = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId);
+            if (CollectionUtils.isEmpty(bsonDocuments)) {
                 return null;
             }
 
-            for (Map.Entry<String, BsonValue> entry : bsonDocument.get().entrySet()) {
+            for (Map.Entry<String, BsonValue> entry : bsonDocuments.get(0).entrySet()) {
                 String fieldName = entry.getKey();
                 BsonValue fieldValue = entry.getValue();
 
@@ -227,14 +227,14 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     public List<DenaObject> findObjectRelation(String appName, String parentType, String objectId, String targetType, DenaPager denaPager) {
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
-            Optional<BsonDocument> parentDocument = MongoDBUtils.findDocumentById(mongoDatabase, parentType, objectId);
+            List<BsonDocument> parentDocument = MongoDBUtils.findDocumentById(mongoDatabase, parentType, objectId);
 
-            if (!parentDocument.isPresent()) {
+            if (CollectionUtils.isEmpty(parentDocument)) {
                 return null;
             }
 
             List<DenaObject> denaObjects = new ArrayList<>();
-            List<Document> relatedDocuments = MongoDBUtils.findRelatedDocument(mongoDatabase, parentDocument.get(), targetType, denaPager);
+            List<Document> relatedDocuments = MongoDBUtils.findRelatedDocument(mongoDatabase, parentDocument.get(0), targetType, denaPager);
 
             relatedDocuments.forEach(document -> {
                 DenaObject denaObject = new DenaObject();
@@ -280,8 +280,9 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                         .allMatch(denaRelation -> {
                             // check if target type is exist
                             boolean isCollectionExist = MongoDBUtils.isCollectionExist(mongoDatabase, denaRelation.getTargetName());
+                            String[] ids = denaRelation.getIds().toArray(new String[denaRelation.getIds().size()]);
                             boolean isDocumentsExist = MongoDBUtils
-                                    .findDocumentById(mongoDatabase, denaRelation.getTargetName(), denaRelation.getIds()).size() == denaRelation.getIds().size();
+                                    .findDocumentById(mongoDatabase, denaRelation.getTargetName(), ids).size() == denaRelation.getIds().size();
 
                             return isCollectionExist && isDocumentsExist;
                         });
@@ -301,7 +302,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     private void checkObjectIdExist(MongoDatabase mongoDatabase, String typeName, String objectId) {
         checkObjectIdValidity(Collections.singletonList(objectId));
 
-        boolean isObjectIdValid = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId).isPresent();
+        boolean isObjectIdValid = CollectionUtils.isNotEmpty(MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId));
 
         if (!isObjectIdValid) {
             throw new DataStoreException("ObjectId not found exception", ErrorCode.ObjectId_NOT_FOUND_EXCEPTION);
