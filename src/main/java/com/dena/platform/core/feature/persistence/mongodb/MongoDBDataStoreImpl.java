@@ -52,7 +52,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 bsonDocument.put(MongoDBUtils.CREATE_TIME_FIELD, new BsonDateTime(DenaObjectUtils.timeStamp()));
                 bsonDocument.put(MongoDBUtils.UPDATE_TIME_FIELD, new BsonNull());
                 bsonDocument.put(MongoDBUtils.OBJECT_URI_FIELD, new BsonString(DenaObjectUtils.getURIForResource(typeName, objectId.toString())));
-                addFieldsToBsonDocument(bsonDocument, denaObject.getFields());
+                addFieldsToBsonDocument(bsonDocument, denaObject.getOtherFields());
 
                 // add relation
                 if (CollectionUtils.isNotEmpty(denaObject.getDenaRelations())) {
@@ -104,7 +104,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 ObjectId objectId = new ObjectId(denaObject.getObjectId());
                 Document document = new Document();
                 document.put(MongoDBUtils.ID, objectId);
-                document.putAll(denaObject.getFields());
+                document.putAll(denaObject.getOtherFields());
 
                 // update relation
                 if (CollectionUtils.isNotEmpty(denaObject.getDenaRelations())) {
