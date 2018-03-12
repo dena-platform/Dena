@@ -1,5 +1,6 @@
 package com.dena.platform.restapi.Serilizer;
 
+import com.dena.platform.common.utils.java8Utils.LambdaWrapper;
 import com.dena.platform.restapi.dto.response.DenaObjectResponse;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -20,6 +21,9 @@ public class DenaResponseSerializer extends JsonSerializer<DenaObjectResponse> {
         gen.writeStringField("object_uri", value.getObjectURI());
         gen.writeObjectField("update_time", value.getUpdateTime());
         gen.writeObjectField("creation_time", value.getCreateTime());
+        value.getAllFields().forEach(LambdaWrapper.uncheckedBiConsumer(gen::writeObjectField));
+
+
         gen.writeEndObject();
     }
 }

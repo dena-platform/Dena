@@ -4,6 +4,7 @@ import com.dena.platform.common.web.DenaRequestProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import javax.annotation.Resource;
 import javax.servlet.FilterChain;
@@ -24,7 +25,7 @@ public class DenaRequestFilter extends AbstractDenaFilter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) {
         try {
-            denaRequestProcessor.processRequest((HttpServletRequest) request);
+            denaRequestProcessor.processRequest(new ContentCachingRequestWrapper((HttpServletRequest) request));
             chain.doFilter(request, response);
         } catch (Exception ex) {
             log.error("Error in processing request", ex);
