@@ -32,7 +32,7 @@ public class TestObjectResponseDTO {
 
 
     @JsonProperty(value = "related_objects")
-    public List<TestRelatedObjectDTO> testRelatedObjectDTOS = new ArrayList<>();
+    public List<TestDenaRelationDTO> testDenaRelationDTOS = new ArrayList<>();
 
     @JsonAnyGetter
     public Map<String, Object> getAllFields() {

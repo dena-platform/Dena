@@ -27,7 +27,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         requestObject.setObjectId(objectId1);
         requestObject.addProperty("job", "new developer value");
         requestObject.addProperty("new field", "new value");
-        requestObject.getRelatedObjects().add(new TestRelatedObjectDTO(objectId2, CommonConfig.COLLECTION_NAME));
+        requestObject.getRelatedObjects().add(new TestDenaRelationDTO(objectId2, CommonConfig.COLLECTION_NAME));
 
         TestDenaResponseDTO actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), TestDenaResponseDTO.class);
 
@@ -40,7 +40,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         testObjectResponseDTO.addProperty("job", "new developer value");
         testObjectResponseDTO.addProperty("new field", "new value");
         testObjectResponseDTO.addProperty("name", "javad");
-        testObjectResponseDTO.testRelatedObjectDTOS = Collections.singletonList(new TestRelatedObjectDTO(objectId2, CommonConfig.COLLECTION_NAME));
+        testObjectResponseDTO.testDenaRelationDTOS = Collections.singletonList(new TestDenaRelationDTO(objectId2, CommonConfig.COLLECTION_NAME));
 
 
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
@@ -62,7 +62,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         requestObject.setObjectId(invalidObjectId);
         requestObject.addProperty("job", "new developer value");
         requestObject.addProperty("new field", "new value");
-        requestObject.getRelatedObjects().add(new TestRelatedObjectDTO(objectId1, CommonConfig.COLLECTION_NAME));
+        requestObject.getRelatedObjects().add(new TestDenaRelationDTO(objectId1, CommonConfig.COLLECTION_NAME));
 
         TestErrorResponseDTO actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), 400, TestErrorResponseDTO.class);
 
@@ -87,7 +87,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         requestObject.setObjectId(notExistObjectId);
         requestObject.addProperty("job", "new developer value");
         requestObject.addProperty("new field", "new value");
-        requestObject.getRelatedObjects().add(new TestRelatedObjectDTO(objectId1, CommonConfig.COLLECTION_NAME));
+        requestObject.getRelatedObjects().add(new TestDenaRelationDTO(objectId1, CommonConfig.COLLECTION_NAME));
 
         TestErrorResponseDTO actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), 400, TestErrorResponseDTO.class);
 
@@ -111,7 +111,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         requestObject.setObjectId(objectId3);
         requestObject.addProperty("job", "new developer value");
         requestObject.addProperty("new field", "new value");
-        requestObject.getRelatedObjects().add(new TestRelatedObjectDTO(objectId1, "not_exist_relation"));
+        requestObject.getRelatedObjects().add(new TestDenaRelationDTO(objectId1, "not_exist_relation"));
 
         TestErrorResponseDTO actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), 400, TestErrorResponseDTO.class);
 

@@ -2,7 +2,7 @@ package com.dena.platform.rest.persistence;
 
 import com.dena.platform.rest.dto.TestDenaResponseDTO;
 import com.dena.platform.rest.dto.TestObjectResponseDTO;
-import com.dena.platform.rest.dto.TestRelatedObjectDTO;
+import com.dena.platform.rest.dto.TestDenaRelationDTO;
 import com.dena.platform.utils.CommonConfig;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -41,7 +41,7 @@ public class FindDataTest extends AbstractDataStoreTest {
         testObjectResponseDTO.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
         testObjectResponseDTO.addProperty("name", "javad");
         testObjectResponseDTO.addProperty("job", "developer");
-        testObjectResponseDTO.testRelatedObjectDTOS = Arrays.asList(new TestRelatedObjectDTO(objectId1, CommonConfig.COLLECTION_NAME), new TestRelatedObjectDTO(objectId2, CommonConfig.COLLECTION_NAME));
+        testObjectResponseDTO.testDenaRelationDTOS = Arrays.asList(new TestDenaRelationDTO(objectId1, CommonConfig.COLLECTION_NAME), new TestDenaRelationDTO(objectId2, CommonConfig.COLLECTION_NAME));
         expectedReturnObject.setTestObjectResponseDTOList(Collections.singletonList(testObjectResponseDTO));
 
         // check timestamp field of returned object
