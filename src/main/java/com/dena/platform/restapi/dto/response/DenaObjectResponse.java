@@ -26,7 +26,7 @@ public class DenaObjectResponse {
     @JsonProperty("update_time")
     private Long updateTime;
 
-    @JsonProperty("creation_time")
+    @JsonProperty("create_time")
     private Long createTime;
 
     @JsonAnyGetter
