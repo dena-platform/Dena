@@ -57,8 +57,9 @@ public class CreateObjectTest extends AbstractDataStoreTest {
 
     }
 
-    // todo: create a test method that store object with valid relation and
-    // then check relation is store with valid data
+    // todo: create a test method that store object with valid relation and then check with find method
+
+    // todo: create a test method for bulk request
 
     @Test
     public void test_CreateObject_When_Relation_Is_Invalid() throws Exception {
@@ -88,7 +89,6 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         expectedReturnObject.messages = Collections.singletonList("relation(s) is invalid");
 
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
-
 
     }
 
