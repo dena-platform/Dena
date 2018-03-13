@@ -218,8 +218,8 @@ Return Value:
 
 - If there is a new field or relation then create it. 
 - if field is exist then update it. 
-- If relation with same name exist then do nothing. 
-- If object id of object is not found then return bad request error.
+- If relation with same name exist in data store and related object not stored before then add otherwise ignore it. 
+- If object id is not found then return bad request error.
 - If data in relation is invalid for example object id not exist or target type not found then return bad request error.
  
  
