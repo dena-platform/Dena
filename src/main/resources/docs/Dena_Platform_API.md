@@ -216,19 +216,15 @@ Return Value:
 
 **Update One Object**
 
-If there is a new field or new relation(new type) add to existing fields or relations. if field is exist then update field. 
+- If there is a new field or relation then create it. 
+- if field is exist then update it. 
+- If relation with same name exist then do nothing. 
+- If object id of object is not found then return bad request error.
+- If data in relation is invalid for example object id not exist or target type not found then return bad request error.
+ 
+ 
 
-If relation with same name exist then do nothing. 
-
-If object_id for updating object is not found then return bad request error.
-
-If data in relation is invalid for example object id not exist or target type not found then return bad request error.
-
-
-return: 
-
-success: Updated object(s) count.
-
+Return: Updated object(s) count.
 
 Method: PUT
 
