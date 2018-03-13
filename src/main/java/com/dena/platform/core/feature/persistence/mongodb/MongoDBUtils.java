@@ -73,15 +73,15 @@ public class MongoDBUtils {
         log.info("Creating document(s) [{}] successfully", bsonDocumentList);
     }
 
-    public static void updateDocument(MongoDatabase mongoDatabase, String collectionName, List<? extends Document> documents) {
+    public static void updateDocument(MongoDatabase mongoDatabase, String collectionName, BsonDocument... bsonDocuments) {
 
         ArrayList<WriteModel<Document>> updates = new ArrayList<>();
-        documents.forEach(document -> {
-            Bson foundDocument = Filters.eq(ID, document.get(ID));
-            Document data = new Document("$set", document);
+        for (BsonDocument bsonDocument : bsonDocuments) {
+            Bson foundDocument = Filters.eq(ID, bsonDocument.get(ID));
+            Document data = new Document("$set", bsonDocument);
             UpdateOneModel<Document> updateOneModel = new UpdateOneModel<>(foundDocument, data);
             updates.add(updateOneModel);
-        });
+        }
 
         BulkWriteResult res = mongoDatabase
                 .getCollection(collectionName)

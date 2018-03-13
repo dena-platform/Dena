@@ -81,9 +81,10 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     public List<DenaObject> updateObjects(List<DenaObject> denaObjects, final String appName, final String typeName) {
         List<DenaObject> returnObject = new ArrayList<>();
         MongoDatabase mongoDatabase;
-        List<Document> documentList = new ArrayList<>();
+        List<BsonDocument> bsonDocumentList = new ArrayList<>();
 
         if (CollectionUtils.isEmpty(denaObjects)) {
+            log.debug("Object request list is empty");
             return Collections.emptyList();
         }
 
@@ -102,19 +103,20 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         try {
             denaObjects.forEach(denaObject -> {
                 ObjectId objectId = new ObjectId(denaObject.getObjectId());
-                Document document = new Document();
-                document.put(MongoDBUtils.ID, objectId);
-                document.putAll(denaObject.getOtherFields());
+                BsonDocument bsonDocument = new BsonDocument();
+                bsonDocument.put(MongoDBUtils.ID, new BsonObjectId(objectId));
+                addFieldsToBsonDocument(bsonDocument, denaObject.getOtherFields());
 
                 // update relation
-                if (CollectionUtils.isNotEmpty(denaObject.getDenaRelations())) {
-                    document.putAll(getRelation(denaObject));
-                }
-                documentList.add(document);
+//                if (CollectionUtils.isNotEmpty(denaObject.getDenaRelations())) {
+//                    bsonDocument.putAll(getRelation(denaObject));
+//                }
+
+                bsonDocumentList.add(bsonDocument);
                 ids.add(objectId.toString());
             });
 
-            MongoDBUtils.updateDocument(mongoDatabase, typeName, documentList);
+            MongoDBUtils.updateDocument(mongoDatabase, typeName, bsonDocumentList.toArray(new BsonDocument[bsonDocumentList.size()]));
 
             // todo : performance- use better approach to find object with ids (bulk find)
             ids.forEach(id -> {
