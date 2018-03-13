@@ -284,7 +284,7 @@ if there is a new field or new relation(new type) add to existing fields or rela
 
 If relation with same type exist then replace with new specified relation. 
 
-return updated object(s) with only updated fields and relation.
+Return: updated object(s) with only updated fields and relation.
 
 Method: PUT
 
