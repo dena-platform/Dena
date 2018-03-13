@@ -87,14 +87,14 @@ public class MongoDBUtils {
                 .getCollection(collectionName)
                 .bulkWrite(updates, new BulkWriteOptions().ordered(true));
 
-        log.info("Updates: [{}] document(s) count", res.getModifiedCount());
+        log.info("Updates: [{}] document(s)", res.getModifiedCount());
     }
 
     public static long deleteDocument(MongoDatabase mongoDatabase, String collectionName, List<String> documentIds) {
         List<ObjectId> objectIdList = documentIds.stream().map(ObjectId::new).collect(Collectors.toList());
 
         DeleteResult deleteResult = mongoDatabase.getCollection(collectionName).deleteMany(Filters.in(ID, objectIdList));
-        log.info("Deletes: [{}] document(s) count", deleteResult.getDeletedCount());
+        log.info("Deletes: [{}] document(s)", deleteResult.getDeletedCount());
         return deleteResult.getDeletedCount();
     }
 
@@ -107,7 +107,7 @@ public class MongoDBUtils {
                 .updateOne(searchDocument, new Document("$pull", update));
 
 
-        log.info("Updates: [{}] document(s) count", updateResult.getModifiedCount());
+        log.info("Updates: [{}] document(s)", updateResult.getModifiedCount());
         return updateResult.getModifiedCount();
     }
 
@@ -127,7 +127,7 @@ public class MongoDBUtils {
                 .updateOne(searchDocument, new Document("$unset", update));
 
 
-        log.info("Updates: [{}] document(s) count", deleteCount);
+        log.info("Updates: [{}] document(s)", deleteCount);
         return deleteCount;
     }
 

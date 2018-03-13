@@ -93,10 +93,10 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
         denaObjects.forEach(denaObject -> {
             checkRelationValidity(mongoDatabase, denaObject.getDenaRelations());
-            checkObjectIdExist(mongoDatabase, typeName, denaObject.getObjectId());
+            checkIfObjectIdIsExist(mongoDatabase, typeName, denaObject.getObjectId());
         });
 
-        List<String> ids = new ArrayList<>();
+        List<String> ids = new LinkedList<>();
         try {
             denaObjects.forEach(denaObject -> {
                 ObjectId objectId = new ObjectId(denaObject.getObjectId());
@@ -105,17 +105,16 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 addFieldsToBsonDocument(bsonDocument, denaObject.getOtherFields());
 
                 // update relation
-//                if (CollectionUtils.isNotEmpty(denaObject.getDenaRelations())) {
-//                    bsonDocument.putAll(getRelation(denaObject));
-//                }
+                if (CollectionUtils.isNotEmpty(denaObject.getDenaRelations())) {
+                    bsonDocument.putAll(getRelation(denaObject));
+                }
 
                 bsonDocumentList.add(bsonDocument);
                 ids.add(objectId.toString());
             });
 
-            MongoDBUtils.updateDocument(mongoDatabase, typeName, bsonDocumentList.toArray(new BsonDocument[bsonDocumentList.size()]));
+            MongoDBUtils.updateDocument(mongoDatabase, typeName, bsonDocumentList.toArray(new BsonDocument[0]));
 
-            // todo : performance- use better approach to find object with ids (bulk find)
             return new ArrayList<>(findObject(appName, typeName, ids.toArray(new String[0])));
         } catch (Exception ex) {
             throw new DataStoreException("Error in updating objects", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
@@ -301,12 +300,12 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
     }
 
-    private void checkObjectIdExist(MongoDatabase mongoDatabase, String typeName, String objectId) {
+    private void checkIfObjectIdIsExist(MongoDatabase mongoDatabase, String typeName, String objectId) {
         checkObjectIdValidity(Collections.singletonList(objectId));
 
-        boolean isObjectIdValid = CollectionUtils.isNotEmpty(MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId));
+        boolean isObjectIdExist = CollectionUtils.isNotEmpty(MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId));
 
-        if (!isObjectIdValid) {
+        if (!isObjectIdExist) {
             throw new DataStoreException("ObjectId not found exception", ErrorCode.ObjectId_NOT_FOUND_EXCEPTION);
         }
     }
