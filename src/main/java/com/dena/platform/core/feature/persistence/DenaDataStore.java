@@ -20,7 +20,7 @@ public interface DenaDataStore {
 
     long deleteRelation(String appName, String parentTypeName, String parentObjectId, String childTypeName);
 
-    DenaObject findObject(String appName, String typeName, String objectId);
+    List<DenaObject> findObject(String appName, String typeName, String... objectId);
 
     List<DenaObject> findObjectRelation(String appName, String parentType, String objectId, String targetType, DenaPager denaPager);
 }
