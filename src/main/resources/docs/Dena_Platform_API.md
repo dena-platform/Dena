@@ -218,11 +218,11 @@ Return Value:
 
 If there is a new field or new relation(new type) add to existing fields or relations. if field is exist then update field. 
 
-If relation with same type exist then replace with new specified relation. 
+If relation with same name exist then do nothing. 
 
 If object_id for updating object is not found then return bad request error.
 
-If data in relation is invalid for example object_id not exist or type not found return bad request error.
+If data in relation is invalid for example object id not exist or target type not found then return bad request error.
 
 
 return: 
@@ -237,6 +237,12 @@ URL: /v1/<application-id>/<type-names>
 Headers:
 
 Content-Type:application/json
+
+Body:
+
+{JSON}
+
+***Example:***
 
 Request Body: 
 
