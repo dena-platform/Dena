@@ -67,7 +67,11 @@ public class DenaRequestContext {
     public synchronized String getRequestBody() {
         if (StringUtils.isBlank(requestBody)) {
             try {
-                requestBody = IOUtils.toString(request.getReader());
+                if (request.getContentAsByteArray().length == 0) {
+                    requestBody = IOUtils.toString(request.getReader());
+                } else {
+                    requestBody = new String(request.getContentAsByteArray());
+                }
             } catch (Exception ex) {
                 log.error("Can not read request body", ex);
                 throw new RuntimeException("Can not read request body", ex);
