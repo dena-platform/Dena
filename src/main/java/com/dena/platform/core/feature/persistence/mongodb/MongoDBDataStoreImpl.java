@@ -32,7 +32,6 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     @Override
     public List<DenaObject> storeObjects(final List<DenaObject> denaObjects, final String appName, final String typeName) {
         List<BsonDocument> bsonDocuments = new ArrayList<>();
-        List<DenaObject> returnObject = new ArrayList<>();
         MongoDatabase mongoDatabase;
 
         if (CollectionUtils.isEmpty(denaObjects)) {
@@ -67,9 +66,8 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             MongoDBUtils.createDocuments(mongoDatabase, typeName, bsonDocuments.toArray(new BsonDocument[bsonDocuments.size()]));
 
             // todo : performance - use better approach to find object with ids (bulk find)
-            ids.forEach(id -> returnObject.add(findObject(appName, typeName, id)));
 
-            return returnObject;
+            return new ArrayList<>(findObject(appName, typeName, ids.toArray(new String[0])));
         } catch (DataStoreException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -79,7 +77,6 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
     @Override
     public List<DenaObject> updateObjects(List<DenaObject> denaObjects, final String appName, final String typeName) {
-        List<DenaObject> returnObject = new ArrayList<>();
         MongoDatabase mongoDatabase;
         List<BsonDocument> bsonDocumentList = new ArrayList<>();
 
@@ -119,10 +116,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             MongoDBUtils.updateDocument(mongoDatabase, typeName, bsonDocumentList.toArray(new BsonDocument[bsonDocumentList.size()]));
 
             // todo : performance- use better approach to find object with ids (bulk find)
-            ids.forEach(id -> {
-                returnObject.add(findObject(appName, typeName, id));
-            });
-            return returnObject;
+            return new ArrayList<>(findObject(appName, typeName, ids.toArray(new String[0])));
         } catch (Exception ex) {
             throw new DataStoreException("Error in updating objects", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
@@ -165,60 +159,66 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public DenaObject findObject(String appName, String typeName, String objectId) {
+    public List<DenaObject> findObject(String appName, String typeName, String... objectId) {
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
-            DenaObject denaObject = new DenaObject();
+            List<DenaObject> foundDenaObjects = new ArrayList<>();
+
 
             List<BsonDocument> bsonDocuments = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId);
             if (CollectionUtils.isEmpty(bsonDocuments)) {
-                return null;
+                return Collections.emptyList();
             }
 
-            for (Map.Entry<String, BsonValue> entry : bsonDocuments.get(0).entrySet()) {
-                String fieldName = entry.getKey();
-                BsonValue fieldValue = entry.getValue();
+            for (BsonDocument bsonDocument : bsonDocuments) {
+                DenaObject denaObject = new DenaObject();
+                for (Map.Entry<String, BsonValue> entry : bsonDocument.entrySet()) {
+                    String fieldName = entry.getKey();
+                    BsonValue fieldValue = entry.getValue();
 
-                if (fieldValue.isDocument() && fieldValue.asDocument().containsKey(MongoDBUtils.RELATION_TYPE)) {
-                    // this field is relation
-                    BsonDocument relatedDocument = fieldValue.asDocument();
+                    if (fieldValue.isDocument() && fieldValue.asDocument().containsKey(MongoDBUtils.RELATION_TYPE)) {
+                        // this field is relation
+                        BsonDocument relatedDocument = fieldValue.asDocument();
 
-                    BsonArray idArray = relatedDocument.getArray(MongoDBUtils.RELATION_IDS);
-                    List<String> idStringArray = BSONTypeMapper.convertBSONArrayToJavaArray(idArray)
-                            .stream()
-                            .map(Object::toString)
-                            .collect(Collectors.toList());
+                        BsonArray idArray = relatedDocument.getArray(MongoDBUtils.RELATION_IDS);
+                        List<String> idStringArray = BSONTypeMapper.convertBSONArrayToJavaArray(idArray)
+                                .stream()
+                                .map(Object::toString)
+                                .collect(Collectors.toList());
 
-                    String relationTargetName = relatedDocument.getString(MongoDBUtils.RELATION_TARGET_NAME).getValue();
-                    String relationTypeName = relatedDocument.getString(MongoDBUtils.RELATION_TYPE).getValue();
+                        String relationTargetName = relatedDocument.getString(MongoDBUtils.RELATION_TARGET_NAME).getValue();
+                        String relationTypeName = relatedDocument.getString(MongoDBUtils.RELATION_TYPE).getValue();
 
 
-                    DenaRelation denaRelation = new DenaRelation();
-                    denaRelation.setIds(idStringArray);
-                    denaRelation.setType(relationTypeName);
-                    denaRelation.setTargetName(relationTargetName);
+                        DenaRelation denaRelation = new DenaRelation();
+                        denaRelation.setIds(idStringArray);
+                        denaRelation.setType(relationTypeName);
+                        denaRelation.setTargetName(relationTargetName);
 
-                    denaObject.addRelatedObjects(denaRelation);
+                        denaObject.addRelatedObjects(denaRelation);
 
-                } else if (fieldValue.isArray()) {
-                    BsonArray values = fieldValue.asArray();
-                    // this field is normal array
-                    ArrayList<Object> listOfObject = BSONTypeMapper.convertBSONArrayToJavaArray(values);
-                    denaObject.addProperty(fieldName, listOfObject);
-                } else if (fieldName.equals(MongoDBUtils.ID)) {  // type is id field
-                    denaObject.setObjectId(fieldValue.asObjectId().getValue().toString());
-                } else if (fieldName.equals(MongoDBUtils.UPDATE_TIME_FIELD)) {  // type is update_time field
-                    denaObject.setUpdateTime(fieldValue.isNull() ? null : fieldValue.asDateTime().getValue());
-                } else if (fieldName.equals(MongoDBUtils.CREATE_TIME_FIELD)) {  // type is create_time field
-                    denaObject.setCreateTime(fieldValue.isNull() ? null : fieldValue.asDateTime().getValue());
-                } else if (fieldName.equals(MongoDBUtils.OBJECT_URI_FIELD)) {  // type is uri field
-                    denaObject.setObjectURI(fieldValue.asString().getValue());
-                } else { // normal key -> value
-                    denaObject.addProperty(fieldName, BSONTypeMapper.convertBSONToJava(fieldValue));
+                    } else if (fieldValue.isArray()) {
+                        BsonArray values = fieldValue.asArray();
+                        // this field is normal array
+                        ArrayList<Object> listOfObject = BSONTypeMapper.convertBSONArrayToJavaArray(values);
+                        denaObject.addProperty(fieldName, listOfObject);
+                    } else if (fieldName.equals(MongoDBUtils.ID)) {  // type is id field
+                        denaObject.setObjectId(fieldValue.asObjectId().getValue().toString());
+                    } else if (fieldName.equals(MongoDBUtils.UPDATE_TIME_FIELD)) {  // type is update_time field
+                        denaObject.setUpdateTime(fieldValue.isNull() ? null : fieldValue.asDateTime().getValue());
+                    } else if (fieldName.equals(MongoDBUtils.CREATE_TIME_FIELD)) {  // type is create_time field
+                        denaObject.setCreateTime(fieldValue.isNull() ? null : fieldValue.asDateTime().getValue());
+                    } else if (fieldName.equals(MongoDBUtils.OBJECT_URI_FIELD)) {  // type is uri field
+                        denaObject.setObjectURI(fieldValue.asString().getValue());
+                    } else { // normal key -> value
+                        denaObject.addProperty(fieldName, BSONTypeMapper.convertBSONToJava(fieldValue));
+                    }
                 }
+
+                foundDenaObjects.add(denaObject);
             }
 
-            return denaObject;
+            return foundDenaObjects;
         } catch (Exception ex) {
             throw new DataStoreException("Error in finding object", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }

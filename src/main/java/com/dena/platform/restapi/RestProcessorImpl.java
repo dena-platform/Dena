@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -165,17 +164,16 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String appId = denaRequestContext.getPathVariable(APP_ID);
         String objectId = denaRequestContext.getPathVariable(OBJECT_ID);
         String targetType = denaRequestContext.getPathVariable("target-type");
-        List<DenaObject> resultObject;
+        List<DenaObject> foundDenaObject;
         DenaResponse denaResponse;
 
         try {
             // find single object by id
             if (StringUtils.isBlank(targetType)) {
-                DenaObject denaObject = denaDataStore.findObject(appId, typeName, objectId);
+                foundDenaObject = denaDataStore.findObject(appId, typeName, objectId);
 
-                if (denaObject != null) {
-                    resultObject = Collections.singletonList(denaObject);
-                    denaResponse = makeDenaResponse(1L, createObjectResponse(resultObject));
+                if (CollectionUtils.isNotEmpty(foundDenaObject)) {
+                    denaResponse = makeDenaResponse(1L, createObjectResponse(foundDenaObject));
                 } else {
                     denaResponse = makeDenaResponse(0L, null);
                 }
@@ -183,11 +181,11 @@ public class RestProcessorImpl implements DenaRestProcessor {
             // find relation objects
             else {
                 DenaPager denaPager = constructPager(denaRequestContext);
-                resultObject = denaDataStore.findObjectRelation(appId, typeName, objectId, targetType, denaPager);
+                foundDenaObject = denaDataStore.findObjectRelation(appId, typeName, objectId, targetType, denaPager);
 
                 denaResponse = DenaResponseBuilder.aDenaResponse()
-                        .withCreateObjectCount(resultObject.size())
-                        .withObjectResponseList(createObjectResponse(resultObject))
+                        .withCreateObjectCount(foundDenaObject.size())
+                        .withObjectResponseList(createObjectResponse(foundDenaObject))
                         .withCreateObjectCount(denaPager.getCount())
                         .withPage(denaPager.getPage())
                         .withTimestamp(DenaObjectUtils.timeStamp())
