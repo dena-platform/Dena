@@ -148,7 +148,7 @@ public class MongoDBUtils {
     }
 
     public static List<Document> findRelatedDocument(MongoDatabase mongoDatabase, BsonDocument parentDocument, String targetType, DenaPager pager) {
-        List<Object> otherObjectIds = BsonTypeMapper.convertBSONArrayToJavaArray(parentDocument.get(targetType).asArray());
+        List<Object> otherObjectIds = BSONTypeMapper.convertBSONArrayToJavaArray(parentDocument.get(targetType).asArray());
         Bson searchDocument = Filters.in(ID, otherObjectIds);
 
         int startIndex = (int) pager.getCount() * pager.getLimit();

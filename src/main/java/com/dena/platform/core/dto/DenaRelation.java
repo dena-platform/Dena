@@ -9,11 +9,12 @@ import java.util.List;
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 public class DenaRelation {
-    @JsonProperty(value = "type", required = true)
-    private String type;
 
     @JsonProperty(value = "relation_name", required = true)
     private String relationName;
+
+    @JsonProperty(value = "type", required = true)
+    private String type;
 
     @JsonProperty(value = "target_name", required = true)
     private String targetName;

@@ -17,8 +17,8 @@ import java.util.Objects;
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 
-public class BsonTypeMapper {
-    private final static Logger log = LoggerFactory.getLogger(BsonTypeMapper.class);
+public class BSONTypeMapper {
+    private final static Logger log = LoggerFactory.getLogger(BSONTypeMapper.class);
 
     @SuppressWarnings("unchecked")
     public static BsonValue convertObjectToBSONValue(Object fieldValue) {
