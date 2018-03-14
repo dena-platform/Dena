@@ -131,9 +131,10 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                             resultRelation.add(requestRelation);
                         }
                     }
-
-                    denaObject.setDenaRelations(resultRelation);
-                    bsonDocument.putAll(getRelation(denaObject));
+                    if (CollectionUtils.isNotEmpty(resultRelation)) {
+                        denaObject.setDenaRelations(resultRelation);
+                        bsonDocument.putAll(getRelation(denaObject));
+                    }
                 }
 
                 bsonDocumentList.add(bsonDocument);
