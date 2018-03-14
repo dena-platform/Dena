@@ -65,8 +65,6 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
             MongoDBUtils.createDocuments(mongoDatabase, typeName, bsonDocuments.toArray(new BsonDocument[bsonDocuments.size()]));
 
-            // todo : performance - use better approach to find object with ids (bulk find)
-
             return new ArrayList<>(findObject(appName, typeName, ids.toArray(new String[0])));
         } catch (DataStoreException ex) {
             throw ex;
