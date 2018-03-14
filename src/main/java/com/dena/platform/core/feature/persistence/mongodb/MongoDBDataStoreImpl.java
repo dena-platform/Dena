@@ -115,7 +115,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
             return new ArrayList<>(findObject(appName, typeName, ids.toArray(new String[0])));
         } catch (Exception ex) {
-            throw new DataStoreException("Error in updating objects", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
+            throw new DataStoreException("Error in updating objects.", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
 
     }
