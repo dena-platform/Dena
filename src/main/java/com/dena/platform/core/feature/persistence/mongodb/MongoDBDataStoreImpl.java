@@ -100,6 +100,9 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 ObjectId objectId = new ObjectId(denaObject.getObjectId());
                 BsonDocument bsonDocument = new BsonDocument();
                 bsonDocument.put(MongoDBUtils.ID, new BsonObjectId(objectId));
+                bsonDocument.put(MongoDBUtils.UPDATE_TIME_FIELD, new BsonDateTime(DenaObjectUtils.timeStamp()));
+
+
                 addFieldsToBsonDocument(bsonDocument, denaObject.getOtherFields());
 
                 // update relation
