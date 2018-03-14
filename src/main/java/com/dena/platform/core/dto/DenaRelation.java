@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
@@ -56,4 +57,18 @@ public class DenaRelation {
         this.ids = ids;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DenaRelation that = (DenaRelation) o;
+        return Objects.equals(relationName, that.relationName);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(relationName);
+    }
 }

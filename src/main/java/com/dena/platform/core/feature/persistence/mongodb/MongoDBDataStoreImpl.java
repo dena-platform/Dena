@@ -104,6 +104,29 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
                 // update relation
                 if (CollectionUtils.isNotEmpty(denaObject.getDenaRelations())) {
+                    DenaObject existingDenaObject = findObject(appName, typeName, objectId.toString()).get(0);
+                    List<DenaRelation> existingDenaRelations = existingDenaObject.getDenaRelations();
+                    List<DenaRelation> requestRelations = denaObject.getDenaRelations();
+                    List<DenaRelation> resultRelation = new LinkedList<>();
+
+                    for (DenaRelation requestRelation : requestRelations) {
+                        int foundIndex = existingDenaRelations.indexOf(requestRelation);
+                        if (foundIndex > -1) {
+                            // relation exist in data store, check if id exist
+                            List<String> existingIdForRelation = existingDenaRelations.get(foundIndex).getIds();
+                            List<String> requestingIdForRelation = requestRelation.getIds();
+
+                            requestingIdForRelation.removeAll(existingIdForRelation);
+                            if (requestingIdForRelation.size() > 0) {
+                                // there is new object id in relation
+                                
+                            }
+                        } else {
+                            // this is new relation add it to result
+                            resultRelation.add(requestRelation);
+                        }
+                    }
+
                     bsonDocument.putAll(getRelation(denaObject));
                 }
 
@@ -280,7 +303,8 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                             boolean isCollectionExist = MongoDBUtils.isCollectionExist(mongoDatabase, denaRelation.getTargetName());
                             String[] ids = denaRelation.getIds().toArray(new String[denaRelation.getIds().size()]);
                             boolean isDocumentsExist = MongoDBUtils
-                                    .findDocumentById(mongoDatabase, denaRelation.getTargetName(), ids).size() == denaRelation.getIds().size();
+                                    .findDocumentById(mongoDatabase, denaRelation.getTargetName(), ids)
+                                    .size() == denaRelation.getIds().size();
 
                             return isCollectionExist && isDocumentsExist;
                         });
