@@ -14,7 +14,7 @@ public class DenaRelation {
     @JsonProperty(value = "relation_name", required = true)
     private String relationName;
 
-    @JsonProperty(value = "type", required = true)
+    @JsonProperty(value = "relation_type", required = true)
     private String type;
 
     @JsonProperty(value = "target_name", required = true)
@@ -70,5 +70,15 @@ public class DenaRelation {
     public int hashCode() {
 
         return Objects.hash(relationName);
+    }
+
+    @Override
+    public String toString() {
+        return "DenaRelation{" +
+                "relationName='" + relationName + '\'' +
+                ", type='" + type + '\'' +
+                ", targetName='" + targetName + '\'' +
+                ", ids=" + ids +
+                '}';
     }
 }

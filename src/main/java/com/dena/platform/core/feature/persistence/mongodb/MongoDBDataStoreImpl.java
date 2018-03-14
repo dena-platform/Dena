@@ -10,6 +10,7 @@ import com.dena.platform.core.feature.persistence.RelationType;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.mongodb.client.MongoDatabase;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.bson.*;
 import org.bson.types.ObjectId;
@@ -116,17 +117,22 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                             List<String> existingIdForRelation = existingDenaRelations.get(foundIndex).getIds();
                             List<String> requestingIdForRelation = requestRelation.getIds();
 
-                            requestingIdForRelation.removeAll(existingIdForRelation);
-                            if (requestingIdForRelation.size() > 0) {
-                                // there is new object id in relation
-                                
+
+                            if (!existingIdForRelation.containsAll(requestingIdForRelation)) {
+                                log.debug("Adding new relation ids {}", requestingIdForRelation);
+                                // there is new object id in relation, so add it.
+
+                                requestingIdForRelation.addAll(ListUtils.sum(existingIdForRelation, requestingIdForRelation));
+                                resultRelation.add(requestRelation);
                             }
                         } else {
                             // this is new relation add it to result
+                            log.debug("Adding new relation {}", requestRelation);
                             resultRelation.add(requestRelation);
                         }
                     }
 
+                    denaObject.setDenaRelations(resultRelation);
                     bsonDocument.putAll(getRelation(denaObject));
                 }
 
@@ -214,7 +220,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                         denaRelation.setIds(idStringArray);
                         denaRelation.setType(relationTypeName);
                         denaRelation.setTargetName(relationTargetName);
-
+                        denaRelation.setRelationName(fieldName);
                         denaObject.addRelatedObjects(denaRelation);
 
                     } else if (fieldValue.isArray()) {
