@@ -10,7 +10,6 @@ import com.dena.platform.core.feature.persistence.RelationType;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.mongodb.client.MongoDatabase;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.bson.*;
 import org.bson.types.ObjectId;
@@ -122,7 +121,8 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                                 log.debug("Adding new relation ids {}", requestingIdForRelation);
                                 // there is new object id in relation, so add it.
 
-                                requestingIdForRelation.addAll(ListUtils.sum(existingIdForRelation, requestingIdForRelation));
+                                List<String> resultIds = new ArrayList<>(CollectionUtils.union(existingIdForRelation, requestingIdForRelation));
+                                requestRelation.setIds(resultIds);
                                 resultRelation.add(requestRelation);
                             }
                         } else {
