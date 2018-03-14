@@ -127,7 +127,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
             return MongoDBUtils.deleteDocument(mongoDatabase, typeName, objectIds);
         } catch (Exception ex) {
-            throw new DataStoreException("Error in deleting object", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
+            throw new DataStoreException("Error in deleting object.", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
 
     }
@@ -272,7 +272,6 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         if (CollectionUtils.isNotEmpty(denaRelationList)) {
             log.debug("Check validity for relation [{}]", denaRelationList);
             boolean isObjectIdValid;
-            // todo: use count to check relation validity for performance reason
             try {
                 isObjectIdValid = denaRelationList
                         .stream()
