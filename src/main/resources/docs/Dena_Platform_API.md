@@ -218,7 +218,7 @@ Return Value:
 
 - If there is a new field or relation then create it. 
 - if field is exist then update it. 
-- If relation with same name exist in data store and related object not stored before then add otherwise ignore it. 
+- If relation with same name exist in data store and related object not stored before then add, otherwise ignore it. 
 - If object id is not found then return bad request error.
 - If data in relation is invalid for example object id not exist or target type not found then return bad request error.
  
@@ -242,18 +242,21 @@ Body:
 
 Request Body: 
 
-    {
-      "object_id":"5a316b1b4e5f450104c31909",
-      "field3": "javad",
-      "field4": "developer",
-      "new_field":"field",
-      "related_objects": [
-    	 {
-      	  "id": "5a5896bbe61445229c7c62f9",
-      	  "type": "Post"
-    	 }
-      ]
-    }
+	{
+  		"object_id": "5aa69e99d41a3b2480ec35b0",
+  		"field3": "javad",
+  		"new_field": "new_field_v1",
+  		"related_objects": [
+   	 		{
+   	   		  "relation_name": "comments_rel",
+   	   		  "target_name": "comments",
+   	   		  "ids": [
+   	     	     "5aa9348ed41a3b25b8b49b79"
+   	          ]
+   	 	    }
+  		]
+	}
+
 
 Return Value:
 
