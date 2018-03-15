@@ -61,6 +61,8 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
     }
 
+    //todo: add bulk update test
+
     @Test
     public void test_UpdateObject_When_Object_Id_Invalid() throws Exception {
         //////////////////////////////////////////////////////////////////////

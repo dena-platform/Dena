@@ -150,26 +150,30 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         } catch (DataStoreException ex) {
             throw ex;
         } catch (Exception ex) {
-            throw new DataStoreException("Error in updating objects.", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
+            throw new DataStoreException("Error in updating object(s)", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
 
     }
 
     @Override
-    public long deleteObjects(String appName, String typeName, List<String> objectIds) {
+    public long deleteObjects(String appName, String typeName, String... objectIds) {
+        if (ArrayUtils.isEmpty(objectIds)) {
+            return 0;
+        }
+
         checkObjectIdValidity(objectIds);
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
             return MongoDBUtils.deleteDocument(mongoDatabase, typeName, objectIds);
         } catch (Exception ex) {
-            throw new DataStoreException("Error in deleting object.", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
+            throw new DataStoreException("Error in deleting object(s)", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
 
     }
 
     @Override
     public long deleteRelation(String appName, String parentTypeName, String parentObjectId, String childTypeName, String childObjectId) {
-        checkObjectIdValidity(Arrays.asList(parentObjectId, childObjectId));
+        checkObjectIdValidity(parentObjectId, childObjectId);
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
             return MongoDBUtils.deleteRelationWithObjectId(mongoDatabase, parentTypeName, parentObjectId, childTypeName, childObjectId);
@@ -180,7 +184,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
     @Override
     public long deleteRelation(String appName, String parentTypeName, String parentObjectId, String childTypeName) {
-        checkObjectIdValidity(Collections.singletonList(parentObjectId));
+        checkObjectIdValidity(parentObjectId);
 
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
@@ -357,7 +361,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     private void checkIfObjectIdIsExist(MongoDatabase mongoDatabase, String typeName, String objectId) {
-        checkObjectIdValidity(Collections.singletonList(objectId));
+        checkObjectIdValidity(objectId);
 
         boolean isObjectIdExist = CollectionUtils.isNotEmpty(MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId));
 
@@ -366,17 +370,26 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         }
     }
 
-    private void checkObjectIdValidity(List<String> objectId) {
-        boolean isParameterValid;
+    private void checkObjectIdValidity(String... objectIds) {
+        if (ArrayUtils.isNotEmpty(objectIds)) {
+            boolean isParameterValid = true;
 
-        try {
-            isParameterValid = objectId.stream().allMatch(ObjectId::isValid);
-        } catch (IllegalArgumentException ex) {
-            isParameterValid = false;
-        }
 
-        if (!isParameterValid) {
-            throw new DataStoreException(String.format("ObjectId [%s] invalid exception", objectId), ErrorCode.ObjectId_INVALID_EXCEPTION);
+            for (String objectId : objectIds) {
+                try {
+                    if (!ObjectId.isValid(objectId)) {
+                        isParameterValid = false;
+                        break;
+                    }
+                } catch (IllegalArgumentException ex) {
+                    isParameterValid = false;
+                }
+            }
+
+            if (!isParameterValid) {
+                throw new DataStoreException(String.format("ObjectId [%s] invalid exception", objectIds), ErrorCode.ObjectId_INVALID_EXCEPTION);
+            }
+
         }
     }
 

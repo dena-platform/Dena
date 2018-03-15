@@ -15,6 +15,7 @@ import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse.DenaResponseBuilder;
 import com.dena.platform.restapi.exception.DenaRestException;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -127,11 +127,11 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
         String appId = denaRequestContext.getPathVariable(APP_ID);
         String typeName = denaRequestContext.getPathVariable(TYPE_NAME);
-        List<String> objectIds = Arrays.asList(denaRequestContext.getPathVariable(OBJECT_ID).split(","));
+        String[] objectIds = denaRequestContext.getPathVariable(OBJECT_ID).split(",");
 
 
         try {
-            if (CollectionUtils.isEmpty(objectIds)) {
+            if (ArrayUtils.isEmpty(objectIds)) {
                 log.warn("object id is empty");
                 throw new ParameterInvalidException("object id is empty", ErrorCode.INVALID_REQUEST);
             }

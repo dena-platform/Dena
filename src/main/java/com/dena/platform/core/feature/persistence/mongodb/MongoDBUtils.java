@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
@@ -90,8 +89,12 @@ public class MongoDBUtils {
         log.info("Updates: [{}] document(s)", res.getModifiedCount());
     }
 
-    public static long deleteDocument(MongoDatabase mongoDatabase, String collectionName, List<String> documentIds) {
-        List<ObjectId> objectIdList = documentIds.stream().map(ObjectId::new).collect(Collectors.toList());
+    public static long deleteDocument(MongoDatabase mongoDatabase, String collectionName, String... documentIds) {
+        List<ObjectId> objectIdList = new LinkedList<>();
+
+        for (String documentId : documentIds) {
+            objectIdList.add(new ObjectId(documentId));
+        }
 
         DeleteResult deleteResult = mongoDatabase.getCollection(collectionName).deleteMany(Filters.in(ID, objectIdList));
         log.info("Deletes: [{}] document(s)", deleteResult.getDeletedCount());
@@ -131,11 +134,11 @@ public class MongoDBUtils {
         return deleteCount;
     }
 
-    public static List<BsonDocument> findDocumentById(MongoDatabase mongoDatabase, String collectionName, String... idList) {
+    public static List<BsonDocument> findDocumentById(MongoDatabase mongoDatabase, String collectionName, String... documentIds) {
         List<ObjectId> objectIds = new ArrayList<>();
         List<BsonDocument> returnList = new LinkedList<>();
 
-        for (String id : idList) {
+        for (String id : documentIds) {
             objectIds.add(new ObjectId(id));
         }
 
