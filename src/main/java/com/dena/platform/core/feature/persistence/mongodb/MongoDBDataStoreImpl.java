@@ -307,7 +307,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     private void checkRelationValidity(MongoDatabase mongoDatabase, List<DenaRelation> denaRelationList) {
 
         if (CollectionUtils.isNotEmpty(denaRelationList)) {
-            log.debug("Check validity for relation [{}]", denaRelationList);
+            log.debug("Check validity for relation(s) [{}]", denaRelationList);
             boolean isObjectIdValid;
             try {
                 isObjectIdValid = denaRelationList
@@ -316,11 +316,18 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                             // check if target type is exist
                             boolean isCollectionExist = MongoDBUtils.isCollectionExist(mongoDatabase, denaRelation.getTargetName());
                             String[] ids = denaRelation.getIds().toArray(new String[denaRelation.getIds().size()]);
-                            boolean isDocumentsExist = MongoDBUtils
+                            boolean isIdsExist = MongoDBUtils
                                     .findDocumentById(mongoDatabase, denaRelation.getTargetName(), ids)
                                     .size() == denaRelation.getIds().size();
 
-                            return isCollectionExist && isDocumentsExist;
+                            if (!isCollectionExist) {
+                                log.debug("Type [{}] dose not exist", denaRelation.getTargetName());
+                            }
+
+                            if (!isIdsExist) {
+                                log.debug("Request ids [{}] dose not exist", (Object[]) ids);
+                            }
+                            return isCollectionExist && isIdsExist;
                         });
 
             } catch (IllegalArgumentException ex) {
