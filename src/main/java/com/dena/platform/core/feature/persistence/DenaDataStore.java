@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface DenaDataStore {
 
-    List<DenaObject> storeObjects(List<DenaObject> denaObject, String appName, String typeName);
+    List<DenaObject> storeObjects(String appName, String typeName, DenaObject... denaObjects);
 
     List<DenaObject> updateObjects(String appName, String typeName, DenaObject... denaObjects);
 

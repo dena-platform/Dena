@@ -32,11 +32,11 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
 
     @Override
-    public List<DenaObject> storeObjects(final List<DenaObject> denaObjects, final String appName, final String typeName) {
+    public List<DenaObject> storeObjects(String appName, String typeName, DenaObject... denaObjects) {
         List<BsonDocument> bsonDocuments = new ArrayList<>();
         MongoDatabase mongoDatabase;
 
-        if (CollectionUtils.isEmpty(denaObjects)) {
+        if (ArrayUtils.isEmpty(denaObjects)) {
             return Collections.emptyList();
         }
 
@@ -44,7 +44,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         List<String> ids = new ArrayList<>();
         try {
             mongoDatabase = MongoDBUtils.getDataBase(appName);
-            denaObjects.forEach(denaObject -> {
+            for (DenaObject denaObject : denaObjects) {
 
                 ObjectId objectId = ObjectId.get();
 
@@ -63,7 +63,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
                 bsonDocuments.add(bsonDocument);
                 ids.add(objectId.toString());
-            });
+            }
 
             MongoDBUtils.createDocuments(mongoDatabase, typeName, bsonDocuments.toArray(new BsonDocument[bsonDocuments.size()]));
 
