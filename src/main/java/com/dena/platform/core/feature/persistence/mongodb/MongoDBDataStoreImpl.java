@@ -91,7 +91,6 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             for (DenaObject denaObject : denaObjects) {
                 checkIfObjectIdIsExist(mongoDatabase, typeName, denaObject.getObjectId());
                 checkRelationValidity(mongoDatabase, denaObject, denaObject.getDenaRelations());
-
             }
 
             List<String> ids = new LinkedList<>();
@@ -225,7 +224,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
                         DenaRelation denaRelation = new DenaRelation();
                         denaRelation.setIds(idStringArray);
-                        denaRelation.setType(relationTypeName);
+                        denaRelation.setRelationType(relationTypeName);
                         denaRelation.setTargetName(relationTargetName);
                         denaRelation.setRelationName(fieldName);
                         denaObject.addRelatedObjects(denaRelation);
@@ -303,16 +302,16 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
 
-    private void checkRelationValidity(MongoDatabase mongoDatabase, DenaObject parentObject, List<DenaRelation> childObject) {
+    private void checkRelationValidity(MongoDatabase mongoDatabase, DenaObject parentObject, List<DenaRelation> relationList) {
 
-        if (CollectionUtils.isNotEmpty(childObject)) {
-            log.debug("Check validity for relation(s) [{}]", childObject);
+        if (CollectionUtils.isNotEmpty(relationList)) {
+            log.debug("Check validity for relation(s) [{}]", relationList);
 
 
             if (StringUtils.isNotEmpty(parentObject.getObjectId())) {
                 // This is an update operation
                 // Check if target for relation name matching existing relation name
-                childObject.forEach(denaRelation -> {
+                relationList.forEach(denaRelation -> {
                     int indexOfRelation = parentObject.getDenaRelations().indexOf(denaRelation);
                     if (indexOfRelation > -1) {
                         if (!parentObject.getDenaRelations().get(indexOfRelation).getTargetName().equals(denaRelation.getTargetName())) {
@@ -325,7 +324,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
             boolean isObjectIdValid;
             try {
-                isObjectIdValid = childObject
+                isObjectIdValid = relationList
                         .stream()
                         .allMatch(denaRelation -> {
                             // check if target type is exist

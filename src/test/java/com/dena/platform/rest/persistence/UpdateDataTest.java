@@ -25,9 +25,17 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
         requestObject.setObjectId(objectId1);
-        requestObject.addProperty("job", "new developer value");
+        requestObject.addProperty("job", "new job");
         requestObject.addProperty("new field", "new value");
-//        requestObject.getRelatedObjects().add(new TestDenaRelationDTO(objectId2, CommonConfig.COLLECTION_NAME));
+
+        TestDenaRelationDTO testDenaRelationDTO = TestDenaRelationDTO.TestDenaRelationDTOBuilder.aTestDenaRelationDTO()
+                .withRelationName("test_relation")
+                .withRelationType("ONE-TO-ONE")
+                .withTargetName(CommonConfig.COLLECTION_NAME)
+                .withIds(objectId2)
+                .build();
+
+        requestObject.getRelatedObjects().add(testDenaRelationDTO);
 
         TestDenaResponseDTO actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), TestDenaResponseDTO.class);
 
@@ -36,16 +44,15 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         TestObjectResponseDTO testObjectResponseDTO = new TestObjectResponseDTO();
         testObjectResponseDTO.objectId = objectId1;
-        testObjectResponseDTO.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId1;
-        testObjectResponseDTO.addProperty("job", "new developer value");
+        testObjectResponseDTO.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + testObjectResponseDTO.objectId;
+        testObjectResponseDTO.addProperty("job", "new job");
         testObjectResponseDTO.addProperty("new field", "new value");
         testObjectResponseDTO.addProperty("name", "javad");
-//        testObjectResponseDTO.testDenaRelationDTOS = Collections.singletonList(new TestDenaRelationDTO(objectId2, CommonConfig.COLLECTION_NAME));
 
 
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.timestamp = actualReturnObject.timestamp;
-        expectedReturnObject.totalCount = (1L);
+        expectedReturnObject.updateObjectCount = (1L);
         expectedReturnObject.setTestObjectResponseDTOList(Collections.singletonList(testObjectResponseDTO));
 
         assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.timestamp, Instant.now().toEpochMilli()));

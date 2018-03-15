@@ -3,55 +3,75 @@ package com.dena.platform.rest.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 public class TestDenaRelationDTO {
-    @JsonProperty(value = "type", required = true)
-    private String type;
-
     @JsonProperty(value = "relation_name", required = true)
-    private String relationName;
+    public String relationName;
+
+    @JsonProperty(value = "relation_type", required = true)
+    public String relationType;
 
     @JsonProperty(value = "target_name", required = true)
-    private String targetName;
+    public String targetName;
 
     @JsonProperty(value = "ids", required = true)
-    private List<String> ids = new ArrayList<>();
+    public List<String> ids = new ArrayList<>();
 
-
-    public String getType() {
-        return type;
+    public void setRelationName(String relationName) {
+        this.relationName = relationName;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-
-    public String getTargetName() {
-        return targetName;
+    public void setRelationType(String relationType) {
+        this.relationType = relationType;
     }
 
     public void setTargetName(String targetName) {
         this.targetName = targetName;
     }
 
-    public String getRelationName() {
-        return relationName;
-    }
-
-    public void setRelationName(String relationName) {
-        this.relationName = relationName;
-    }
-
-    public List<String> getIds() {
-        return ids;
-    }
-
     public void setIds(List<String> ids) {
         this.ids = ids;
+    }
+
+
+    public static final class TestDenaRelationDTOBuilder {
+        private TestDenaRelationDTO testDenaRelationDTO;
+
+        private TestDenaRelationDTOBuilder() {
+            testDenaRelationDTO = new TestDenaRelationDTO();
+        }
+
+        public static TestDenaRelationDTOBuilder aTestDenaRelationDTO() {
+            return new TestDenaRelationDTOBuilder();
+        }
+
+        public TestDenaRelationDTOBuilder withRelationName(String relationName) {
+            testDenaRelationDTO.setRelationName(relationName);
+            return this;
+        }
+
+        public TestDenaRelationDTOBuilder withRelationType(String relationType) {
+            testDenaRelationDTO.setRelationType(relationType);
+            return this;
+        }
+
+        public TestDenaRelationDTOBuilder withTargetName(String targetName) {
+            testDenaRelationDTO.setTargetName(targetName);
+            return this;
+        }
+
+        public TestDenaRelationDTOBuilder withIds(String... ids) {
+            testDenaRelationDTO.setIds(Arrays.asList(ids));
+            return this;
+        }
+
+        public TestDenaRelationDTO build() {
+            return testDenaRelationDTO;
+        }
     }
 }
