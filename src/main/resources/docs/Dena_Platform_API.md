@@ -377,14 +377,16 @@ Method: DELETE
 
 URL: /v1/<application-id>/<type-names>/<object-id>
 
-Request Body: None
+Body: None
 
-Return Value:
+***Example:***
 
-      {
-       "timestamp" : timestamp in milliseconds,
-       "count" : number of deleted object(s)
-      }
+Response Body:
+
+    {
+        "timestamp": 1521104923089,
+        "delete_object_count(s)": 1
+    }
 
 ----------
 **Delete Bulk Objects**
@@ -395,11 +397,11 @@ URL: /v1/<application-id>/<type-names>/<object-id-1,object-id-2>
 
 Request Body: None
 
-Return Value:
+Response Body:
 
       {
-       "timestamp" : timestamp in milliseconds,
-       "count" : number of deleted object(s)
+       "timestamp" : 1521104923089,
+       "delete_object_count(s)": 4
       }
 
 ----------
