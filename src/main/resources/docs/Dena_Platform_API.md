@@ -30,7 +30,7 @@ Request Body:
     }
 
 
-Return Value:
+Response Body:
 
       {
         "timestamp": 1520504910721,
@@ -96,7 +96,7 @@ Request Body:
 
 
 
-Return Value:
+Response Body:
 
       {
        "timestamp" : timestamp in milliseconds,
@@ -189,7 +189,7 @@ Request Body:
     }
 
 
-Return Value:
+Response Body:
 
       {
        "timestamp" : timestamp in milliseconds,
@@ -258,7 +258,7 @@ Request Body:
 	}
 
 
-Return Value:
+Response Body:
 
       {
        "timestamp" : timestamp in milliseconds,
@@ -297,54 +297,72 @@ Headers:
 
 Content-Type:application/json
 
+Body:
+
+{JSON}
+
+
+***Example:***
 
 Request Body: 
 
     [
       {
-        "object_id":"2323424242001",
-        "field3": "javad",
-        "field4": "developer",
+        "field1": "javad",
+        "field2": "developer",
         "related_objects": [
-    	   {
-      	    "id": "123123",
-      	    "type": "para"
-    	   }
+          {
+            "relation_name": "comment_relation",
+            "relation_type": "ONE-TO-ONE",
+            "target_name": "comment",
+            "ids": [
+              "5aaa095eecb1ef188094eece"
+            ]
+          }
         ]
       },
       {
-        "object_id":"2323424242002",
-        "field5": "javad1",
-        "field6": "developer2",
+        "field3": "javad",
+        "field4": "developer",
         "related_objects": [
-      	 {
-        	  "id": "123123",
-        	  "type": "para"
-      	 }
+          {
+            "relation_name": "comment_relation",
+            "relation_type": "ONE-TO-ONE",
+            "target_name": "comment",
+            "ids": [
+              "5aaa0982ecb1ef188094eecf"
+            ]
+          }
         ]
-     }
-
+      }
     ]
+
 
 Return Value:
 
     {
-      "timestamp": timestamp in milliseconds,
-      "count":number of updated object(s),
-      "objects": [
-         {
-           "object_id": "2323424242001",
-           "field3": "javad",
-           "field4": "developer"
-         },
-         {
-           "object_id": "2323424242002",
-           "field5": "javad1",
-           "field6": "developer2"
-         }
-      ]
+        "timestamp": 1521093637117,
+        "create_object_count": 2,
+        "objects": [
+            {
+                "object_id": "5aaa0c05ecb1ef188094eed3",
+                "object_uri": "/post/5aaa0c05ecb1ef188094eed3",
+                "update_time": null,
+                "create_time": 1521093637106,
+                "field1": "javad",
+                "field2": "developer"
+            },
+            {
+                "object_id": "5aaa0c05ecb1ef188094eed4",
+                "object_uri": "/post/5aaa0c05ecb1ef188094eed4",
+                "update_time": null,
+                "create_time": 1521093637110,
+                "field3": "javad",
+                "field4": "developer"
+            }
+        ]
     }
-    
+      
 
 ----------
 
