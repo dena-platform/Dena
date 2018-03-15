@@ -305,32 +305,29 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
 
-    private void checkRelationValidity(MongoDatabase mongoDatabase, DenaObject denaObject, List<DenaRelation> requestRelationList) {
+    private void checkRelationValidity(MongoDatabase mongoDatabase, DenaObject parentObject, List<DenaRelation> childObject) {
 
-        if (CollectionUtils.isNotEmpty(requestRelationList)) {
-            log.debug("Check validity for relation(s) [{}]", requestRelationList);
-
-
+        if (CollectionUtils.isNotEmpty(childObject)) {
+            log.debug("Check validity for relation(s) [{}]", childObject);
 
 
-            if (StringUtils.isNotEmpty(denaObject.getObjectId())) {
+            if (StringUtils.isNotEmpty(parentObject.getObjectId())) {
                 // This is an update operation
                 // Check if target for relation name matching existing relation name
-                requestRelationList.forEach(denaRelation -> {
-                    int indexOfRelation = denaObject.getDenaRelations().indexOf(denaRelation);
+                childObject.forEach(denaRelation -> {
+                    int indexOfRelation = parentObject.getDenaRelations().indexOf(denaRelation);
                     if (indexOfRelation > -1) {
-                        if (!denaObject.getDenaRelations().get(indexOfRelation).getTargetName().equals(denaRelation.getTargetName())) {
-                            log.debug("Target name [{}] not compatible with [{}]", denaRelation, denaObject.getDenaRelations().indexOf(denaRelation));
+                        if (!parentObject.getDenaRelations().get(indexOfRelation).getTargetName().equals(denaRelation.getTargetName())) {
+                            log.debug("Target name [{}] not compatible with [{}]", denaRelation, parentObject.getDenaRelations().indexOf(denaRelation));
                             throw new DataStoreException("Relation(s) is invalid", ErrorCode.RELATION_INVALID_EXCEPTION);
                         }
                     }
                 });
-
             }
 
             boolean isObjectIdValid;
             try {
-                isObjectIdValid = requestRelationList
+                isObjectIdValid = childObject
                         .stream()
                         .allMatch(denaRelation -> {
                             // check if target type is exist
