@@ -103,8 +103,15 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         requestObject.setObjectId(notExistObjectId);
         requestObject.addProperty("job", "new developer value");
         requestObject.addProperty("new field", "new value");
-//        requestObject.getRelatedObjects().add(new TestDenaRelationDTO(objectId1, CommonConfig.COLLECTION_NAME));
 
+        TestDenaRelationDTO testDenaRelationDTO = TestDenaRelationDTO.TestDenaRelationDTOBuilder.aTestDenaRelationDTO()
+                .withRelationName("test_relation")
+                .withRelationType("ONE-TO-ONE")
+                .withTargetName(CommonConfig.COLLECTION_NAME)
+                .withIds(objectId2)
+                .build();
+
+        requestObject.getRelatedObjects().add(testDenaRelationDTO);
         TestErrorResponseDTO actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), 400, TestErrorResponseDTO.class);
 
         ////////////////////////////////////////////////////////////////////////////
@@ -113,7 +120,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "2003";
-        expectedReturnObject.messages = Arrays.asList("objectId not found");
+        expectedReturnObject.messages = Collections.singletonList("object_id not found");
 
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
     }
@@ -127,8 +134,14 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         requestObject.setObjectId(objectId3);
         requestObject.addProperty("job", "new developer value");
         requestObject.addProperty("new field", "new value");
-//        requestObject.getRelatedObjects().add(new TestDenaRelationDTO(objectId1, "not_exist_relation"));
+        TestDenaRelationDTO testDenaRelationDTO = TestDenaRelationDTO.TestDenaRelationDTOBuilder.aTestDenaRelationDTO()
+                .withRelationName("test_relation")
+                .withRelationType("ONE-TO-ONE")
+                .withTargetName(CommonConfig.COLLECTION_NAME)
+                .withIds("invalid id")
+                .build();
 
+        requestObject.getRelatedObjects().add(testDenaRelationDTO);
         TestErrorResponseDTO actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), 400, TestErrorResponseDTO.class);
 
         ////////////////////////////////////////////////////////////////////////////
