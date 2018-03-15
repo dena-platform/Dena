@@ -12,6 +12,8 @@ import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import org.apache.commons.collections4.CollectionUtils;
 import org.bson.BsonDocument;
+import org.bson.BsonNull;
+import org.bson.BsonObjectId;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
@@ -114,19 +116,18 @@ public class MongoDBUtils {
         return updateResult.getModifiedCount();
     }
 
-    @SuppressWarnings("unchecked")
-    public static long deleteRelationWithType(MongoDatabase mongoDatabase, String typeName1, String objectId, String typeName2) {
-        Document searchDocument = new Document(ID, new ObjectId(objectId));
-        Document update = new Document(typeName2, "");
+    public static long deleteRelationWithType(MongoDatabase mongoDatabase, String parentTypeName, String parentObjectId, String childTypeName) {
+        BsonDocument searchDocument = new BsonDocument(ID, new BsonObjectId(new ObjectId(parentObjectId)));
+        BsonDocument update = new BsonDocument(childTypeName, new BsonNull());
         int deleteCount = 0;
-        List<BsonDocument> bsonDocuments = findDocumentById(mongoDatabase, typeName1, objectId);
+        List<BsonDocument> bsonDocuments = findDocumentById(mongoDatabase, parentTypeName, parentObjectId);
 
         if (CollectionUtils.isNotEmpty(bsonDocuments)) {
-            deleteCount = ((List<ObjectId>) bsonDocuments.get(0).get(typeName2)).size();
+            deleteCount = bsonDocuments.get(0).getDocument(childTypeName).getArray(RELATION_IDS).size();
         }
 
         UpdateResult updateResult = mongoDatabase
-                .getCollection(typeName1)
+                .getCollection(parentTypeName)
                 .updateOne(searchDocument, new Document("$unset", update));
 
 

@@ -416,7 +416,7 @@ URL: /v1/<application-id>/<parent-type-name>/<parent-object-id>/relation/<child-
 
 Request Body: None
 
-Return Value:
+Response Body:
 
       {
        "timestamp" : timestamp in milliseconds,

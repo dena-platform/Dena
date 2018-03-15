@@ -111,7 +111,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             }
 
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
-                    .withCreateObjectCount(deleteCount)
+                    .withDeleteRelationCount(deleteCount)
                     .withTimestamp(DenaObjectUtils.timeStamp())
                     .build();
             return ResponseEntity.ok().body(denaResponse);
