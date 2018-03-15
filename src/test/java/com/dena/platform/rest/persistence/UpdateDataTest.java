@@ -71,7 +71,14 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         requestObject.setObjectId(invalidObjectId);
         requestObject.addProperty("job", "new developer value");
         requestObject.addProperty("new field", "new value");
-//        requestObject.getRelatedObjects().add(new TestDenaRelationDTO(objectId1, CommonConfig.COLLECTION_NAME));
+        TestDenaRelationDTO testDenaRelationDTO = TestDenaRelationDTO.TestDenaRelationDTOBuilder.aTestDenaRelationDTO()
+                .withRelationName("test_relation")
+                .withRelationType("ONE-TO-ONE")
+                .withTargetName(CommonConfig.COLLECTION_NAME)
+                .withIds(objectId2)
+                .build();
+
+        requestObject.getRelatedObjects().add(testDenaRelationDTO);
 
         TestErrorResponseDTO actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), 400, TestErrorResponseDTO.class);
 
@@ -81,7 +88,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "2002";
-        expectedReturnObject.messages = Arrays.asList("objectId is invalid");
+        expectedReturnObject.messages = Collections.singletonList("object_id is invalid");
 
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
     }
