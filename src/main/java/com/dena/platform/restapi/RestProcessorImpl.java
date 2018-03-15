@@ -79,7 +79,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             List<DenaObject> returnObject = denaDataStore.updateObjects(appName, appTypeName, denaObjects.toArray(new DenaObject[0]));
             DenaResponse response = DenaResponseBuilder.aDenaResponse()
                     .withObjectResponseList(createObjectResponse(returnObject))
-                    .withCreateObjectCount(returnObject.size())
+                    .withUpdateObjectCount(returnObject.size())
                     .withTimestamp(DenaObjectUtils.timeStamp())
                     .build();
             return ResponseEntity.ok().body(response);

@@ -260,24 +260,22 @@ Request Body:
 
 Response Body:
 
-      {
-       "timestamp" : timestamp in milliseconds,
-       "count" : number of updated object(s),
-  	   "objects": [
-         {
-           "object_id": "5a316b1b4e5f450104c31909",
-           "field3": "javad",
-           "field4": "developer",
-           "new_field":"field",
-		       "related_objects": [
-    	  	  {
-      	  	    "id": "5a5896bbe61445229c7c62f9",
-      	  	    "type": "Post"
-    	      }
-      		]
-         }
-      	]
-      }
+    {
+        "timestamp": 1521095130350,
+        "update_object_count": 1,
+        "objects": [
+            {
+                "object_id": "5aaa0ae6ecb1ef188094eed0",
+                "object_uri": "/post/5aaa0ae6ecb1ef188094eed0",
+                "update_time": 1521095130344,
+                "create_time": 1521093350371,
+                "field1": "javad",
+                "new_field": "new_field_v1",
+                "field3": "javad",
+                "field2": "developer"
+            }
+        ]
+    }
 
 ----------
 
@@ -338,30 +336,34 @@ Request Body:
     ]
 
 
-Return Value:
+Response Body:
 
     {
-        "timestamp": 1521093637117,
-        "create_object_count": 2,
+        "timestamp": 1521095304269,
+        "update_object_count": 2,
         "objects": [
             {
-                "object_id": "5aaa0c05ecb1ef188094eed3",
-                "object_uri": "/post/5aaa0c05ecb1ef188094eed3",
-                "update_time": null,
-                "create_time": 1521093637106,
+                "object_id": "5aaa0ae6ecb1ef188094eed0",
+                "object_uri": "/post/5aaa0ae6ecb1ef188094eed0",
+                "update_time": 1521095304258,
+                "create_time": 1521093350371,
                 "field1": "javad",
+                "new_field": "new_field_v1",
+                "field3": "javad",
                 "field2": "developer"
             },
             {
-                "object_id": "5aaa0c05ecb1ef188094eed4",
-                "object_uri": "/post/5aaa0c05ecb1ef188094eed4",
-                "update_time": null,
-                "create_time": 1521093637110,
+                "object_id": "5aaa0c05ecb1ef188094eed3",
+                "object_uri": "/post/5aaa0c05ecb1ef188094eed3",
+                "update_time": 1521095304263,
+                "create_time": 1521093637106,
+                "field1": "javad",
+                "new_field": "new_field_v1",
                 "field3": "javad",
-                "field4": "developer"
+                "field2": "developer"
             }
         ]
-    }
+    }   
       
 
 ----------

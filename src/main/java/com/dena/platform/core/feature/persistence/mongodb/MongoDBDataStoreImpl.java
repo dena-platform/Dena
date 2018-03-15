@@ -87,19 +87,15 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
         try {
             mongoDatabase = MongoDBUtils.getDataBase(appName);
-        } catch (Exception ex) {
-            throw new DataStoreException("Error in updating objects", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
-        }
 
-        for (DenaObject denaObject : denaObjects) {
-            checkIfObjectIdIsExist(mongoDatabase, typeName, denaObject.getObjectId());
-            checkRelationValidity(mongoDatabase, denaObject, denaObject.getDenaRelations());
+            for (DenaObject denaObject : denaObjects) {
+                checkIfObjectIdIsExist(mongoDatabase, typeName, denaObject.getObjectId());
+                checkRelationValidity(mongoDatabase, denaObject, denaObject.getDenaRelations());
 
-        }
+            }
 
+            List<String> ids = new LinkedList<>();
 
-        List<String> ids = new LinkedList<>();
-        try {
             for (DenaObject denaObject : denaObjects) {
                 ObjectId objectId = new ObjectId(denaObject.getObjectId());
                 BsonDocument bsonDocument = new BsonDocument();
@@ -152,6 +148,8 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             MongoDBUtils.updateDocument(mongoDatabase, typeName, bsonDocumentList.toArray(new BsonDocument[0]));
 
             return new ArrayList<>(findObject(appName, typeName, ids.toArray(new String[0])));
+        } catch (DataStoreException ex) {
+            throw ex;
         } catch (Exception ex) {
             throw new DataStoreException("Error in updating objects.", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
@@ -342,7 +340,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                             }
 
                             if (!isIdsExist) {
-                                log.debug("Request ids [{}] dose not exist", (Object[]) ids);
+                                log.debug("Relation ids [{}] dose not exist", (Object[]) ids);
                             }
                             return isCollectionExist && isIdsExist;
                         });

@@ -19,6 +19,9 @@ public class DenaResponse {
     @JsonProperty("create_object_count")
     private Long createObjectCount;
 
+    @JsonProperty("update_object_count")
+    private Long updateObjectCount;
+
     @JsonProperty("page")
     private Long page;
 
@@ -45,9 +48,16 @@ public class DenaResponse {
         this.denaObjectResponseList = denaObjectResponseList;
     }
 
-
     public void setPage(Long page) {
         this.page = page;
+    }
+
+    public Long getUpdateObjectCount() {
+        return updateObjectCount;
+    }
+
+    public void setUpdateObjectCount(Long updateObjectCount) {
+        this.updateObjectCount = updateObjectCount;
     }
 
     public List<DenaObjectResponse> getDenaObjectResponseList() {
@@ -57,6 +67,7 @@ public class DenaResponse {
     public static final class DenaResponseBuilder {
         private Long timestamp;
         private Long createObjectCount;
+        private Long updateObjectCount;
         private Long page;
         private List<DenaObjectResponse> denaObjectResponseList = new ArrayList<>();
 
@@ -82,6 +93,17 @@ public class DenaResponse {
             return this;
         }
 
+        public DenaResponseBuilder withUpdateObjectCount(Integer count) {
+            this.updateObjectCount = Long.valueOf(count);
+            return this;
+        }
+
+        public DenaResponseBuilder withUpdateObjectCount(Long count) {
+            this.updateObjectCount = count;
+            return this;
+        }
+
+
         public DenaResponseBuilder withObjectResponseList(List<DenaObjectResponse> denaObjectResponseList) {
             this.denaObjectResponseList = denaObjectResponseList;
             return this;
@@ -92,10 +114,12 @@ public class DenaResponse {
             return this;
         }
 
+
         public DenaResponse build() {
             DenaResponse denaResponse = new DenaResponse();
             denaResponse.setTimestamp(timestamp);
             denaResponse.setCreateObjectCount(createObjectCount);
+            denaResponse.setUpdateObjectCount(updateObjectCount);
             denaResponse.setDenaObjectResponseList(denaObjectResponseList);
             denaResponse.setPage(page);
             return denaResponse;
