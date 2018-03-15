@@ -14,7 +14,7 @@ public interface DenaDataStore {
 
     List<DenaObject> updateObjects(String appName, String typeName, DenaObject... denaObjects);
 
-    long deleteObjects(String appName, String typeName, List<String> objectIds);
+    long deleteObjects(String appName, String typeName, String... objectIds);
 
     long deleteRelation(String appName, String parentTypeName, String parentObjectId, String childTypeName, String childObjectId);
 
