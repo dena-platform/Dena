@@ -407,7 +407,9 @@ Response Body:
 ----------
 **Delete Relation With Type**
 
-This only delete relation between parent and child and do not remove child.
+Remove all relation between parent and child.
+
+**Note:** This only delete relation between parent and child and do not remove child objects.
 
 
 Method: DELETE
@@ -418,15 +420,16 @@ Request Body: None
 
 Response Body:
 
-      {
-       "timestamp" : timestamp in milliseconds,
-       "count" : number of deleted object(s)
-      }
+    {
+        "timestamp": 1521108111690,
+        "delete_relation_count(s)": 1
+    }
 
 ----------
 **Delete Relation With Specified Child Object**
+Remove relation between parent and specified child object.
 
-This API only delete relation between parent and child and do not remove child.
+**Note:** This API only delete relation between parent and child and do not remove child.
 
 Method: DELETE
 
