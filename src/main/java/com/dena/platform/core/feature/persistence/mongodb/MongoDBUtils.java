@@ -4,10 +4,7 @@ import com.dena.platform.core.feature.persistence.DenaPager;
 import com.mongodb.MongoClient;
 import com.mongodb.bulk.BulkWriteResult;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.BulkWriteOptions;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.UpdateOneModel;
-import com.mongodb.client.model.WriteModel;
+import com.mongodb.client.model.*;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import org.apache.commons.collections4.CollectionUtils;
@@ -103,14 +100,14 @@ public class MongoDBUtils {
         return deleteResult.getDeletedCount();
     }
 
-    public static long deleteRelationWithObjectId(MongoDatabase mongoDatabase, String typeName1, String objectId1, String typeName2, String objectId2) {
-        Bson searchDocument = Filters.eq(ID, new ObjectId(objectId1));
-        Document update = new Document(typeName2, new ObjectId(objectId2));
+    public static long deleteRelationWithObjectId(MongoDatabase mongoDatabase, String parentType, String parentObjectId, String relationName, String childObjectId) {
+        Bson searchDocument = Filters.eq(ID, new ObjectId(parentObjectId));
+        Bson deleteObjectIdCommand = Updates.pull(relationName + "." + RELATION_IDS, new BsonObjectId(new ObjectId(childObjectId)));
+
 
         UpdateResult updateResult = mongoDatabase
-                .getCollection(typeName1)
-                .updateOne(searchDocument, new Document("$pull", update));
-
+                .getCollection(parentType)
+                .updateOne(searchDocument, deleteObjectIdCommand);
 
         log.info("Updates: [{}] document(s)", updateResult.getModifiedCount());
         return updateResult.getModifiedCount();

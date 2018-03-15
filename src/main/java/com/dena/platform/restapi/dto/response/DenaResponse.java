@@ -74,6 +74,10 @@ public class DenaResponse {
         this.deleteObjectCount = deleteObjectCount;
     }
 
+    public void setDeleteRelationCount(Long deleteRelationCount) {
+        this.deleteRelationCount = deleteRelationCount;
+    }
+
     public List<DenaObjectResponse> getDenaObjectResponseList() {
         return denaObjectResponseList;
     }
@@ -159,7 +163,7 @@ public class DenaResponse {
             denaResponse.setUpdateObjectCount(updateObjectCount);
             denaResponse.setDenaObjectResponseList(denaObjectResponseList);
             denaResponse.setDeleteObjectCount(deleteObjectCount);
-            denaResponse.setDeleteObjectCount(deleteRelationCount);
+            denaResponse.setDeleteRelationCount(deleteRelationCount);
             denaResponse.setPage(page);
             return denaResponse;
         }
