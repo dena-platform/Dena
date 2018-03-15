@@ -75,15 +75,7 @@ public class AbstractDataStoreTest {
 
         mongoClient.getDatabase(CommonConfig.APP_ID)
                 .getCollection(CommonConfig.COLLECTION_NAME)
-                .insertOne(document1);
-
-        mongoClient.getDatabase(CommonConfig.APP_ID)
-                .getCollection(CommonConfig.COLLECTION_NAME)
-                .insertOne(document2);
-
-        mongoClient.getDatabase(CommonConfig.APP_ID)
-                .getCollection(CommonConfig.COLLECTION_NAME)
-                .insertOne(document3);
+                .insertMany(Arrays.asList(document1, document2, document3));
 
     }
 

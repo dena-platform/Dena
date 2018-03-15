@@ -71,7 +71,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         requestObject.addProperty("job", "developer");
 
         TestDenaRelationDTO testDenaRelationDTO = new TestDenaRelationDTO();
-        testDenaRelationDTO.setType(RelationType.RELATION_1_TO_1.value);
+        testDenaRelationDTO.setRelationType(RelationType.RELATION_1_TO_1.value);
         testDenaRelationDTO.setRelationName("new_relation");
         testDenaRelationDTO.setIds(Collections.singletonList(objectId1));
         testDenaRelationDTO.setTargetName("not_exist_target");

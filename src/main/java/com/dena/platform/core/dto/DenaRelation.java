@@ -15,7 +15,7 @@ public class DenaRelation {
     private String relationName;
 
     @JsonProperty(value = "relation_type", required = true)
-    private String type;
+    private String relationType;
 
     @JsonProperty(value = "target_name", required = true)
     private String targetName;
@@ -24,12 +24,12 @@ public class DenaRelation {
     private List<String> ids = new ArrayList<>();
 
 
-    public String getType() {
-        return type;
+    public String getRelationType() {
+        return relationType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setRelationType(String relationType) {
+        this.relationType = relationType;
     }
 
 
@@ -76,7 +76,7 @@ public class DenaRelation {
     public String toString() {
         return "DenaRelation{" +
                 "relationName='" + relationName + '\'' +
-                ", type='" + type + '\'' +
+                ", type='" + relationType + '\'' +
                 ", targetName='" + targetName + '\'' +
                 ", ids=" + ids +
                 '}';
