@@ -329,10 +329,10 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                         .allMatch(denaRelation -> {
                             // check if target type is exist
                             boolean isCollectionExist = MongoDBUtils.isCollectionExist(mongoDatabase, denaRelation.getTargetName());
-                            String[] ids = denaRelation.getIds().toArray(new String[denaRelation.getIds().size()]);
-                            boolean isIdsExist = MongoDBUtils
-                                    .findDocumentById(mongoDatabase, denaRelation.getTargetName(), ids)
-                                    .size() == denaRelation.getIds().size();
+                            String[] ids = denaRelation.getIds().toArray(new String[0]);
+                            boolean isIdsExist = ids.length > 0 &&
+                                    (MongoDBUtils.findDocumentById(mongoDatabase, denaRelation.getTargetName(), ids)
+                                            .size() == denaRelation.getIds().size());
 
                             if (!isCollectionExist) {
                                 log.debug("Type [{}] dose not exist", denaRelation.getTargetName());

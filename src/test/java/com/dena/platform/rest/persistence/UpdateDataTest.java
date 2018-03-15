@@ -45,6 +45,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         TestObjectResponseDTO testObjectResponseDTO = new TestObjectResponseDTO();
         testObjectResponseDTO.objectId = objectId1;
         testObjectResponseDTO.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + testObjectResponseDTO.objectId;
+        testObjectResponseDTO.updateTime = actualReturnObject.getTestObjectResponseDTOList().get(0).updateTime;
         testObjectResponseDTO.addProperty("job", "new job");
         testObjectResponseDTO.addProperty("new field", "new value");
         testObjectResponseDTO.addProperty("name", "javad");
@@ -56,6 +57,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         expectedReturnObject.setTestObjectResponseDTOList(Collections.singletonList(testObjectResponseDTO));
 
         assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.timestamp, Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(testObjectResponseDTO.updateTime, Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
     }
 
