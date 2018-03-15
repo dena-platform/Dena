@@ -12,7 +12,7 @@ public interface DenaDataStore {
 
     List<DenaObject> storeObjects(List<DenaObject> denaObject, String appName, String typeName);
 
-    List<DenaObject> updateObjects(List<DenaObject> denaObject, String appName, String typeName);
+    List<DenaObject> updateObjects(String appName, String typeName, DenaObject... denaObjects);
 
     long deleteObjects(String appName, String typeName, List<String> objectIds);
 

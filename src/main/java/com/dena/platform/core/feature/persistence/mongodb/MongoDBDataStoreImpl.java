@@ -11,6 +11,7 @@ import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.mongodb.client.MongoDatabase;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.bson.*;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -74,11 +75,11 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public List<DenaObject> updateObjects(List<DenaObject> denaObjects, final String appName, final String typeName) {
+    public List<DenaObject> updateObjects(final String appName, final String typeName, DenaObject... denaObjects) {
         MongoDatabase mongoDatabase;
         List<BsonDocument> bsonDocumentList = new ArrayList<>();
 
-        if (CollectionUtils.isEmpty(denaObjects)) {
+        if (ArrayUtils.isEmpty(denaObjects)) {
             log.debug("Object request list is empty");
             return Collections.emptyList();
         }
@@ -89,14 +90,16 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             throw new DataStoreException("Error in updating objects", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
 
-        denaObjects.forEach(denaObject -> {
+        for (DenaObject denaObject : denaObjects) {
             checkRelationValidity(mongoDatabase, denaObject.getDenaRelations());
             checkIfObjectIdIsExist(mongoDatabase, typeName, denaObject.getObjectId());
-        });
+
+        }
+
 
         List<String> ids = new LinkedList<>();
         try {
-            denaObjects.forEach(denaObject -> {
+            for (DenaObject denaObject : denaObjects) {
                 ObjectId objectId = new ObjectId(denaObject.getObjectId());
                 BsonDocument bsonDocument = new BsonDocument();
                 bsonDocument.put(MongoDBUtils.ID, new BsonObjectId(objectId));
@@ -142,7 +145,8 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
                 bsonDocumentList.add(bsonDocument);
                 ids.add(objectId.toString());
-            });
+            }
+
 
             MongoDBUtils.updateDocument(mongoDatabase, typeName, bsonDocumentList.toArray(new BsonDocument[0]));
 
