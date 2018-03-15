@@ -26,9 +26,6 @@ public class TestDenaResponseDTO {
     public Long updateObjectCount;
 
 
-    @JsonProperty("total_count")
-    public Long totalCount;
-
     @JsonProperty("page")
     public Long page;
 
