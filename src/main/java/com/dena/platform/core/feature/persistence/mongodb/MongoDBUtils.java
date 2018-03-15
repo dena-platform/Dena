@@ -101,8 +101,8 @@ public class MongoDBUtils {
     }
 
     public static long deleteRelationWithObjectId(MongoDatabase mongoDatabase, String parentType, String parentObjectId, String relationName, String childObjectId) {
-        Bson searchDocument = Filters.eq(ID, new ObjectId(parentObjectId));
-        Bson deleteObjectIdCommand = Updates.pull(relationName + "." + RELATION_IDS, new BsonObjectId(new ObjectId(childObjectId)));
+        Bson searchDocument = findDocumentById(mongoDatabase, parentType, parentObjectId).get(0).get(relationName).asDocument();
+        Bson deleteObjectIdCommand = Updates.pull(RELATION_IDS, new BsonObjectId(new ObjectId(childObjectId)));
 
 
         UpdateResult updateResult = mongoDatabase
