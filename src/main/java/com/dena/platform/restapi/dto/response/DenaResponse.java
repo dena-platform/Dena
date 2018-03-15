@@ -16,11 +16,14 @@ public class DenaResponse {
     @JsonProperty("timestamp")
     private Long timestamp;
 
-    @JsonProperty("create_object_count")
+    @JsonProperty("create_object_count(s)")
     private Long createObjectCount;
 
-    @JsonProperty("update_object_count")
+    @JsonProperty("update_object_count(s)")
     private Long updateObjectCount;
+
+    @JsonProperty("delete_object_count(s)")
+    private Long deleteObjectCount;
 
     @JsonProperty("page")
     private Long page;
@@ -60,6 +63,14 @@ public class DenaResponse {
         this.updateObjectCount = updateObjectCount;
     }
 
+    public Long getDeleteObjectCount() {
+        return deleteObjectCount;
+    }
+
+    public void setDeleteObjectCount(Long deleteObjectCount) {
+        this.deleteObjectCount = deleteObjectCount;
+    }
+
     public List<DenaObjectResponse> getDenaObjectResponseList() {
         return denaObjectResponseList;
     }
@@ -68,6 +79,7 @@ public class DenaResponse {
         private Long timestamp;
         private Long createObjectCount;
         private Long updateObjectCount;
+        private Long deleteObjectCount;
         private Long page;
         private List<DenaObjectResponse> denaObjectResponseList = new ArrayList<>();
 
@@ -103,6 +115,16 @@ public class DenaResponse {
             return this;
         }
 
+        public DenaResponseBuilder withDeleteObjectCount(Long count) {
+            this.deleteObjectCount = count;
+            return this;
+        }
+
+        public DenaResponseBuilder withDeleteObjectCount(Integer count) {
+            this.deleteObjectCount = Long.valueOf(count);
+            return this;
+        }
+
 
         public DenaResponseBuilder withObjectResponseList(List<DenaObjectResponse> denaObjectResponseList) {
             this.denaObjectResponseList = denaObjectResponseList;
@@ -121,6 +143,7 @@ public class DenaResponse {
             denaResponse.setCreateObjectCount(createObjectCount);
             denaResponse.setUpdateObjectCount(updateObjectCount);
             denaResponse.setDenaObjectResponseList(denaObjectResponseList);
+            denaResponse.setDeleteObjectCount(deleteObjectCount);
             denaResponse.setPage(page);
             return denaResponse;
         }

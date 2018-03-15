@@ -146,7 +146,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
             long deleteCount = denaDataStore.deleteObjects(appId, typeName, objectIds);
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
-                    .withCreateObjectCount(deleteCount)
+                    .withDeleteObjectCount(deleteCount)
                     .withTimestamp(DenaObjectUtils.timeStamp())
                     .build();
             return ResponseEntity.ok().body(denaResponse);
