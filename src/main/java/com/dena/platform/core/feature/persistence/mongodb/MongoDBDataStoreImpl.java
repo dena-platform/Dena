@@ -12,6 +12,7 @@ import com.mongodb.client.MongoDatabase;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bson.*;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -56,7 +57,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
                 // add relation
                 if (CollectionUtils.isNotEmpty(denaObject.getDenaRelations())) {
-                    checkRelationValidity(mongoDatabase, denaObject.getDenaRelations());
+                    checkRelationValidity(mongoDatabase, denaObject, denaObject.getDenaRelations());
                     bsonDocument.putAll(getRelation(denaObject));
                 }
 
@@ -91,8 +92,8 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         }
 
         for (DenaObject denaObject : denaObjects) {
-            checkRelationValidity(mongoDatabase, denaObject.getDenaRelations());
             checkIfObjectIdIsExist(mongoDatabase, typeName, denaObject.getObjectId());
+            checkRelationValidity(mongoDatabase, denaObject, denaObject.getDenaRelations());
 
         }
 
@@ -304,13 +305,32 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
 
-    private void checkRelationValidity(MongoDatabase mongoDatabase, List<DenaRelation> denaRelationList) {
+    private void checkRelationValidity(MongoDatabase mongoDatabase, DenaObject denaObject, List<DenaRelation> requestRelationList) {
 
-        if (CollectionUtils.isNotEmpty(denaRelationList)) {
-            log.debug("Check validity for relation(s) [{}]", denaRelationList);
+        if (CollectionUtils.isNotEmpty(requestRelationList)) {
+            log.debug("Check validity for relation(s) [{}]", requestRelationList);
+
+
+
+
+            if (StringUtils.isNotEmpty(denaObject.getObjectId())) {
+                // This is an update operation
+                // Check if target for relation name matching existing relation name
+                requestRelationList.forEach(denaRelation -> {
+                    int indexOfRelation = denaObject.getDenaRelations().indexOf(denaRelation);
+                    if (indexOfRelation > -1) {
+                        if (!denaObject.getDenaRelations().get(indexOfRelation).getTargetName().equals(denaRelation.getTargetName())) {
+                            log.debug("Target name [{}] not compatible with [{}]", denaRelation, denaObject.getDenaRelations().indexOf(denaRelation));
+                            throw new DataStoreException("Relation(s) is invalid", ErrorCode.RELATION_INVALID_EXCEPTION);
+                        }
+                    }
+                });
+
+            }
+
             boolean isObjectIdValid;
             try {
-                isObjectIdValid = denaRelationList
+                isObjectIdValid = requestRelationList
                         .stream()
                         .allMatch(denaRelation -> {
                             // check if target type is exist
