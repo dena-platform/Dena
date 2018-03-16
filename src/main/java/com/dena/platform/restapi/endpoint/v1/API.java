@@ -53,7 +53,7 @@ public class API {
 
 
     /**
-     * Delete only relation between (object --> object) or (object --> target_type)
+     * Delete only relation between (parent --> child)
      *
      * @return
      */
@@ -65,7 +65,7 @@ public class API {
     }
 
     /**
-     * Find object with id or find relation of an object
+     * Find object with id or find related objects
      *
      * @return
      */
