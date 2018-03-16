@@ -72,9 +72,13 @@ public class AbstractDataStoreTest {
         document3.put("_id", new ObjectId(objectId3));
         document3.put("name", "javad");
         document3.put("job", "developer");
-        document2.put("object_uri", "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3);
+        document3.put("object_uri", "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3);
 
-//        document3.put(CommonConfig.COLLECTION_NAME, Arrays.asList(new ObjectId(objectId1), new ObjectId(objectId2)));
+        Document relatedDocument = new Document("relation_type", "ONE-TO-ONE")
+                .append("target_name", "comment")
+                .append("ids", Arrays.asList(new ObjectId(objectId1), new ObjectId(objectId2)));
+
+        document3.put(CommonConfig.RELATION_NAME, relatedDocument);
 
 
         mongoClient.getDatabase(CommonConfig.APP_ID)

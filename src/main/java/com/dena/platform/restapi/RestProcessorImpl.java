@@ -92,22 +92,22 @@ public class RestProcessorImpl implements DenaRestProcessor {
     public ResponseEntity handleDeleteRelation() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
 
-        String appTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
+        String parentTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String appName = denaRequestContext.getPathVariable(APP_ID);
-        String objectId = denaRequestContext.getPathVariable(OBJECT_ID);
-        String typeName2 = denaRequestContext.getPathVariable("type-name-2");
-        String objectId2 = denaRequestContext.getPathVariable("object-id-2");
+        String parentObjectId = denaRequestContext.getPathVariable(OBJECT_ID);
+        String relationName = denaRequestContext.getPathVariable("type-name-2");
+        String childObjectId = denaRequestContext.getPathVariable("object-id-2");
 
         try {
             long deleteCount;
 
             // delete relation with object
-            if (StringUtils.isNotBlank(objectId2)) {
-                deleteCount = denaDataStore.deleteRelation(appName, appTypeName, objectId, typeName2, objectId2);
+            if (StringUtils.isNotBlank(childObjectId)) {
+                deleteCount = denaDataStore.deleteRelation(appName, parentTypeName, parentObjectId, relationName, childObjectId);
             }
             // delete relation with target type
             else {
-                deleteCount = denaDataStore.deleteRelation(appName, appTypeName, objectId, typeName2);
+                deleteCount = denaDataStore.deleteRelation(appName, parentTypeName, parentObjectId, relationName);
             }
 
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
