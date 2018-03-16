@@ -49,14 +49,10 @@ public class DenaObject {
     }
 
     @JsonAnyGetter
-    public Map<String, Object> getAllFields() {
-        return otherFields;
-    }
-
-
     public Map<String, Object> getOtherFields() {
         return otherFields;
     }
+
 
     public String getObjectId() {
         return objectId;
