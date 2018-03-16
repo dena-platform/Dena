@@ -88,14 +88,14 @@ public class MongoDBUtils {
         log.info("Updates: [{}] document(s)", res.getModifiedCount());
     }
 
-    public static long deleteDocument(MongoDatabase mongoDatabase, String collectionName, String... documentIds) {
+    public static long deleteDocument(MongoDatabase mongoDatabase, String typeName, String... documentIds) {
         List<ObjectId> objectIdList = new LinkedList<>();
 
         for (String documentId : documentIds) {
             objectIdList.add(new ObjectId(documentId));
         }
 
-        DeleteResult deleteResult = mongoDatabase.getCollection(collectionName).deleteMany(Filters.in(ID, objectIdList));
+        DeleteResult deleteResult = mongoDatabase.getCollection(typeName).deleteMany(Filters.in(ID, objectIdList));
         log.info("Deletes: [{}] document(s)", deleteResult.getDeletedCount());
         return deleteResult.getDeletedCount();
     }
