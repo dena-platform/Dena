@@ -193,6 +193,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         }
     }
 
+    // todo: do not include relation in response
     @Override
     public List<DenaObject> findObject(String appName, String typeName, String... objectId) {
         try {
@@ -216,7 +217,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                         BsonDocument relatedDocument = fieldValue.asDocument();
 
                         BsonArray idArray = relatedDocument.getArray(MongoDBUtils.RELATION_IDS);
-                        List<String> idStringArray = BSONTypeMapper.convertBSONArrayToJavaArray(idArray)
+                        List<String> idStringArray = BSONTypeMapper.convertBSONArrayToJava(idArray)
                                 .stream()
                                 .map(Object::toString)
                                 .collect(Collectors.toList());
@@ -235,7 +236,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                     } else if (fieldValue.isArray()) {
                         BsonArray values = fieldValue.asArray();
                         // this field is normal array
-                        ArrayList<Object> listOfObject = BSONTypeMapper.convertBSONArrayToJavaArray(values);
+                        ArrayList<Object> listOfObject = BSONTypeMapper.convertBSONArrayToJava(values);
                         denaObject.addProperty(fieldName, listOfObject);
                     } else if (fieldName.equals(MongoDBUtils.ID)) {  // type is id field
                         denaObject.setObjectId(fieldValue.asObjectId().getValue().toString());
@@ -261,46 +262,71 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
 
     @Override
-    public List<DenaObject> findObjectRelation(String appName, String parentType, String objectId, String targetType, DenaPager denaPager) {
+    public List<DenaObject> findObjectRelation(String appName, String parentTypeName, String parentObjectId, String relationName, DenaPager denaPager) {
         try {
+            checkObjectIdValidity(parentObjectId);
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
-            List<BsonDocument> parentDocument = MongoDBUtils.findDocumentById(mongoDatabase, parentType, objectId);
+            List<BsonDocument> parentDocument = MongoDBUtils.findDocumentById(mongoDatabase, parentTypeName, parentObjectId);
 
             if (CollectionUtils.isEmpty(parentDocument)) {
-                return null;
+                return Collections.emptyList();
             }
 
-            List<DenaObject> denaObjects = new ArrayList<>();
-            List<Document> relatedDocuments = MongoDBUtils.findRelatedDocument(mongoDatabase, parentDocument.get(0), targetType, denaPager);
+            List<DenaObject> foundDenaObjects = new ArrayList<>();
+            List<BsonDocument> relatedDocuments = MongoDBUtils.findRelatedDocument(mongoDatabase, parentDocument.get(0), relationName, denaPager);
 
-            relatedDocuments.forEach(document -> {
+            for (BsonDocument bsonDocument : relatedDocuments) {
                 DenaObject denaObject = new DenaObject();
-                for (Map.Entry<String, Object> entry : document.entrySet()) {
-                    if (entry.getValue() instanceof ArrayList) {
-                        if (((ArrayList) entry.getValue()).size() > 0 && ((ArrayList) entry.getValue()).get(0) instanceof ObjectId) {   // this type is relation
-                            ArrayList<ObjectId> objectIdList = (ArrayList<ObjectId>) entry.getValue();
-                            List<String> idString = objectIdList.stream()
-                                    .map(Object::toString)
-                                    .collect(Collectors.toList());
+                for (Map.Entry<String, BsonValue> entry : bsonDocument.entrySet()) {
+                    String fieldName = entry.getKey();
+                    BsonValue fieldValue = entry.getValue();
 
-                            List<DenaRelation> denaRelationList = convertToRelatedObject(entry.getKey(), idString);
-                            denaObject.getDenaRelations().addAll(denaRelationList);
-                        } else {
-                            denaObject.addProperty(entry.getKey(), entry.getValue());  // this type is normal array
-                        }
-                    } else if (entry.getKey().equals(MongoDBUtils.ID)) {
-                        denaObject.setObjectId(entry.getValue().toString()); // type of id
-                    } else {
-                        denaObject.addProperty(entry.getKey(), entry.getValue()); // normal key - value
+                    if (fieldValue.isDocument() && fieldValue.asDocument().containsKey(MongoDBUtils.RELATION_TYPE)) {
+                        // this field is relation
+                        BsonDocument relatedDocument = fieldValue.asDocument();
+
+                        BsonArray idArray = relatedDocument.getArray(MongoDBUtils.RELATION_IDS);
+                        List<String> idStringArray = BSONTypeMapper.convertBSONArrayToJava(idArray)
+                                .stream()
+                                .map(Object::toString)
+                                .collect(Collectors.toList());
+
+                        String relationTargetName = relatedDocument.getString(MongoDBUtils.RELATION_TARGET_NAME).getValue();
+                        String relationTypeName = relatedDocument.getString(MongoDBUtils.RELATION_TYPE).getValue();
+
+
+                        DenaRelation denaRelation = new DenaRelation();
+                        denaRelation.setIds(idStringArray);
+                        denaRelation.setRelationType(relationTypeName);
+                        denaRelation.setTargetName(relationTargetName);
+                        denaRelation.setRelationName(fieldName);
+                        denaObject.addRelatedObjects(denaRelation);
+
+                    } else if (fieldValue.isArray()) {
+                        BsonArray values = fieldValue.asArray();
+                        // this field is normal array
+                        ArrayList<Object> listOfObject = BSONTypeMapper.convertBSONArrayToJava(values);
+                        denaObject.addProperty(fieldName, listOfObject);
+                    } else if (fieldName.equals(MongoDBUtils.ID)) {  // type is id field
+                        denaObject.setObjectId(fieldValue.asObjectId().getValue().toString());
+                    } else if (fieldName.equals(MongoDBUtils.UPDATE_TIME_FIELD)) {  // type is update_time field
+                        denaObject.setUpdateTime(fieldValue.isNull() ? null : fieldValue.asDateTime().getValue());
+                    } else if (fieldName.equals(MongoDBUtils.CREATE_TIME_FIELD)) {  // type is create_time field
+                        denaObject.setCreateTime(fieldValue.isNull() ? null : fieldValue.asDateTime().getValue());
+                    } else if (fieldName.equals(MongoDBUtils.OBJECT_URI_FIELD)) {  // type is uri field
+                        denaObject.setObjectURI(fieldValue.asString().getValue());
+                    } else { // normal key -> value
+                        denaObject.addProperty(fieldName, BSONTypeMapper.convertBSONToJava(fieldValue));
                     }
                 }
 
-                denaObjects.add(denaObject);
-            });
+                foundDenaObjects.add(denaObject);
+            }
 
-            return denaObjects;
+            return foundDenaObjects;
+
         } catch (Exception ex) {
-            throw new DataStoreException("Error in finding relation object", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
+            throw new DataStoreException("Error in finding related object(s)", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
     }
 

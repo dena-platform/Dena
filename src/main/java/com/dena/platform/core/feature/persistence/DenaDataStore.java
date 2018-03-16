@@ -22,5 +22,5 @@ public interface DenaDataStore {
 
     List<DenaObject> findObject(String appName, String typeName, String... objectId);
 
-    List<DenaObject> findObjectRelation(String appName, String parentType, String objectId, String targetType, DenaPager denaPager);
+    List<DenaObject> findObjectRelation(String appName, String parentTypeName, String parentObjectId, String relationName, DenaPager denaPager);
 }

@@ -418,6 +418,8 @@ URL: /v1/<application-id>/<parent-type-name>/<parent-object-id>/relation/<child-
 
 Request Body: None
 
+***Example:***
+
 Response Body:
 
     {
@@ -437,6 +439,8 @@ Method: DELETE
 URL: /v1/<application-id>/<parent-type-names>/<parent-object-id>/relation/<child-type-names>/<child-object-id>
 
 Request Body: None
+
+***Example:***
 
 Response Body:
 
@@ -465,6 +469,8 @@ Method: GET
 URL: /v1/<application-id>/<type-name>/<object-id>
 
 Request Body: None
+
+***Example:***
 
 Response Body:
 
@@ -504,7 +510,9 @@ Optional Parameter
  
 Request Body: None
 
-Return Value:
+***Example:***
+
+Response Body:
 
     {
       "timestamp" : timestamp in milliseconds,
@@ -544,7 +552,7 @@ Return Value:
 // Todo: remove related_objects in response. when in future we implemented auto reload feature then add it.
 
 Suppose we have relation between two object for example in many-many or one-many relation and we want to retrieve related object. in this case we want only get 
-a portion of related object not all (because of too many object) so we use paging.
+a portion of related object and not all (because of too many object) so we use paging.
 
 Consider following Pseudo-Code:
 
@@ -554,7 +562,7 @@ Consider following Pseudo-Code:
     
 Method: GET
 
-URL: /v1/<application-id>/<parent-type-name>/<parent-object-id>/relation/<child-type-name>?itemPerPage=50&page=4&where=???
+URL: /v1/<application-id>/<parent-type-name>/<parent-object-id>/relation/<relation-name>?itemPerPage=50&page=4&where=???
 
 Optional Parameter
 
@@ -566,7 +574,9 @@ Optional Parameter
  
 Request Body: None
 
-Return Value:
+***Example:***
+
+Response Body:
 
     {
       "timestamp" : timestamp in milliseconds,

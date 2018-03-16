@@ -57,7 +57,7 @@ public class BSONTypeMapper {
     }
 
 
-    public static ArrayList<Object> convertBSONArrayToJavaArray(BsonArray bsonArray) {
+    public static ArrayList<Object> convertBSONArrayToJava(BsonArray bsonArray) {
         ArrayList<Object> returnList = new ArrayList<>();
         bsonArray.forEach(bv -> returnList.add(convertBSONToJava(bv)));
 

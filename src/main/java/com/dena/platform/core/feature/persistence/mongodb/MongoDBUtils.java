@@ -147,14 +147,18 @@ public class MongoDBUtils {
         return returnList;
     }
 
-    public static List<Document> findRelatedDocument(MongoDatabase mongoDatabase, BsonDocument parentDocument, String targetType, DenaPager pager) {
-        List<Object> otherObjectIds = BSONTypeMapper.convertBSONArrayToJavaArray(parentDocument.get(targetType).asArray());
-        Bson searchDocument = Filters.in(ID, otherObjectIds);
+    public static List<BsonDocument> findRelatedDocument(MongoDatabase mongoDatabase, BsonDocument parentDocument, String relationName, DenaPager pager) {
+        List<Object> relatedObjectIds = BSONTypeMapper.convertBSONArrayToJava(
+                parentDocument.getDocument(relationName).getArray(RELATION_IDS)
+        );
+        String targetCollectionName = parentDocument.getDocument(relationName).getString(RELATION_TARGET_NAME).getValue();
+
+        Bson searchDocument = Filters.in(ID, relatedObjectIds);
 
         int startIndex = (int) pager.getCount() * pager.getLimit();
 
-        pager.setCount(otherObjectIds.size());
-        List<Document> documentList = mongoDatabase.getCollection(targetType)
+        pager.setCount(relatedObjectIds.size());
+        List<BsonDocument> documentList = mongoDatabase.getCollection(targetCollectionName, BsonDocument.class)
                 .find(searchDocument)
                 .skip(startIndex)
                 .batchSize(pager.getLimit())
