@@ -108,27 +108,26 @@ public class MongoDBUtils {
         UpdateResult updateResult = mongoDatabase
                 .getCollection(parentType)
                 .updateOne(searchDocument, deleteObjectIdCommand);
-        
+
         log.info("Updates: [{}] document(s)", updateResult.getModifiedCount());
         return updateResult.getModifiedCount();
     }
 
-    public static long deleteRelationWithType(MongoDatabase mongoDatabase, String parentTypeName, String parentObjectId, String childTypeName) {
+    public static long deleteRelationWithType(MongoDatabase mongoDatabase, String parentTypeName, String parentObjectId, String relationName) {
         BsonDocument searchDocument = new BsonDocument(ID, new BsonObjectId(new ObjectId(parentObjectId)));
-        BsonDocument update = new BsonDocument(childTypeName, new BsonNull());
+        BsonDocument update = new BsonDocument(relationName, new BsonNull());
         int deleteCount = 0;
         List<BsonDocument> bsonDocuments = findDocumentById(mongoDatabase, parentTypeName, parentObjectId);
 
         if (CollectionUtils.isNotEmpty(bsonDocuments)) {
-            deleteCount = bsonDocuments.get(0).getDocument(childTypeName).getArray(RELATION_IDS).size();
+            deleteCount = bsonDocuments.get(0).getDocument(relationName).getArray(RELATION_IDS).size();
+            UpdateResult updateResult = mongoDatabase
+                    .getCollection(parentTypeName)
+                    .updateOne(searchDocument, new Document("$unset", update));
+
+            log.info("Updates: [{}] document(s)", deleteCount);
         }
 
-        UpdateResult updateResult = mongoDatabase
-                .getCollection(parentTypeName)
-                .updateOne(searchDocument, new Document("$unset", update));
-
-
-        log.info("Updates: [{}] document(s)", deleteCount);
         return deleteCount;
     }
 
