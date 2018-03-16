@@ -226,8 +226,8 @@ public class RestProcessorImpl implements DenaRestProcessor {
         int limit = 0;
         long page = 0;
 
-        if (StringUtils.isNotBlank(denaRequestContext.getParameter(DenaPager.ITEMP_PER_PAGE_PARAMETER))) {
-            limit = Integer.valueOf(denaRequestContext.getParameter(DenaPager.ITEMP_PER_PAGE_PARAMETER));
+        if (StringUtils.isNotBlank(denaRequestContext.getParameter(DenaPager.ITEM_PER_PAGE_PARAMETER))) {
+            limit = Integer.valueOf(denaRequestContext.getParameter(DenaPager.ITEM_PER_PAGE_PARAMETER));
         }
 
         if (StringUtils.isNotBlank(denaRequestContext.getParameter(DenaPager.PAGE_PARAMETER))) {

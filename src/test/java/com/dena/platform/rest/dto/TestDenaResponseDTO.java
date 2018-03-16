@@ -31,6 +31,10 @@ public class TestDenaResponseDTO {
     @JsonProperty("delete_relation_count(s)")
     public Long deleteRelationCount;
 
+    @JsonProperty("found_object_count(s)")
+    public Long foundObjectCount;
+
+
 
     @JsonProperty("page")
     public Long page;
