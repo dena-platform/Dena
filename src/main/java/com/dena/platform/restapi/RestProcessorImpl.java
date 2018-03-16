@@ -173,12 +173,21 @@ public class RestProcessorImpl implements DenaRestProcessor {
                 foundDenaObject = denaDataStore.findObject(appId, typeName, objectId);
 
                 if (CollectionUtils.isNotEmpty(foundDenaObject)) {
-                    denaResponse = makeDenaResponse(1L, createObjectResponse(foundDenaObject));
+                    denaResponse = DenaResponseBuilder.aDenaResponse()
+                            .withFoundObjectCount(1)
+                            .withObjectResponseList(createObjectResponse(foundDenaObject))
+                            .withTimestamp(DenaObjectUtils.timeStamp())
+                            .build();
+
                 } else {
-                    denaResponse = makeDenaResponse(0L, null);
+                    denaResponse = DenaResponseBuilder.aDenaResponse()
+                            .withFoundObjectCount(0)
+                            .withTimestamp(DenaObjectUtils.timeStamp())
+                            .build();
+
                 }
             }
-            // find relation objects
+            // find related objects
             else {
                 DenaPager denaPager = constructPager(denaRequestContext);
                 foundDenaObject = denaDataStore.findObjectRelation(appId, typeName, objectId, targetType, denaPager);

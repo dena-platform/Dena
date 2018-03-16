@@ -28,6 +28,10 @@ public class DenaResponse {
     @JsonProperty("delete_relation_count(s)")
     private Long deleteRelationCount;
 
+    @JsonProperty("found_object_count(s)")
+    private Long foundObjectCount;
+
+
     @JsonProperty("page")
     private Long page;
 
@@ -82,13 +86,17 @@ public class DenaResponse {
         return denaObjectResponseList;
     }
 
+    public void setFoundObjectCount(Long foundObjectCount) {
+        this.foundObjectCount = foundObjectCount;
+    }
+
     public static final class DenaResponseBuilder {
         private Long timestamp;
         private Long createObjectCount;
         private Long updateObjectCount;
         private Long deleteObjectCount;
         private Long deleteRelationCount;
-
+        private Long foundObjectCount;
         private Long page;
         private List<DenaObjectResponse> denaObjectResponseList = new ArrayList<>();
 
@@ -104,43 +112,43 @@ public class DenaResponse {
             return this;
         }
 
-        public DenaResponseBuilder withCreateObjectCount(Long count) {
-            this.createObjectCount = count;
+        public DenaResponseBuilder withCreateObjectCount(Long createObjectCount) {
+            this.createObjectCount = createObjectCount;
             return this;
         }
 
-        public DenaResponseBuilder withCreateObjectCount(Integer count) {
-            this.createObjectCount = Long.valueOf(count);
+        public DenaResponseBuilder withCreateObjectCount(Integer createObjectCount) {
+            this.createObjectCount = Long.valueOf(createObjectCount);
             return this;
         }
 
-        public DenaResponseBuilder withUpdateObjectCount(Integer count) {
-            this.updateObjectCount = Long.valueOf(count);
+        public DenaResponseBuilder withUpdateObjectCount(Integer updateObjectCount) {
+            this.updateObjectCount = Long.valueOf(updateObjectCount);
             return this;
         }
 
-        public DenaResponseBuilder withUpdateObjectCount(Long count) {
-            this.updateObjectCount = count;
+        public DenaResponseBuilder withUpdateObjectCount(Long updateObjectCount) {
+            this.updateObjectCount = updateObjectCount;
             return this;
         }
 
-        public DenaResponseBuilder withDeleteObjectCount(Long count) {
-            this.deleteObjectCount = count;
+        public DenaResponseBuilder withDeleteObjectCount(Long deleteObjectCount) {
+            this.deleteObjectCount = deleteObjectCount;
             return this;
         }
 
-        public DenaResponseBuilder withDeleteObjectCount(Integer count) {
-            this.deleteObjectCount = Long.valueOf(count);
+        public DenaResponseBuilder withDeleteObjectCount(Integer deleteObjectCount) {
+            this.deleteObjectCount = Long.valueOf(deleteObjectCount);
             return this;
         }
 
-        public DenaResponseBuilder withDeleteRelationCount(Integer count) {
-            this.deleteRelationCount = Long.valueOf(count);
+        public DenaResponseBuilder withDeleteRelationCount(Integer deleteRelationCount) {
+            this.deleteRelationCount = Long.valueOf(deleteRelationCount);
             return this;
         }
 
-        public DenaResponseBuilder withDeleteRelationCount(Long count) {
-            this.deleteRelationCount = count;
+        public DenaResponseBuilder withDeleteRelationCount(Long deleteRelationCount) {
+            this.deleteRelationCount = deleteRelationCount;
             return this;
         }
 
@@ -155,6 +163,11 @@ public class DenaResponse {
             return this;
         }
 
+        public DenaResponseBuilder withFoundObjectCount(int foundObjectCount) {
+            this.foundObjectCount = (long) foundObjectCount;
+            return this;
+        }
+
 
         public DenaResponse build() {
             DenaResponse denaResponse = new DenaResponse();
@@ -164,6 +177,7 @@ public class DenaResponse {
             denaResponse.setDenaObjectResponseList(denaObjectResponseList);
             denaResponse.setDeleteObjectCount(deleteObjectCount);
             denaResponse.setDeleteRelationCount(deleteRelationCount);
+            denaResponse.setFoundObjectCount(foundObjectCount);
             denaResponse.setPage(page);
             return denaResponse;
         }

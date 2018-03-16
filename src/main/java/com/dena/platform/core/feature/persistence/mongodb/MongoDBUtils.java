@@ -119,7 +119,7 @@ public class MongoDBUtils {
         int deleteCount = 0;
         List<BsonDocument> bsonDocuments = findDocumentById(mongoDatabase, parentTypeName, parentObjectId);
 
-        if (CollectionUtils.isNotEmpty(bsonDocuments)) {
+        if (CollectionUtils.isNotEmpty(bsonDocuments) && bsonDocuments.get(0).containsKey(relationName)) {
             deleteCount = bsonDocuments.get(0).getDocument(relationName).getArray(RELATION_IDS).size();
             UpdateResult updateResult = mongoDatabase
                     .getCollection(parentTypeName)
