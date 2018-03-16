@@ -30,7 +30,7 @@ public class FindDataTest extends AbstractDataStoreTest {
         TestDenaResponseDTO actualReturnObject = performFindRequest(objectId3);
 
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
-        expectedReturnObject.createObjectCount = 1L;
+        expectedReturnObject.foundObjectCount = 1L;
         expectedReturnObject.timestamp = actualReturnObject.timestamp;
 
         /////////////////////////////////////////////
@@ -54,13 +54,13 @@ public class FindDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Send Find Object Request
         /////////////////////////////////////////////
-        TestDenaResponseDTO actualReturnObject = performFindRelationRequest(objectId3, CommonConfig.COLLECTION_NAME);
+        TestDenaResponseDTO actualReturnObject = performFindRelationRequest(objectId3, CommonConfig.RELATION_NAME);
 
         /////////////////////////////////////////////
         //            Assert Found Object
         /////////////////////////////////////////////
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
-        expectedReturnObject.createObjectCount = 2L;
+        expectedReturnObject.foundObjectCount = 2L;
         expectedReturnObject.timestamp = actualReturnObject.timestamp;
 
 
@@ -97,7 +97,7 @@ public class FindDataTest extends AbstractDataStoreTest {
         //            Assert Found Object
         /////////////////////////////////////////////
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
-        expectedReturnObject.createObjectCount = 0L;
+        expectedReturnObject.foundObjectCount = 0L;
         expectedReturnObject.timestamp = actualReturnObject.timestamp;
 
         // check timestamp field of returned object

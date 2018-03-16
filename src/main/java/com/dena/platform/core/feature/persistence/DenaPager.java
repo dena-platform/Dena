@@ -10,7 +10,7 @@ import com.dena.platform.common.config.DenaConfigReader;
  */
 public class DenaPager {
     public final static String PAGE_PARAMETER = "page";
-    public final static String ITEMP_PER_PAGE_PARAMETER = "itemPerPage";
+    public final static String ITEM_PER_PAGE_PARAMETER = "itemPerPage";
 
     private long page; // the page number
     private long count; // total count of results

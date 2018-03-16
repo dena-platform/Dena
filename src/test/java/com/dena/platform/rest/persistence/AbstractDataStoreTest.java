@@ -75,7 +75,7 @@ public class AbstractDataStoreTest {
         document3.put("object_uri", "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3);
 
         Document relatedDocument = new Document("relation_type", "ONE-TO-ONE")
-                .append("target_name", "comment")
+                .append("target_name", CommonConfig.COLLECTION_NAME)
                 .append("ids", Arrays.asList(new ObjectId(objectId1), new ObjectId(objectId2)));
 
         document3.put(CommonConfig.RELATION_NAME, relatedDocument);
@@ -98,8 +98,8 @@ public class AbstractDataStoreTest {
         return createObjectFromJSON(returnContent, TestDenaResponseDTO.class);
     }
 
-    protected TestDenaResponseDTO performFindRelationRequest(String objectId1, String targetType) throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId1 + "/relation/" + targetType))
+    protected TestDenaResponseDTO performFindRelationRequest(String objectId1, String relationName) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId1 + "/relation/" + relationName))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
