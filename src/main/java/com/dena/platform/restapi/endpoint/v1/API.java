@@ -41,7 +41,7 @@ public class API {
     }
 
     /**
-     * Delete one or many specified objects
+     * Delete one or many objects
      *
      * @return
      */
