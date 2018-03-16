@@ -19,11 +19,17 @@ public class TestDenaResponseDTO {
     @JsonProperty("timestamp")
     public Long timestamp;
 
-    @JsonProperty("create_object_count")
+    @JsonProperty("create_object_count(s)")
     public long createObjectCount;
 
-    @JsonProperty("update_object_count")
+    @JsonProperty("update_object_count(s)")
     public Long updateObjectCount;
+
+    @JsonProperty("delete_object_count(s)")
+    public Long deleteObjectCount;
+
+    @JsonProperty("delete_relation_count(s)")
+    public Long deleteRelationCount;
 
 
     @JsonProperty("page")
