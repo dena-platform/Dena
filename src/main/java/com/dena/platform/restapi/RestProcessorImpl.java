@@ -160,17 +160,17 @@ public class RestProcessorImpl implements DenaRestProcessor {
     public ResponseEntity handleFindObject() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
 
-        String typeName = denaRequestContext.getPathVariable(TYPE_NAME);
+        String parentTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String appId = denaRequestContext.getPathVariable(APP_ID);
         String objectId = denaRequestContext.getPathVariable(OBJECT_ID);
-        String targetType = denaRequestContext.getPathVariable("target-type");
+        String relationName = denaRequestContext.getPathVariable("relation-name");
         List<DenaObject> foundDenaObject;
         DenaResponse denaResponse;
 
         try {
             // find single object by id
-            if (StringUtils.isBlank(targetType)) {
-                foundDenaObject = denaDataStore.findObject(appId, typeName, objectId);
+            if (StringUtils.isBlank(relationName)) {
+                foundDenaObject = denaDataStore.findObject(appId, parentTypeName, objectId);
 
                 if (CollectionUtils.isNotEmpty(foundDenaObject)) {
                     denaResponse = DenaResponseBuilder.aDenaResponse()
@@ -190,12 +190,11 @@ public class RestProcessorImpl implements DenaRestProcessor {
             // find related objects
             else {
                 DenaPager denaPager = constructPager(denaRequestContext);
-                foundDenaObject = denaDataStore.findObjectRelation(appId, typeName, objectId, targetType, denaPager);
+                foundDenaObject = denaDataStore.findObjectRelation(appId, parentTypeName, objectId, relationName, denaPager);
 
                 denaResponse = DenaResponseBuilder.aDenaResponse()
-                        .withCreateObjectCount(foundDenaObject.size())
+                        .withFoundObjectCount(foundDenaObject.size())
                         .withObjectResponseList(createObjectResponse(foundDenaObject))
-                        .withCreateObjectCount(denaPager.getCount())
                         .withPage(denaPager.getPage())
                         .withTimestamp(DenaObjectUtils.timeStamp())
                         .build();
