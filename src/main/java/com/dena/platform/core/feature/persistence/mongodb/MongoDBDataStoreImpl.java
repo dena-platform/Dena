@@ -201,7 +201,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
             List<BsonDocument> foundDocuments = MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId);
 
-            return createBsonDocumentsToDenaObjects(foundDocuments);
+            return convertBsonDocumentsToDenaObjects(foundDocuments);
         } catch (Exception ex) {
             throw new DataStoreException("Error in finding object", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
@@ -221,7 +221,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
             List<BsonDocument> foundDocuments = MongoDBUtils.findRelatedDocument(mongoDatabase, parentDocument.get(0), relationName, denaPager);
 
-            return createBsonDocumentsToDenaObjects(foundDocuments);
+            return convertBsonDocumentsToDenaObjects(foundDocuments);
 
         } catch (Exception ex) {
             throw new DataStoreException("Error in finding related object(s)", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
@@ -339,7 +339,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         return relations;
     }
 
-    private List<DenaObject> createBsonDocumentsToDenaObjects(List<BsonDocument> bsonDocuments) {
+    private List<DenaObject> convertBsonDocumentsToDenaObjects(List<BsonDocument> bsonDocuments) {
         List<DenaObject> result = new LinkedList<>();
         if (CollectionUtils.isEmpty(bsonDocuments)) {
             return Collections.emptyList();
