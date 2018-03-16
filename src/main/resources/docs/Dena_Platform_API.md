@@ -447,7 +447,7 @@ Response Body:
 
 ----------
 ## Find Object##
-By default when you get an object from Dena platform, related objects not included in the response because it may cause load performance on server or client memory.Therefore you should get related object in separate request.   
+By default when you get an object from Dena platform, related objects not included in the response because it may cause load performance on server or client memory.Therefore you should get related object in a separate request.   
 
 1. Find object by id
 2. Find object by type supporting search clause 
@@ -466,7 +466,7 @@ URL: /v1/<application-id>/<type-name>/<object-id>
 
 Request Body: None
 
-Return Value:
+Response Body:
 
     {
       "timestamp" : "1513233158180",
