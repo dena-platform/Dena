@@ -17,6 +17,6 @@ public interface DenaRestProcessor {
 
     ResponseEntity handleFindObject();
 
-    ResponseEntity handleRegisterAPPUser();
+    ResponseEntity handleRegisterUser();
 
 }

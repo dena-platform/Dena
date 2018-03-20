@@ -650,6 +650,13 @@ Return Value:
        "count" : number of item retrived
       }
 
+
+----------
+# User Management #
+This API conta
+
+
+
 ----------
 ## Error Response ##
 When error occurred in service then the following json return

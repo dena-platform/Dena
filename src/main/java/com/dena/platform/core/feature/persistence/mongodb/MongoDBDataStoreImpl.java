@@ -322,7 +322,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             }
 
             if (!isParameterValid) {
-                throw new DataStoreException(String.format("ObjectId [%s] invalid exception", objectIds), ErrorCode.OBJECT_ID_INVALID_EXCEPTION);
+                throw new DataStoreException(String.format("ObjectId [%s] invalid exception", (Object[]) objectIds), ErrorCode.OBJECT_ID_INVALID_EXCEPTION);
             }
 
         }
