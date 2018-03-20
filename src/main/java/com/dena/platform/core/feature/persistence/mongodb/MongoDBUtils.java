@@ -131,6 +131,11 @@ public class MongoDBUtils {
         return deleteCount;
     }
 
+
+    /////////////////////////////////////////////
+    //           SEARCH API
+    /////////////////////////////////////////////
+
     public static List<BsonDocument> findDocumentById(MongoDatabase mongoDatabase, String collectionName, String... documentIds) {
         List<ObjectId> objectIds = new ArrayList<>();
         List<BsonDocument> returnList = new LinkedList<>();
@@ -146,6 +151,22 @@ public class MongoDBUtils {
 
         return returnList;
     }
+
+    public static List<BsonDocument> findALLDocument(MongoDatabase mongoDatabase, String collectionName, DenaPager pager) {
+        List<BsonDocument> returnList = new LinkedList<>();
+        int startIndex = (int) pager.getCount() * pager.getLimit();
+
+        mongoDatabase.getCollection(collectionName, BsonDocument.class)
+                .find()
+                .skip(startIndex)
+                .batchSize(pager.getLimit())
+                .limit(pager.getLimit())
+
+                .into(returnList);
+
+        return returnList;
+    }
+
 
     public static List<BsonDocument> findRelatedDocument(MongoDatabase mongoDatabase, BsonDocument parentDocument, String relationName, DenaPager pager) {
         List<Object> relatedObjectIds = BSONTypeMapper.convertBSONArrayToJava(

@@ -1,5 +1,6 @@
 package com.dena.platform.core.dto;
 
+import com.dena.platform.common.web.JSONMapper;
 import com.fasterxml.jackson.annotation.*;
 import org.apache.commons.lang3.StringUtils;
 
@@ -46,6 +47,11 @@ public class DenaObject {
         if (StringUtils.isNotBlank(name) && value != null) {
             otherFields.put(name, value);
         }
+    }
+
+    public boolean hasProperty(String name, Object value) {
+        return JSONMapper.createHashMapFromObject(this).get(name) != null;
+
     }
 
     @JsonAnyGetter

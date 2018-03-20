@@ -10,6 +10,7 @@ import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
+import com.dena.platform.core.feature.security.DenaUserManagement;
 import com.dena.platform.restapi.dto.response.DenaObjectResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse.DenaResponseBuilder;
@@ -42,6 +43,8 @@ public class RestProcessorImpl implements DenaRestProcessor {
     @Resource(name = "denaMongoDBDataStoreImpl")
     private DenaDataStore denaDataStore;
 
+    private DenaUserManagement denaUserManagement;
+
     @Override
     public ResponseEntity handleCreateObject() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
@@ -54,7 +57,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
         try {
             denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
-            List<DenaObject> returnObject = denaDataStore.storeObjects(appName, appTypeName, denaObjects.toArray(new DenaObject[0]));
+            List<DenaObject> returnObject = denaDataStore.store(appName, appTypeName, denaObjects.toArray(new DenaObject[0]));
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
                     .withObjectResponseList(createObjectResponse(returnObject))
                     .withCreateObjectCount(returnObject.size())
@@ -76,7 +79,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         List<DenaObject> denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
 
         try {
-            List<DenaObject> returnObject = denaDataStore.updateObjects(appName, appTypeName, denaObjects.toArray(new DenaObject[0]));
+            List<DenaObject> returnObject = denaDataStore.update(appName, appTypeName, denaObjects.toArray(new DenaObject[0]));
             DenaResponse response = DenaResponseBuilder.aDenaResponse()
                     .withObjectResponseList(createObjectResponse(returnObject))
                     .withUpdateObjectCount(returnObject.size())
@@ -144,7 +147,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
                 throw new ParameterInvalidException("type name is empty", ErrorCode.INVALID_REQUEST);
             }
 
-            long deleteCount = denaDataStore.deleteObjects(appId, typeName, objectIds);
+            long deleteCount = denaDataStore.delete(appId, typeName, objectIds);
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
                     .withDeleteObjectCount(deleteCount)
                     .withTimestamp(DenaObjectUtils.timeStamp())
@@ -170,7 +173,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         try {
             // find single object by id
             if (StringUtils.isBlank(relationName)) {
-                foundDenaObject = denaDataStore.findObject(appId, parentTypeName, objectId);
+                foundDenaObject = denaDataStore.find(appId, parentTypeName, objectId);
 
                 if (CollectionUtils.isNotEmpty(foundDenaObject)) {
                     denaResponse = DenaResponseBuilder.aDenaResponse()
@@ -190,7 +193,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             // find related objects
             else {
                 DenaPager denaPager = constructPager(denaRequestContext);
-                foundDenaObject = denaDataStore.findObjectRelation(appId, parentTypeName, objectId, relationName, denaPager);
+                foundDenaObject = denaDataStore.findRelatedObject(appId, parentTypeName, objectId, relationName, denaPager);
 
                 denaResponse = DenaResponseBuilder.aDenaResponse()
                         .withFoundObjectCount(foundDenaObject.size())
@@ -241,14 +244,8 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
     }
 
-    private DenaResponse makeDenaResponse(long count, List<DenaObjectResponse> denaObjectResponseList) {
-        return DenaResponseBuilder.aDenaResponse()
-                .withCreateObjectCount(count)
-                .withTimestamp(DenaObjectUtils.timeStamp())
-                .withObjectResponseList(denaObjectResponseList)
-                .build();
-
+    @Override
+    public ResponseEntity handleRegisterAPPUser() {
+        return null;
     }
-
-
 }
