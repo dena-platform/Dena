@@ -15,6 +15,8 @@ public class APPUser {
 
     private String password;
 
+    private String appName;
+
     private Map<String, Object> otherFields = new HashMap<>();
 
     public String getEmail() {
@@ -31,6 +33,14 @@ public class APPUser {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getAppName() {
+        return appName;
+    }
+
+    public void setAppName(String appName) {
+        this.appName = appName;
     }
 
     public void addProperty(String name, Object value) {

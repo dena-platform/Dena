@@ -27,8 +27,9 @@ public class JSONMapper {
         JSONMapper.JSON_MAPPER = objectMapper;
     }
 
-    public static <T> String createJSONFromObject(final T object) throws InvalidJSONException {
+    public static String createJSON(final Object object) throws InvalidJSONException {
         try {
+
             return JSON_MAPPER.writeValueAsString(object);
         } catch (JsonProcessingException ex) {
             String errMessage = String.format("Error in converting from Class [%s] to JSON", object.getClass().getSimpleName());
@@ -50,6 +51,18 @@ public class JSONMapper {
             return JSON_MAPPER.readValue(jsonString, classType);
         } catch (IOException ex) {
             String errMessage = String.format("Error in converting from JSON [%s] to class [%s]", jsonString, classType);
+            throw new InvalidJSONException(errMessage, ErrorCode.INVALID_REQUEST);
+        }
+    }
+
+    public static HashMap<String, Object> createHashMapFromObject(final Object object) {
+        HashMap<String, Object> map;
+        try {
+            map = JSON_MAPPER.convertValue(object, new TypeReference<HashMap<String, Object>>() {
+            });
+            return map;
+        } catch (IllegalArgumentException ex) {
+            String errMessage = String.format("Error in converting from Object [%s] to class [%s]", object, HashMap.class);
             throw new InvalidJSONException(errMessage, ErrorCode.INVALID_REQUEST);
         }
     }
