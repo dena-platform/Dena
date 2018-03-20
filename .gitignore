@@ -29,5 +29,8 @@ target/
 **/~$cument.docx
 **/main/resources/docs/*.tmp
 
+# Visual Paradigm temp files
+**/*.vpp~*
+
 # JRebel config
 /src/main/resources/rebel.xml
