@@ -7,12 +7,16 @@ import com.dena.platform.common.exception.ErrorCode;
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 public class UserManagementException extends DenaException {
-    public UserManagementException(String message) {
+
+
+    public UserManagementException(String message, ErrorCode errorCode) {
         super(message);
+        this.errorCode = errorCode;
     }
 
-    public UserManagementException(String message, Throwable cause) {
+    public UserManagementException(String message, ErrorCode errorCode, Throwable cause, ErrorCode errorCode1) {
         super(message, cause);
+        this.errorCode = errorCode;
     }
 
     @Override

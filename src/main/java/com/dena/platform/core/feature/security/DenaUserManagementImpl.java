@@ -1,10 +1,12 @@
 package com.dena.platform.core.feature.security;
 
+import com.dena.platform.common.exception.ErrorCode;
 import com.dena.platform.common.utils.DenaMessageUtils;
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.security.domain.APPUser;
+import com.dena.platform.core.feature.security.exception.UserManagementException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -34,10 +36,13 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
     @Override
     public void registerUser(APPUser appUser) {
+        if (isUserExist(appUser)) {
+            throw new UserManagementException(String.format("User with this identity [%s] already exist", appUser.getEmail()), ErrorCode.USER_ALREADY_EXIST_EXCEPTION);
+        }
         DenaObject denaObject = new DenaObject();
-        denaObject.addProperty("email", appUser.getEmail());
-        denaObject.addProperty("password", appUser.getPassword());
-        denaObject.addProperty("app_name", appUser.getAppName());
+        denaObject.addProperty(APPUser.EMAIL_FIELD_NAME, appUser.getEmail());
+        denaObject.addProperty(APPUser.PASSWORD_FIELD_NAME, appUser.getPassword());
+        denaObject.addProperty(APPUser.APPNAME_FIELD_NAME, appUser.getAppName());
 
         denaDataStore.store(databaseName, appUserTypeName, denaObject);
     }
@@ -47,7 +52,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
         // todo: when we implement search capability in DanaStore module then refactor this method to use it
         List<DenaObject> denaObjects = denaDataStore.findAll(databaseName, appUserTypeName, new DenaPager());
         Optional foundUser = denaObjects.stream()
-                .filter(denaObject -> denaObject.hasProperty("email", appUser.getEmail()))
+                .filter(denaObject -> denaObject.hasProperty(APPUser.EMAIL_FIELD_NAME, appUser.getEmail()))
                 .findAny();
 
         return foundUser.isPresent();
