@@ -19,6 +19,11 @@ public class API {
     @Resource(name = "denaRestEntityProcessorImpl")
     protected DenaRestProcessor denaRestProcessor;
 
+
+    /////////////////////////////////////////////
+    //            Data Store API
+    /////////////////////////////////////////////
+
     /**
      * Create new object in data store. This webservice may also create relation between objects
      *
@@ -81,9 +86,12 @@ public class API {
     /////////////////////////////////////////////
     //            User Management API
     /////////////////////////////////////////////
+    @PostMapping(path = {
+            "/{app-id}/{type-name}/{object-id}",
+            "/{app-id}/{type-name}/{object-id}/relation/{relation-name}"})
 
     public ResponseEntity createAPPUser() {
-        return
+        return denaRestProcessor.handleRegisterAPPUser();
     }
 
 }
