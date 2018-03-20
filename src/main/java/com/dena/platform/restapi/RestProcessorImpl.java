@@ -40,9 +40,10 @@ public class RestProcessorImpl implements DenaRestProcessor {
     public final static String OBJECT_ID = "object-id";
 
 
-    @Resource(name = "denaMongoDBDataStoreImpl")
+    @Resource
     private DenaDataStore denaDataStore;
 
+    @Resource
     private DenaUserManagement denaUserManagement;
 
     @Override
@@ -209,6 +210,13 @@ public class RestProcessorImpl implements DenaRestProcessor {
         }
     }
 
+    @Override
+    public ResponseEntity handleRegisterUser() {
+        DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
+        return denaUserManagement.registerUser();
+    }
+
+
 
     private List<DenaObjectResponse> createObjectResponse(List<DenaObject> denaObjects) {
         List<DenaObjectResponse> denaObjectResponses = new ArrayList<>();
@@ -244,8 +252,4 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
     }
 
-    @Override
-    public ResponseEntity handleRegisterAPPUser() {
-        return null;
-    }
 }
