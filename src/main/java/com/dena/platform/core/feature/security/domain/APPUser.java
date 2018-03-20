@@ -11,6 +11,13 @@ import java.util.Map;
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 public class APPUser {
+
+    public final static String EMAIL_FIELD_NAME = "email";
+
+    public final static String PASSWORD_FIELD_NAME = "password";
+
+    public final static String APPNAME_FIELD_NAME = "password";
+
     private String email;
 
     private String password;

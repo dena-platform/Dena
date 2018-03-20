@@ -301,7 +301,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         boolean isObjectIdExist = CollectionUtils.isNotEmpty(MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId));
 
         if (!isObjectIdExist) {
-            throw new DataStoreException("ObjectId not found exception", ErrorCode.ObjectId_NOT_FOUND_EXCEPTION);
+            throw new DataStoreException("ObjectId not found exception", ErrorCode.OBJECT_ID_NOT_FOUND_EXCEPTION);
         }
     }
 
@@ -322,7 +322,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             }
 
             if (!isParameterValid) {
-                throw new DataStoreException(String.format("ObjectId [%s] invalid exception", objectIds), ErrorCode.ObjectId_INVALID_EXCEPTION);
+                throw new DataStoreException(String.format("ObjectId [%s] invalid exception", objectIds), ErrorCode.OBJECT_ID_INVALID_EXCEPTION);
             }
 
         }
