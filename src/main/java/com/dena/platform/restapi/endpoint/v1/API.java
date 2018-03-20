@@ -32,6 +32,7 @@ public class API {
 
     /**
      * Update object in data store. calling this web service can lead to new field or relation creation
+     *
      * @return number of updated objects
      */
 
@@ -75,6 +76,14 @@ public class API {
     public ResponseEntity findObject() {
         return denaRestProcessor.handleFindObject();
 
+    }
+
+    /////////////////////////////////////////////
+    //            User Management API
+    /////////////////////////////////////////////
+
+    public ResponseEntity createAPPUser() {
+        return
     }
 
 }
