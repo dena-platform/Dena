@@ -14,7 +14,7 @@ public class UserManagementException extends DenaException {
         this.errorCode = errorCode;
     }
 
-    public UserManagementException(String message, ErrorCode errorCode, Throwable cause, ErrorCode errorCode1) {
+    public UserManagementException(String message, ErrorCode errorCode, Throwable cause) {
         super(message, cause);
         this.errorCode = errorCode;
     }
