@@ -4,6 +4,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.MessageSource;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Locale;
@@ -11,7 +12,7 @@ import java.util.Locale;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
-@Service("denaMessageUtils")
+@Component("denaMessageUtils")
 public final class DenaMessageUtils implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
 

@@ -1,7 +1,7 @@
 package com.dena.platform.core.feature.security;
 
+import com.dena.platform.common.config.DenaConfigReader;
 import com.dena.platform.common.exception.ErrorCode;
-import com.dena.platform.common.utils.DenaMessageUtils;
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
@@ -28,7 +28,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
     @PostConstruct
     public void init() {
-        userTypeName = DenaMessageUtils.getMessage("UserManagement.user.type");
+        userTypeName = DenaConfigReader.readProperty("UserManagement.user.type");
     }
 
     @Override
