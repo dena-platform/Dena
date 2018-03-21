@@ -683,9 +683,10 @@ Content-Type:application/json
 Request Body: 
 
     {
-      "email": "user1@denaplatform.com",
-      "passsword": "123456",
-      ... other field
+      "email": "user2@denaplatform.com",
+      "password": "123456",
+      "name":"javad",
+      "family":"alimohammadi"
     }
 
 
