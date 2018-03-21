@@ -17,9 +17,6 @@ public class User {
 
     public final static String PASSWORD_FIELD_NAME = "password";
 
-    public final static String APPNAME_FIELD_NAME = "app_id";
-
-
     private String email;
 
     private String password;
