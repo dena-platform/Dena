@@ -47,7 +47,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
     public boolean isUserExist(User user) {
         // todo: when we implement search capability in DanaStore module, then refactor this method to use it
         List<DenaObject> denaObjects = denaDataStore.findAll(user.getAppId(), userTypeName, new DenaPager());
-        Optional foundUser = denaObjects.stream()
+        Optional<DenaObject> foundUser = denaObjects.stream()
                 .filter(denaObject -> denaObject.hasProperty(User.EMAIL_FIELD_NAME, user.getEmail()))
                 .findAny();
 
