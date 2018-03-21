@@ -39,15 +39,15 @@ public class DenaUserManagementImpl implements DenaUserManagement {
         DenaObject denaObject = new DenaObject();
         denaObject.addProperty(User.EMAIL_FIELD_NAME, user.getEmail());
         denaObject.addProperty(User.PASSWORD_FIELD_NAME, user.getPassword());
-        denaObject.addProperty(User.APPNAME_FIELD_NAME, user.getAppName());
+        denaObject.addProperty(User.APPNAME_FIELD_NAME, user.getAppId());
 
-        return denaDataStore.store(user.getAppName(), userTypeName, denaObject).get(0);
+        return denaDataStore.store(user.getAppId(), userTypeName, denaObject).get(0);
     }
 
     @Override
     public boolean isUserExist(User user) {
         // todo: when we implement search capability in DanaStore module, then refactor this method to use it
-        List<DenaObject> denaObjects = denaDataStore.findAll(user.getAppName(), userTypeName, new DenaPager());
+        List<DenaObject> denaObjects = denaDataStore.findAll(user.getAppId(), userTypeName, new DenaPager());
         Optional foundUser = denaObjects.stream()
                 .filter(denaObject -> denaObject.hasProperty(User.EMAIL_FIELD_NAME, user.getEmail()))
                 .findAny();
@@ -56,7 +56,4 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
     }
 
-    private DenaObject convertToDenaObject(User user) {
-        return null;
-    }
 }

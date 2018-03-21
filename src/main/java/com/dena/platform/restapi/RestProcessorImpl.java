@@ -221,13 +221,6 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String password = (String) requestParameter.get(User.PASSWORD_FIELD_NAME);
         Map<String, Object> otherFields = new HashMap<>();
 
-        for (Map.Entry<String, Object> entry : requestParameter.entrySet()) {
-            if (!entry.getKey().equalsIgnoreCase(User.EMAIL_FIELD_NAME) && !entry.getKey().equalsIgnoreCase(User.PASSWORD_FIELD_NAME)) {
-                otherFields.put(entry.getKey(), entry.getValue());
-            }
-        }
-
-
         if (StringUtils.isEmpty(email)) {
             log.warn("email is empty");
             throw new ParameterInvalidException("email field is not set", ErrorCode.EMAIL_FIELD_IS_NOT_SET);
@@ -236,8 +229,17 @@ public class RestProcessorImpl implements DenaRestProcessor {
             throw new ParameterInvalidException("password field is not set", ErrorCode.PASSWORD_FIELD_IS_NOT_SET);
         }
 
+
+        for (Map.Entry<String, Object> entry : requestParameter.entrySet()) {
+            if (!entry.getKey().equalsIgnoreCase(User.EMAIL_FIELD_NAME) && !entry.getKey().equalsIgnoreCase(User.PASSWORD_FIELD_NAME)) {
+                otherFields.put(entry.getKey(), entry.getValue());
+            }
+        }
+
+
+
         User user = User.UserBuilder.anUser()
-                .withAppName(appId)
+                .withAppId(appId)
                 .withEmail(email)
                 .withPassword(password)
                 .withOtherFields(otherFields)
