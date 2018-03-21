@@ -28,7 +28,7 @@ public enum ErrorCode {
     // User Management exception - range 3000-4000
     USER_ALREADY_EXIST_EXCEPTION("dena.platform.restapi.exception.USER_ALREADY_EXIST", "3000-400"),
     EMAIL_FIELD_IS_NOT_SET("dena.platform.restapi.exception.EMAIL_FIELD_IS_NOT_SET", "3001-400"),
-    PASSWORD_FIELD_IS_NOT_SET("dena.platform.restapi.exception.PASSWORD_FIELD_IS_NOT_SET", "3001-400");
+    PASSWORD_FIELD_IS_NOT_SET("dena.platform.restapi.exception.PASSWORD_FIELD_IS_NOT_SET", "3002-400");
 
 
     private String messageCode;
