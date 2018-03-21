@@ -222,7 +222,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         Map<String, Object> otherFields = new HashMap<>();
 
         for (Map.Entry<String, Object> entry : requestParameter.entrySet()) {
-            if (!entry.getKey().equals(User.EMAIL_FIELD_NAME) && !entry.getKey().equals(User.PASSWORD_FIELD_NAME)) {
+            if (!entry.getKey().equalsIgnoreCase(User.EMAIL_FIELD_NAME) && !entry.getKey().equalsIgnoreCase(User.PASSWORD_FIELD_NAME)) {
                 otherFields.put(entry.getKey(), entry.getValue());
             }
         }
