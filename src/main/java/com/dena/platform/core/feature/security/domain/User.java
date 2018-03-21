@@ -17,14 +17,14 @@ public class User {
 
     public final static String PASSWORD_FIELD_NAME = "password";
 
-    public final static String APPNAME_FIELD_NAME = "app_name";
+    public final static String APPNAME_FIELD_NAME = "app_id";
 
 
     private String email;
 
     private String password;
 
-    private String appName;
+    private String appId;
 
     private Map<String, Object> otherFields = new HashMap<>();
 
@@ -44,12 +44,12 @@ public class User {
         this.password = password;
     }
 
-    public String getAppName() {
-        return appName;
+    public String getAppId() {
+        return appId;
     }
 
-    public void setAppName(String appName) {
-        this.appName = appName;
+    public void setAppId(String appId) {
+        this.appId = appId;
     }
 
     public void addProperty(final String name, final Object value) {
@@ -88,8 +88,8 @@ public class User {
             return this;
         }
 
-        public UserBuilder withAppName(String appName) {
-            user.setAppName(appName);
+        public UserBuilder withAppId(String appId) {
+            user.setAppId(appId);
             return this;
         }
 
