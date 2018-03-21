@@ -56,7 +56,11 @@ public class DenaObject {
 
     @JsonAnyGetter
     public Map<String, Object> getOtherFields() {
-        return otherFields;
+        return Collections.unmodifiableMap(otherFields);
+    }
+
+    public void addFields(Map<String, Object> fields) {
+        otherFields.putAll(fields);
     }
 
 
