@@ -5,7 +5,7 @@ import com.dena.platform.common.utils.DenaMessageUtils;
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
-import com.dena.platform.core.feature.security.domain.APPUser;
+import com.dena.platform.core.feature.security.domain.User;
 import com.dena.platform.core.feature.security.exception.UserManagementException;
 import org.springframework.stereotype.Service;
 
@@ -32,31 +32,31 @@ public class DenaUserManagementImpl implements DenaUserManagement {
     }
 
     @Override
-    public void registerUser(APPUser user) {
+    public DenaObject registerUser(User user) {
         if (isUserExist(user)) {
             throw new UserManagementException(String.format("User with this identity [%s] already exist", user.getEmail()), ErrorCode.USER_ALREADY_EXIST_EXCEPTION);
         }
         DenaObject denaObject = new DenaObject();
-        denaObject.addProperty(APPUser.EMAIL_FIELD_NAME, user.getEmail());
-        denaObject.addProperty(APPUser.PASSWORD_FIELD_NAME, user.getPassword());
-        denaObject.addProperty(APPUser.APPNAME_FIELD_NAME, user.getAppName());
+        denaObject.addProperty(User.EMAIL_FIELD_NAME, user.getEmail());
+        denaObject.addProperty(User.PASSWORD_FIELD_NAME, user.getPassword());
+        denaObject.addProperty(User.APPNAME_FIELD_NAME, user.getAppName());
 
-        denaDataStore.store(user.getAppName(), userTypeName, denaObject);
+        return denaDataStore.store(user.getAppName(), userTypeName, denaObject).get(0);
     }
 
     @Override
-    public boolean isUserExist(APPUser appUser) {
-        // todo: when we implement search capability in DanaStore module then refactor this method to use it
-        List<DenaObject> denaObjects = denaDataStore.findAll(appUser.getAppName(), userTypeName, new DenaPager());
+    public boolean isUserExist(User user) {
+        // todo: when we implement search capability in DanaStore module, then refactor this method to use it
+        List<DenaObject> denaObjects = denaDataStore.findAll(user.getAppName(), userTypeName, new DenaPager());
         Optional foundUser = denaObjects.stream()
-                .filter(denaObject -> denaObject.hasProperty(APPUser.EMAIL_FIELD_NAME, appUser.getEmail()))
+                .filter(denaObject -> denaObject.hasProperty(User.EMAIL_FIELD_NAME, user.getEmail()))
                 .findAny();
 
         return foundUser.isPresent();
 
     }
 
-    private DenaObject convertToDenaObject(APPUser appUser) {
+    private DenaObject convertToDenaObject(User user) {
         return null;
     }
 }
