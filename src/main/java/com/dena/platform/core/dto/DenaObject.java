@@ -49,9 +49,9 @@ public class DenaObject {
         }
     }
 
-    public boolean hasProperty(String name, Object value) {
-        return JSONMapper.createHashMapFromObject(this).get(name) != null;
-
+    public boolean hasProperty(final String name, final Object value) {
+        Object propertyValue = JSONMapper.createHashMapFromObject(this).get(name);
+        return Objects.equals(propertyValue, value);
     }
 
     @JsonAnyGetter
