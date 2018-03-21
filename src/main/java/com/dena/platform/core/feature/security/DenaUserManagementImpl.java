@@ -32,8 +32,8 @@ public class DenaUserManagementImpl implements DenaUserManagement {
     }
 
     @Override
-    public DenaObject registerUser(User user) {
-        if (isUserExist(user)) {
+    public DenaObject registerUser(String appId, User user) {
+        if (isUserExist(appId, user)) {
             throw new UserManagementException(String.format("User with this identity [%s] already exist", user.getEmail()), ErrorCode.USER_ALREADY_EXIST_EXCEPTION);
         }
         DenaObject denaObject = new DenaObject();
@@ -41,13 +41,13 @@ public class DenaUserManagementImpl implements DenaUserManagement {
         denaObject.addProperty(User.PASSWORD_FIELD_NAME, user.getPassword());
         denaObject.addFields(user.getOtherFields());
 
-        return denaDataStore.store(user.getAppId(), userTypeName, denaObject).get(0);
+        return denaDataStore.store(appId, userTypeName, denaObject).get(0);
     }
 
     @Override
-    public boolean isUserExist(User user) {
+    public boolean isUserExist(String appId, User user) {
         // todo: when we implement search capability in DanaStore module, then refactor this method to use it
-        List<DenaObject> denaObjects = denaDataStore.findAll(user.getAppId(), userTypeName, new DenaPager());
+        List<DenaObject> denaObjects = denaDataStore.findAll(appId, userTypeName, new DenaPager());
         Optional<DenaObject> foundUser = denaObjects.stream()
                 .filter(denaObject -> denaObject.hasProperty(User.EMAIL_FIELD_NAME, user.getEmail()))
                 .findAny();

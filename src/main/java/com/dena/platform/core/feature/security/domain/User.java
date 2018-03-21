@@ -21,8 +21,6 @@ public class User {
 
     private String password;
 
-    private String appId;
-
     private Map<String, Object> otherFields = new HashMap<>();
 
     public String getEmail() {
@@ -39,14 +37,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getAppId() {
-        return appId;
-    }
-
-    public void setAppId(String appId) {
-        this.appId = appId;
     }
 
     public void addProperty(final String name, final Object value) {
@@ -82,11 +72,6 @@ public class User {
 
         public UserBuilder withPassword(String password) {
             user.setPassword(password);
-            return this;
-        }
-
-        public UserBuilder withAppId(String appId) {
-            user.setAppId(appId);
             return this;
         }
 

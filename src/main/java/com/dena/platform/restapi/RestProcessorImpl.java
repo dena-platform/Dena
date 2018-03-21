@@ -240,13 +240,12 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
 
             User user = User.UserBuilder.anUser()
-                    .withAppId(appId)
                     .withEmail(email)
                     .withPassword(password)
                     .withOtherFields(otherFields)
                     .build();
 
-            DenaObject registeredUser = denaUserManagement.registerUser(user);
+            DenaObject registeredUser = denaUserManagement.registerUser(appId, user);
 
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
                     .withCreateObjectCount(1)
