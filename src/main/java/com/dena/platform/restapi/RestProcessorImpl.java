@@ -11,6 +11,7 @@ import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.dena.platform.core.feature.security.DenaUserManagement;
+import com.dena.platform.core.feature.security.domain.User;
 import com.dena.platform.restapi.dto.response.DenaObjectResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse.DenaResponseBuilder;
@@ -23,8 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -213,9 +213,46 @@ public class RestProcessorImpl implements DenaRestProcessor {
     @Override
     public ResponseEntity handleRegisterUser() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
-        return denaUserManagement.registerUser();
-    }
+        String appId = denaRequestContext.getPathVariable(APP_ID);
+        String requestBody = denaRequestContext.getRequestBody();
+        HashMap<String, Object> requestParameter = JSONMapper.createHashMapFromJSON(requestBody);
 
+        String email = (String) requestParameter.get(User.EMAIL_FIELD_NAME);
+        String password = (String) requestParameter.get(User.PASSWORD_FIELD_NAME);
+        Map<String, Object> otherFields = new HashMap<>();
+
+        for (Map.Entry<String, Object> entry : requestParameter.entrySet()) {
+            if (!entry.getKey().equals(User.EMAIL_FIELD_NAME) && !entry.getKey().equals(User.PASSWORD_FIELD_NAME)) {
+                otherFields.put(entry.getKey(), entry.getValue());
+            }
+        }
+
+
+        if (StringUtils.isEmpty(email)) {
+            log.warn("email is empty");
+            throw new ParameterInvalidException("email field is not set", ErrorCode.EMAIL_FIELD_IS_NOT_SET);
+        } else if (StringUtils.isEmpty(email)) {
+            log.warn("password is empty");
+            throw new ParameterInvalidException("password field is not set", ErrorCode.PASSWORD_FIELD_IS_NOT_SET);
+        }
+
+        User user = User.UserBuilder.anUser()
+                .withAppName(appId)
+                .withEmail(email)
+                .withPassword(password)
+                .withOtherFields(otherFields)
+                .build();
+
+        DenaObject registeredUser = denaUserManagement.registerUser(user);
+
+        DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
+                .withCreateObjectCount(1)
+                .withObjectResponseList(createObjectResponse(Collections.singletonList(registeredUser)))
+                .withTimestamp(DenaObjectUtils.timeStamp())
+                .build();
+
+        return ResponseEntity.ok().body(denaResponse);
+    }
 
 
     private List<DenaObjectResponse> createObjectResponse(List<DenaObject> denaObjects) {

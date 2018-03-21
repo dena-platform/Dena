@@ -26,7 +26,10 @@ public enum ErrorCode {
     FIELD_NOT_FOUND_EXCEPTION("dena.platform.restapi.exception.FIELD_TYPE_NOT_FOUND", "2004-400"),
 
     // User Management exception - range 3000-4000
-    USER_ALREADY_EXIST_EXCEPTION("dena.platform.restapi.exception.USER_ALREADY_EXIST", "3000-400");
+    USER_ALREADY_EXIST_EXCEPTION("dena.platform.restapi.exception.USER_ALREADY_EXIST", "3000-400"),
+    EMAIL_FIELD_IS_NOT_SET("dena.platform.restapi.exception.EMAIL_FIELD_IS_NOT_SET", "3001-400"),
+    PASSWORD_FIELD_IS_NOT_SET("dena.platform.restapi.exception.PASSWORD_FIELD_IS_NOT_SET", "3001-400");
+
 
     private String messageCode;
     private String errorCode;
@@ -48,4 +51,4 @@ public enum ErrorCode {
     public int getHttpStatusCode() {
         return Integer.valueOf(errorCode.split("-")[1]);
     }
-}
+    }
