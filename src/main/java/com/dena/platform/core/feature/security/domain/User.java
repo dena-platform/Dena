@@ -21,6 +21,8 @@ public class User {
 
     private String password;
 
+    private String unencodedPassword;
+
     private Map<String, Object> otherFields = new HashMap<>();
 
     public String getEmail() {
@@ -37,6 +39,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUnencodedPassword() {
+        return unencodedPassword;
+    }
+
+    public void setUnencodedPassword(String unencodedPassword) {
+        this.unencodedPassword = unencodedPassword;
     }
 
     public void addProperty(final String name, final Object value) {
@@ -67,6 +77,11 @@ public class User {
 
         public UserBuilder withEmail(String email) {
             user.setEmail(email);
+            return this;
+        }
+
+        public UserBuilder withUnencodedPassword(String unencodedPassword) {
+            user.setUnencodedPassword(unencodedPassword);
             return this;
         }
 

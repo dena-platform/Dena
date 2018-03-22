@@ -241,7 +241,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
             User user = User.UserBuilder.anUser()
                     .withEmail(email)
-                    .withPassword(password)
+                    .withUnencodedPassword(password)
                     .withOtherFields(otherFields)
                     .build();
 

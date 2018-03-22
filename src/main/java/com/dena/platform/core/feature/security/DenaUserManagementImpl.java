@@ -7,6 +7,7 @@ import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.security.domain.User;
 import com.dena.platform.core.feature.security.exception.UserManagementException;
+import com.dena.platform.core.feature.security.service.SecurityService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -26,6 +27,10 @@ public class DenaUserManagementImpl implements DenaUserManagement {
     @Resource
     private DenaDataStore denaDataStore;
 
+    @Resource(name = "denaSecurityService")
+    private SecurityService securityService;
+
+
     @PostConstruct
     public void init() {
         userTypeName = DenaConfigReader.readProperty("UserManagement.user.type");
@@ -36,6 +41,10 @@ public class DenaUserManagementImpl implements DenaUserManagement {
         if (isUserExist(appId, user)) {
             throw new UserManagementException(String.format("User with this identity [%s] already exist", user.getEmail()), ErrorCode.USER_ALREADY_EXIST_EXCEPTION);
         }
+        String encodedPassword = securityService.encodePassword(user.getUnencodedPassword());
+        user.setPassword(encodedPassword);
+
+
         DenaObject denaObject = new DenaObject();
         denaObject.addProperty(User.EMAIL_FIELD_NAME, user.getEmail());
         denaObject.addProperty(User.PASSWORD_FIELD_NAME, user.getPassword());
