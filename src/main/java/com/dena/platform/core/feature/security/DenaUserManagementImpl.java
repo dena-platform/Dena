@@ -37,7 +37,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
     }
 
     @Override
-    public DenaObject registerUser(String appId, User user) {
+    public DenaObject registerUser(final String appId, final User user) {
         if (isUserExist(appId, user)) {
             throw new UserManagementException(String.format("User with this identity [%s] already exist", user.getEmail()), ErrorCode.USER_ALREADY_EXIST_EXCEPTION);
         }
