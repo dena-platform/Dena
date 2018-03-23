@@ -10,7 +10,7 @@ public final class BeanFactory {
     public static Object createInstance(String className) {
         try {
             Class<?> aClass = Class.forName(className);
-            return BeanUtils.instantiate(aClass);
+            return BeanUtils.instantiateClass(aClass);
         } catch (ClassNotFoundException e) {
             throw new DenaInternalException("Can not create object", e);
         }

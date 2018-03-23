@@ -47,7 +47,7 @@ public class UserManagement extends AbstractDataStoreTest {
         expectedObjectResponse.createTime = actualReturnObject.getDenaObjectResponseList().get(0).getCreateTime();
         expectedObjectResponse.updateTime = null;
 
-        expectedObjectResponse.addProperty("password", actualReturnObject.getDenaObjectResponseList().get(0).getAllFields().get("password"));
+        expectedObjectResponse.addProperty("password", "123456");
         expectedObjectResponse.addProperty("is_active", true);
         expectedObjectResponse.addProperty("email", "user2@denaplatform.com");
         expectedObjectResponse.addProperty("name", "alex");
