@@ -14,7 +14,6 @@ import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE;
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 @JsonAutoDetect(fieldVisibility = NONE, getterVisibility = NONE, setterVisibility = NONE)
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class TestObjectResponseDTO {
     private Map<String, Object> fields = new LinkedHashMap<>();
 
@@ -29,10 +28,6 @@ public class TestObjectResponseDTO {
 
     @JsonProperty("create_time")
     public Long createTime;
-
-
-    @JsonProperty(value = "related_objects")
-    public List<TestDenaRelationDTO> testDenaRelationDTOS = new ArrayList<>();
 
     @JsonAnyGetter
     public Map<String, Object> getAllFields() {

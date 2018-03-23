@@ -45,12 +45,13 @@ public class UserManagement extends AbstractDataStoreTest {
         expectedObjectResponse.objectId = actualReturnObject.getDenaObjectResponseList().get(0).getObjectId();
         expectedObjectResponse.objectURI = "/DENA_USER/" + expectedObjectResponse.objectId;
         expectedObjectResponse.createTime = actualReturnObject.getDenaObjectResponseList().get(0).getCreateTime();
-        expectedObjectResponse.updateTime = actualReturnObject.getDenaObjectResponseList().get(0).getUpdateTime();
+        expectedObjectResponse.updateTime = null;
 
         expectedObjectResponse.addProperty("password", actualReturnObject.getDenaObjectResponseList().get(0).getAllFields().get("password"));
-        expectedObjectResponse.addProperty("name", actualReturnObject.getDenaObjectResponseList().get(0).getAllFields().get("name"));
-        expectedObjectResponse.addProperty("family", actualReturnObject.getDenaObjectResponseList().get(0).getAllFields().get("family"));
-        expectedObjectResponse.addProperty("email", actualReturnObject.getDenaObjectResponseList().get(0).getAllFields().get("email"));
+        expectedObjectResponse.addProperty("is_active", true);
+        expectedObjectResponse.addProperty("email", "user2@denaplatform.com");
+        expectedObjectResponse.addProperty("name", "alex");
+        expectedObjectResponse.addProperty("family", "smith");
 
 
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
@@ -63,8 +64,7 @@ public class UserManagement extends AbstractDataStoreTest {
         assertTrue(isTimeEqualRegardlessOfSecond(expectedObjectResponse.createTime, Instant.now().toEpochMilli()));
         assertNull("update time in registering user should be null", expectedObjectResponse.updateTime);
 
-        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
-
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
 
