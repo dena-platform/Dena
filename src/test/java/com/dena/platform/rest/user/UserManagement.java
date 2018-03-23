@@ -1,4 +1,4 @@
-package com.dena.platform.rest.security;
+package com.dena.platform.rest.user;
 
 import com.dena.platform.rest.dto.TestDenaResponseDTO;
 import com.dena.platform.rest.dto.TestErrorResponseDTO;
