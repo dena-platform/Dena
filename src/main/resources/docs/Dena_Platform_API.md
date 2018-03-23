@@ -658,7 +658,7 @@ This API provides the functionality related to the user management such as user 
 
 **Register New User**
 
-This API can be used to create new user in the application. when user created by default its status is active.
+This API can be used to create new user in the application. when user created, by default its status is active.
 
 ***Note:***
 
@@ -699,7 +699,11 @@ Response Body:
          {
            "object_id": "5aa1104e99d0b323487d38a1",
            "creation_time": 1520504910672,
-           "email": "user1@denaplatform.com"           
+           "update_time": null,
+           "email": "user1@denaplatform.com" ,
+           "password": "$2a$10$lkjro.gqyjKA3/PCBPFBauPr69V5eYE8p9kDYh9yY07dRwKPeHiFu",
+           "name": "javad",
+           "family": "alimohammadi",          
            "is_active": true,
            ... other fields
          }

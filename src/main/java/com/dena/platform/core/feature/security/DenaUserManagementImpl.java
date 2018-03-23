@@ -8,6 +8,7 @@ import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.security.domain.User;
 import com.dena.platform.core.feature.security.exception.UserManagementException;
 import com.dena.platform.core.feature.security.service.SecurityService;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -33,7 +34,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
     @PostConstruct
     public void init() {
-        userTypeName = DenaConfigReader.readProperty("UserManagement.user.type");
+        userTypeName = DenaConfigReader.readProperty("dena.UserManagement.user.type");
     }
 
     @Override
@@ -44,13 +45,20 @@ public class DenaUserManagementImpl implements DenaUserManagement {
         String encodedPassword = securityService.encodePassword(user.getUnencodedPassword());
         user.setPassword(encodedPassword);
 
+        if (user.getActive() == null) {
+            boolean isActive = DenaConfigReader.readBooleanProperty("dena.UserManagement.register.default_status", false);
+            user.setActive(isActive);
+        }
+
 
         DenaObject denaObject = new DenaObject();
         denaObject.addProperty(User.EMAIL_FIELD_NAME, user.getEmail());
         denaObject.addProperty(User.PASSWORD_FIELD_NAME, user.getPassword());
+        denaObject.addProperty(User.IS_ACTIVE, user.getActive());
         denaObject.addFields(user.getOtherFields());
 
-        return denaDataStore.store(appId, userTypeName, denaObject).get(0);
+        DenaObject returnObject = denaDataStore.store(appId, userTypeName, denaObject).get(0);
+        return returnObject;
     }
 
     @Override

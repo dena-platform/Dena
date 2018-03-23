@@ -17,9 +17,13 @@ public class User {
 
     public final static String PASSWORD_FIELD_NAME = "password";
 
+    public final static String IS_ACTIVE = "is_active";
+
     private String email;
 
     private String password;
+
+    private Boolean isActive;
 
     private String unencodedPassword;
 
@@ -47,6 +51,14 @@ public class User {
 
     public void setUnencodedPassword(String unencodedPassword) {
         this.unencodedPassword = unencodedPassword;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 
     public void addProperty(final String name, final Object value) {
@@ -87,6 +99,11 @@ public class User {
 
         public UserBuilder withPassword(String password) {
             user.setPassword(password);
+            return this;
+        }
+
+        public UserBuilder withStatus(boolean isActive) {
+            user.setActive(isActive);
             return this;
         }
 
