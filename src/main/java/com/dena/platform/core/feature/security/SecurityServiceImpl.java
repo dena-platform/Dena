@@ -1,4 +1,4 @@
-package com.dena.platform.core.feature.security.service;
+package com.dena.platform.core.feature.security;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
