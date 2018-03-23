@@ -23,7 +23,7 @@ public interface DenaDataStore {
     List<DenaObject> find(String appName, String typeName, String... objectId);
 
     /**
-     * Find all object that exist in given type.
+     * Find all object that exist in the given type.
      *
      * @param appName
      * @param typeName
