@@ -50,8 +50,8 @@ public class DenaUserManagementImpl implements DenaUserManagement {
             throw new UserManagementException(String.format("Email [%s] is not in correct format", user.getEmail()), ErrorCode.EMAIL_FIELD_IS_INVALID);
         }
 
-        if (GenericValidator.isBlankOrNull(user.getPassword())) {
-            throw new UserManagementException(String.format("Password [%s] is not in correct format", user.getPassword()), ErrorCode.PASSWORD_FIELD_IS_INVALID);
+        if (GenericValidator.isBlankOrNull(user.getUnencodedPassword())) {
+            throw new UserManagementException(String.format("Password [%s] is not in correct format", user.getUnencodedPassword()), ErrorCode.PASSWORD_FIELD_IS_INVALID);
         }
 
 
