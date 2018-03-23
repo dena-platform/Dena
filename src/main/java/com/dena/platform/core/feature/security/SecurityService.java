@@ -1,4 +1,4 @@
-package com.dena.platform.core.feature.security.service;
+package com.dena.platform.core.feature.security;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]

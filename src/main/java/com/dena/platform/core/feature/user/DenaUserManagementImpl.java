@@ -5,7 +5,7 @@ import com.dena.platform.common.exception.ErrorCode;
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
-import com.dena.platform.core.feature.security.service.SecurityService;
+import com.dena.platform.core.feature.security.SecurityService;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.exception.UserManagementException;
 import org.apache.commons.validator.GenericValidator;
