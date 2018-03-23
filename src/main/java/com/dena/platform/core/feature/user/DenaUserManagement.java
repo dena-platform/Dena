@@ -1,8 +1,8 @@
-package com.dena.platform.core.feature.security;
+package com.dena.platform.core.feature.user;
 
 import com.dena.platform.core.dto.DenaObject;
-import com.dena.platform.core.feature.security.domain.User;
-import com.dena.platform.core.feature.security.exception.UserManagementException;
+import com.dena.platform.core.feature.user.domain.User;
+import com.dena.platform.core.feature.user.exception.UserManagementException;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]

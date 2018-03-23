@@ -1,4 +1,4 @@
-package com.dena.platform.core.feature.security.domain;
+package com.dena.platform.core.feature.user.domain;
 
 import org.apache.commons.lang3.StringUtils;
 
