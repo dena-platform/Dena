@@ -25,7 +25,7 @@ public interface DenaUserManagement {
      *
      * @param appId
      * @param user
-     * @return
+     * @return true if user registered in app.
      */
     boolean isUserExist(String appId, User user);
 
