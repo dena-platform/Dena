@@ -1,12 +1,15 @@
 package com.dena.platform.rest.security;
 
 import com.dena.platform.rest.dto.TestDenaResponseDTO;
+import com.dena.platform.rest.dto.TestErrorResponseDTO;
 import com.dena.platform.rest.dto.TestObjectResponseDTO;
 import com.dena.platform.rest.dto.TestRequestObjectDTO;
 import com.dena.platform.rest.persistence.AbstractDataStoreTest;
 import com.dena.platform.restapi.dto.response.DenaResponse;
+import com.dena.platform.restapi.dto.response.ErrorResponse;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
+import org.springframework.http.HttpStatus;
 
 import java.time.Instant;
 import java.util.Collections;
@@ -33,7 +36,7 @@ public class UserManagement extends AbstractDataStoreTest {
         requestObject.addProperty("name", "alex");
         requestObject.addProperty("family", "smith");
 
-        DenaResponse actualReturnObject = performRegisterUser(createJSONFromObject(requestObject), DenaResponse.class);
+        DenaResponse actualReturnObject = performRegisterUser(createJSONFromObject(requestObject), HttpStatus.OK, DenaResponse.class);
 
         /////////////////////////////////////////////
         //            Assert Register User Response
@@ -67,6 +70,7 @@ public class UserManagement extends AbstractDataStoreTest {
 
     @Test
     public void test_RegisterUser_When_Email_Is_Invalid() throws Exception {
+
         /////////////////////////////////////////////
         //           Send Update Object Request
         /////////////////////////////////////////////
@@ -76,13 +80,18 @@ public class UserManagement extends AbstractDataStoreTest {
         requestObject.addProperty("name", "alex");
         requestObject.addProperty("family", "smith");
 
-        DenaResponse actualReturnObject = performRegisterUser(createJSONFromObject(requestObject), DenaResponse.class);
+        ErrorResponse actualReturnObject = performRegisterUser(createJSONFromObject(requestObject), HttpStatus.BAD_REQUEST, ErrorResponse.class);
 
         /////////////////////////////////////////////
         //            Assert Register User Response
         /////////////////////////////////////////////
-        TestObjectResponseDTO expectedObjectResponse = new TestObjectResponseDTO();
-//        expectedObjectResponse.
+        TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
+        expectedReturnObject.status = 400;
+        expectedReturnObject.errorCode = "3001";
+        expectedReturnObject.messages = Collections.singletonList("Email field value is invalid");
+
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
+
 
     }
 
