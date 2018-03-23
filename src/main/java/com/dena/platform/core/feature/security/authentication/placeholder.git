@@ -1,0 +1,1 @@
+Git does not support empty folders, so this file is here to make sure the containing folder is created on git checkouts.

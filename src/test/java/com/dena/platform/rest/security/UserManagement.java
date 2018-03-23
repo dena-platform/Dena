@@ -64,4 +64,26 @@ public class UserManagement extends AbstractDataStoreTest {
 
 
     }
+
+    @Test
+    public void test_RegisterUser_When_Email_Is_Invalid() throws Exception {
+        /////////////////////////////////////////////
+        //           Send Update Object Request
+        /////////////////////////////////////////////
+        TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
+        requestObject.addProperty("email", "");
+        requestObject.addProperty("password", "123456");
+        requestObject.addProperty("name", "alex");
+        requestObject.addProperty("family", "smith");
+
+        DenaResponse actualReturnObject = performRegisterUser(createJSONFromObject(requestObject), DenaResponse.class);
+
+        /////////////////////////////////////////////
+        //            Assert Register User Response
+        /////////////////////////////////////////////
+        TestObjectResponseDTO expectedObjectResponse = new TestObjectResponseDTO();
+//        expectedObjectResponse.
+
+    }
+
 }

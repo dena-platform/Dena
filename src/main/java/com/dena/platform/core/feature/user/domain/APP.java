@@ -1,4 +1,4 @@
-package com.dena.platform.core.feature.security.domain;
+package com.dena.platform.core.feature.user.domain;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]

@@ -10,8 +10,8 @@ import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
-import com.dena.platform.core.feature.security.DenaUserManagement;
-import com.dena.platform.core.feature.security.domain.User;
+import com.dena.platform.core.feature.user.DenaUserManagement;
+import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.restapi.dto.response.DenaObjectResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse.DenaResponseBuilder;
@@ -225,10 +225,10 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
             if (StringUtils.isEmpty(email)) {
                 log.warn("email is empty");
-                throw new ParameterInvalidException("email field is not set", ErrorCode.EMAIL_FIELD_IS_NOT_SET);
+                throw new ParameterInvalidException("email field is not set", ErrorCode.EMAIL_FIELD_IS_INVALID);
             } else if (StringUtils.isEmpty(email)) {
                 log.warn("password is empty");
-                throw new ParameterInvalidException("password field is not set", ErrorCode.PASSWORD_FIELD_IS_NOT_SET);
+                throw new ParameterInvalidException("password field is not set", ErrorCode.PASSWORD_FIELD_IS_INVALID);
             }
 
 

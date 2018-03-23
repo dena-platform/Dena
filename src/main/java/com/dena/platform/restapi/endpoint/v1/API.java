@@ -86,6 +86,7 @@ public class API {
     /////////////////////////////////////////////
     //            User Management API
     /////////////////////////////////////////////
+
     @PostMapping(path = {"/{app-id}/users/register"})
     public ResponseEntity registerUser() {
         return denaRestProcessor.handleRegisterUser();

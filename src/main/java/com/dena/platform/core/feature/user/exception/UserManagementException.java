@@ -1,4 +1,4 @@
-package com.dena.platform.core.feature.security.exception;
+package com.dena.platform.core.feature.user.exception;
 
 import com.dena.platform.common.exception.DenaException;
 import com.dena.platform.common.exception.ErrorCode;

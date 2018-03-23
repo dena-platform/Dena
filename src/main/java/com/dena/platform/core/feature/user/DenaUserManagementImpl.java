@@ -1,13 +1,14 @@
-package com.dena.platform.core.feature.security;
+package com.dena.platform.core.feature.user;
 
 import com.dena.platform.common.config.DenaConfigReader;
 import com.dena.platform.common.exception.ErrorCode;
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
-import com.dena.platform.core.feature.security.domain.User;
-import com.dena.platform.core.feature.security.exception.UserManagementException;
 import com.dena.platform.core.feature.security.service.SecurityService;
+import com.dena.platform.core.feature.user.domain.User;
+import com.dena.platform.core.feature.user.exception.UserManagementException;
+import org.apache.commons.validator.GenericValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,16 @@ public class DenaUserManagementImpl implements DenaUserManagement {
         if (isUserExist(appId, user)) {
             throw new UserManagementException(String.format("User with this identity [%s] already exist", user.getEmail()), ErrorCode.USER_ALREADY_EXIST_EXCEPTION);
         }
+
+        if (!GenericValidator.isEmail(user.getEmail())) {
+            throw new UserManagementException(String.format("Email [%s] is not in correct format", user.getEmail()), ErrorCode.EMAIL_FIELD_IS_INVALID);
+        }
+
+        if (GenericValidator.isBlankOrNull(user.getPassword())) {
+            throw new UserManagementException(String.format("Password [%s] is not in correct format", user.getPassword()), ErrorCode.PASSWORD_FIELD_IS_INVALID);
+        }
+
+
         String encodedPassword = securityService.encodePassword(user.getUnencodedPassword());
         user.setPassword(encodedPassword);
 
@@ -74,5 +85,6 @@ public class DenaUserManagementImpl implements DenaUserManagement {
         return foundUser.isPresent();
 
     }
+
 
 }
