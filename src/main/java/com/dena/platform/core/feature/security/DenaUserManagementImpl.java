@@ -8,7 +8,8 @@ import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.security.domain.User;
 import com.dena.platform.core.feature.security.exception.UserManagementException;
 import com.dena.platform.core.feature.security.service.SecurityService;
-import org.apache.commons.lang3.BooleanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -22,6 +23,7 @@ import java.util.Optional;
 
 @Service("denaDenaUserManagementImpl")
 public class DenaUserManagementImpl implements DenaUserManagement {
+    private final static Logger log = LoggerFactory.getLogger(DenaUserManagementImpl.class);
 
     private String userTypeName;
 
@@ -50,7 +52,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
             user.setActive(isActive);
         }
 
-
+        log.debug("Registering new user [{}] in Dena Platform", user.getEmail());
         DenaObject denaObject = new DenaObject();
         denaObject.addProperty(User.EMAIL_FIELD_NAME, user.getEmail());
         denaObject.addProperty(User.PASSWORD_FIELD_NAME, user.getPassword());
