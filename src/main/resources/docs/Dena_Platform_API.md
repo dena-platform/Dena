@@ -67,68 +67,61 @@ Content-Type:application/json
  
 Request Body: 
 
-  	 [
-  		{
-   		 "field1": "javad",
-   		 "field2": "developer",
-   		 "related_objects": [
-      	  {
-       	   "relation_name": "comments_rel",
-      	   "target_name": "comments",
-      	   "ids": [
-      	     "5aa52335d41a3b18c8bdbe28"
-      	    ]
-     	  }]
- 	    },
- 	 {
-    	"field1": "ali",
-    	"field2": "developer",
-    	"related_objects": [
-      	 {
+    [
+      {
+        "field1": "javad",
+        "field2": "developer",
+        "related_objects": [
+          {
             "relation_name": "comments_rel",
-        	"target_name": "comments",
+            "target_name": "comments",
             "ids": [
-               "5aa52335d41a3b18c8bdbe28"
-             ]
-          }]
-  		 }
-      ]
+              "5aa52335d41a3b18c8bdbe28"
+            ]
+          }
+        ]
+      },
+      {
+        "field1": "ali",
+        "field2": "developer",
+        "related_objects": [
+          {
+            "relation_name": "comments_rel",
+            "target_name": "comments",
+            "ids": [
+              "5aa52335d41a3b18c8bdbe28"
+            ]
+          }
+        ]
+      }
+    ]
 
 
 
 Response Body:
 
-      {
-       "timestamp" : timestamp in milliseconds,
-       "count" : number of created object(s),
-       "objects": [
-        {
-          "URI":"/<type-names>/<object-id>",
-          "object_id": "232342424234",
-          "field1": "javad",
-          "field2": "developer",
-          "related_objects": [
-    	       {
-      	         "id": "123123",
-      	         "type": "denaObjects"
-    	       }
-        },
-        {
-          "URI":"/<type-names>/<object-id>",
-          "object_id": "232342424234",
-          "field1": "ali",
-          "field2": "developer",
-          "related_objects": [
-    	       {
-      	         "id": "43345",
-      	         "type": "denaObjects"
-    	       }
-
-          
-        }
-       ] 
-      }
- 
+    {
+        "timestamp": 1521833800182,
+        "create_object_count(s)": 2,
+        "objects": [
+            {
+                "object_id": "5ab557484611681f7c07a6dd",
+                "object_uri": "/post/5ab557484611681f7c07a6dd",
+                "update_time": null,
+                "create_time": 1521833800007,
+                "field1": "javad",
+                "field2": "developer"
+            },
+            {
+                "object_id": "5ab557484611681f7c07a6de",
+                "object_uri": "/post/5ab557484611681f7c07a6de",
+                "update_time": null,
+                "create_time": 1521833800099,
+                "field3": "javad",
+                "field4": "developer"
+            }
+        ]
+    } 
 
 ----------
 ## Create Relation ##
