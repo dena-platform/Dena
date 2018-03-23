@@ -87,6 +87,9 @@ public class AbstractDataStoreTest {
 
     }
 
+    /////////////////////////////////////////////
+    //            DATA ACCESS REQUEST
+    /////////////////////////////////////////////
 
     protected TestDenaResponseDTO performFindRequest(String objectId1) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId1))
@@ -190,6 +193,22 @@ public class AbstractDataStoreTest {
                 .content(body))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is(status))
+                .andReturn();
+
+        String returnContent = result.getResponse().getContentAsString();
+        return createObjectFromJSON(returnContent, klass);
+
+    }
+
+    /////////////////////////////////////////////
+    //            USER MANAGEMENT REQUEST
+    /////////////////////////////////////////////
+    protected <T> T performRegisterUser(String body, Class<T> klass) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.REGISTER_URL)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(body))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
