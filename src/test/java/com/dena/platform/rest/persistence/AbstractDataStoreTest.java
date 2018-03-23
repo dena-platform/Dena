@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -203,12 +204,12 @@ public class AbstractDataStoreTest {
     /////////////////////////////////////////////
     //            USER MANAGEMENT REQUEST
     /////////////////////////////////////////////
-    protected <T> T performRegisterUser(String body, Class<T> klass) throws Exception {
+    protected <T> T performRegisterUser(String body, HttpStatus httpStatus, Class<T> klass) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.REGISTER_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(body))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.status().is(httpStatus.value()))
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
