@@ -29,7 +29,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         try {
             String requestBody = IOUtils.toString(request.getReader());
-            HashMap<String, Object> userPass = JSONMapper.createHashMapFromJSON(requestBody);
+            HashMap<String, Object> userName_Password = JSONMapper.createHashMapFromJSON(requestBody);
+
+            if (userName_Password) {
+            }
 
         } catch (IOException ex) {
             log.error("Error in parsing credential");
