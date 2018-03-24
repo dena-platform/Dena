@@ -649,7 +649,9 @@ Return Value:
 This API provides the functionality related to the user management such as user registrations, login and logout.
 
 
-**Register New User**
+
+
+## Register New User ##
 
 This API can be used to create new user in the application. when user created, by default its status is active.
 
@@ -704,6 +706,54 @@ Response Body:
       }
 
 
+
+## Login ##  
+
+With this API user can login in Dena Platform. after user successfully login then in subsequent request access token should be included.
+
+Method: POST
+
+URL: /v1/<application-id>/users/login
+
+Body:
+
+{JSON}
+
+
+Headers:
+
+Content-Type:application/json
+
+Headers:
+
+Content-Type:application/json
+
+***Example:***
+
+Request Body: 
+
+    {
+      "email": "user2@denaplatform.com",
+      "password": "123456"
+    }
+
+Response Body:
+
+    {
+      "timestamp": 1520504910721,
+      "count": 1,
+      "objects": [
+        {
+          "object_id": "5aa1104e99d0b323487d38a1",
+          "email": "user1@denaplatform.com" ,
+          "access-token": "46s4f6sf4s6d5fd2s3df1sd3f1sdf5weredvx",
+          "name": "javad",
+          "family": "alimohammadi",
+          "is_active": true,
+          ... other fields
+        }
+      ]
+    }
 
 ----------
 ## Error Response ##

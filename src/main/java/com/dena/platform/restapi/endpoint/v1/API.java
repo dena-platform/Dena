@@ -91,4 +91,9 @@ public class API {
         return denaRestProcessor.handleRegisterUser();
     }
 
+    @PostMapping(path = {"/{app-id}/users/login"})
+    public ResponseEntity login() {
+        return null;
+    }
+
 }
