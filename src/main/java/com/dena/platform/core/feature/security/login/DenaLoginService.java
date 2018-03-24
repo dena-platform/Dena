@@ -6,6 +6,7 @@ import com.dena.platform.core.feature.user.domain.User;
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 public interface DenaLoginService {
+
     User loginUser(String email, String rawPassword);
 
     boolean logoutUser(String email);
