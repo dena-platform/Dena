@@ -5,6 +5,7 @@ import com.dena.platform.common.utils.BeanFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -13,7 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
+
 
     @Bean("passwordEncoder")
     public PasswordEncoder passwordEncoderBean() {
@@ -25,10 +28,6 @@ public class SecurityConfig {
 
         return (PasswordEncoder) BeanFactory.createInstance(passwordEncoderName);
     }
-
-    // @formatter:off
-
-    // @formatter:on
 
 
 }
