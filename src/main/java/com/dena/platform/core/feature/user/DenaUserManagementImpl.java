@@ -1,11 +1,12 @@
 package com.dena.platform.core.feature.user;
 
 import com.dena.platform.common.config.DenaConfigReader;
+import com.dena.platform.common.exception.DenaInternalException;
 import com.dena.platform.common.exception.ErrorCode;
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
-import com.dena.platform.core.feature.security.SecurityService;
+import com.dena.platform.core.feature.security.SecurityUtil;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.exception.UserManagementException;
 import org.apache.commons.validator.GenericValidator;
@@ -22,7 +23,7 @@ import java.util.Optional;
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 
-@Service("denaDenaUserManagementImpl")
+@Service("denaDenaUserManagement")
 public class DenaUserManagementImpl implements DenaUserManagement {
     private final static Logger log = LoggerFactory.getLogger(DenaUserManagementImpl.class);
 
@@ -30,10 +31,6 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
     @Resource
     private DenaDataStore denaDataStore;
-
-    @Resource(name = "denaSecurityService")
-    private SecurityService securityService;
-
 
     @PostConstruct
     public void init() {
@@ -55,7 +52,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
         }
 
 
-        String encodedPassword = securityService.encodePassword(user.getUnencodedPassword());
+        String encodedPassword = SecurityUtil.encodePassword(user.getUnencodedPassword());
         user.setPassword(encodedPassword);
 
         if (user.getActive() == null) {
@@ -83,8 +80,20 @@ public class DenaUserManagementImpl implements DenaUserManagement {
                 .findAny();
 
         return foundUser.isPresent();
-
     }
 
+    @Override
+    public User getUserById(String appId, String email) {
+        List<DenaObject> denaObjects = denaDataStore.find(appId, userTypeName);
 
+        Optional<DenaObject> foundUser = denaObjects.stream()
+                .filter(denaObject -> denaObject.hasProperty(User.EMAIL_FIELD_NAME, email))
+                .findAny();
+
+        User found = new User();
+        foundUser.ifPresent(x -> found.setActive((Boolean) x.getOtherFields().get(User.IS_ACTIVE)));
+        foundUser.ifPresent(x -> found.setEmail((String) x.getOtherFields().get(User.EMAIL_FIELD_NAME)));
+        foundUser.ifPresent(x -> found.setPassword((String) x.getOtherFields().get(User.PASSWORD_FIELD_NAME)));
+        return found;
+    }
 }

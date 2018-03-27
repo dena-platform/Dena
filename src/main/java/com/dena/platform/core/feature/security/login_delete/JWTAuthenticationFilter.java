@@ -1,6 +1,9 @@
-package com.dena.platform.core.feature.security.login;
+package com.dena.platform.core.feature.security.login_delete;
 
 import com.dena.platform.common.web.JSONMapper;
+import com.dena.platform.core.feature.security.SecurityUtil;
+import com.dena.platform.core.feature.user.DenaUserManagement;
+import com.dena.platform.core.feature.user.domain.User;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,19 +26,30 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Resource(name = "denaLoginService")
     private DenaLoginService denaLoginService;
 
+    @Resource(name = "denaDenaUserManagementImpl")
+    private DenaUserManagement userManagement;
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
-
         try {
             String requestBody = IOUtils.toString(request.getReader());
-            HashMap<String, Object> userName_Password = JSONMapper.createHashMapFromJSON(requestBody);
+            HashMap<String, Object> requestMap = JSONMapper.createHashMapFromJSON(requestBody);
 
-            if (userName_Password) {
+            String username = (String) requestMap.get("username");
+            String password = (String) requestMap.get("password");
+            String appId = (String) requestMap.get("app_id");
+            User user = userManagement.getUserById(appId, username);
+
+            if (user != null && SecurityUtil.matchesPassword(password, user.getPassword())) {
+                //authenticated
+            } else {
+                //not authenticated
             }
 
         } catch (IOException ex) {
             log.error("Error in parsing credential");
         }
+        return null;
     }
 }
