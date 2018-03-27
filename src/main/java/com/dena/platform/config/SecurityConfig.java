@@ -22,20 +22,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/**").permitAll();
-
     }
-
-
-    @Bean("passwordEncoder")
-    public PasswordEncoder passwordEncoderBean() {
-        String passwordEncoderName = DenaConfigReader.readProperty("dena.security.password.encoder");
-
-        if (StringUtils.isEmpty(passwordEncoderName)) {
-            return NoOpPasswordEncoder.getInstance();
-        }
-
-        return (PasswordEncoder) BeanFactory.createInstance(passwordEncoderName);
-    }
-
-
 }
