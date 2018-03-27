@@ -5,7 +5,6 @@ package com.dena.platform.core.feature.security;
  */
 public enum CredentialField {
     IDENTITY("email"),
-
     PASSWORD("password");
 
     private String name;

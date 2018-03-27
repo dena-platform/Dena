@@ -29,5 +29,14 @@ public interface DenaUserManagement {
      */
     boolean isUserExist(String appId, User user);
 
+    /**
+     * get user by email
+     *
+     * @param appId
+     * @param email
+     * @return User object if exists or null
+     */
+    User getUserById(String appId, String email);
+
 
 }

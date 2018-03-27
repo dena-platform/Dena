@@ -1,4 +1,4 @@
-package com.dena.platform.core.feature.security.login;
+package com.dena.platform.core.feature.security.login_delete;
 
 import com.dena.platform.core.feature.user.domain.User;
 import org.slf4j.Logger;
