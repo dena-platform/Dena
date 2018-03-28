@@ -8,5 +8,5 @@ import com.dena.platform.core.feature.app.domain.DenaApplication;
 public interface DenaApplicationManagement {
     void registerApp(DenaApplication denaApplication);
 
-    boolean isAppExist(String creatorId, String appName);
+    boolean isAppExist(String creatorId, String applicationName);
 }
