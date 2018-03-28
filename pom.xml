@@ -89,6 +89,14 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- security -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.6.0</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
