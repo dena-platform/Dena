@@ -1,5 +1,8 @@
 package com.dena.platform.core.feature.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collections;
@@ -11,6 +14,8 @@ import java.util.Map;
  *
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class User {
 
     public final static String EMAIL_FIELD_NAME = "email";
@@ -19,12 +24,14 @@ public class User {
 
     public final static String IS_ACTIVE = "is_active";
 
+    @JsonProperty("email")
     private String email;
 
     private String password;
 
     private Boolean isActive;
 
+    @JsonProperty("password")
     private String unencodedPassword;
 
     private Map<String, Object> otherFields = new HashMap<>();

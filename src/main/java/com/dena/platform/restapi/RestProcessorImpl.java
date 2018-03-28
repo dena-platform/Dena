@@ -10,11 +10,13 @@ import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
+import com.dena.platform.core.feature.security.JsonWebTokenGenerator;
 import com.dena.platform.core.feature.user.DenaUserManagement;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.restapi.dto.response.DenaObjectResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse.DenaResponseBuilder;
+import com.dena.platform.restapi.dto.response.TokenGenResponse;
 import com.dena.platform.restapi.exception.DenaRestException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -295,4 +297,22 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
     }
 
+    @Resource
+    private JsonWebTokenGenerator jwtGenerator;
+
+    //// TODO: remove form hear
+    @Override
+    public ResponseEntity login() {
+        DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
+
+        String appId = denaRequestContext.getPathVariable(APP_ID);
+        String requestBody = denaRequestContext.getRequestBody();
+        User user = JSONMapper.createObjectFromJSON(requestBody, User.class);
+
+        String token = jwtGenerator.generate(appId, user);
+
+        TokenGenResponse response = new TokenGenResponse();
+        response.setToken(token);
+        return ResponseEntity.ok().body(response);
+    }
 }
