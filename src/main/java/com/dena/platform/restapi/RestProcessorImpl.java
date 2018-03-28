@@ -12,6 +12,7 @@ import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.dena.platform.core.feature.security.JsonWebTokenGenerator;
 import com.dena.platform.core.feature.user.DenaUserManagement;
+import com.dena.platform.core.feature.app.domain.DenaApplication;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.restapi.dto.response.DenaObjectResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse;
@@ -262,6 +263,29 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
     }
 
+    @Override
+    public ResponseEntity handleRegisterApp() {
+        DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
+        String requestBody = denaRequestContext.getRequestBody();
+        HashMap<String, Object> requestParameter = JSONMapper.createHashMapFromJSON(requestBody);
+
+        String appName = (String) requestParameter.get(DenaApplication.APP_NAME_FIELD);
+
+        try {
+            if (StringUtils.isEmpty(appName)) {
+                log.warn("app name field is empty");
+                throw new ParameterInvalidException("app name field is not set", ErrorCode.APP_NAME_FIELD_IS_INVALID);
+            }
+
+            DenaApplication denaApplication = new DenaApplication();
+            denaApplication.setAppName(appName);
+
+        } catch (DenaException ex) {
+            throw DenaRestException.buildException(ex);
+        }
+
+    }
+
 
     private List<DenaObjectResponse> createObjectResponse(List<DenaObject> denaObjects) {
         List<DenaObjectResponse> denaObjectResponses = new ArrayList<>();
@@ -315,4 +339,5 @@ public class RestProcessorImpl implements DenaRestProcessor {
         response.setToken(token);
         return ResponseEntity.ok().body(response);
     }
+
 }
