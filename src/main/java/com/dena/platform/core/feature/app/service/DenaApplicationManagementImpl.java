@@ -28,19 +28,17 @@ public class DenaApplicationManagementImpl implements DenaApplicationManagement 
             throw new UserManagementException(String.format("Creator id [%s] is not in correct format", denaApplication.getCreatorId()), ErrorCode.CREATOR_FIELD_IS_INVALID);
         }
 
-        // todo : we can also specify a mnimume app name length
-        if (GenericValidator.isBlankOrNull(denaApplication.getAppName())) {
-            throw new UserManagementException(String.format("Application name [%s] is not in correct format", denaApplication.getAppName()), ErrorCode.APP_NAME_FIELD_IS_INVALID);
+        // todo : we can also specify a minimum app name length restriction
+        if (GenericValidator.isBlankOrNull(denaApplication.getApplicationName())) {
+            throw new UserManagementException(String.format("Application name [%s] is not in correct format", denaApplication.getApplicationName()), ErrorCode.APP_NAME_FIELD_IS_INVALID);
         }
 
-        denaObject.addProperty(DenaApplication.CREATOR_ID_FIELD, denaApplication.getAppName());
-
-
-        denaObject.addProperty(DenaApplication.APP_NAME_FIELD, denaApplication.getAppName());
+        denaObject.addProperty(DenaApplication.CREATOR_ID_FIELD, denaApplication.getCreatorId());
+        denaObject.addProperty(DenaApplication.APP_NAME_FIELD, denaApplication.getApplicationName());
     }
 
     @Override
-    public boolean isAppExist(String creatorId, String appName) {
+    public boolean isAppExist(String creatorId, String applicationName) {
         return false;
     }
 }

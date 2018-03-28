@@ -278,11 +278,13 @@ public class RestProcessorImpl implements DenaRestProcessor {
             }
 
             DenaApplication denaApplication = new DenaApplication();
-            denaApplication.setAppName(appName);
+            denaApplication.setApplicationName(appName);
 
         } catch (DenaException ex) {
             throw DenaRestException.buildException(ex);
         }
+
+        return null;
 
     }
 
