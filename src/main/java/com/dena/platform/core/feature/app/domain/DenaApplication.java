@@ -17,7 +17,7 @@ public class DenaApplication {
 
     private String creatorId;
 
-    private String appName;
+    private String applicationName;
 
     private String appId;
 
@@ -26,12 +26,12 @@ public class DenaApplication {
     private String pictureURL;
 
 
-    public String getAppName() {
-        return appName;
+    public String getApplicationName() {
+        return applicationName;
     }
 
-    public void setAppName(String appName) {
-        this.appName = appName;
+    public void setApplicationName(String applicationName) {
+        this.applicationName = applicationName;
     }
 
     public String getAppId() {
@@ -77,12 +77,12 @@ public class DenaApplication {
             return new DenaAPPBuilder();
         }
 
-        public DenaAPPBuilder withAppName(String appName) {
-            denaApplication.setAppName(appName);
+        public DenaAPPBuilder withApplicationName(String appName) {
+            denaApplication.setApplicationName(appName);
             return this;
         }
 
-        public DenaAPPBuilder withAppId(String appId) {
+        public DenaAPPBuilder withApplicationId(String appId) {
             denaApplication.setAppId(appId);
             return this;
         }
