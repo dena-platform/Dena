@@ -217,5 +217,23 @@ public class AbstractDataStoreTest {
 
     }
 
+    /////////////////////////////////////////////
+    //            LOGIN
+    /////////////////////////////////////////////
+    protected <T> T performLoginUser(String body, HttpStatus httpStatus, Class<T> klass) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.LOGIN_URL)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(body))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is(httpStatus.value()))
+                .andReturn();
+
+        String returnContent = result.getResponse().getContentAsString();
+        return createObjectFromJSON(returnContent, klass);
+
+    }
+
+
+
 
 }
