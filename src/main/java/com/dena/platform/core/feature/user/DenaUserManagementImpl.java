@@ -39,9 +39,6 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
     @Override
     public DenaObject registerUser(final String appId, final User user) {
-        if (isUserExist(appId, user)) {
-            throw new UserManagementException(String.format("User with this identity [%s] already exist", user.getEmail()), ErrorCode.USER_ALREADY_EXIST_EXCEPTION);
-        }
 
         if (!GenericValidator.isEmail(user.getEmail())) {
             throw new UserManagementException(String.format("Email [%s] is not in correct format", user.getEmail()), ErrorCode.EMAIL_FIELD_IS_INVALID);
@@ -49,6 +46,10 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
         if (GenericValidator.isBlankOrNull(user.getUnencodedPassword())) {
             throw new UserManagementException(String.format("Password [%s] is not in correct format", user.getUnencodedPassword()), ErrorCode.PASSWORD_FIELD_IS_INVALID);
+        }
+
+        if (isUserExist(appId, user)) {
+            throw new UserManagementException(String.format("User with this identity [%s] already exist", user.getEmail()), ErrorCode.USER_ALREADY_EXIST_EXCEPTION);
         }
 
 
