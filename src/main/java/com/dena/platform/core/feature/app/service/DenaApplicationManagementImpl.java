@@ -14,6 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
@@ -37,7 +38,7 @@ public class DenaApplicationManagementImpl implements DenaApplicationManagement 
 
 
     @Override
-    public void registerApplication(DenaApplication denaApplication) {
+    public DenaObject registerApplication(DenaApplication denaApplication) {
         DenaObject denaObject = new DenaObject();
         String creatorId = denaApplication.getCreatorId();
         String applicationName = denaApplication.getApplicationName();
@@ -55,8 +56,17 @@ public class DenaApplicationManagementImpl implements DenaApplicationManagement 
             throw new AppManagementException(String.format("Application name [%s] already exist", applicationName), ErrorCode.APPLICATION_ALREADY_EXIST);
         }
 
+
+        String appId = generateApplicationId();
+        String secretId = generateSecretId();
+
         denaObject.addProperty(DenaApplication.CREATOR_ID_FIELD, denaApplication.getCreatorId());
         denaObject.addProperty(DenaApplication.APP_NAME_FIELD, denaApplication.getApplicationName());
+        denaObject.addProperty(DenaApplication.APP_ID_FIELD, appId);
+        denaObject.addProperty(DenaApplication.SECRET_KEY_FIELD, secretId);
+
+        DenaObject returnObject = denaDataStore.store(appId, applicationInfoTableName, denaObject).get(0);
+        return returnObject;
 
 
     }
@@ -75,7 +85,16 @@ public class DenaApplicationManagementImpl implements DenaApplicationManagement 
     }
 
 
-    private String generateApplicationId(String creatorId, String applicationName) {
-
+    private String generateApplicationId() {
+        UUID appId = UUID.randomUUID();
+        return appId.toString();
     }
+
+
+    private String generateSecretId() {
+        UUID appId = UUID.randomUUID();
+        return appId.toString();
+    }
+
+
 }
