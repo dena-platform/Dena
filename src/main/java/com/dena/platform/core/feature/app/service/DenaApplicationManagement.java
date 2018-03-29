@@ -6,7 +6,7 @@ import com.dena.platform.core.feature.app.domain.DenaApplication;
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 public interface DenaApplicationManagement {
-    void registerApp(DenaApplication denaApplication);
+    void registerApplication(DenaApplication denaApplication);
 
     boolean isApplicationExist(String creatorId, String applicationName);
 }
