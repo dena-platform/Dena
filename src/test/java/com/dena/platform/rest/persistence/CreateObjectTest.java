@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Collections;
 
 import static com.dena.platform.utils.JSONMapper.createJSONFromObject;
@@ -19,6 +20,7 @@ import static org.junit.Assert.assertTrue;
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
 public class CreateObjectTest extends AbstractDataStoreTest {
+
     @Test
     public void test_CreateObject() throws Exception {
 
@@ -28,6 +30,14 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
         requestObject.addProperty("name", "javad");
         requestObject.addProperty("job", "developer");
+
+        TestDenaRelationDTO testDenaRelationDTO = new TestDenaRelationDTO();
+        testDenaRelationDTO.setRelationType(RelationType.RELATION_1_TO_1.value);
+        testDenaRelationDTO.setRelationName("new_relation");
+        testDenaRelationDTO.setIds(Collections.singletonList(objectId1));
+        testDenaRelationDTO.setTargetName(CommonConfig.COLLECTION_NAME);
+
+        requestObject.addRelatedObject(testDenaRelationDTO);
 
         DenaResponse actualReturnObject = performCreateObject(createJSONFromObject(requestObject), DenaResponse.class);
 
@@ -57,9 +67,63 @@ public class CreateObjectTest extends AbstractDataStoreTest {
 
     }
 
-    // todo: create a test method that store object with valid relation and then check with find method
+    @Test
+    public void test_CreateBulkObject() throws Exception {
 
-    // todo: create a test method for bulk request
+        /////////////////////////////////////////////
+        //           Send Create Object Request
+        /////////////////////////////////////////////
+        TestRequestObjectDTO requestObject1 = new TestRequestObjectDTO();
+        requestObject1.addProperty("name", "javad");
+        requestObject1.addProperty("job", "developer");
+
+        TestDenaRelationDTO testDenaRelationDTO = new TestDenaRelationDTO();
+        testDenaRelationDTO.setRelationType(RelationType.RELATION_1_TO_1.value);
+        testDenaRelationDTO.setRelationName("new_relation");
+        testDenaRelationDTO.setIds(Collections.singletonList(objectId1));
+        testDenaRelationDTO.setTargetName(CommonConfig.COLLECTION_NAME);
+
+        requestObject1.addRelatedObject(testDenaRelationDTO);
+
+        TestRequestObjectDTO requestObject2 = new TestRequestObjectDTO();
+        requestObject2.addProperty("name", "abdolah");
+        requestObject2.addProperty("job", "developer");
+
+        DenaResponse actualReturnObject = performCreateObject(createJSONFromObject(Arrays.asList(requestObject1, requestObject2)), DenaResponse.class);
+
+        /////////////////////////////////////////////
+        //            Assert Create Object Response
+        /////////////////////////////////////////////
+        TestObjectResponseDTO expectedObjectResponse1 = new TestObjectResponseDTO();
+        expectedObjectResponse1.objectId = actualReturnObject.getDenaObjectResponseList().get(0).getObjectId();
+        expectedObjectResponse1.createTime = actualReturnObject.getDenaObjectResponseList().get(0).getCreateTime();
+        expectedObjectResponse1.updateTime = actualReturnObject.getDenaObjectResponseList().get(0).getUpdateTime();
+        expectedObjectResponse1.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + expectedObjectResponse1.objectId;
+        expectedObjectResponse1.addProperty("name", "javad");
+        expectedObjectResponse1.addProperty("job", "developer");
+
+        TestObjectResponseDTO expectedObjectResponse2 = new TestObjectResponseDTO();
+        expectedObjectResponse2.objectId = actualReturnObject.getDenaObjectResponseList().get(1).getObjectId();
+        expectedObjectResponse2.createTime = actualReturnObject.getDenaObjectResponseList().get(1).getCreateTime();
+        expectedObjectResponse2.updateTime = actualReturnObject.getDenaObjectResponseList().get(1).getUpdateTime();
+        expectedObjectResponse2.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + expectedObjectResponse2.objectId;
+        expectedObjectResponse2.addProperty("name", "abdolah");
+        expectedObjectResponse2.addProperty("job", "developer");
+
+
+        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
+        expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
+        expectedReturnObject.createObjectCount = 2L;
+        expectedReturnObject.setTestObjectResponseDTOList(Arrays.asList(expectedObjectResponse1, expectedObjectResponse2));
+
+        // assert timestamp
+        assertTrue(isTimeEqualRegardlessOfSecond(expectedReturnObject.timestamp, Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(expectedObjectResponse1.createTime, Instant.now().toEpochMilli()));
+        assertNull("update time in creating object should be null", expectedObjectResponse1.updateTime);
+
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+
+    }
 
     @Test
     public void test_CreateObject_When_Relation_Is_Invalid() throws Exception {
@@ -86,7 +150,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "2001";
-        expectedReturnObject.messages = Collections.singletonList("relation(s) is invalid");
+        expectedReturnObject.messages = Collections.singletonList("Relation(s) is invalid");
 
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
 
