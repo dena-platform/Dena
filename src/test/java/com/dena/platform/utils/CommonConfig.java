@@ -9,6 +9,8 @@ public interface CommonConfig {
 
     String APP_ID = "denaTestDB";
 
+    String DENA_APLICATION = "DENA_APPLICATIONS";
+
     String COLLECTION_NAME = "denaTestCollection";
 
     String RELATION_NAME = "test_relation_name";
