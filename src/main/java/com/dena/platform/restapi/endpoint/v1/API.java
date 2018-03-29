@@ -97,11 +97,11 @@ public class API {
     }
 
     /////////////////////////////////////////////
-    //            App Management API
+    //            Application Management API
     /////////////////////////////////////////////
     @PostMapping(path = {"/app/register"})
     public ResponseEntity registerApp() {
-        return denaRestProcessor.handleRegisterUser();
+        return denaRestProcessor.handleRegisterApplication();
     }
 
 
