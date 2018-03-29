@@ -7,12 +7,13 @@ import com.dena.platform.common.utils.DenaObjectUtils;
 import com.dena.platform.common.web.DenaRequestContext;
 import com.dena.platform.common.web.JSONMapper;
 import com.dena.platform.core.dto.DenaObject;
+import com.dena.platform.core.feature.app.domain.DenaApplication;
+import com.dena.platform.core.feature.app.service.DenaApplicationManagement;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.dena.platform.core.feature.security.JsonWebTokenGenerator;
 import com.dena.platform.core.feature.user.DenaUserManagement;
-import com.dena.platform.core.feature.app.domain.DenaApplication;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.restapi.dto.response.DenaObjectResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse;
@@ -48,6 +49,9 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
     @Resource
     private DenaUserManagement denaUserManagement;
+
+    @Resource
+    private DenaApplicationManagement denaApplicationManagement;
 
     @Override
     public ResponseEntity handleCreateObject() {
@@ -270,21 +274,36 @@ public class RestProcessorImpl implements DenaRestProcessor {
         HashMap<String, Object> requestParameter = JSONMapper.createHashMapFromJSON(requestBody);
 
         String appName = (String) requestParameter.get(DenaApplication.APP_NAME_FIELD);
-
+        String creatorId = (String) requestParameter.get(DenaApplication.CREATOR_ID_FIELD);
         try {
             if (StringUtils.isEmpty(appName)) {
-                log.warn("app name field is empty");
-                throw new ParameterInvalidException("app name field is not set", ErrorCode.APP_NAME_FIELD_IS_INVALID);
+                log.warn("application name field is empty");
+                throw new ParameterInvalidException("application_name is not set", ErrorCode.APP_NAME_FIELD_IS_INVALID);
             }
+
+            if (StringUtils.isEmpty(creatorId)) {
+                log.warn("creator_id name field is empty");
+                throw new ParameterInvalidException("creator_id is not set", ErrorCode.CREATOR_FIELD_IS_INVALID);
+            }
+
 
             DenaApplication denaApplication = new DenaApplication();
             denaApplication.setApplicationName(appName);
+            denaApplication.setCreatorId(creatorId);
 
+            DenaObject registeredApplication = denaApplicationManagement.registerApplication(denaApplication);
+
+            DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
+                    .withCreateObjectCount(1)
+                    .withObjectResponseList(createObjectResponse(Collections.singletonList(registeredApplication)))
+                    .withTimestamp(DenaObjectUtils.timeStamp())
+                    .build();
+
+
+            return ResponseEntity.ok().body(denaResponse);
         } catch (DenaException ex) {
             throw DenaRestException.buildException(ex);
         }
-
-        return null;
 
     }
 
