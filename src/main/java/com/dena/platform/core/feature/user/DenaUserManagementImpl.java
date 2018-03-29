@@ -1,7 +1,6 @@
 package com.dena.platform.core.feature.user;
 
 import com.dena.platform.common.config.DenaConfigReader;
-import com.dena.platform.common.exception.DenaInternalException;
 import com.dena.platform.common.exception.ErrorCode;
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
@@ -27,14 +26,14 @@ import java.util.Optional;
 public class DenaUserManagementImpl implements DenaUserManagement {
     private final static Logger log = LoggerFactory.getLogger(DenaUserManagementImpl.class);
 
-    private String userTypeName;
+    private String userInfoTableName;
 
     @Resource
     private DenaDataStore denaDataStore;
 
     @PostConstruct
     public void init() {
-        userTypeName = DenaConfigReader.readProperty("dena.UserManagement.user.type");
+        userInfoTableName = DenaConfigReader.readProperty("dena.UserManagement.user.type");
     }
 
     @Override
@@ -68,14 +67,14 @@ public class DenaUserManagementImpl implements DenaUserManagement {
         denaObject.addProperty(User.IS_ACTIVE, user.getActive());
         denaObject.addFields(user.getOtherFields());
 
-        DenaObject returnObject = denaDataStore.store(appId, userTypeName, denaObject).get(0);
+        DenaObject returnObject = denaDataStore.store(appId, userInfoTableName, denaObject).get(0);
         return returnObject;
     }
 
     @Override
     public boolean isUserExist(String appId, User user) {
         // todo: when we implement search capability in DanaStore module, then refactor this method to use it
-        List<DenaObject> denaObjects = denaDataStore.findAll(appId, userTypeName, new DenaPager());
+        List<DenaObject> denaObjects = denaDataStore.findAll(appId, userInfoTableName, new DenaPager());
         Optional<DenaObject> foundUser = denaObjects.stream()
                 .filter(denaObject -> denaObject.hasProperty(User.EMAIL_FIELD_NAME, user.getEmail()))
                 .findAny();
@@ -85,7 +84,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
     @Override
     public User getUserById(String appId, String email) {
-        List<DenaObject> denaObjects = denaDataStore.find(appId, userTypeName);
+        List<DenaObject> denaObjects = denaDataStore.find(appId, userInfoTableName);
 
         Optional<DenaObject> foundUser = denaObjects.stream()
                 .filter(denaObject -> denaObject.hasProperty(User.EMAIL_FIELD_NAME, email))
