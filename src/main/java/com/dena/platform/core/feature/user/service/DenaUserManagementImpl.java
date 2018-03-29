@@ -33,7 +33,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
     @PostConstruct
     public void init() {
-        userInfoTableName = DenaConfigReader.readProperty("dena.UserManagement.user.type");
+        userInfoTableName = DenaConfigReader.readProperty("dena.UserManagement.user.table");
     }
 
     @Override
