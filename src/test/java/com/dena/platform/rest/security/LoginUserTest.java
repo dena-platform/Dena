@@ -29,8 +29,8 @@ public class LoginUserTest extends AbstractDataStoreTest {
         user.setEmail("ali@hotmail.com");
         user.setUnencodedPassword("123");
 
-        DenaResponse response = performRegisterUser(createJSONFromObject(user), HttpStatus.OK, DenaResponse.class);
-
+//        DenaResponse response = performRegisterUser(createJSONFromObject(user), HttpStatus.OK, DenaResponse.class);
+//
         TokenGenResponse tokenResp = performLoginUser(createJSONFromObject(user), HttpStatus.OK, TokenGenResponse.class);
         assertNotNull(tokenResp);
         assertNotNull(tokenResp.getToken());
