@@ -15,7 +15,9 @@ public interface CommonConfig {
 
     String BASE_URL = ROOT_URL + APP_ID + "/" + COLLECTION_NAME;
 
-    String REGISTER_URL = ROOT_URL + APP_ID + "/users/register";
+    String REGISTER_USER_URL = ROOT_URL + APP_ID + "/users/register";
+
+    String REGISTER_APPLICATION_URL= ROOT_URL  + "/app/register";
 
     String LOGIN_URL = "login";
 }
