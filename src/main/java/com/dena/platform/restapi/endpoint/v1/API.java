@@ -86,7 +86,7 @@ public class API {
     //            User Management API
     /////////////////////////////////////////////
 
-    @PostMapping(path = {"/{app-id}/users/register"})
+    @PostMapping(path = {"/{app-id}/users/register"}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity registerUser() {
         return denaRestProcessor.handleRegisterUser();
     }
@@ -99,7 +99,7 @@ public class API {
     /////////////////////////////////////////////
     //            Application Management API
     /////////////////////////////////////////////
-    @PostMapping(path = {"/app/register"})
+    @PostMapping(path = {"/app/register"}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity registerApp() {
         return denaRestProcessor.handleRegisterApplication();
     }

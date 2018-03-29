@@ -707,7 +707,7 @@ Response Body:
 
 
 
-## Login ##  
+## Login ##
 
 With this API user can login in Dena Platform. after user successfully login then in subsequent request access token should be included.
 
@@ -756,6 +756,56 @@ Response Body:
     }
 
 ----------
+
+#Application Management#
+With this API user can manage application (create, edit, find application)
+
+## Create New Application ##
+
+Method: POST
+
+URL: /v1/app/register
+
+Body:
+
+{JSON}
+
+
+Headers:
+
+Content-Type:application/json
+
+Headers:
+
+Content-Type:application/json
+
+***Example:***
+
+Request Body: 
+
+    {
+      "application_name": "great_app",
+      "creator_id": "developer@dena.com"
+    }
+
+Response Body:
+
+    {
+      "timestamp": 1520504910721,
+      "count": 1,
+      "objects": [
+        {
+          "object_id": "5aa1104e99d0b323487d38a1",
+          "application_name": "great_app" ,
+          "creator_id": "developer@dena.com",
+          "application_id": "8a0d747e-8b4a-418a-a658-57dd995945a4",
+          "secret_key": "05c977f0-14be-4f2e-960d-1103fa3646bd"
+        }
+      ]
+    }
+
+
+
 ## Error Response ##
 When error occurred in service then the following json return
  
