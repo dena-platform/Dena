@@ -268,7 +268,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     }
 
     @Override
-    public ResponseEntity handleRegisterApp() {
+    public ResponseEntity handleRegisterApplication() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
         String requestBody = denaRequestContext.getRequestBody();
         HashMap<String, Object> requestParameter = JSONMapper.createHashMapFromJSON(requestBody);

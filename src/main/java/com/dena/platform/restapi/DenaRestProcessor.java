@@ -21,5 +21,5 @@ public interface DenaRestProcessor {
 
     ResponseEntity login();
 
-    ResponseEntity handleRegisterApp();
+    ResponseEntity handleRegisterApplication();
 }
