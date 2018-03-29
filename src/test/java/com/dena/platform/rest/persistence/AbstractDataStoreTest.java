@@ -53,6 +53,7 @@ public class AbstractDataStoreTest {
         //////////////////////////////////////////////////////
 
         mongoClient.getDatabase(CommonConfig.APP_ID).drop();
+        mongoClient.getDatabase(CommonConfig.DENA_APLICATION).drop();
 
         Document document1 = new Document();
 
