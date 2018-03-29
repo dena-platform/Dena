@@ -26,7 +26,7 @@ public class DenaApplication {
     }
 
     public void setApplicationName(String applicationName) {
-        this.applicationName = applicationName;
+        this.applicationName = applicationName.trim();
     }
 
     public String getAppId() {
@@ -50,7 +50,7 @@ public class DenaApplication {
     }
 
     public void setCreatorId(String creatorId) {
-        this.creatorId = creatorId;
+        this.creatorId = creatorId.trim();
     }
 
     public static final class DenaAPPBuilder {
