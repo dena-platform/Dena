@@ -2,6 +2,7 @@ package com.dena.platform.rest.persistence;
 
 import com.dena.platform.rest.dto.TestDenaResponseDTO;
 import com.dena.platform.rest.dto.TestErrorResponseDTO;
+import com.dena.platform.rest.dto.TestObjectResponseDTO;
 import com.dena.platform.utils.CommonConfig;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -110,25 +111,24 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
 
-        // todo: when fix find method then correct this section of code
         /////////////////////////////////////////////
-        //            Check Response Find
+        //            Check Deleted Object
         /////////////////////////////////////////////
-//        actualReturnObject = performFindRequest(objectId3);
-//        expectedReturnObject = new TestDenaResponseDTO();
-////        expectedReturnObject.totalCount = (1L);
-//        expectedReturnObject.timestamp = (actualReturnObject.timestamp);
-//
-//        TestObjectResponseDTO testObjectResponseDTO = new TestObjectResponseDTO();
-//        testObjectResponseDTO.objectId = objectId3;
-//        testObjectResponseDTO.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
-//        testObjectResponseDTO.addProperty("name", "javad");
-//        testObjectResponseDTO.addProperty("job", "developer");
-////        testObjectResponseDTO.testDenaRelationDTOS = Collections.singletonList(new TestDenaRelationDTO(objectId2, CommonConfig.COLLECTION_NAME));
-//        expectedReturnObject.setTestObjectResponseDTOList(Collections.singletonList(testObjectResponseDTO));
-//
-//        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.timestamp, Instant.now().toEpochMilli()));
-//        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+        actualReturnObject = performFindRelationRequest(objectId3, CommonConfig.RELATION_NAME);
+        expectedReturnObject = new TestDenaResponseDTO();
+        expectedReturnObject.foundObjectCount = 1L;
+        expectedReturnObject.timestamp = actualReturnObject.timestamp;
+        expectedReturnObject.page = 1L;
+
+        TestObjectResponseDTO testObjectResponseDTO = new TestObjectResponseDTO();
+        testObjectResponseDTO.objectId = objectId2;
+        testObjectResponseDTO.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId2;
+        testObjectResponseDTO.addProperty("name", "javad");
+        testObjectResponseDTO.addProperty("job", "developer");
+        expectedReturnObject.setTestObjectResponseDTOList(Collections.singletonList(testObjectResponseDTO));
+
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.timestamp, Instant.now().toEpochMilli()));
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
 
@@ -167,24 +167,20 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
 
-        // todo: when fix find method then correct this section of code
         /////////////////////////////////////////////
-        //            Check Response Find
+        //            Check Deleted Object
         /////////////////////////////////////////////
-//        actualReturnObject = performFindRequest(objectId3);
-//        expectedReturnObject = new TestDenaResponseDTO();
-////        expectedReturnObject.totalCount = (1L);
-//        expectedReturnObject.timestamp = (actualReturnObject.timestamp);
-//
-//        TestObjectResponseDTO testObjectResponseDTO = new TestObjectResponseDTO();
-//        testObjectResponseDTO.objectId = objectId3;
-//        testObjectResponseDTO.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
-//        testObjectResponseDTO.addProperty("name", "javad");
-//        testObjectResponseDTO.addProperty("job", "developer");
-//        expectedReturnObject.setTestObjectResponseDTOList(Collections.singletonList(testObjectResponseDTO));
-//
-//        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.timestamp, Instant.now().toEpochMilli()));
-//        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+
+        actualReturnObject = performFindRelationRequest(objectId3, CommonConfig.RELATION_NAME);
+        expectedReturnObject = new TestDenaResponseDTO();
+        expectedReturnObject.foundObjectCount = 0L;
+        expectedReturnObject.timestamp = actualReturnObject.timestamp;
+        expectedReturnObject.page = 1L;
+
+        expectedReturnObject.setTestObjectResponseDTOList(Collections.emptyList());
+
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.timestamp, Instant.now().toEpochMilli()));
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
 

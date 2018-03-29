@@ -20,10 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
@@ -169,6 +166,11 @@ public class MongoDBUtils {
 
 
     public static List<BsonDocument> findRelatedDocument(MongoDatabase mongoDatabase, BsonDocument parentDocument, String relationName, DenaPager pager) {
+
+        if (!parentDocument.containsKey(relationName)) {
+            return Collections.emptyList();
+        }
+
         List<Object> relatedObjectIds = BSONTypeMapper.convertBSONArrayToJava(
                 parentDocument.getDocument(relationName).getArray(RELATION_IDS)
         );
