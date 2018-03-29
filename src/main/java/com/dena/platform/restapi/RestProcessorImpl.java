@@ -273,10 +273,10 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String requestBody = denaRequestContext.getRequestBody();
         HashMap<String, Object> requestParameter = JSONMapper.createHashMapFromJSON(requestBody);
 
-        String appName = (String) requestParameter.get(DenaApplication.APP_NAME_FIELD);
+        String applicationName = (String) requestParameter.get(DenaApplication.APP_NAME_FIELD);
         String creatorId = (String) requestParameter.get(DenaApplication.CREATOR_ID_FIELD);
         try {
-            if (StringUtils.isEmpty(appName)) {
+            if (StringUtils.isEmpty(applicationName)) {
                 log.warn("application name field is empty");
                 throw new ParameterInvalidException("application_name is not set", ErrorCode.APP_NAME_FIELD_IS_INVALID);
             }
@@ -288,7 +288,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
 
             DenaApplication denaApplication = new DenaApplication();
-            denaApplication.setApplicationName(appName);
+            denaApplication.setApplicationName(applicationName);
             denaApplication.setCreatorId(creatorId);
 
             DenaObject registeredApplication = denaApplicationManagement.registerApplication(denaApplication);

@@ -57,15 +57,15 @@ public class DenaApplicationManagementImpl implements DenaApplicationManagement 
         }
 
 
-        String appId = generateApplicationId();
+        String applicationId = generateApplicationId();
         String secretId = generateSecretId();
 
         denaObject.addProperty(DenaApplication.CREATOR_ID_FIELD, denaApplication.getCreatorId());
         denaObject.addProperty(DenaApplication.APP_NAME_FIELD, denaApplication.getApplicationName());
-        denaObject.addProperty(DenaApplication.APP_ID_FIELD, appId);
+        denaObject.addProperty(DenaApplication.APP_ID_FIELD, applicationId);
         denaObject.addProperty(DenaApplication.SECRET_KEY_FIELD, secretId);
 
-        DenaObject returnObject = denaDataStore.store(appId, applicationInfoTableName, denaObject).get(0);
+        DenaObject returnObject = denaDataStore.store(applicationDatabaseName, applicationInfoTableName, denaObject).get(0);
         return returnObject;
 
 
@@ -84,13 +84,13 @@ public class DenaApplicationManagementImpl implements DenaApplicationManagement 
 
     }
 
-
+    // todo: use a better approach to generate unique id
     private String generateApplicationId() {
         UUID appId = UUID.randomUUID();
         return appId.toString();
     }
 
-
+    // todo: use a better approach to generate unique id
     private String generateSecretId() {
         UUID appId = UUID.randomUUID();
         return appId.toString();
