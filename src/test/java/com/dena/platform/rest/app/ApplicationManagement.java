@@ -96,9 +96,35 @@ public class ApplicationManagement extends AbstractDataStoreTest {
     }
 
 
+    @Test
+    public void test_registerNewApplication_When_App_Name_Is_Invalid() throws Exception {
+        /////////////////////////////////////////////
+        //     Send Register New Application Request
+        /////////////////////////////////////////////
+        TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
+        requestObject.addProperty("application_name", "as");   // application name length is invalid
+        requestObject.addProperty("creator_id", "developer@dena.com");
+
+        ErrorResponse actualReturnObject = performRegisterNewApplication(createJSONFromObject(requestObject), HttpStatus.BAD_REQUEST, ErrorResponse.class);
+
+        /////////////////////////////////////////////
+        //     Assert Register User Response
+        /////////////////////////////////////////////
+        TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
+        expectedReturnObject.status = 400;
+        expectedReturnObject.errorCode = "4000";
+        expectedReturnObject.messages = Collections.singletonList("Application name field is invalid");
 
 
-    /////////////////////////////////////////////////
+
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+
+    }
+
+
+
+
+        /////////////////////////////////////////////////
     //            Application MANAGEMENT REQUEST
     /////////////////////////////////////////////////
     protected <T> T performRegisterNewApplication(String body, HttpStatus httpStatus, Class<T> klass) throws Exception {

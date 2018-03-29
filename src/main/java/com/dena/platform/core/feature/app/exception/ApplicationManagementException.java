@@ -6,15 +6,15 @@ import com.dena.platform.common.exception.ErrorCode;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
-public class AppManagementException extends DenaException {
+public class ApplicationManagementException extends DenaException {
 
 
-    public AppManagementException(String message, ErrorCode errorCode) {
+    public ApplicationManagementException(String message, ErrorCode errorCode) {
         super(message);
         this.errorCode = errorCode;
     }
 
-    public AppManagementException(String message, ErrorCode errorCode, Throwable cause) {
+    public ApplicationManagementException(String message, ErrorCode errorCode, Throwable cause) {
         super(message, cause);
         this.errorCode = errorCode;
     }
