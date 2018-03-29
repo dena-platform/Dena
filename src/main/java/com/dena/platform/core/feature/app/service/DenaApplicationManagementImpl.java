@@ -32,7 +32,7 @@ public class DenaApplicationManagementImpl implements DenaApplicationManagement 
 
     @PostConstruct
     public void init() {
-        applicationDatabaseName = DenaConfigReader.readProperty("dena.application.database", "DENA_APPLICATION");
+        applicationDatabaseName = DenaConfigReader.readProperty("dena.application.database", "DENA_APPLICATIONS");
         applicationInfoTableName = DenaConfigReader.readProperty("dena.application.info.table", "DENA_APPLICATION_INFO");
     }
 
