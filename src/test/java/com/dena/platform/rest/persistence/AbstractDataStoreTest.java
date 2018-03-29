@@ -205,7 +205,7 @@ public class AbstractDataStoreTest {
     //            USER MANAGEMENT REQUEST
     /////////////////////////////////////////////
     protected <T> T performRegisterUser(String body, HttpStatus httpStatus, Class<T> klass) throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.REGISTER_URL)
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.REGISTER_USER_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(body))
                 .andDo(MockMvcResultHandlers.print())
