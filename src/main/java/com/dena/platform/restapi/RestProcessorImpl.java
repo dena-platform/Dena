@@ -13,7 +13,7 @@ import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.dena.platform.core.feature.security.JsonWebTokenGenerator;
-import com.dena.platform.core.feature.user.DenaUserManagement;
+import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.restapi.dto.response.DenaObjectResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse;
