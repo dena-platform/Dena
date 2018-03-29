@@ -452,8 +452,6 @@ By default when you get an object from Dena platform, related objects not includ
 
 **Find object By Id**
 
-// Todo: remove related_objects in response. when in future we implemented auto reload feature then add it.
-
 In this case this method return only one object.
 
 
@@ -468,21 +466,18 @@ Request Body: None
 Response Body:
 
     {
-      "timestamp" : "1513233158180",
-      "count": 1,
-      "objects": [
-        {
-          "object_id": "5a316b1b4e5f450104c31909",
-          "object_uri":"/denaTestCollection/5a316b1b4e5f450104c31909",
-          "field3": "javad",
-          "field4": "developer",
-          "related_objects": [
-    	      {
-      	      "id": "123123",
-      	      "type": "para"
-    	      }
-        }
-      ]
+        "timestamp": 1522349375351,
+        "found_object_count(s)": 1,
+        "objects": [
+            {
+                "object_id": "5aaa8234bb19df25acce463e",
+                "object_uri": "/post/5aaa8234bb19df25acce463e",
+                "update_time": null,
+                "create_time": 1521123892553,
+                "field3": "javad",
+                "field4": "developer"
+            }
+        ]
     }
 
 
@@ -542,7 +537,7 @@ Response Body:
 
 **Find Object Relation Supporting Search Clause**
 
-// Todo: remove related_objects in response. when in future we implemented auto reload feature then add it.
+
 
 Suppose we have relation between two object for example in many-many or one-many relation and we want to retrieve related object. in this case we want only get 
 a portion of related object and not all (because of too many object) so we use paging.
@@ -572,29 +567,18 @@ Request Body: None
 Response Body:
 
     {
-      "timestamp" : timestamp in milliseconds,
-      "count": 50,
-      "total_count":30,
-      "page":4,
-      "objects": [
-        {
-          "object_id": "232986544",
-          "field3": "javad",
-          "field4": "developer",
-          "related_objects": [
-    	       {
-      	     	"id": "123123",
-      	     	"type": "para"
-    	       }
-          ]
- 
-        },
-         {
-           "object_id": "232986554",
-           "field5": "javad54",
-           "field6": "developer312"
-         }
-      ]
+        "timestamp": 1522349579231,
+        "found_object_count(s)": 1,
+        "page": 1,
+        "objects": [
+            {
+                "object_id": "5aaa0982ecb1ef188094eecf",
+                "object_uri": "/comment/5aaa0982ecb1ef188094eecf",
+                "update_time": null,
+                "create_time": 1521092994863,
+                "comment_text": "this is a comment 2"
+            }
+        ]
     }
 
 ----------
@@ -610,7 +594,7 @@ We can count number of objects three way:
 
 1. Object count for relation
 2. Object count for type
-2. Object count using query (TO-DO)
+3. Object count using query (TO-DO)
 
 
 **Object Count For Relation**
@@ -647,8 +631,6 @@ Return Value:
 ----------
 # User Management #
 This API provides the functionality related to the user management such as user registrations, login and logout.
-
-
 
 
 ## Register New User ##
