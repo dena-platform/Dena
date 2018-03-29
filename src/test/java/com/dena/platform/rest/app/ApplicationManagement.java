@@ -1,10 +1,12 @@
 package com.dena.platform.rest.app;
 
 import com.dena.platform.rest.dto.TestDenaResponseDTO;
+import com.dena.platform.rest.dto.TestErrorResponseDTO;
 import com.dena.platform.rest.dto.TestObjectResponseDTO;
 import com.dena.platform.rest.dto.TestRequestObjectDTO;
 import com.dena.platform.rest.persistence.AbstractDataStoreTest;
 import com.dena.platform.restapi.dto.response.DenaResponse;
+import com.dena.platform.restapi.dto.response.ErrorResponse;
 import com.dena.platform.utils.CommonConfig;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -64,6 +66,36 @@ public class ApplicationManagement extends AbstractDataStoreTest {
 
 
     }
+
+    @Test
+    public void test_registerNewApplication_When_App_Exist() throws Exception {
+
+        /////////////////////////////////////////////
+        //     Send Register New Application Request
+        /////////////////////////////////////////////
+        TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
+        requestObject.addProperty("application_name", "great_app");
+        requestObject.addProperty("creator_id", "developer@dena.com");
+
+        DenaResponse okReturn = performRegisterNewApplication(createJSONFromObject(requestObject), HttpStatus.OK, DenaResponse.class);
+        ErrorResponse errorReturn = performRegisterNewApplication(createJSONFromObject(requestObject), HttpStatus.BAD_REQUEST, ErrorResponse.class);
+
+        /////////////////////////////////////////////
+        //     Assert Register User Response
+        /////////////////////////////////////////////
+        TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
+        expectedReturnObject.status = 400;
+        expectedReturnObject.errorCode = "4002";
+        expectedReturnObject.messages = Collections.singletonList("Application already exist");
+
+
+
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(errorReturn), true);
+
+
+    }
+
+
 
 
     /////////////////////////////////////////////////
