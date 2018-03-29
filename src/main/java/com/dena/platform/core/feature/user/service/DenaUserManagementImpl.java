@@ -1,4 +1,4 @@
-package com.dena.platform.core.feature.user;
+package com.dena.platform.core.feature.user.service;
 
 import com.dena.platform.common.config.DenaConfigReader;
 import com.dena.platform.common.exception.ErrorCode;
