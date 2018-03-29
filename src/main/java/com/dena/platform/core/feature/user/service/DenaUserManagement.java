@@ -1,4 +1,4 @@
-package com.dena.platform.core.feature.user;
+package com.dena.platform.core.feature.user.service;
 
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.user.domain.User;

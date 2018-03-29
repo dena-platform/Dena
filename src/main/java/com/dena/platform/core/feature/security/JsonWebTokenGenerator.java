@@ -1,6 +1,6 @@
 package com.dena.platform.core.feature.security;
 
-import com.dena.platform.core.feature.user.DenaUserManagement;
+import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import com.dena.platform.core.feature.user.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
