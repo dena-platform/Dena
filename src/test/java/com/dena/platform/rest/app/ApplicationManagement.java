@@ -1,6 +1,6 @@
 package com.dena.platform.rest.app;
 
-import com.dena.platform.rest.dto.TestErrorResponseDTO;
+import com.dena.platform.rest.dto.TestDenaResponseDTO;
 import com.dena.platform.rest.dto.TestObjectResponseDTO;
 import com.dena.platform.rest.dto.TestRequestObjectDTO;
 import com.dena.platform.rest.persistence.AbstractDataStoreTest;
@@ -37,21 +37,30 @@ public class ApplicationManagement extends AbstractDataStoreTest {
         DenaResponse actualReturnObject = performRegisterNewApplication(createJSONFromObject(requestObject), HttpStatus.OK, DenaResponse.class);
 
         /////////////////////////////////////////////
-        //            Assert Register User Response
+        //     Assert Register User Response
         /////////////////////////////////////////////
+
+        String application_id = (String) actualReturnObject.getDenaObjectResponseList().get(0).getAllFields().get("application_id");
+        String secretKey = (String) actualReturnObject.getDenaObjectResponseList().get(0).getAllFields().get("secret_key");
+
         TestObjectResponseDTO expectedObjectResponse = new TestObjectResponseDTO();
         expectedObjectResponse.objectId = actualReturnObject.getDenaObjectResponseList().get(0).getObjectId();
-        expectedObjectResponse.objectURI = "/DENA_APPLICATION/" + expectedObjectResponse.objectId;
+        expectedObjectResponse.objectURI = "/DENA_APPLICATION_INFO/" + expectedObjectResponse.objectId;
         expectedObjectResponse.createTime = actualReturnObject.getDenaObjectResponseList().get(0).getCreateTime();
         expectedObjectResponse.updateTime = null;
 
-        expectedObjectResponse.addProperty("password", "123456");
-        expectedObjectResponse.addProperty("is_active", true);
-        expectedObjectResponse.addProperty("email", "user2@denaplatform.com");
-        expectedObjectResponse.addProperty("name", "alex");
-        expectedObjectResponse.addProperty("family", "smith");
+        expectedObjectResponse.addProperty("secret_key", secretKey);
+        expectedObjectResponse.addProperty("application_name", "great_app");
+        expectedObjectResponse.addProperty("creator_id", "developer@dena.com");
+        expectedObjectResponse.addProperty("application_id", application_id);
 
-//        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
+        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
+        expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
+        expectedReturnObject.createObjectCount = 1L;
+        expectedReturnObject.setTestObjectResponseDTOList(Collections.singletonList(expectedObjectResponse));
+
+
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
 
 
     }
