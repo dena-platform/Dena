@@ -202,21 +202,6 @@ public class AbstractDataStoreTest {
 
     }
 
-    /////////////////////////////////////////////
-    //            USER MANAGEMENT REQUEST
-    /////////////////////////////////////////////
-    protected <T> T performRegisterUser(String body, HttpStatus httpStatus, Class<T> klass) throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.REGISTER_USER_URL)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(body))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is(httpStatus.value()))
-                .andReturn();
-
-        String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, klass);
-
-    }
 
     /////////////////////////////////////////////
     //            LOGIN
