@@ -193,7 +193,6 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         }
     }
 
-    // todo: do not include relation in response ( for performance )
     @Override
     public List<DenaObject> find(String appName, String typeName, String... objectId) {
         try {
