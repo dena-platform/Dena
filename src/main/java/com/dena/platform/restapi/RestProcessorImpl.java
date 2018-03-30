@@ -1,5 +1,6 @@
 package com.dena.platform.restapi;
 
+import com.dena.platform.common.config.DenaConfigReader;
 import com.dena.platform.common.exception.DenaException;
 import com.dena.platform.common.exception.ErrorCode;
 import com.dena.platform.common.exception.ParameterInvalidException;
@@ -23,6 +24,7 @@ import com.dena.platform.restapi.exception.DenaRestException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -207,7 +209,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
                 denaResponse = DenaResponseBuilder.aDenaResponse()
                         .withFoundObjectCount(foundDenaObject.size())
                         .withObjectResponseList(createObjectResponse(foundDenaObject))
-                        .withPage(denaPager.getPage())
+                        .withPage(denaPager.)
                         .withTimestamp(DenaObjectUtils.timeStamp())
                         .build();
 
@@ -325,22 +327,26 @@ public class RestProcessorImpl implements DenaRestProcessor {
     }
 
     private DenaPager constructPager(DenaRequestContext denaRequestContext) {
-        int limit = 0;
-        long page = 0;
+        String startIndex = denaRequestContext.getParameter(DenaPager.PAGE_SIZE_PARAMETER);
+        String pageSize = denaRequestContext.getParameter(DenaPager.PAGE_SIZE_PARAMETER);
 
-        if (StringUtils.isNotBlank(denaRequestContext.getParameter(DenaPager.START_INDEX_PARAMETER))) {
-            limit = Integer.valueOf(denaRequestContext.getParameter(DenaPager.START_INDEX_PARAMETER));
+
+        int defaultStartIndex = NumberUtils.toInt(startIndex, 0);
+        int defaultPageSize = NumberUtils.toInt(pageSize, DenaConfigReader.readIntProperty("dena.pager.max.results", 50));
+
+        if (defaultStartIndex < 0) {
+            defaultStartIndex = 0;
         }
 
-        if (StringUtils.isNotBlank(denaRequestContext.getParameter(DenaPager.PAGE_SIZE_PARAMETER))) {
-            page = Long.valueOf(denaRequestContext.getParameter(DenaPager.PAGE_SIZE_PARAMETER));
+        if (defaultPageSize < 1) {
+            defaultPageSize = DenaConfigReader.readIntProperty("dena.pager.max.results", 50);
         }
+
 
         return DenaPager.DenaPagerBuilder.aDenaPager()
-                .with(limit)
-                .withPage(page)
+                .withPageSize(defaultPageSize)
+                .withStartIndex(defaultStartIndex)
                 .build();
-
     }
 
     @Resource
