@@ -13,8 +13,8 @@ import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.dena.platform.core.feature.security.JsonWebTokenGenerator;
-import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import com.dena.platform.core.feature.user.domain.User;
+import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import com.dena.platform.restapi.dto.response.DenaObjectResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse.DenaResponseBuilder;
@@ -42,6 +42,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     public final static String TYPE_NAME = "type-name";
     public final static String APP_ID = "app-id";
     public final static String OBJECT_ID = "object-id";
+    public final static String RELATION_NAME = "relation-name";
 
 
     @Resource
@@ -174,7 +175,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String parentTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String appId = denaRequestContext.getPathVariable(APP_ID);
         String objectId = denaRequestContext.getPathVariable(OBJECT_ID);
-        String relationName = denaRequestContext.getPathVariable("relation-name");
+        String relationName = denaRequestContext.getPathVariable(RELATION_NAME);
         List<DenaObject> foundDenaObject;
         DenaResponse denaResponse;
 
@@ -327,16 +328,16 @@ public class RestProcessorImpl implements DenaRestProcessor {
         int limit = 0;
         long page = 0;
 
-        if (StringUtils.isNotBlank(denaRequestContext.getParameter(DenaPager.ITEM_PER_PAGE_PARAMETER))) {
-            limit = Integer.valueOf(denaRequestContext.getParameter(DenaPager.ITEM_PER_PAGE_PARAMETER));
+        if (StringUtils.isNotBlank(denaRequestContext.getParameter(DenaPager.START_INDEX_PARAMETER))) {
+            limit = Integer.valueOf(denaRequestContext.getParameter(DenaPager.START_INDEX_PARAMETER));
         }
 
-        if (StringUtils.isNotBlank(denaRequestContext.getParameter(DenaPager.PAGE_PARAMETER))) {
-            page = Long.valueOf(denaRequestContext.getParameter(DenaPager.PAGE_PARAMETER));
+        if (StringUtils.isNotBlank(denaRequestContext.getParameter(DenaPager.PAGE_SIZE_PARAMETER))) {
+            page = Long.valueOf(denaRequestContext.getParameter(DenaPager.PAGE_SIZE_PARAMETER));
         }
 
         return DenaPager.DenaPagerBuilder.aDenaPager()
-                .withLimit(limit)
+                .with(limit)
                 .withPage(page)
                 .build();
 
