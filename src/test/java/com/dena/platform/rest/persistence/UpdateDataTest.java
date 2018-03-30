@@ -4,6 +4,7 @@ import com.dena.platform.rest.dto.*;
 import com.dena.platform.utils.CommonConfig;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.time.Instant;
 import java.util.Arrays;
@@ -61,7 +62,63 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
     }
 
-    //todo: add bulk update test
+    @Test
+    public void test_BulkUpdateObject() throws Exception {
+        /////////////////////////////////////////////
+        //           Send Update Object Request
+        /////////////////////////////////////////////
+        TestRequestObjectDTO requestObject1 = new TestRequestObjectDTO();
+        requestObject1.setObjectId(objectId1);
+        requestObject1.addProperty("job", "new job");
+        requestObject1.addProperty("new field", "new value");
+
+        TestDenaRelationDTO testDenaRelationDTO = TestDenaRelationDTO.TestDenaRelationDTOBuilder.aTestDenaRelationDTO()
+                .withRelationName("test_relation")
+                .withRelationType("ONE-TO-ONE")
+                .withTargetName(CommonConfig.COLLECTION_NAME)
+                .withIds(objectId2)
+                .build();
+
+        requestObject1.getRelatedObjects().add(testDenaRelationDTO);
+
+        TestRequestObjectDTO requestObject2 = new TestRequestObjectDTO();
+        requestObject2.setObjectId(objectId2);
+        requestObject2.addProperty("job", "new job 2");
+        requestObject2.addProperty("new field", "new value");
+
+
+        TestDenaResponseDTO actualReturnObject = performUpdateObject(createJSONFromObject(Arrays.asList(requestObject1, requestObject2)), TestDenaResponseDTO.class);
+
+        /////////////////////////////////////////////
+        //            Assert Update Response
+        /////////////////////////////////////////////
+        TestObjectResponseDTO testObjectResponseDTO1 = new TestObjectResponseDTO();
+        testObjectResponseDTO1.objectId = objectId1;
+        testObjectResponseDTO1.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + testObjectResponseDTO1.objectId;
+        testObjectResponseDTO1.updateTime = actualReturnObject.getTestObjectResponseDTOList().get(1).updateTime;
+        testObjectResponseDTO1.addProperty("job", "new job");
+        testObjectResponseDTO1.addProperty("new field", "new value");
+        testObjectResponseDTO1.addProperty("name", "javad");
+
+        TestObjectResponseDTO testObjectResponseDTO2 = new TestObjectResponseDTO();
+        testObjectResponseDTO2.objectId = objectId2;
+        testObjectResponseDTO2.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + testObjectResponseDTO2.objectId;
+        testObjectResponseDTO2.updateTime = actualReturnObject.getTestObjectResponseDTOList().get(0).updateTime;
+        testObjectResponseDTO2.addProperty("job", "new job 2");
+        testObjectResponseDTO2.addProperty("new field", "new value");
+        testObjectResponseDTO2.addProperty("name", "javad");
+
+
+        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
+        expectedReturnObject.timestamp = actualReturnObject.timestamp;
+        expectedReturnObject.updateObjectCount = (2L);
+        expectedReturnObject.setTestObjectResponseDTOList(Arrays.asList(testObjectResponseDTO1, testObjectResponseDTO2));
+
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.timestamp, Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(testObjectResponseDTO1.updateTime, Instant.now().toEpochMilli()));
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), JSONCompareMode.NON_EXTENSIBLE);
+    }
+
 
     @Test
     public void test_UpdateObject_When_Object_Id_Invalid() throws Exception {
