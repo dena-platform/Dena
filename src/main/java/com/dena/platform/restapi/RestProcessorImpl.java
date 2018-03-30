@@ -186,6 +186,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             if (StringUtils.isBlank(relationName)) {
 
                 if (StringUtils.isBlank(objectId)) {
+                    // find all object in table
                     foundDenaObject = denaDataStore.findAll(appId, parentTypeName, constructPager());
                 } else {
                     // find single object by id
