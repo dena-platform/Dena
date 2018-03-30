@@ -76,6 +76,7 @@ public class API {
      */
     @GetMapping(path = {
             "/{app-id}/{type-name}/{object-id}",
+            "/{app-id}/{type-name}",
             "/{app-id}/{type-name}/{object-id}/relation/{relation-name}"})
     public ResponseEntity findObject() {
         return denaRestProcessor.handleFindObject();

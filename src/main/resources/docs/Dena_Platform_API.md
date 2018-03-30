@@ -444,7 +444,7 @@ Response Body:
 
 ----------
 ## Find Object##
-By default when you get an object from Dena platform, related objects not included in the response because it may cause load performance on server or client memory.Therefore you should get related object in a separate request.   
+By default when you get an object from Dena platform, related objects not included in the response because it may cause load performance on server or client memory.Therefore we should get related object in a separate request.   
 
 1. Find object by id
 2. Find object by type supporting search clause 
@@ -452,7 +452,7 @@ By default when you get an object from Dena platform, related objects not includ
 
 **Find object By Id**
 
-In this case this method return only one object.
+This API provides the functionality that retrieve specified object in table.
 
 
 Method: GET
@@ -482,18 +482,19 @@ Response Body:
 
 
 
-**Find Objects By Type Supporting Search Clause (TO-DO)** 
+**Find All Objects**
+This API provides the functionality that retrieve all object of specified table data.
+
+
 
 Method: GET
 
-URL: /v1/<application-id>/<type-name>?itempPerPage=50&page=4&where=???
+URL: /v1/<application-id>/<type-name>?startIndex=45&pageSize=6
 
 Optional Parameter
 
-- **itempPerPage**: item per page. default is 50.
-- **page**: starting page of result(start with 0). default is 0.
-- **where**: see search object section 
-
+- **startIndex**: The start row number from which return result to client. default to 0.
+- **pageSize**: The number of records to retrieve in a single page. default to 50.
 
  
 Request Body: None
