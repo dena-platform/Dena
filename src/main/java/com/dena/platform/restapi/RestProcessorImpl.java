@@ -182,37 +182,39 @@ public class RestProcessorImpl implements DenaRestProcessor {
         DenaResponse denaResponse;
 
         try {
-            // find single object by id
+
             if (StringUtils.isBlank(relationName)) {
-                foundDenaObject = denaDataStore.find(appId, parentTypeName, objectId);
 
-                if (CollectionUtils.isNotEmpty(foundDenaObject)) {
-                    denaResponse = DenaResponseBuilder.aDenaResponse()
-                            .withFoundObjectCount(1)
-                            .withObjectResponseList(createObjectResponse(foundDenaObject))
-                            .withTimestamp(DenaObjectUtils.timeStamp())
-                            .build();
-
+                if (StringUtils.isBlank(objectId)) {
+                    foundDenaObject = denaDataStore.findAll(appId, parentTypeName, constructPager());
                 } else {
-                    denaResponse = DenaResponseBuilder.aDenaResponse()
-                            .withFoundObjectCount(0)
-                            .withTimestamp(DenaObjectUtils.timeStamp())
-                            .build();
-
+                    // find single object by id
+                    foundDenaObject = denaDataStore.find(appId, parentTypeName, objectId);
                 }
+
             }
             // find related objects
             else {
-                DenaPager denaPager = constructPager(denaRequestContext);
+                DenaPager denaPager = constructPager();
                 foundDenaObject = denaDataStore.findRelatedObject(appId, parentTypeName, objectId, relationName, denaPager);
+            }
 
+            if (CollectionUtils.isNotEmpty(foundDenaObject)) {
                 denaResponse = DenaResponseBuilder.aDenaResponse()
                         .withFoundObjectCount(foundDenaObject.size())
                         .withObjectResponseList(createObjectResponse(foundDenaObject))
                         .withTimestamp(DenaObjectUtils.timeStamp())
                         .build();
 
+            } else {
+                denaResponse = DenaResponseBuilder.aDenaResponse()
+                        .withFoundObjectCount(foundDenaObject.size())
+                        .withTimestamp(DenaObjectUtils.timeStamp())
+                        .build();
+
             }
+
+
             return ResponseEntity.ok().body(denaResponse);
         } catch (DenaException ex) {
             throw DenaRestException.buildException(ex);
@@ -325,8 +327,9 @@ public class RestProcessorImpl implements DenaRestProcessor {
         return denaObjectResponses;
     }
 
-    private DenaPager constructPager(DenaRequestContext denaRequestContext) {
-        String startIndex = denaRequestContext.getParameter(DenaPager.PAGE_SIZE_PARAMETER);
+    private DenaPager constructPager() {
+        DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
+        String startIndex = denaRequestContext.getParameter(DenaPager.START_INDEX_PARAMETER);
         String pageSize = denaRequestContext.getParameter(DenaPager.PAGE_SIZE_PARAMETER);
 
 
@@ -337,7 +340,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             defaultStartIndex = 0;
         }
 
-        if (defaultPageSize < 1) {
+        if (defaultPageSize < 1 || defaultPageSize > DenaConfigReader.readIntProperty("dena.pager.max.results", 50)) {
             defaultPageSize = DenaConfigReader.readIntProperty("dena.pager.max.results", 50);
         }
 

@@ -18,7 +18,7 @@ public class DenaPager {
 
 
     /**
-     * The number from which return result to client
+     * The start row number from which return result to client.
      *
      * @return
      */
