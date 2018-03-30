@@ -486,7 +486,6 @@ Response Body:
 This API provides the functionality that retrieve all object of specified table data.
 
 
-
 Method: GET
 
 URL: /v1/<application-id>/<type-name>?startIndex=45&pageSize=6
@@ -495,6 +494,9 @@ Optional Parameter
 
 - **startIndex**: The start row number from which return result to client. default to 0.
 - **pageSize**: The number of records to retrieve in a single page. default to 50.
+
+ 
+**Note:** maximum allowed value for the pageSize is 50 objects. The minimum value is 1. 
 
  
 Request Body: None
