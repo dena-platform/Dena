@@ -482,7 +482,7 @@ Response Body:
 
 
 
-**Find All Objects**
+**Find All Objects In Table**
 This API provides the functionality that retrieve all object of specified table data.
 
 
