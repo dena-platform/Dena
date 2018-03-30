@@ -31,10 +31,6 @@ public class DenaResponse {
     @JsonProperty("found_object_count(s)")
     private Long foundObjectCount;
 
-
-    @JsonProperty("page")
-    private Long page;
-
     @JsonProperty("objects")
     private List<DenaObjectResponse> denaObjectResponseList = new ArrayList<>();
 
@@ -56,10 +52,6 @@ public class DenaResponse {
 
     public void setDenaObjectResponseList(List<DenaObjectResponse> denaObjectResponseList) {
         this.denaObjectResponseList = denaObjectResponseList;
-    }
-
-    public void setPage(Long page) {
-        this.page = page;
     }
 
     public Long getUpdateObjectCount() {
@@ -178,7 +170,6 @@ public class DenaResponse {
             denaResponse.setDeleteObjectCount(deleteObjectCount);
             denaResponse.setDeleteRelationCount(deleteRelationCount);
             denaResponse.setFoundObjectCount(foundObjectCount);
-            denaResponse.setPage(page);
             return denaResponse;
         }
     }
