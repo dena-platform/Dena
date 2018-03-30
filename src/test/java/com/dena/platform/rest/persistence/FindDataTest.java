@@ -4,6 +4,7 @@ import com.dena.platform.rest.dto.TestDenaResponseDTO;
 import com.dena.platform.rest.dto.TestObjectResponseDTO;
 import com.dena.platform.utils.CommonConfig;
 import org.junit.Test;
+import org.junit.runners.Parameterized;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
@@ -47,7 +48,6 @@ public class FindDataTest extends AbstractDataStoreTest {
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
-
 
     @Test
     public void test_FindObjects_In_Table() throws Exception {
