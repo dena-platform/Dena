@@ -151,14 +151,13 @@ public class MongoDBUtils {
 
     public static List<BsonDocument> findALLDocument(MongoDatabase mongoDatabase, String collectionName, DenaPager pager) {
         List<BsonDocument> returnList = new LinkedList<>();
-        int startIndex = (int) pager.getCount() * pager.getLimit();
+        int startIndex = pager.getStartIndex();
 
         mongoDatabase.getCollection(collectionName, BsonDocument.class)
                 .find()
                 .skip(startIndex)
-                .batchSize(pager.getLimit())
-                .limit(pager.getLimit())
-
+                .batchSize(pager.getPageSize())
+                .limit(pager.getPageSize())
                 .into(returnList);
 
         return returnList;
@@ -178,14 +177,13 @@ public class MongoDBUtils {
 
         Bson searchDocument = Filters.in(ID, relatedObjectIds);
 
-        int startIndex = (int) pager.getCount() * pager.getLimit();
+        int startIndex = pager.getStartIndex();
 
-        pager.setCount(relatedObjectIds.size());
         List<BsonDocument> documentList = mongoDatabase.getCollection(targetCollectionName, BsonDocument.class)
                 .find(searchDocument)
                 .skip(startIndex)
-                .batchSize(pager.getLimit())
-                .limit(pager.getLimit())
+                .batchSize(pager.getPageSize())
+                .limit(pager.getPageSize())
                 .into(new ArrayList<>());
 
         return documentList;

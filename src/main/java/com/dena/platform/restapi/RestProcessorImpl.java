@@ -209,7 +209,6 @@ public class RestProcessorImpl implements DenaRestProcessor {
                 denaResponse = DenaResponseBuilder.aDenaResponse()
                         .withFoundObjectCount(foundDenaObject.size())
                         .withObjectResponseList(createObjectResponse(foundDenaObject))
-                        .withPage(denaPager.)
                         .withTimestamp(DenaObjectUtils.timeStamp())
                         .build();
 
