@@ -1,12 +1,14 @@
 package com.dena.platform.rest.persistence;
 
 import com.dena.platform.rest.dto.TestDenaResponseDTO;
+import com.dena.platform.restapi.login.LoginController;
 import com.dena.platform.utils.CommonConfig;
 import com.mongodb.MongoClient;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
@@ -189,6 +191,20 @@ public class AbstractDataStoreTest {
 
     }
 
+    protected <T> T performCreateObjectWithToken(String body, Class<T> klass, String token) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.BASE_URL)
+                .header("token", token)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(body))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String returnContent = result.getResponse().getContentAsString();
+        return createObjectFromJSON(returnContent, klass);
+
+    }
+
     protected <T> T performCreateObject(String body, int status, Class<T> klass) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -218,8 +234,6 @@ public class AbstractDataStoreTest {
         return createObjectFromJSON(returnContent, klass);
 
     }
-
-
 
 
 }

@@ -21,5 +21,5 @@ public interface CommonConfig {
 
     String REGISTER_APPLICATION_URL= ROOT_URL  + "/app/register";
 
-    String LOGIN_URL = "login";
+    String LOGIN_URL = "/login/" + APP_ID;
 }
