@@ -34,11 +34,6 @@ public class TestDenaResponseDTO {
     @JsonProperty("found_object_count(s)")
     public Long foundObjectCount;
 
-
-
-    @JsonProperty("page")
-    public Long page;
-
     @JsonProperty("objects")
     private List<TestObjectResponseDTO> testObjectResponseDTOList = new ArrayList<>();
 

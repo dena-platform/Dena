@@ -118,7 +118,6 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.foundObjectCount = 1L;
         expectedReturnObject.timestamp = actualReturnObject.timestamp;
-        expectedReturnObject.page = 1L;
 
         TestObjectResponseDTO testObjectResponseDTO = new TestObjectResponseDTO();
         testObjectResponseDTO.objectId = objectId2;
@@ -175,7 +174,6 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.foundObjectCount = 0L;
         expectedReturnObject.timestamp = actualReturnObject.timestamp;
-        expectedReturnObject.page = 1L;
 
         expectedReturnObject.setTestObjectResponseDTOList(Collections.emptyList());
 
