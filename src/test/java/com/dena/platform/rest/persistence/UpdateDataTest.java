@@ -62,6 +62,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
     }
 
+    @SuppressWarnings("Duplicates")
     @Test
     public void test_BulkUpdateObject() throws Exception {
         /////////////////////////////////////////////
@@ -92,21 +93,49 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Assert Update Response
         /////////////////////////////////////////////
-        TestObjectResponseDTO testObjectResponseDTO1 = new TestObjectResponseDTO();
-        testObjectResponseDTO1.objectId = objectId1;
-        testObjectResponseDTO1.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + testObjectResponseDTO1.objectId;
-        testObjectResponseDTO1.updateTime = actualReturnObject.getTestObjectResponseDTOList().get(1).updateTime;
-        testObjectResponseDTO1.addProperty("job", "new job");
-        testObjectResponseDTO1.addProperty("new field", "new value");
-        testObjectResponseDTO1.addProperty("name", "javad");
+        TestObjectResponseDTO testObjectResponseDTO1 = null;
+        TestObjectResponseDTO testObjectResponseDTO2 = null;
 
-        TestObjectResponseDTO testObjectResponseDTO2 = new TestObjectResponseDTO();
-        testObjectResponseDTO2.objectId = objectId2;
-        testObjectResponseDTO2.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + testObjectResponseDTO2.objectId;
-        testObjectResponseDTO2.updateTime = actualReturnObject.getTestObjectResponseDTOList().get(0).updateTime;
-        testObjectResponseDTO2.addProperty("job", "new job 2");
-        testObjectResponseDTO2.addProperty("new field", "new value");
-        testObjectResponseDTO2.addProperty("name", "javad");
+        // Because the order of return object in not guaranteed in datastore we use this statement
+        if (actualReturnObject.getTestObjectResponseDTOList().get(0).objectId.equals(objectId1)) {
+            testObjectResponseDTO1 = new TestObjectResponseDTO();
+            testObjectResponseDTO1.objectId = objectId1;
+            testObjectResponseDTO1.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + testObjectResponseDTO1.objectId;
+            testObjectResponseDTO1.updateTime = actualReturnObject.getTestObjectResponseDTOList().get(0).updateTime;
+            testObjectResponseDTO1.addProperty("job", "new job");
+            testObjectResponseDTO1.addProperty("new field", "new value");
+            testObjectResponseDTO1.addProperty("name", "javad");
+        }
+
+        if (actualReturnObject.getTestObjectResponseDTOList().get(1).objectId.equals(objectId1)) {
+            testObjectResponseDTO1 = new TestObjectResponseDTO();
+            testObjectResponseDTO1.objectId = objectId1;
+            testObjectResponseDTO1.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + testObjectResponseDTO1.objectId;
+            testObjectResponseDTO1.updateTime = actualReturnObject.getTestObjectResponseDTOList().get(1).updateTime;
+            testObjectResponseDTO1.addProperty("job", "new job");
+            testObjectResponseDTO1.addProperty("new field", "new value");
+            testObjectResponseDTO1.addProperty("name", "javad");
+        }
+
+        if (actualReturnObject.getTestObjectResponseDTOList().get(0).objectId.equals(objectId2)) {
+            testObjectResponseDTO2 = new TestObjectResponseDTO();
+            testObjectResponseDTO2.objectId = objectId2;
+            testObjectResponseDTO2.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + testObjectResponseDTO2.objectId;
+            testObjectResponseDTO2.updateTime = actualReturnObject.getTestObjectResponseDTOList().get(0).updateTime;
+            testObjectResponseDTO2.addProperty("job", "new job 2");
+            testObjectResponseDTO2.addProperty("new field", "new value");
+            testObjectResponseDTO2.addProperty("name", "javad");
+        }
+
+        if (actualReturnObject.getTestObjectResponseDTOList().get(1).objectId.equals(objectId2)) {
+            testObjectResponseDTO2 = new TestObjectResponseDTO();
+            testObjectResponseDTO2.objectId = objectId2;
+            testObjectResponseDTO2.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + testObjectResponseDTO2.objectId;
+            testObjectResponseDTO2.updateTime = actualReturnObject.getTestObjectResponseDTOList().get(1).updateTime;
+            testObjectResponseDTO2.addProperty("job", "new job 2");
+            testObjectResponseDTO2.addProperty("new field", "new value");
+            testObjectResponseDTO2.addProperty("name", "javad");
+        }
 
 
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
