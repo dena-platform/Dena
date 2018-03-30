@@ -16,16 +16,17 @@ import javax.annotation.Resource;
  * @author Nazarpour.
  */
 @Service("jwtGenerator")
-public class JsonWebTokenGenerator implements TokenGenerator {
-    private final static Logger log = LoggerFactory.getLogger(JsonWebTokenGenerator.class);
+public class JsonWebTokenService implements TokenService {
+    private final static Logger LOGGER = LoggerFactory.getLogger(JsonWebTokenService.class);
 
     @Resource
     private DenaUserManagement userManagement;
 
     public String generate(String appId, User claimedUser) {
         String username = claimedUser.getEmail();
-        String password = claimedUser.getPassword();
+        String password = claimedUser.getUnencodedPassword();
         User user = userManagement.getUserById(appId, username);
+
 
         if (user != null && SecurityUtil.matchesPassword(password, user.getPassword())) {
             Claims claims = Jwts.claims()
@@ -40,5 +41,26 @@ public class JsonWebTokenGenerator implements TokenGenerator {
         } else {
             throw new AuthenticationServiceException(String.format("not authenticated user: %s", username));
         }
+    }
+
+
+    @Override
+    public User validate(String token) {
+        User user = null;
+        try {
+            Claims body = Jwts.parser()
+                    .setSigningKey("S3CREt")
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            user = new User();
+
+            user.setEmail(body.getSubject());
+            //user.setRole((String) body.get("role"));
+        } catch (Exception e) {
+            LOGGER.error("not a valid token", e);
+        }
+
+        return user;
     }
 }
