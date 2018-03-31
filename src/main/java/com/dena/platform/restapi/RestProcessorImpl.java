@@ -12,7 +12,7 @@ import com.dena.platform.core.feature.app.service.DenaApplicationManagement;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
-import com.dena.platform.core.feature.security.JsonWebTokenService;
+import com.dena.platform.core.feature.security.TokenService;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.restapi.dto.response.DenaObjectResponse;
@@ -343,7 +343,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     }
 
     @Resource
-    private JsonWebTokenService jwtGenerator;
+    private TokenService tokenService;
 
     //// TODO: remove form hear
     @Override
@@ -354,7 +354,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String requestBody = denaRequestContext.getRequestBody();
         User user = JSONMapper.createObjectFromJSON(requestBody, User.class);
 
-        String token = jwtGenerator.generate(appId, user);
+        String token = tokenService.generate(appId, user);
 
         TokenGenResponse response = new TokenGenResponse();
         response.setToken(token);
