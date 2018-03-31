@@ -447,8 +447,8 @@ Response Body:
 By default when you get an object from Dena platform, related objects not included in the response because it may cause load performance on server or client memory.Therefore we should get related object in a separate request.   
 
 1. Find object by id
-2. Find object by type supporting search clause 
-3. Find object by relation supporting search clause
+2. Find objects in table
+3. Find objects for relation
 
 **Find object By Id**
 
@@ -457,7 +457,7 @@ This API provides the functionality that retrieve specified object in table.
 
 Method: GET
 
-URL: /v1/<application-id>/<type-name>/<object-id>
+URL: /v1/<application-id>/<table-name>/<object-id>
 
 Request Body: None
 
@@ -631,7 +631,8 @@ Pagination using in the REST API is implemented with the `startIndex` and `pageS
 
 `pageSize`: The number of records to retrieve in a single page. Minimum allowed value is 1. Default to 50. 
 
- 
+`/v1/<application-id>/<parent-table-name>/<parent-object-id>/relation/<relation-name>?startIndex=45&pageSize=6`
+`/v1/<application-id>/<table-name>?startIndex=0&pageSize=2` 
 
 ----------
 # User Management #
