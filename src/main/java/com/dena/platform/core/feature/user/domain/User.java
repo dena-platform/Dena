@@ -1,8 +1,6 @@
 package com.dena.platform.core.feature.user.domain;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collections;
@@ -14,7 +12,6 @@ import java.util.Map;
  *
  * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
  */
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class User {
 
@@ -52,10 +49,12 @@ public class User {
         this.password = password;
     }
 
+    @JsonGetter("password")
     public String getUnencodedPassword() {
         return unencodedPassword;
     }
 
+    @JsonSetter("password")
     public void setUnencodedPassword(String unencodedPassword) {
         this.unencodedPassword = unencodedPassword;
     }
