@@ -10,26 +10,26 @@ import java.util.List;
 
 public interface DenaDataStore {
 
-    List<DenaObject> store(String appName, String typeName, DenaObject... denaObjects);
+    List<DenaObject> store(String appName, String tableName, DenaObject... denaObjects);
 
-    List<DenaObject> update(String appName, String typeName, DenaObject... denaObjects);
+    List<DenaObject> update(String appName, String tableName, DenaObject... denaObjects);
 
-    long delete(String appName, String typeName, String... objectIds);
+    long delete(String appName, String tableName, String... objectIds);
 
-    long deleteRelation(String appName, String parentTypeName, String parentObjectId, String childTypeName, String childObjectId);
+    long deleteRelation(String appName, String parentTableName, String parentObjectId, String childTableName, String childObjectId);
 
-    long deleteRelation(String appName, String parentTypeName, String parentObjectId, String relationName);
+    long deleteRelation(String appName, String parentTableName, String parentObjectId, String relationName);
 
-    List<DenaObject> find(String appName, String typeName, String... objectId);
+    List<DenaObject> find(String appName, String tableName, String... objectId);
 
     /**
-     * Find all object that exist in the given type.
+     * Find all object that exist in the given table.
      *
      * @param appName
-     * @param typeName
+     * @param tableName
      * @return
      */
-    List<DenaObject> findAll(String appName, String typeName, DenaPager denaPager);
+    List<DenaObject> findAll(String appName, String tableName, DenaPager denaPager);
 
-    List<DenaObject> findRelatedObject(String appName, String parentTypeName, String parentObjectId, String relationName, DenaPager denaPager);
+    List<DenaObject> findRelatedObject(String appName, String parentTableName, String parentObjectId, String relationName, DenaPager denaPager);
 }

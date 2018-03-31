@@ -97,7 +97,8 @@ public class MongoDBUtils {
         return deleteResult.getDeletedCount();
     }
 
-    public static long deleteRelationWithObjectId(MongoDatabase mongoDatabase, String parentType, String parentObjectId, String relationName, String childObjectId) {
+    public static long deleteRelationWithObjectId(MongoDatabase mongoDatabase, String parentType, String parentObjectId,
+                                                  String relationName, String childObjectId) {
         Bson searchDocument = Filters.eq(ID, new ObjectId(parentObjectId));
         Bson deleteObjectIdCommand = Updates.pull(relationName + "." + RELATION_IDS, new BsonObjectId(new ObjectId(childObjectId)));
 
@@ -110,7 +111,8 @@ public class MongoDBUtils {
         return updateResult.getModifiedCount();
     }
 
-    public static long deleteRelationWithType(MongoDatabase mongoDatabase, String parentTypeName, String parentObjectId, String relationName) {
+    public static long deleteRelationWithType(MongoDatabase mongoDatabase, String parentTypeName, String parentObjectId,
+                                              String relationName) {
         BsonDocument searchDocument = new BsonDocument(ID, new BsonObjectId(new ObjectId(parentObjectId)));
         BsonDocument update = new BsonDocument(relationName, new BsonNull());
         int deleteCount = 0;
@@ -133,7 +135,8 @@ public class MongoDBUtils {
     //           SEARCH API
     /////////////////////////////////////////////
 
-    public static List<BsonDocument> findDocumentById(MongoDatabase mongoDatabase, String collectionName, String... documentIds) {
+    public static List<BsonDocument> findDocumentById(MongoDatabase mongoDatabase, String collectionName,
+                                                      String... documentIds) {
         List<ObjectId> objectIds = new ArrayList<>();
         List<BsonDocument> returnList = new LinkedList<>();
 
@@ -164,7 +167,8 @@ public class MongoDBUtils {
     }
 
 
-    public static List<BsonDocument> findRelatedDocument(MongoDatabase mongoDatabase, BsonDocument parentDocument, String relationName, DenaPager pager) {
+    public static List<BsonDocument> findRelatedDocument(MongoDatabase mongoDatabase, BsonDocument parentDocument,
+                                                         String relationName, DenaPager pager) {
 
         if (!parentDocument.containsKey(relationName)) {
             return Collections.emptyList();

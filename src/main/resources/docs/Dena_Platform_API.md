@@ -488,62 +488,52 @@ This API provides the functionality that retrieve all object of specified table 
 
 Method: GET
 
-URL: /v1/<application-id>/<type-name>?startIndex=45&pageSize=6
+URL: /v1/<application-id>/<table-name>?startIndex=45&pageSize=6
 
 Optional Parameter
 
-- **startIndex**: The start row number from which return result to client. default to 0.
+- **startIndex**: The start row number from which return result to client.starting from 0 and default to 0.
 - **pageSize**: The number of records to retrieve in a single page. default to 50.
 
  
-**Note:** maximum allowed value for the pageSize is 50 objects. The minimum value is 1. 
+**Note:** Maximum allowed value for the pageSize is 50 objects. Minimum value is 1. 
 
  
 Request Body: None
 
 ***Example:***
 
+/v1/denaQA/post?startIndex=0&pageSize=2
+
 Response Body:
 
     {
-      "timestamp" : timestamp in milliseconds,
-      "count": 50,
-      "total_page":30,
-      "page":4,
-      "objects": [
-        {
-          "object_id": "5a316b1b4e5f450104c31909",
-          "field3": "javad",
-          "field4": "developer",
-          "related_objects": [
-    	       {
-      	     "id": "5a316b1b4e5f450104c31801",
-      	     "type": "person"
-    	       }
-          ]
-         },
-         {
-           "object_id": "5a316b1b4e5f450105c31910",
-           "field5": "javad54",
-           "field6": "developer312",
-           "related_objects": [
-    	       {
-      	      "id": "5a316b1b4e5f450104c31800",
-      	      "type": "person"
-    	       }
-            ]
-
-         }
-      ]
+        "timestamp": 1522448368270,
+        "found_object_count(s)": 2,
+        "objects": [
+            {
+                "object_id": "5aaa11d2ecb1ef188094eed6",
+                "object_uri": "/post/5aaa11d2ecb1ef188094eed6",
+                "update_time": null,
+                "create_time": 1521095122362,
+                "field3": "javad",
+                "field4": "developer"
+            },
+            {
+                "object_id": "5aaa445ebb19df061c79f8f0",
+                "object_uri": "/post/5aaa445ebb19df061c79f8f0",
+                "update_time": null,
+                "create_time": 1521108062035,
+                "field1": "javad",
+                "field2": "developer"
+            }
+        ]
     }
 
 
-**Find Object Relation Supporting Search Clause**
+**Find Relation Objects**
 
-
-
-Suppose we have relation between two object for example in many-many or one-many relation and we want to retrieve related object. in this case we want only get 
-a portion of related object and not all (because of too many object) so we use paging.
+Suppose we have relation between two object for example in many-many or one-many relation and we want to retrieve related object, in this case we use this API to retrieve all objects of a relation.
 
 Consider following Pseudo-Code:
 
@@ -553,13 +543,12 @@ Consider following Pseudo-Code:
     
 Method: GET
 
-URL: /v1/<application-id>/<parent-type-name>/<parent-object-id>/relation/<relation-name>?itemPerPage=50&page=4&where=???
+URL: /v1/<application-id>/<parent-table-name>/<parent-object-id>/relation/<relation-name>?startIndex=45&pageSize=6
 
 Optional Parameter
 
-- **itempPerPage**: item per page. default is 50.
-- **page**: starting page of result(start with 0). default is 0.
-- **where**: see search object section 
+- **startIndex**: The start row number from which return result to client.starting from 0 and default to 0.
+- **pageSize**: The number of records to retrieve in a single page. default to 50.
 
 
  
