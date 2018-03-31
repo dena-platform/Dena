@@ -5,7 +5,7 @@ import com.dena.platform.core.feature.user.domain.User;
 /**
  * @author Nazarpour.
  */
-public interface TokenGenerator {
+public interface TokenService {
 
     /**
      * try to generate token if user is authenticated
@@ -14,5 +14,12 @@ public interface TokenGenerator {
      * @return token as a string
      */
     public String generate(String appId, User claimedUser);
+
+    /**
+     * validate token
+     * @param token
+     * @return corresponding user
+     */
+    public User validate(String token);
 
 }

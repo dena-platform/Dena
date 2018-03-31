@@ -24,7 +24,7 @@ public class LoginController {
     //            login api
     /////////////////////////////////////////////
 
-    @PostMapping(path = {"/{app-id}"})
+    @PostMapping(path = {"/{app-id}"}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity registerUser() {
         return denaRestProcessor.login();
     }
