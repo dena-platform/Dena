@@ -300,6 +300,20 @@ public class AbstractDataStoreTest {
 
     }
 
+    protected <T> T performCreateObjectWithToken(String body, int status, Class<T> klass, String token) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.BASE_URL)
+                .header("token", token)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(body))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is(status))
+                .andReturn();
+
+        String returnContent = result.getResponse().getContentAsString();
+        return createObjectFromJSON(returnContent, klass);
+
+    }
+
 
     /////////////////////////////////////////////
     //            LOGIN
