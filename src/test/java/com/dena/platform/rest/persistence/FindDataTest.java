@@ -65,7 +65,6 @@ public class FindDataTest extends AbstractDataStoreTest {
         expectedReturnObject2.timestamp = actualReturnObject2.timestamp;
 
 
-
         /////////////////////////////////////////////
         //            Assert Found Object
         /////////////////////////////////////////////
@@ -137,7 +136,7 @@ public class FindDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Send Find Object Request
         /////////////////////////////////////////////
-        TestDenaResponseDTO actualReturnObject = performFindRelationRequest(objectId3, CommonConfig.RELATION_NAME);
+        TestDenaResponseDTO actualReturnObject = performFindRelationRequest(objectId3, CommonConfig.RELATION_NAME, 0, 2);
 
         /////////////////////////////////////////////
         //            Assert Found Object
