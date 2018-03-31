@@ -3,6 +3,7 @@ package com.dena.platform.rest.persistence;
 import com.dena.platform.rest.dto.TestDenaResponseDTO;
 import com.dena.platform.utils.CommonConfig;
 import com.mongodb.MongoClient;
+import junitparams.JUnitParamsRunner;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
 import org.bson.Document;
@@ -38,7 +39,7 @@ import static com.dena.platform.utils.JSONMapper.createObjectFromJSON;
  */
 
 @AutoConfigureMockMvc
-@RunWith(SpringRunner.class)
+@RunWith(JUnitParamsRunner.class)
 @SpringBootTest
 public class AbstractDataStoreTest {
     protected final String objectId1 = "5a316b1b4e5f450104c31909";
