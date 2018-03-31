@@ -196,8 +196,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             }
             // find related objects
             else {
-                DenaPager denaPager = constructPager();
-                foundDenaObject = denaDataStore.findRelatedObject(appId, parentTypeName, objectId, relationName, denaPager);
+                foundDenaObject = denaDataStore.findRelatedObject(appId, parentTypeName, objectId, relationName, constructPager());
             }
 
             if (CollectionUtils.isNotEmpty(foundDenaObject)) {

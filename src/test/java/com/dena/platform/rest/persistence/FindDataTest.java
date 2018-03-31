@@ -125,6 +125,7 @@ public class FindDataTest extends AbstractDataStoreTest {
         // check timestamp field of returned object
         assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject1.timestamp, Instant.now().toEpochMilli()));
         assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject2.timestamp, Instant.now().toEpochMilli()));
+
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject1), createJSONFromObject(actualReturnObject1), JSONCompareMode.NON_EXTENSIBLE);
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject2), createJSONFromObject(actualReturnObject2), JSONCompareMode.NON_EXTENSIBLE);
 
