@@ -84,7 +84,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
     @Override
     public User getUserById(String appId, String email) {
-        List<DenaObject> denaObjects = denaDataStore.find(appId, userInfoTableName);
+        List<DenaObject> denaObjects = denaDataStore.findAll(appId, userInfoTableName, new DenaPager());
 
         Optional<DenaObject> foundUser = denaObjects.stream()
                 .filter(denaObject -> denaObject.hasProperty(User.EMAIL_FIELD_NAME, email))
