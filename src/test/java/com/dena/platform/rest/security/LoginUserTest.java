@@ -60,10 +60,11 @@ public class LoginUserTest extends AbstractDataStoreTest {
         requestObject.addProperty("name", "reza");
         requestObject.addProperty("job", "developer");
 
-        DenaResponse actualReturnObject = performCreateObjectWithToken(createJSONFromObject(requestObject),
+        DenaResponse actualReturnObject = performCreateObjectWithToken(createJSONFromObject(requestObject), HttpStatus.OK.value(),
                 DenaResponse.class,
                 tokenResp.getToken());
 
         assertNotNull(actualReturnObject);
     }
+
 }
