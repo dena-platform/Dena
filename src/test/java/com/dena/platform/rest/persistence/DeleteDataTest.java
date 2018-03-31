@@ -114,7 +114,7 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Check Deleted Object
         /////////////////////////////////////////////
-        actualReturnObject = performFindRelationRequest(objectId3, CommonConfig.RELATION_NAME);
+        actualReturnObject = performFindRelationRequest(objectId3, CommonConfig.RELATION_NAME, 0, 1);
         expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.foundObjectCount = 1L;
         expectedReturnObject.timestamp = actualReturnObject.timestamp;
@@ -170,7 +170,7 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         //            Check Deleted Object
         /////////////////////////////////////////////
 
-        actualReturnObject = performFindRelationRequest(objectId3, CommonConfig.RELATION_NAME);
+        actualReturnObject = performFindRelationRequest(objectId3, CommonConfig.RELATION_NAME, 0, 1);
         expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.foundObjectCount = 0L;
         expectedReturnObject.timestamp = actualReturnObject.timestamp;
