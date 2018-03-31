@@ -74,7 +74,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
     @Override
     public boolean isUserExist(String appId, User user) {
         // todo: when we implement search capability in DanaStore module, then refactor this method to use it
-        List<DenaObject> denaObjects = denaDataStore.findAll(appId, userInfoTableName, new DenaPager());
+        List<DenaObject> denaObjects = denaDataStore.findAll(appId, userInfoTableName, new DenaPager(0, DenaConfigReader.readIntProperty("dena.pager.max.results", 50)));
         Optional<DenaObject> foundUser = denaObjects.stream()
                 .filter(denaObject -> denaObject.hasProperty(User.EMAIL_FIELD_NAME, user.getEmail()))
                 .findAny();
@@ -84,7 +84,9 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
     @Override
     public User getUserById(String appId, String email) {
-        List<DenaObject> denaObjects = denaDataStore.findAll(appId, userInfoTableName, new DenaPager());
+        // todo: when we implement search capability in DanaStore module, then refactor this method to use it
+
+        List<DenaObject> denaObjects = denaDataStore.findAll(appId, userInfoTableName, new DenaPager(0, DenaConfigReader.readIntProperty("dena.pager.max.results", 50)));
 
         Optional<DenaObject> foundUser = denaObjects.stream()
                 .filter(denaObject -> denaObject.hasProperty(User.EMAIL_FIELD_NAME, email))

@@ -16,6 +16,10 @@ public class DenaPager {
     public DenaPager() {
     }
 
+    public DenaPager(Integer startIndex, Integer pageSize) {
+        this.startIndex = startIndex;
+        this.pageSize = pageSize;
+    }
 
     /**
      * The start row number from which return result to client.
