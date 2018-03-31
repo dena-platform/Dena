@@ -560,10 +560,16 @@ Request Body: None
 Response Body:
 
     {
-        "timestamp": 1522349579231,
-        "found_object_count(s)": 1,
-        "page": 1,
+        "timestamp": 1522485942626,
+        "found_object_count(s)": 2,
         "objects": [
+            {
+                "object_id": "5aaa095eecb1ef188094eece",
+                "object_uri": "/comment/5aaa095eecb1ef188094eece",
+                "update_time": null,
+                "create_time": 1521092958714,
+                "comment_text": "this is a comment"
+            },
             {
                 "object_id": "5aaa0982ecb1ef188094eecf",
                 "object_uri": "/comment/5aaa0982ecb1ef188094eecf",
