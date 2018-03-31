@@ -16,7 +16,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.test.web.servlet.MockMvc;
@@ -195,8 +194,15 @@ public class AbstractDataStoreTest {
     }
 
 
-    protected TestDenaResponseDTO performFindRelationRequest(String objectId1, String relationName) throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId1 + "/relation/" + relationName))
+    protected TestDenaResponseDTO performFindRelationRequest(String objectId, String relationName, int startIndex, int pageSize) throws Exception {
+        String URITemplate = CommonConfig.BASE_URL + "/" + objectId + "/relation/" + relationName;
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder
+                .fromUriString(URITemplate)
+                .queryParam("startIndex", startIndex)
+                .queryParam("pageSize", pageSize);
+
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(uriComponentsBuilder.toUriString()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
