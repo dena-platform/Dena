@@ -496,8 +496,7 @@ Optional Parameter
 - **pageSize**: The number of records to retrieve in a single page. default to 50.
 
  
-**Note:** Maximum allowed value for the pageSize is 50 objects. Minimum value is 1. 
-
+*Note:* for more information see [Pagination](#pagination) section
  
 Request Body: None
 
@@ -550,7 +549,7 @@ Optional Parameter
 - **startIndex**: The start row number from which return result to client.starting from 0 and default to 0.
 - **pageSize**: The number of records to retrieve in a single page. default to 50.
 
-<a href="#pagination">Link to Header</a>
+*Note:* for more information see [Pagination](#pagination) section
 
 
 
@@ -625,7 +624,7 @@ Return Value:
       }
 
 
-## Pagination ##
+## <a name="pagination"></a> Pagination
 When dena platform receive request for getting objects, it limit objects count for return to client for performance reason. So we use a mechanism for pagination result to client.
 
 Pagination using in the REST API is implemented with the `startIndex` and `pageSize` parameters in the objects retrieval API: 
@@ -634,7 +633,9 @@ Pagination using in the REST API is implemented with the `startIndex` and `pageS
 
 `pageSize`: The number of records to retrieve in a single page. Minimum allowed value is 1. Default to 50. 
 
+**Sample Request**
 `/v1/<application-id>/<parent-table-name>/<parent-object-id>/relation/<relation-name>?startIndex=45&pageSize=6`
+
 `/v1/<application-id>/<table-name>?startIndex=0&pageSize=2` 
 
 ----------
