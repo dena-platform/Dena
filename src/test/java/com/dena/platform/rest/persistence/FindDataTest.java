@@ -75,6 +75,7 @@ public class FindDataTest extends AbstractDataStoreTest {
         testObjectResponseDTO2.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId2;
         testObjectResponseDTO2.addProperty("name", "javad");
         testObjectResponseDTO2.addProperty("job", "developer");
+
         expectedReturnObject.setTestObjectResponseDTOList(Arrays.asList(testObjectResponseDTO1, testObjectResponseDTO2));
 
 

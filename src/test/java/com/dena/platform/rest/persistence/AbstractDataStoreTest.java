@@ -8,12 +8,16 @@ import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit4.rules.SpringClassRule;
+import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -50,6 +54,14 @@ public class AbstractDataStoreTest {
     protected final String objectId11 = "5ab557484611681f7c07a6dd";
 
     protected final String randomObjectId = ObjectId.get().toHexString();
+
+
+    // for parametrize test runner
+    @ClassRule
+    public static final SpringClassRule SPRING_CLASS_RULE = new SpringClassRule();
+
+    @Rule
+    public final SpringMethodRule springMethodRule = new SpringMethodRule();
 
     @Resource
     protected MockMvc mockMvc;
