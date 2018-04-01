@@ -21,8 +21,12 @@ public class User {
 
     public final static String IS_ACTIVE = "is_active";
 
+    public final static String LAST_VALID_TOKEN = "last_valid_token";
+
     @JsonProperty("email")
     private String email;
+
+    private String lastValidToken;
 
     private String password;
 
@@ -65,6 +69,14 @@ public class User {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public String getLastValidToken() {
+        return lastValidToken;
+    }
+
+    public void setLastValidToken(String lastValidToken) {
+        this.lastValidToken = lastValidToken;
     }
 
     public void addProperty(final String name, final Object value) {

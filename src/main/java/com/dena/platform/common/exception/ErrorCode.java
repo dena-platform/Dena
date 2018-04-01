@@ -29,6 +29,7 @@ public enum ErrorCode {
     USER_ALREADY_EXIST_EXCEPTION("dena.platform.restapi.exception.USER_ALREADY_EXIST", "3000-400"),
     EMAIL_FIELD_IS_INVALID("dena.platform.restapi.exception.EMAIL_FIELD_IS_INVALID", "3001-400"),
     PASSWORD_FIELD_IS_INVALID("dena.platform.restapi.exception.PASSWORD_FIELD_IS_INVALID", "3002-400"),
+    NO_USER_WITH_THIS_EMAIL_FOUND("dena.platform.restapi.exception.NO_USER_WITH_THIS_EMAIL_FOUND", "3003-400"),
 
     // User Management exception - range 4000-4999
     APP_NAME_FIELD_IS_INVALID("dena.platform.restapi.exception.APP_FIELD_IS_INVALID", "4000-400"),

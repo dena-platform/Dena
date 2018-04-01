@@ -22,4 +22,7 @@ public interface TokenService {
      */
     public User validate(String token);
 
+
+    public void expireToken(String appId, User user, String token);
+
 }

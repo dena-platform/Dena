@@ -8,6 +8,7 @@ import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.security.SecurityUtil;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.exception.UserManagementException;
+import com.mongodb.client.model.FindOneAndUpdateOptions;
 import org.apache.commons.validator.GenericValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,6 +97,31 @@ public class DenaUserManagementImpl implements DenaUserManagement {
         foundUser.ifPresent(x -> found.setActive((Boolean) x.getOtherFields().get(User.IS_ACTIVE)));
         foundUser.ifPresent(x -> found.setEmail((String) x.getOtherFields().get(User.EMAIL_FIELD_NAME)));
         foundUser.ifPresent(x -> found.setPassword((String) x.getOtherFields().get(User.PASSWORD_FIELD_NAME)));
+        foundUser.ifPresent(x -> found.setLastValidToken((String) x.getOtherFields().get(User.LAST_VALID_TOKEN)));
         return found;
+    }
+
+
+    @Override
+    public void updateUser(String appId, User user) {
+        List<DenaObject> denaObjects = denaDataStore.findAll(appId, userInfoTableName, new DenaPager(0, DenaConfigReader.readIntProperty("dena.pager.max.results", 50)));
+
+        Optional<DenaObject> foundUser = denaObjects.stream()
+                .filter(denaObject -> denaObject.hasProperty(User.EMAIL_FIELD_NAME, user.getEmail()))
+                .findAny();
+
+        if(!foundUser.isPresent())
+            throw new UserManagementException(String.format("no user with email %s found for update ", user.getEmail()),
+                    ErrorCode.NO_USER_WITH_THIS_EMAIL_FOUND);
+
+        DenaObject denaObject = foundUser.get();
+
+        denaObject.addProperty(User.EMAIL_FIELD_NAME, user.getEmail());
+//        denaObject.addProperty(User.PASSWORD_FIELD_NAME, user.getPassword());
+        denaObject.addProperty(User.IS_ACTIVE, user.getActive());
+        denaObject.addProperty(User.LAST_VALID_TOKEN, user.getLastValidToken());
+        denaObject.addFields(user.getOtherFields());
+
+        denaDataStore.store(appId, userInfoTableName, denaObject).get(0);
     }
 }
