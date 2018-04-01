@@ -6,6 +6,7 @@ import com.dena.platform.core.feature.user.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.time.Instant;
 
 /**
  * @author Nazarpour.
@@ -23,9 +25,6 @@ public class JsonWebTokenService implements TokenService {
 
     @Resource
     private DenaUserManagement userManagement;
-
-    @Resource
-    private DenaConfigReader configReader;
 
     private String secret;
 
@@ -46,11 +45,15 @@ public class JsonWebTokenService implements TokenService {
 
             claims.put("role", "fixed_role"); //TODO change role to user role
             claims.put("app_id", appId);
+            claims.put("creation_date", Instant.now());
 
-            return Jwts.builder()
+            String token = Jwts.builder()
                     .setClaims(claims)
                     .signWith(SignatureAlgorithm.HS512, secret)
                     .compact();
+            user.setLastValidToken(token);
+            userManagement.updateUser(appId, user);
+            return token;
         } else {
             throw new AuthenticationServiceException(String.format("not authenticated user: %s", username));
         }
@@ -67,13 +70,28 @@ public class JsonWebTokenService implements TokenService {
                     .getBody();
 
             user = new User();
+            String username = body.getSubject();
+            String appId = (String) body.get("app_id");
+            user.setEmail(username);
 
-            user.setEmail(body.getSubject());
-            //user.setRole((String) body.get("role"));
+            User loadedUser = userManagement.getUserById(appId, username);
+            if(!StringUtils.isEmpty(loadedUser.getLastValidToken()) && loadedUser.getLastValidToken().equals(token))
+                return user;
+            else
+                return null;
+
         } catch (Exception e) {
             LOGGER.error("not a valid token", e);
         }
 
         return user;
+    }
+
+    @Override
+    public void expireToken(String appId, User claimedUser, String token) {
+        String username = claimedUser.getEmail();
+        User user = userManagement.getUserById(appId, username);
+        user.setLastValidToken(null);
+        userManagement.updateUser(appId, user);
     }
 }
