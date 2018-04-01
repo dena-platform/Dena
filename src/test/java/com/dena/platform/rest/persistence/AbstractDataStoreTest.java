@@ -6,6 +6,7 @@ import com.mongodb.MongoClient;
 import junitparams.JUnitParamsRunner;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
+import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.junit.Before;
@@ -310,7 +311,10 @@ public class AbstractDataStoreTest {
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, klass);
+        if (!StringUtils.isEmpty(returnContent))
+            return createObjectFromJSON(returnContent, klass);
+        else
+            return null;
 
     }
 
@@ -320,6 +324,23 @@ public class AbstractDataStoreTest {
     /////////////////////////////////////////////
     protected <T> T performLoginUser(String body, HttpStatus httpStatus, Class<T> klass) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.LOGIN_URL)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(body))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is(httpStatus.value()))
+                .andReturn();
+
+        String returnContent = result.getResponse().getContentAsString();
+        return createObjectFromJSON(returnContent, klass);
+
+    }
+
+    /////////////////////////////////////////////
+    //            LOGOUT
+    /////////////////////////////////////////////
+    protected <T> T performLogOutUser(String body, HttpStatus httpStatus, String token, Class<T> klass) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.LOGOUT_URL)
+                .header("token", token)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(body))
                 .andDo(MockMvcResultHandlers.print())

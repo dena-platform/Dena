@@ -22,27 +22,25 @@ import java.util.Collections;
 
 import static com.dena.platform.utils.JSONMapper.createJSONFromObject;
 import static com.dena.platform.utils.TestUtils.isTimeEqualRegardlessOfSecond;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Nazarpour.
  */
 
 public class LoginUserTest extends AbstractDataStoreTest {
-    private final User user = new User();
+    private final User user = User.UserBuilder.anUser()
+            .withEmail("ali@hotmail.com")
+            .withPassword(SecurityUtil.encodePassword("123"))
+            .withUnencodedPassword("123")
+            .build();
 
     @Resource
     private DenaUserManagement userManagement;
 
     @Before
     public void setUp() throws Exception {
-        user.setEmail("ali@hotmail.com");
-        user.setUnencodedPassword("123");
-        user.setPassword(SecurityUtil.encodePassword("123"));
-
-        userManagement.registerUser(CommonConfig.APP_ID, user);
+        userManagement.registerUser(CommonConfig.APP_ID, this.user);
     }
 
     @Test
@@ -65,6 +63,34 @@ public class LoginUserTest extends AbstractDataStoreTest {
                 tokenResp.getToken());
 
         assertNotNull(actualReturnObject);
+    }
+
+    @Test
+    public void twoLogInWillCreateNotEqualTokens() throws Exception {
+        TokenGenResponse firstLogin = performLoginUser(createJSONFromObject(user), HttpStatus.OK, TokenGenResponse.class);
+        TokenGenResponse secondLogin = performLoginUser(createJSONFromObject(user), HttpStatus.OK, TokenGenResponse.class);
+        assertNotEquals(firstLogin.getToken(), secondLogin.getToken());
+    }
+
+    @Test
+    public void performLogout_tokenIsNotValidAnyMore() throws Exception {
+        TokenGenResponse loginResponse = performLoginUser(createJSONFromObject(user), HttpStatus.OK, TokenGenResponse.class);
+
+
+        TokenGenResponse logoutResponse = performLogOutUser(createJSONFromObject(user),
+                HttpStatus.OK,
+                loginResponse.getToken(),
+                TokenGenResponse.class);
+
+        TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
+        requestObject.addProperty("name", "reza");
+        requestObject.addProperty("job", "developer");
+
+        DenaResponse actualReturnObject = performCreateObjectWithToken(createJSONFromObject(requestObject), HttpStatus.UNAUTHORIZED.value(),
+                DenaResponse.class,
+                loginResponse.getToken());
+
+        assertNull(actualReturnObject);
     }
 
 }

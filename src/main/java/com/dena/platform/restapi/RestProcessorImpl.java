@@ -369,4 +369,19 @@ public class RestProcessorImpl implements DenaRestProcessor {
         response.setToken(token);
         return ResponseEntity.ok().body(response);
     }
+
+    @Override
+    public ResponseEntity logout() {
+        DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
+
+        String appId = denaRequestContext.getPathVariable(APP_ID);
+        String token = denaRequestContext.getRequest().getHeader("token");
+        String requestBody = denaRequestContext.getRequestBody();
+        User user = JSONMapper.createObjectFromJSON(requestBody, User.class);
+
+        tokenService.expireToken(appId, user, token);
+
+        TokenGenResponse response = new TokenGenResponse();
+        return ResponseEntity.ok().body(response);
+    }
 }
