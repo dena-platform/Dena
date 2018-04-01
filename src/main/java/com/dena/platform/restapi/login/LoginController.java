@@ -14,18 +14,19 @@ import javax.annotation.Resource;
 @RequestMapping(value = LoginController.API_PATH, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 public class LoginController {
 
-    public final static String API_PATH = "/login/";
+    public final static String API_PATH = "/security";
 
     @Resource(name = "denaRestEntityProcessorImpl")
     protected DenaRestProcessor denaRestProcessor;
 
 
-    /////////////////////////////////////////////
-    //            login api
-    /////////////////////////////////////////////
-
-    @PostMapping(path = {"/{app-id}"}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity registerUser() {
+    @PostMapping(path = {"/login/{app-id}"}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity login() {
         return denaRestProcessor.login();
+    }
+
+    @PostMapping(path = {"/logout/{app-id}"}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity logout() {
+        return denaRestProcessor.logout();
     }
 }

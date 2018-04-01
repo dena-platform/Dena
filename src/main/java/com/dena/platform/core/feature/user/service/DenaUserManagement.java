@@ -39,4 +39,11 @@ public interface DenaUserManagement {
     User getUserById(String appId, String email);
 
 
+    /**
+     * updates user which belongs to application with id appId
+     * @param appId
+     * @param user
+     */
+    void updateUser(String appId, User user);
+
 }
