@@ -3,25 +3,18 @@ package com.dena.platform.rest.security;
 import com.dena.platform.core.feature.security.SecurityUtil;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;
-import com.dena.platform.rest.dto.*;
+import com.dena.platform.rest.dto.TestRequestObjectDTO;
 import com.dena.platform.rest.persistence.AbstractDataStoreTest;
-import com.dena.platform.rest.user.UserManagement;
 import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.restapi.dto.response.TokenGenResponse;
 import com.dena.platform.utils.CommonConfig;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import java.time.Instant;
-import java.util.Collections;
 
 import static com.dena.platform.utils.JSONMapper.createJSONFromObject;
-import static com.dena.platform.utils.TestUtils.isTimeEqualRegardlessOfSecond;
 import static org.junit.Assert.*;
 
 /**
