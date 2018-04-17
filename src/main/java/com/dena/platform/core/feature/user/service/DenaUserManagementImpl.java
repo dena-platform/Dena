@@ -8,7 +8,6 @@ import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.security.SecurityUtil;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.exception.UserManagementException;
-import com.mongodb.client.model.FindOneAndUpdateOptions;
 import org.apache.commons.validator.GenericValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,7 +109,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
                 .filter(denaObject -> denaObject.hasProperty(User.EMAIL_FIELD_NAME, user.getEmail()))
                 .findAny();
 
-        if(!foundUser.isPresent())
+        if (!foundUser.isPresent())
             throw new UserManagementException(String.format("no user with email %s found for update ", user.getEmail()),
                     ErrorCode.NO_USER_WITH_THIS_EMAIL_FOUND);
 
@@ -124,4 +123,5 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
         denaDataStore.store(appId, userInfoTableName, denaObject).get(0);
     }
+
 }
