@@ -33,7 +33,7 @@ public class JsonWebTokenService implements TokenService {
         secret = DenaConfigReader.readProperty("dena.security.secret");
     }
 
-
+    @Override
     public String generate(String appId, User claimedUser) {
         String username = claimedUser.getEmail();
         String password = claimedUser.getUnencodedPassword();
