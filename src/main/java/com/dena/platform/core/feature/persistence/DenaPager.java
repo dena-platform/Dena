@@ -1,7 +1,7 @@
 package com.dena.platform.core.feature.persistence;
 
 /**
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 public class DenaPager {
     public final static String PAGE_SIZE_PARAMETER = "pageSize";
