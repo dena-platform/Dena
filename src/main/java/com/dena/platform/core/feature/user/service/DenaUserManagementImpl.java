@@ -31,7 +31,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
     @Resource
     private DenaDataStore denaDataStore;
 
-    //todo: initialize this bean in another class another way
+    //todo: initialize this bean in another class
     @Resource
     private DenaConfigReader denaConfigReader;
 
@@ -125,7 +125,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
         denaObject.addProperty(User.LAST_VALID_TOKEN, user.getLastValidToken());
         denaObject.addFields(user.getOtherFields());
 
-        denaDataStore.store(appId, userInfoTableName, denaObject).get(0);
+        denaDataStore.update(appId, userInfoTableName, denaObject).get(0);
     }
 
 }
