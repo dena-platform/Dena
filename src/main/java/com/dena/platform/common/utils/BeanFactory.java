@@ -4,7 +4,7 @@ import com.dena.platform.common.exception.DenaInternalException;
 import org.springframework.beans.BeanUtils;
 
 /**
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 public final class BeanFactory {
     public static Object createInstance(String className) {

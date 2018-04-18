@@ -4,7 +4,7 @@ package com.dena.platform.common.utils.java8Utils;
  * This is {@link java.util.function.BiConsumer} clone with the difference
  * that functional method in this class can throw exception.
  *
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 
 

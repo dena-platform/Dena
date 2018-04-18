@@ -4,7 +4,7 @@ import com.dena.platform.common.exception.DenaException;
 import com.dena.platform.common.exception.ErrorCode;
 
 /**
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 public class ApplicationManagementException extends DenaException {
 
