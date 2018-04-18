@@ -3,7 +3,7 @@ package com.dena.platform.common.utils;
 import java.time.Instant;
 
 /**
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 public class DenaObjectUtils {
     public static String getTypeNamePlural(final String typeName) {

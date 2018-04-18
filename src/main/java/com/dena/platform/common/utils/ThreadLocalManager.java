@@ -12,7 +12,7 @@ import java.util.List;
  * <p>
  * <b>Note:</b> Adapted from Broadleaf platform: https://github.com/BroadleafCommerce/BroadleafCommerce
  *
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 
 public class ThreadLocalManager {

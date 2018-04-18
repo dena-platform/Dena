@@ -35,7 +35,7 @@ import java.util.Map;
 import static com.dena.platform.utils.JSONMapper.createObjectFromJSON;
 
 /**
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 
 @AutoConfigureMockMvc

@@ -5,7 +5,7 @@ package com.dena.platform.common.exception;
  * <li>message code that resolve to an message</li>
  * <li>error code that include two part: error_code - http_response_code  </li>
  *
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 
 public enum ErrorCode {
