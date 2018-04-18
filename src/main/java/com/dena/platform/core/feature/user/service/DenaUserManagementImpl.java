@@ -31,6 +31,10 @@ public class DenaUserManagementImpl implements DenaUserManagement {
     @Resource
     private DenaDataStore denaDataStore;
 
+    //todo: initialize this bean in another class another way
+    @Resource
+    private DenaConfigReader denaConfigReader;
+
     @PostConstruct
     public void init() {
         userInfoTableName = DenaConfigReader.readProperty("dena.UserManagement.user.table");
