@@ -14,6 +14,7 @@ import javax.annotation.Resource;
  * @author Nazarpour.
  */
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = LoginController.API_PATH, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 public class LoginController {
 
@@ -22,7 +23,7 @@ public class LoginController {
     @Resource(name = "denaRestEntityProcessorImpl")
     protected DenaRestProcessor denaRestProcessor;
 
-    @CrossOrigin(origins = "http://localhost:4200")
+
     @PostMapping(path = {"/login/{app-id}"}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity login() {
         return denaRestProcessor.login();
