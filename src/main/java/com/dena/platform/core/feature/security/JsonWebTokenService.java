@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.time.Instant;
+import java.util.Date;
 
 /**
  * @author Nazarpour.
@@ -27,10 +28,13 @@ public class JsonWebTokenService implements TokenService {
     private DenaUserManagement userManagement;
 
     private String secret;
+    private int tokenExpireDuration;
 
     @PostConstruct
     private void init() {
-        secret = DenaConfigReader.readProperty("dena.security.secret");
+        secret = DenaConfigReader.readProperty("dena.security.jwt.token.secret");
+        tokenExpireDuration = DenaConfigReader.readIntProperty("dena.security.jwt.token.expire.duration.millis",
+                1_800_000);
     }
 
     @Override
@@ -47,6 +51,8 @@ public class JsonWebTokenService implements TokenService {
             claims.put("app_id", appId);
             claims.put("userName", user.getEmail());
             claims.put("creation_date", Instant.now());
+            Date expireDate = Date.from(Instant.now().plusMillis(tokenExpireDuration));
+            claims.setExpiration(expireDate);
 
             String token = Jwts.builder()
                     .setClaims(claims)
