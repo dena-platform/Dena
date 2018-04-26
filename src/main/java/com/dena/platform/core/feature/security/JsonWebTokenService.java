@@ -1,8 +1,8 @@
 package com.dena.platform.core.feature.security;
 
 import com.dena.platform.common.config.DenaConfigReader;
-import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import com.dena.platform.core.feature.user.domain.User;
+import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -45,6 +45,7 @@ public class JsonWebTokenService implements TokenService {
 
             claims.put("role", "fixed_role"); //TODO change role to user role
             claims.put("app_id", appId);
+            claims.put("userName", user.getEmail());
             claims.put("creation_date", Instant.now());
 
             String token = Jwts.builder()
@@ -71,11 +72,11 @@ public class JsonWebTokenService implements TokenService {
 
             user = new User();
             String username = body.getSubject();
-            String appId = (String) body.get("app_id");
+            String appId = body.get("app_id", String.class);
             user.setEmail(username);
 
             User loadedUser = userManagement.getUserById(appId, username);
-            if(!StringUtils.isEmpty(loadedUser.getLastValidToken()) && loadedUser.getLastValidToken().equals(token))
+            if (!StringUtils.isEmpty(loadedUser.getLastValidToken()) && loadedUser.getLastValidToken().equals(token))
                 return user;
             else
                 return null;
@@ -88,10 +89,9 @@ public class JsonWebTokenService implements TokenService {
     }
 
     @Override
-    public void expireToken(String appId, User claimedUser, String token) {
-        String username = claimedUser.getEmail();
-        User user = userManagement.getUserById(appId, username);
-        user.setLastValidToken(null);
+    public void expireToken(String appId, String token) {
+        User user = validate(token);
+        user.setLastValidToken("");
         userManagement.updateUser(appId, user);
     }
 }
