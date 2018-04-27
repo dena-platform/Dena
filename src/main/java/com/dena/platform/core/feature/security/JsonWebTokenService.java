@@ -75,7 +75,7 @@ public class JsonWebTokenService implements TokenService {
             user.setEmail(username);
 
             User loadedUser = userManagement.getUserById(appId, username);
-            if(!StringUtils.isEmpty(loadedUser.getLastValidToken()) && loadedUser.getLastValidToken().equals(token))
+            if (!StringUtils.isEmpty(loadedUser.getLastValidToken()) && loadedUser.getLastValidToken().equals(token))
                 return user;
             else
                 return null;
