@@ -51,6 +51,7 @@ public class JsonWebTokenService implements TokenService {
             claims.put("app_id", appId);
             claims.put("userName", user.getEmail());
             claims.put("creation_date", Instant.now());
+
             Date expireDate = Date.from(Instant.now().plusMillis(tokenExpireDuration));
             claims.setExpiration(expireDate);
 
