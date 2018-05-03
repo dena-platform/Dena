@@ -23,6 +23,7 @@ public class ObjectModelHelper {
 
         object.setObjectId("6b316b1b4e5f450104c31909");
         object.addProperty("name", "رضا");
+        object.addProperty("age", "30");
         object.addProperty("job_title", "برنامه");
 
         object.setObjectURI(CommonConfig.COLLECTION_NAME);

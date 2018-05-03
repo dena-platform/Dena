@@ -48,14 +48,14 @@ public class SearchTest {
     @Test
     public void createIndex_thenSearchForIt() throws Exception {
         search.index(CommonConfig.APP_ID, user, denaObject1);
-        List<DenaObject> r1 = search.query(CommonConfig.APP_ID, user, "رضا", "name", pager);
+        List<DenaObject> r1 = search.query(CommonConfig.APP_ID, user, "name:رضا", pager);
 
         Assert.assertTrue(r1.size() > 0);
     }
 
     @Test
     public void searchForNotExistingItem() throws Exception {
-        List<DenaObject> r1 = search.query(CommonConfig.APP_ID, user, "اکبر", "name", pager);
+        List<DenaObject> r1 = search.query(CommonConfig.APP_ID, user, "name:اکبر", pager);
 
         Assert.assertTrue(r1.size() == 0);
     }
@@ -63,12 +63,12 @@ public class SearchTest {
     @Test
     public void twoAddIndexAndTwoSearchWillCauseDirtyBitTrue() {
         search.index(CommonConfig.APP_ID, user, denaObject1);
-        List<DenaObject> r1 = search.query(CommonConfig.APP_ID, user, "رضا", "name", pager);
+        List<DenaObject> r1 = search.query(CommonConfig.APP_ID, user, "name:رضا", pager);
 
         Assert.assertTrue(r1.size() == 1);
 
         search.index(CommonConfig.APP_ID, user, denaObject2);
-        r1 = search.query(CommonConfig.APP_ID, user, "علی", "name", pager);
+        r1 = search.query(CommonConfig.APP_ID, user, "name:علی", pager);
 
         Assert.assertTrue(r1.size() > 0);
     }
@@ -77,28 +77,38 @@ public class SearchTest {
     public void deletedIndexWillCauseZeroSizeResults() throws Exception {
         search.index(CommonConfig.APP_ID, user, denaObject1);
         search.deleteIndex(CommonConfig.APP_ID, user, denaObject1);
-        List<DenaObject> res = search.query(CommonConfig.APP_ID, user, "رضا", "name", pager);
+        List<DenaObject> res = search.query(CommonConfig.APP_ID, user, "name:رضا", pager);
         Assert.assertEquals(0, res.size());
 
     }
 
     @Test
     public void updateIndexWillCauseToSeeUpdatedFieldInSearch() throws Exception {
+        search.deleteIndex(CommonConfig.APP_ID, user, denaObject1);//clear up
+
         search.index(CommonConfig.APP_ID, user, denaObject1);
 
-        List<DenaObject> res = search.query(CommonConfig.APP_ID, user, "رضا", "name", pager);
+        List<DenaObject> res = search.query(CommonConfig.APP_ID, user, "name:رضا", pager);
         Assert.assertEquals(1, res.size());
 
-        List<DenaObject> res2 = search.query(CommonConfig.APP_ID, user, "احمد", "name", pager);
+        List<DenaObject> res2 = search.query(CommonConfig.APP_ID, user, "name:احمد", pager);
         Assert.assertEquals(0, res2.size());
 
         denaObject1.addProperty("name", "احمد");
         search.updateIndex(CommonConfig.APP_ID, user, denaObject1);
 
-        res = search.query(CommonConfig.APP_ID, user, "رضا", "name", pager);
+        res = search.query(CommonConfig.APP_ID, user, "name:رضا", pager);
         Assert.assertEquals(0, res.size());
 
-        res2 = search.query(CommonConfig.APP_ID, user, "احمد", "name", pager);
+        res2 = search.query(CommonConfig.APP_ID, user, "name:احمد", pager);
         Assert.assertEquals(1, res2.size());
+    }
+
+    @Test
+    public void moreComplicatedQuery() throws Exception {
+        search.index(CommonConfig.APP_ID, user, denaObject1);
+
+        List<DenaObject> res = search.query(CommonConfig.APP_ID, user, "age:[* TO 30]", pager);
+        Assert.assertEquals(1, res.size());
     }
 }
