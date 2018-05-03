@@ -2,6 +2,7 @@ package com.dena.platform.core.feature.search;
 
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.persistence.DenaPager;
+import com.dena.platform.core.feature.user.domain.User;
 
 import java.util.List;
 
@@ -9,9 +10,13 @@ import java.util.List;
  * @author Nazarpour.
  */
 public interface Search {
-    void index(String appId, DenaObject object);
+    void index(String appId, User user, DenaObject object);
 
-    List<DenaObject> query(String appId, String query, String field, DenaPager pager);
+    void updateIndex(String appId, User user, DenaObject objects);
+
+    void deleteIndex(String appId, User user, DenaObject... objects);
+
+    List<DenaObject> query(String appId, User user, String query, String fieldName, DenaPager pager);
 
     void close();
 }
