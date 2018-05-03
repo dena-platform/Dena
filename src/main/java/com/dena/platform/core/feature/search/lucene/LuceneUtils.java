@@ -1,17 +1,25 @@
 package com.dena.platform.core.feature.search.lucene;
 
 import com.dena.platform.core.dto.DenaObject;
+import com.dena.platform.core.feature.app.exception.ApplicationManagementException;
 import com.dena.platform.core.feature.user.domain.User;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Map;
+
+import static com.dena.platform.common.exception.ErrorCode.CAN_NOT_PARSE_QUERY;
 
 /**
  * @author Nazarpour.
@@ -73,6 +81,16 @@ public abstract class LuceneUtils {
             return new Term(OBJECT_ID, dObject.getObjectId());
         } else {
             return null;
+        }
+    }
+
+    public static Query getParseQuery(String query) {
+        try {
+            Analyzer analyzer = new StandardAnalyzer();
+            QueryParser parser = new QueryParser(query, analyzer);
+            return parser.parse(query);
+        } catch (ParseException e) {
+            throw new ApplicationManagementException(String.format("can not parse query %s", query), CAN_NOT_PARSE_QUERY);
         }
     }
 }

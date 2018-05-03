@@ -125,7 +125,7 @@ public class LuceneSearch implements Search {
     }
 
     @Override
-    public List<DenaObject> query(String appId, User user, String query, String field, DenaPager pager) {
+    public List<DenaObject> query(String appId, User user, String query, DenaPager pager) {
         IndexReader reader = getReader(appId, user.getEmail());
 
         if (reader == null)
@@ -134,9 +134,7 @@ public class LuceneSearch implements Search {
         IndexSearcher searcher = new IndexSearcher(reader);
 
         try {
-            Analyzer analyzer = new StandardAnalyzer();
-            QueryParser parser = new QueryParser(field, analyzer);
-            Query q = parser.parse(query);
+            Query q = LuceneUtils.getParseQuery(query);
 
             Sort sort = new Sort();
             @SuppressWarnings("deprecation")
@@ -155,8 +153,6 @@ public class LuceneSearch implements Search {
 
             results = loadEntireObjectFromDataStore(appId, results);
             return results;
-        } catch (ParseException e) {
-            LOGGER.warn(String.format("can not parse query %s", query));
         } catch (IOException e) {
             LOGGER.warn(String.format("can not search query %s through Dena indexes", query));
         }

@@ -16,7 +16,7 @@ public interface Search {
 
     void deleteIndex(String appId, User user, DenaObject... objects);
 
-    List<DenaObject> query(String appId, User user, String query, String fieldName, DenaPager pager);
+    List<DenaObject> query(String appId, User user, String query, DenaPager pager);
 
     void close();
 }
