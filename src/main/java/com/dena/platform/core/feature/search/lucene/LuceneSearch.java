@@ -1,6 +1,7 @@
 package com.dena.platform.core.feature.search.lucene;
 
 import com.dena.platform.core.dto.DenaObject;
+import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.search.Search;
 import com.dena.platform.core.feature.user.domain.User;
@@ -22,6 +23,7 @@ import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @author Nazarpour.
@@ -36,9 +38,12 @@ public class LuceneSearch implements Search {
     private int commitDelay;
     private String rootDir;
 
-    public LuceneSearch(int commitDelay, String rootDir) {
+    private DenaDataStore dataStore;
+
+    public LuceneSearch(int commitDelay, String rootDir, DenaDataStore dataStore) {
         this.commitDelay = commitDelay;
         this.rootDir = rootDir;
+        this.dataStore = dataStore;
 
         init(commitDelay);
     }
@@ -134,6 +139,7 @@ public class LuceneSearch implements Search {
             Query q = parser.parse(query);
 
             Sort sort = new Sort();
+            @SuppressWarnings("deprecation")
             TopFieldCollector collector = TopFieldCollector.create(sort, 100, false, false, false);
             searcher.search(q, collector);
 
@@ -147,6 +153,7 @@ public class LuceneSearch implements Search {
                 results.add(dObj);
             }
 
+            results = loadEntireObjectFromDataStore(appId, results);
             return results;
         } catch (ParseException e) {
             LOGGER.warn(String.format("can not parse query %s", query));
@@ -154,6 +161,12 @@ public class LuceneSearch implements Search {
             LOGGER.warn(String.format("can not search query %s through Dena indexes", query));
         }
         return Collections.emptyList();
+    }
+
+    private List<DenaObject> loadEntireObjectFromDataStore(String appId, List<DenaObject> results) {
+        String collectionName = results.get(0).getObjectURI();//TODO;
+        List<String> ids = results.stream().map(DenaObject::getObjectId).collect(Collectors.toList());
+        return dataStore.find(appId, collectionName, ids.toArray(new String[0]));
     }
 
     @Override
