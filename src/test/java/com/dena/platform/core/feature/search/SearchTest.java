@@ -36,7 +36,8 @@ public class SearchTest {
 
     @Before
     public void setUp() throws Exception {
-        search = new LuceneSearch(0, baseDir.getAbsolutePath());
+        MockDataStore dataStore = new MockDataStore();
+        search = new LuceneSearch(0, baseDir.getAbsolutePath(), dataStore);
     }
 
     @After

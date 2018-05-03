@@ -51,6 +51,7 @@ public abstract class LuceneUtils {
     public static DenaObject createDenaObject(Document doc) {
         DenaObject dObj = new DenaObject();
         dObj.setObjectId(doc.get(OBJECT_ID));
+        dObj.setObjectURI(doc.get(COLLECTION_NAME));
         return dObj;
     }
 
