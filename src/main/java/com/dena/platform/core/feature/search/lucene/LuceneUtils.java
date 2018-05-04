@@ -17,6 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static com.dena.platform.common.exception.ErrorCode.CAN_NOT_PARSE_QUERY;
@@ -32,7 +34,17 @@ public abstract class LuceneUtils {
     public static final String OBJECT_ID = "object_uuid";
     public static final String COLLECTION_NAME = "collection_name";
 
-    public static Document createDocument(String appId, User user, String collectionName, DenaObject denaObject) {
+    public static List<Document> createDocuments(String appId, String collectionName, User user, DenaObject... denaObject) {
+        List<Document> documents = new ArrayList<>(denaObject.length);
+        for (DenaObject dObj : denaObject) {
+            Document document = getDocument(appId, collectionName, user, dObj);
+            documents.add(document);
+        }
+
+        return documents;
+    }
+
+    public static Document getDocument(String appId, String collectionName, User user, DenaObject denaObject) {
         Map<String, Object> fields = denaObject.getOtherFields();
         Document doc = new Document();
         Field appIdField = new StringField(APP_ID, appId, Field.Store.YES);
@@ -76,12 +88,8 @@ public abstract class LuceneUtils {
         });
     }
 
-    public static Term createTerm(DenaObject dObject) {
-        if (dObject.getObjectId() != null) {
-            return new Term(OBJECT_ID, dObject.getObjectId());
-        } else {
-            return null;
-        }
+    public static Term createTerm(String id) {
+        return new Term(OBJECT_ID, id);
     }
 
     public static Query getParseQuery(String query) {

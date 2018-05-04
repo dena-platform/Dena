@@ -10,13 +10,15 @@ import java.util.List;
  * @author Nazarpour.
  */
 public interface Search {
-    void index(String appId, User user, DenaObject object);
+    void index(String appId, String collectionName, User user, DenaObject... object);
 
-    void updateIndex(String appId, User user, DenaObject objects);
+    void updateIndex(String appId, String collectionName, User user, DenaObject... objects);
 
-    void deleteIndex(String appId, User user, DenaObject... objects);
+    void deleteIndex(String appId, String collectionName, User user, DenaObject... objects);
 
-    List<DenaObject> query(String appId, User user, String query, DenaPager pager);
+    void deleteIndexByIds(String appId, User user, String... ids);
+
+    List<DenaObject> query(String appId, String collectionName, User user, String query, DenaPager pager);
 
     void close();
 }

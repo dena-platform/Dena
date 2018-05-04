@@ -9,8 +9,6 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.*;
-import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.FSDirectory;
 import org.slf4j.Logger;
@@ -63,16 +61,18 @@ public class LuceneSearch implements Search {
     }
 
     @Override
-    public void index(String appId, User user, DenaObject object) {
-        Document doc = LuceneUtils.createDocument(appId, user, object.getObjectURI(), object);
-        writeIndex(appId, user, doc);
+    public void index(String appId, String collectionName, User user, DenaObject... object) {
+        List<Document> docs = LuceneUtils.createDocuments(appId, collectionName, user, object);
+        writeIndex(appId, user, docs);
     }
 
-    private void writeIndex(String appId, User user, Document doc) {
+    private void writeIndex(String appId, User user, List<Document> docs) {
         IndexWriter iWriter = getWriter(appId, user.getEmail());
         try {
             if (iWriter != null) {
-                iWriter.addDocument(doc);
+                for (Document doc : docs) {
+                    iWriter.addDocument(doc);
+                }
                 isDirty.put(appId, true);
                 if (needsCommit()) {
                     iWriter.forceMerge(1);
@@ -125,7 +125,7 @@ public class LuceneSearch implements Search {
     }
 
     @Override
-    public List<DenaObject> query(String appId, User user, String query, DenaPager pager) {
+    public List<DenaObject> query(String appId, String collectionName, User user, String query, DenaPager pager) {
         IndexReader reader = getReader(appId, user.getEmail());
 
         if (reader == null)
@@ -151,7 +151,7 @@ public class LuceneSearch implements Search {
                 results.add(dObj);
             }
 
-            results = loadEntireObjectFromDataStore(appId, results);
+            results = loadEntireObjectFromDataStore(appId, collectionName, results);
             return results;
         } catch (IOException e) {
             LOGGER.warn(String.format("can not search query %s through Dena indexes", query));
@@ -159,8 +159,7 @@ public class LuceneSearch implements Search {
         return Collections.emptyList();
     }
 
-    private List<DenaObject> loadEntireObjectFromDataStore(String appId, List<DenaObject> results) {
-        String collectionName = results.get(0).getObjectURI();//TODO;
+    private List<DenaObject> loadEntireObjectFromDataStore(String appId, String collectionName, List<DenaObject> results) {
         List<String> ids = results.stream().map(DenaObject::getObjectId).collect(Collectors.toList());
         return dataStore.find(appId, collectionName, ids.toArray(new String[0]));
     }
@@ -181,18 +180,24 @@ public class LuceneSearch implements Search {
 
 
     @Override
-    public void updateIndex(String appId, User user, DenaObject objects) {
-        deleteIndex(appId, user, objects);
-        index(appId, user, objects);
+    public void updateIndex(String appId, String collectionName, User user, DenaObject... objects) {
+        deleteIndex(appId, collectionName, user, objects);
+        index(appId, collectionName, user, objects);
     }
 
     @Override
-    public void deleteIndex(String appId, User user, DenaObject... objects) {
+    public void deleteIndex(String appId, String collectionName, User user, DenaObject... objects) {
         List<DenaObject> denaObjects = Arrays.asList(objects);
-        unindex(appId, user, denaObjects);
+        List<String> ids = denaObjects.stream().map(DenaObject::getObjectId).collect(Collectors.toList());
+        unindex(appId, user, ids);
     }
 
-    private void unindex(String appId, User user, List<DenaObject> denaObjects) {
+    @Override
+    public void deleteIndexByIds(String appId, User user, String... ids) {
+        unindex(appId, user, Arrays.asList(ids));
+    }
+
+    private void unindex(String appId, User user, List<String> ids) {
         IndexWriter writer = getWriter(appId, user.getEmail());
 
         if (writer == null) {
@@ -202,10 +207,8 @@ public class LuceneSearch implements Search {
 
         List<Term> terms = new ArrayList<>();
 
-        for (DenaObject dObject : denaObjects) {
-            if (dObject.getObjectId() != null) {
-                terms.add(LuceneUtils.createTerm(dObject));
-            }
+        for (String id : ids) {
+            terms.add(LuceneUtils.createTerm(id));
         }
         try {
             writer.deleteDocuments(terms.toArray(new Term[0]));

@@ -13,6 +13,7 @@ import com.dena.platform.core.feature.app.service.DenaApplicationManagement;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
+import com.dena.platform.core.feature.search.Search;
 import com.dena.platform.core.feature.security.TokenService;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;
@@ -45,7 +46,11 @@ public class RestProcessorImpl implements DenaRestProcessor {
     public final static String APP_ID = "app-id";
     public final static String OBJECT_ID = "object-id";
     public final static String RELATION_NAME = "relation-name";
+    public final static String QUERY_STRING = "query-string";
+    public final static String USER_NAME = "user-name";
 
+    @Resource
+    private Search search;
 
     @Resource
     private DenaDataStore denaDataStore;
@@ -69,6 +74,12 @@ public class RestProcessorImpl implements DenaRestProcessor {
         try {
             denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
             List<DenaObject> returnObject = denaDataStore.store(appName, appTypeName, denaObjects.toArray(new DenaObject[0]));
+
+            String userName = denaObjects.get(0).getActorUsername();//TODO
+            User user = denaUserManagement.getUserById(appName, userName);
+
+            search.index(appName, appTypeName, user, returnObject.toArray(new DenaObject[0]));
+
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
                     .withObjectResponseList(createObjectResponse(returnObject))
                     .withCreateObjectCount(returnObject.size())
@@ -86,11 +97,16 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String requestBody = denaRequestContext.getRequestBody();
         String appTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String appName = denaRequestContext.getPathVariable(APP_ID);
+        String userName = denaRequestContext.getPathVariable(USER_NAME);
+
+        User user = denaUserManagement.getUserById(appName, userName);
 
         List<DenaObject> denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
 
         try {
             List<DenaObject> returnObject = denaDataStore.update(appName, appTypeName, denaObjects.toArray(new DenaObject[0]));
+            search.updateIndex(appName, appTypeName, user, returnObject.toArray(new DenaObject[0]));
+
             DenaResponse response = DenaResponseBuilder.aDenaResponse()
                     .withObjectResponseList(createObjectResponse(returnObject))
                     .withUpdateObjectCount(returnObject.size())
@@ -142,6 +158,9 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String appId = denaRequestContext.getPathVariable(APP_ID);
         String typeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String[] objectIds = denaRequestContext.getPathVariable(OBJECT_ID).split(",");
+        String userName = denaRequestContext.getParameter(USER_NAME);
+
+        User user = denaUserManagement.getUserById(appId, userName);
 
 
         try {
@@ -157,6 +176,8 @@ public class RestProcessorImpl implements DenaRestProcessor {
                 log.warn("type name is empty");
                 throw new ParameterInvalidException("type name is empty", ErrorCode.INVALID_REQUEST);
             }
+
+            search.deleteIndexByIds(appId, user, objectIds);
 
             long deleteCount = denaDataStore.delete(appId, typeName, objectIds);
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
@@ -311,6 +332,42 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
     }
 
+    @Override
+    public ResponseEntity handleSearch() {
+        DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
+
+        String appId = denaRequestContext.getPathVariable(APP_ID);
+        String queryString = denaRequestContext.getPathVariable(QUERY_STRING);
+        String userId = denaRequestContext.getPathVariable(USER_NAME);
+        String appTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
+        List<DenaObject> foundDenaObject;
+        DenaResponse denaResponse;
+
+        try {
+            User user = denaUserManagement.getUserById(appId, userId);
+            foundDenaObject = search.query(appId, appTypeName, user, queryString, constructPager());
+
+            if (CollectionUtils.isNotEmpty(foundDenaObject)) {
+                denaResponse = DenaResponseBuilder.aDenaResponse()
+                        .withFoundObjectCount(foundDenaObject.size())
+                        .withObjectResponseList(createObjectResponse(foundDenaObject))
+                        .withTimestamp(DenaObjectUtils.timeStamp())
+                        .build();
+
+            } else {
+                denaResponse = DenaResponseBuilder.aDenaResponse()
+                        .withFoundObjectCount(foundDenaObject.size())
+                        .withTimestamp(DenaObjectUtils.timeStamp())
+                        .build();
+
+            }
+
+
+            return ResponseEntity.ok().body(denaResponse);
+        } catch (DenaException ex) {
+            throw DenaRestException.buildException(ex);
+        }
+    }
 
     private List<DenaObjectResponse> createObjectResponse(List<DenaObject> denaObjects) {
         List<DenaObjectResponse> denaObjectResponses = new ArrayList<>();
