@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * App User information
  *
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class User {

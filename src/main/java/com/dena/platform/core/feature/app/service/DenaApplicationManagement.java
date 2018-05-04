@@ -4,7 +4,7 @@ import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.app.domain.DenaApplication;
 
 /**
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 public interface DenaApplicationManagement {
     DenaObject registerApplication(DenaApplication denaApplication);
