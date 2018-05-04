@@ -26,6 +26,9 @@ public class DenaObject {
     @JsonProperty("object_uri")
     private String objectURI;
 
+    @JsonProperty("actor_user")
+    private String actorUsername;
+
     @JsonProperty("related_objects")
     private List<DenaRelation> denaRelations = new ArrayList<>();
 
@@ -94,6 +97,14 @@ public class DenaObject {
 
     public void setObjectURI(String objectURI) {
         this.objectURI = objectURI;
+    }
+
+    public String getActorUsername() {
+        return actorUsername;
+    }
+
+    public void setActorUsername(String actorUsername) {
+        this.actorUsername = actorUsername;
     }
 }
 

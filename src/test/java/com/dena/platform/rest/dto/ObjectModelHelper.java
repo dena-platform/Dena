@@ -26,8 +26,6 @@ public class ObjectModelHelper {
         object.addProperty("age", "30");
         object.addProperty("job_title", "برنامه");
 
-        object.setObjectURI(CommonConfig.COLLECTION_NAME);
-
         return object;
     }
 
@@ -37,8 +35,6 @@ public class ObjectModelHelper {
         object.setObjectId("6b316b1b4e5f450104c31366");
         object.addProperty("name", "علی");
         object.addProperty("job_title", "برنامه");
-
-        object.setObjectURI(CommonConfig.COLLECTION_NAME);
 
         return object;
     }

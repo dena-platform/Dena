@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
  */
 
 public class LoginUserTest extends AbstractDataStoreTest {
-    User user = ObjectModelHelper.getSampleUser();
+    private User user = ObjectModelHelper.getSampleUser();
 
     @Resource
     private DenaUserManagement userManagement;
