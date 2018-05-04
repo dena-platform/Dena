@@ -23,7 +23,7 @@ import org.springframework.util.Assert;
 import java.util.*;
 
 /**
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 @Component
 public class MongoDBUtils {

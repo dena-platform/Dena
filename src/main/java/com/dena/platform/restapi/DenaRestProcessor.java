@@ -3,7 +3,7 @@ package com.dena.platform.restapi;
 import org.springframework.http.ResponseEntity;
 
 /**
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 public interface DenaRestProcessor {
 

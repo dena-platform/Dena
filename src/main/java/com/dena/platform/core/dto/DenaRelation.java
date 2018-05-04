@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 public class DenaRelation {
 

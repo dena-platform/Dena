@@ -6,7 +6,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 /**
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 public final class TestUtils {
 

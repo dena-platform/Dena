@@ -3,7 +3,7 @@ package com.dena.platform.common.web;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 
 /**
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 public interface DenaRequestProcessor {
     /**
