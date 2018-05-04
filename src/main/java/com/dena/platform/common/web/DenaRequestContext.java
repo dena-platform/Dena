@@ -16,7 +16,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 /**
  * An holder class that contain various request data.
  *
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 public class DenaRequestContext {
     private final static Logger log = getLogger(DenaRequestContext.class);
