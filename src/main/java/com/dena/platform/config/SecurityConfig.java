@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import java.util.Collections;
 
 /**
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 
 @EnableGlobalMethodSecurity(prePostEnabled = true)

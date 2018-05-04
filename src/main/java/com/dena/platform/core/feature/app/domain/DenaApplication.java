@@ -1,7 +1,7 @@
 package com.dena.platform.core.feature.app.domain;
 
 /**
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 public class DenaApplication {
 

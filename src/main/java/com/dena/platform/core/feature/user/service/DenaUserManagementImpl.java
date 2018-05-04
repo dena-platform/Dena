@@ -8,7 +8,6 @@ import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.security.SecurityUtil;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.exception.UserManagementException;
-import com.mongodb.client.model.FindOneAndUpdateOptions;
 import org.apache.commons.validator.GenericValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 
 @Service("denaDenaUserManagement")
@@ -31,6 +30,10 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
     @Resource
     private DenaDataStore denaDataStore;
+
+    //todo: initialize this bean in another class
+    @Resource
+    private DenaConfigReader denaConfigReader;
 
     @PostConstruct
     public void init() {
@@ -124,4 +127,5 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
         denaDataStore.update(appId, userInfoTableName, denaObject).get(0);
     }
+
 }

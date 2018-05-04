@@ -15,7 +15,7 @@ import static com.dena.platform.utils.TestUtils.isTimeEqualRegardlessOfSecond;
 import static org.junit.Assert.assertTrue;
 
 /**
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 public class UpdateDataTest extends AbstractDataStoreTest {
 

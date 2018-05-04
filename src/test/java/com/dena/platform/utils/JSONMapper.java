@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 public class JSONMapper {
     private final static ObjectMapper JSON_MAPPER = new ObjectMapper().enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);

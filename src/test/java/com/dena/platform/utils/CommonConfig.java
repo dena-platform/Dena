@@ -1,7 +1,7 @@
 package com.dena.platform.utils;
 
 /**
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 
 public interface CommonConfig {

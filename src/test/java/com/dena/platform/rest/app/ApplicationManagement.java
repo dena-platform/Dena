@@ -23,7 +23,7 @@ import static com.dena.platform.utils.JSONMapper.createJSONFromObject;
 import static com.dena.platform.utils.JSONMapper.createObjectFromJSON;
 
 /**
- * @author Javad Alimohammadi [<bs.alimohammadi@yahoo.com>]
+ * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 public class ApplicationManagement extends AbstractDataStoreTest {
     @Test
