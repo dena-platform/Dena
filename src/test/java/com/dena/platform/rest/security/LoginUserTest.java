@@ -3,6 +3,7 @@ package com.dena.platform.rest.security;
 import com.dena.platform.core.feature.security.SecurityUtil;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;
+import com.dena.platform.rest.dto.ObjectModelHelper;
 import com.dena.platform.rest.dto.TestRequestObjectDTO;
 import com.dena.platform.rest.persistence.AbstractDataStoreTest;
 import com.dena.platform.restapi.dto.response.DenaResponse;
@@ -22,11 +23,7 @@ import static org.junit.Assert.*;
  */
 
 public class LoginUserTest extends AbstractDataStoreTest {
-    private final User user = User.UserBuilder.anUser()
-            .withEmail("ali@hotmail.com")
-            .withPassword(SecurityUtil.encodePassword("123"))
-            .withUnencodedPassword("123")
-            .build();
+    private User user = ObjectModelHelper.getSampleUser();
 
     @Resource
     private DenaUserManagement userManagement;
