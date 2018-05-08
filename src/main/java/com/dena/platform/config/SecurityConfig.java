@@ -1,5 +1,6 @@
 package com.dena.platform.config;
 
+import com.dena.platform.common.config.DenaConfigReader;
 import com.dena.platform.core.feature.security.JwtAuthenticationEntryPoint;
 import com.dena.platform.core.feature.security.JwtAuthenticationFilter;
 import com.dena.platform.core.feature.security.JwtAuthenticationProvider;
@@ -42,27 +43,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new ProviderManager(Collections.singletonList(authenticationProvider));
     }
 
-    @Bean
-    public JwtAuthenticationFilter authenticationTokenFilter() {
-        JwtAuthenticationFilter filter = new JwtAuthenticationFilter();
-        filter.setAuthenticationManager(authenticationManager());
-        filter.setAuthenticationSuccessHandler(new JwtSuccessHandler());
-        return filter;
-    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests().antMatchers("/**").permitAll();
+        boolean isDenaSecurityModuleEnabled = DenaConfigReader.readBooleanProperty("dena.api.security.enabled", true);
 
-        http.csrf().disable()
-                .authorizeRequests().antMatchers("**" + API.API_PATH + "**").authenticated()
-                .and()
-                .exceptionHandling().authenticationEntryPoint(entryPoint)
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        if (isDenaSecurityModuleEnabled) {
+            http.csrf().disable()
+                    .authorizeRequests().antMatchers("**" + API.API_PATH + "**").authenticated()
+                    .and()
+                    .exceptionHandling().authenticationEntryPoint(entryPoint)
+                    .and()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+            JwtAuthenticationFilter filter = new JwtAuthenticationFilter();
+            filter.setAuthenticationManager(authenticationManager());
+            filter.setAuthenticationSuccessHandler(new JwtSuccessHandler());
 
-        http.headers().cacheControl();
+
+            http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+
+            http.headers().cacheControl();
+
+        } else {
+            http.csrf().disable();
+            http.authorizeRequests().antMatchers("/**").permitAll();
+        }
+
     }
 }
