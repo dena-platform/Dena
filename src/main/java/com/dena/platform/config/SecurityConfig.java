@@ -6,6 +6,8 @@ import com.dena.platform.core.feature.security.JwtAuthenticationFilter;
 import com.dena.platform.core.feature.security.JwtAuthenticationProvider;
 import com.dena.platform.core.feature.security.JwtSuccessHandler;
 import com.dena.platform.restapi.endpoint.v1.API;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +30,7 @@ import java.util.Collections;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final static Logger log = LoggerFactory.getLogger(SecurityConfig.class);
 
     private JwtAuthenticationEntryPoint entryPoint;
     private JwtAuthenticationProvider authenticationProvider;
@@ -43,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new ProviderManager(Collections.singletonList(authenticationProvider));
     }
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         boolean isDenaSecurityModuleEnabled = DenaConfigReader.readBooleanProperty("dena.api.security.enabled", true);
@@ -55,19 +59,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-            JwtAuthenticationFilter filter = new JwtAuthenticationFilter();
-            filter.setAuthenticationManager(authenticationManager());
-            filter.setAuthenticationSuccessHandler(new JwtSuccessHandler());
-
-
-            http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
-
             http.headers().cacheControl();
+            registerAuthenticationFilter(http);
 
         } else {
+            log.warn("Security is disabled. this property should be used in development mode only");
             http.csrf().disable();
-            http.authorizeRequests().antMatchers("/**").permitAll();
+            http.authorizeRequests()
+                    .antMatchers("/**")
+                    .permitAll();
         }
+
+    }
+
+
+    private void registerAuthenticationFilter(HttpSecurity http) {
+        JwtAuthenticationFilter filter = new JwtAuthenticationFilter();
+        filter.setAuthenticationManager(authenticationManager());
+        filter.setAuthenticationSuccessHandler(new JwtSuccessHandler());
+
+        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 
     }
 }
