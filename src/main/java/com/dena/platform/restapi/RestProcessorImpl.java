@@ -317,15 +317,14 @@ public class RestProcessorImpl implements DenaRestProcessor {
     }
 
     @Override
-    public ResponseEntity createSchema() {
+    public ResponseEntity handleCreateSchema() {
 
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
         String requestBody = denaRequestContext.getRequestBody();
-        HashMap<String, Object> requestParameter = JSONMapper.createHashMapFromJSON(requestBody);
-        String appName = (String) requestParameter.get(DenaApplication.APP_NAME_FIELD);
+        String appId = denaRequestContext.getPathVariable(APP_ID);
         String tableName = denaRequestContext.getPathVariable(TABLE_NAME);
 
-        int schemaCount = schemaManager.createSchema(appName, tableName);
+        int schemaCount = schemaManager.createSchema(appId, tableName);
         DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
                 .withDeleteObjectCount(schemaCount)
                 .withTimestamp(DenaObjectUtils.timeStamp())

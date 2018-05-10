@@ -25,5 +25,5 @@ public interface DenaRestProcessor {
 
     ResponseEntity handleRegisterApplication();
 
-    ResponseEntity createSchema();
+    ResponseEntity handleCreateSchema();
 }

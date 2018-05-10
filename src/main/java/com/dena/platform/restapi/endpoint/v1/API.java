@@ -110,7 +110,7 @@ public class API {
     /////////////////////////////////////////////
     @PostMapping(path = {"/{app-id}/schema/{table-name}"}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity createSchema() {
-        return denaRestProcessor.handleRegisterApplication();
+        return denaRestProcessor.handleCreateSchema();
     }
 
 
