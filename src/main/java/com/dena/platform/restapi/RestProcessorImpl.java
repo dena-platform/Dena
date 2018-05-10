@@ -12,6 +12,7 @@ import com.dena.platform.core.feature.app.domain.DenaApplication;
 import com.dena.platform.core.feature.app.service.DenaApplicationManagement;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.persistence.DenaPager;
+import com.dena.platform.core.feature.persistence.SchemaManager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.dena.platform.core.feature.security.TokenService;
 import com.dena.platform.core.feature.user.domain.User;
@@ -41,7 +42,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class RestProcessorImpl implements DenaRestProcessor {
     private final static Logger log = getLogger(RestProcessorImpl.class);
 
-    public final static String TYPE_NAME = "type-name";
+    public final static String TABLE_NAME = "table-name";
     public final static String APP_ID = "app-id";
     public final static String OBJECT_ID = "object-id";
     public final static String RELATION_NAME = "relation-name";
@@ -56,12 +57,16 @@ public class RestProcessorImpl implements DenaRestProcessor {
     @Resource
     private DenaApplicationManagement denaApplicationManagement;
 
+    @Resource
+    private SchemaManager schemaManager;
+
+
     @Override
     public ResponseEntity handleCreateObject() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
 
         String requestBody = denaRequestContext.getRequestBody();
-        String appTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
+        String appTypeName = denaRequestContext.getPathVariable(TABLE_NAME);
         String appName = denaRequestContext.getPathVariable(APP_ID);
 
         List<DenaObject> denaObjects;
@@ -84,7 +89,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     public ResponseEntity handleUpdateObject() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
         String requestBody = denaRequestContext.getRequestBody();
-        String appTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
+        String appTypeName = denaRequestContext.getPathVariable(TABLE_NAME);
         String appName = denaRequestContext.getPathVariable(APP_ID);
 
         List<DenaObject> denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
@@ -106,7 +111,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     public ResponseEntity handleDeleteRelation() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
 
-        String parentTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
+        String parentTypeName = denaRequestContext.getPathVariable(TABLE_NAME);
         String appName = denaRequestContext.getPathVariable(APP_ID);
         String parentObjectId = denaRequestContext.getPathVariable(OBJECT_ID);
         String relationName = denaRequestContext.getPathVariable("type-name-2");
@@ -140,7 +145,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
 
         String appId = denaRequestContext.getPathVariable(APP_ID);
-        String typeName = denaRequestContext.getPathVariable(TYPE_NAME);
+        String typeName = denaRequestContext.getPathVariable(TABLE_NAME);
         String[] objectIds = denaRequestContext.getPathVariable(OBJECT_ID).split(",");
 
 
@@ -174,7 +179,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     public ResponseEntity handleFindObject() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
 
-        String parentTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
+        String parentTypeName = denaRequestContext.getPathVariable(TABLE_NAME);
         String appId = denaRequestContext.getPathVariable(APP_ID);
         String objectId = denaRequestContext.getPathVariable(OBJECT_ID);
         String relationName = denaRequestContext.getPathVariable(RELATION_NAME);
@@ -311,6 +316,24 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
     }
 
+    @Override
+    public ResponseEntity createSchema() {
+
+        DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
+        String requestBody = denaRequestContext.getRequestBody();
+        HashMap<String, Object> requestParameter = JSONMapper.createHashMapFromJSON(requestBody);
+        String appName = (String) requestParameter.get(DenaApplication.APP_NAME_FIELD);
+        String tableName = denaRequestContext.getPathVariable(TABLE_NAME);
+
+        int schemaCount = schemaManager.createSchema(appName, tableName);
+        DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
+                .withDeleteObjectCount(schemaCount)
+                .withTimestamp(DenaObjectUtils.timeStamp())
+                .build();
+        return ResponseEntity.ok().body(denaResponse);
+
+
+    }
 
     private List<DenaObjectResponse> createObjectResponse(List<DenaObject> denaObjects) {
         List<DenaObjectResponse> denaObjectResponses = new ArrayList<>();

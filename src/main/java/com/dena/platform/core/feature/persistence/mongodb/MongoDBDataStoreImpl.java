@@ -220,10 +220,10 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public List<DenaObject> findRelatedObject(String applicationName, String parentTableName, String parentObjectId, String relationName, DenaPager denaPager) {
+    public List<DenaObject> findRelatedObject(String appName, String parentTableName, String parentObjectId, String relationName, DenaPager denaPager) {
         try {
             checkObjectIdValidity(parentObjectId);
-            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(applicationName);
+            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
             List<BsonDocument> parentDocument = MongoDBUtils.findDocumentById(mongoDatabase, parentTableName, parentObjectId);
 
             if (CollectionUtils.isEmpty(parentDocument)) {
