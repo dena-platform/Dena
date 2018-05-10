@@ -1,3 +1,95 @@
+# SCHEMA #
+Schema is the structure of the table in Dena platform. With schema developer can define constrain on columns.  
+
+
+## Create Schema (TODO)##
+Method: POST
+
+URL: /v1/<application-id>/schema/<table-name>
+
+Body:
+
+{JSON}
+
+
+Headers:
+
+Content-Type:application/json
+
+***Example:***
+  
+Request Body:
+
+    {
+       "columns": [
+            {
+                "name": "creation_time",
+                "type": "DATETIME"
+            },
+            {
+                "name": "comment_text",
+                "type": "DATETIME"
+            },
+            {
+                "name": "creation_time",
+                "type": "DATETIME"
+            },
+            {
+                "name": "field1",
+                "type": "STRING"
+            }
+        ]
+    }
+
+Response Body:
+
+    {
+        "timestamp": 1520504910721,
+        "count": 1
+    }
+
+## GET Schema ##
+Method: GET
+
+URL: /v1/<application-id>/<table-name>
+
+Body: None
+
+***Example:***
+
+https://DENA-PLATFORM/v1/<application-id>/schema/<table-name>
+  
+Request Body:
+
+    [
+        {
+            "name": "creation_time",
+            "type": "DATETIME"
+        },
+        {
+            "name": "comment_text",
+            "type": "DATETIME"
+        },
+        {
+            "name": "creation_time",
+            "type": "DATETIME"
+        },
+        {
+            "name": "field1",
+            "type": "STRING"
+        }
+    ]
+
+Response Body:
+
+    {
+        "timestamp": 1520504910721,
+        "count": 1
+    }
+ 
+
+
+
 # Working With Object #
 
 ----------
@@ -9,7 +101,7 @@
 
 Method: POST
 
-URL: /v1/<application-id>/<type-name>
+URL: /v1/<application-id>/<table-name>
 
 Body:
 
@@ -52,7 +144,7 @@ multiple request.
 
 Method: POST
 
-URL: /v1/<application-id>/<type-name>
+URL: /v1/<application-id>/<table-name>
 
 Body:
 
@@ -444,7 +536,7 @@ Response Body:
 
 ----------
 ## Find Object##
-By default when you get an object from Dena platform, related objects not included in the response because it may cause load performance on server or client memory.Therefore we should get related object in a separate request.   
+By default when you get an object from Dena platform, related objects not included in the response because it may cause load performance on server or client memory. Therefore we should get related object in a separate request.   
 
 1. Find object by id
 2. Find objects in table

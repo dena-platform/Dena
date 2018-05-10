@@ -29,7 +29,7 @@ public class API {
      *
      * @return number of created objects
      */
-    @PostMapping(path = "/{app-id}/{type-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(path = "/{app-id}/{table-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity createObjects() {
         return denaRestProcessor.handleCreateObject();
     }
@@ -41,7 +41,7 @@ public class API {
      * @return number of updated objects
      */
 
-    @PutMapping(path = "/{app-id}/{type-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(path = "/{app-id}/{table-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity updateObjects() {
         return denaRestProcessor.handleUpdateObject();
     }
@@ -51,7 +51,7 @@ public class API {
      *
      * @return
      */
-    @DeleteMapping(path = "/{app-id}/{type-name}/{object-id}")
+    @DeleteMapping(path = "/{app-id}/{table-name}/{object-id}")
     public ResponseEntity deleteObjects() {
         return denaRestProcessor.handleDeleteObject();
 
@@ -63,8 +63,8 @@ public class API {
      * @return
      */
     @DeleteMapping(path = {
-            "/{app-id}/{type-name}/{object-id}/relation/{type-name-2}/{object-id-2}",
-            "/{app-id}/{type-name}/{object-id}/relation/{type-name-2}"})
+            "/{app-id}/{type-name}/{object-id}/relation/{table-name-2}/{object-id-2}",
+            "/{app-id}/{type-name}/{object-id}/relation/{table-name-2}"})
     public ResponseEntity deleteRelationWithObjectId() {
         return denaRestProcessor.handleDeleteRelation();
     }
@@ -75,9 +75,9 @@ public class API {
      * @return
      */
     @GetMapping(path = {
-            "/{app-id}/{type-name}/{object-id}",
-            "/{app-id}/{type-name}",
-            "/{app-id}/{type-name}/{object-id}/relation/{relation-name}"})
+            "/{app-id}/{table-name}/{object-id}",
+            "/{app-id}/{table-name}",
+            "/{app-id}/{table-name}/{object-id}/relation/{relation-name}"})
     public ResponseEntity findObject() {
         return denaRestProcessor.handleFindObject();
 
@@ -104,6 +104,15 @@ public class API {
     public ResponseEntity registerApp() {
         return denaRestProcessor.handleRegisterApplication();
     }
+
+    /////////////////////////////////////////////
+    //            Schema Management API
+    /////////////////////////////////////////////
+    @PostMapping(path = {"/app/register"}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity createSchema() {
+        return denaRestProcessor.handleRegisterApplication();
+    }
+
 
 
 }
