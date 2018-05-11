@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 @Service("denaMongoDBSchemaManager")
-public class SchemaManagerImpl implements SchemaManager {
-    private final static Logger log = LoggerFactory.getLogger(SchemaManagerImpl.class);
+public class MongoDBSchemaManagerImpl implements SchemaManager {
+    private final static Logger log = LoggerFactory.getLogger(MongoDBSchemaManagerImpl.class);
 
     @Override
     public int createSchema(String appName, String schemaName) {

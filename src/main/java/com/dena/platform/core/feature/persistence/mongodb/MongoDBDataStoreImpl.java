@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 
-@Service("denaMongoDBDataStoreImpl")
+@Service("denaMongoDBDataStore")
 public class MongoDBDataStoreImpl implements DenaDataStore {
     private final static Logger log = LoggerFactory.getLogger(MongoDBDataStoreImpl.class);
 
