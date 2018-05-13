@@ -1,8 +1,12 @@
 package com.dena.platform.config;
 
+import com.dena.platform.core.feature.persistence.DenaDataStore;
+import com.dena.platform.core.feature.search.Search;
+import com.dena.platform.core.feature.search.lucene.LuceneSearch;
 import com.dena.platform.restapi.serilizer.DenaResponseModule;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -41,5 +45,12 @@ public class ApplicationContextConfig {
 
         return JSON_MAPPER;
     }
-      
+
+    @Bean(name = "luceneSearch")
+    @Autowired
+    public Search getLuceneSearch(@Value("${search.lucene.root.dir}") String rootDir,
+                                  @Value("${search.lucene.commit.delay}") int commitDelay, DenaDataStore dataStore) {
+        return new LuceneSearch(commitDelay, rootDir, dataStore);
+    }
+
 }

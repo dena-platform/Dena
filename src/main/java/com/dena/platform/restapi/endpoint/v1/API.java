@@ -83,6 +83,16 @@ public class API {
 
     }
 
+    /**
+     * Search object by a text based search tools
+     *
+     * @return list of DenaObjects
+     */
+    @GetMapping(path = {"/{app-id}/{type-name}/{user-name}/search/{query-string}"})
+    public ResponseEntity searchObject() {
+        return denaRestProcessor.handleSearch();
+    }
+
     /////////////////////////////////////////////
     //            User Management API
     /////////////////////////////////////////////

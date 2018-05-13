@@ -19,6 +19,9 @@ public class TestRequestObjectDTO {
     @JsonProperty(value = "object_id")
     private String objectId;
 
+    @JsonProperty("actor_user")
+    private String actorUsername;
+
     @JsonProperty(value = "related_objects")
     private List<TestDenaRelationDTO> relatedObjects = new ArrayList<>();
 
@@ -60,4 +63,11 @@ public class TestRequestObjectDTO {
         this.objectId = objectId;
     }
 
+    public String getActorUsername() {
+        return actorUsername;
+    }
+
+    public void setActorUsername(String actorUsername) {
+        this.actorUsername = actorUsername;
+    }
 }

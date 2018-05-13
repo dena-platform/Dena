@@ -34,7 +34,11 @@ public enum ErrorCode {
     // User Management exception - range 4000-4999
     APP_NAME_FIELD_IS_INVALID("dena.platform.restapi.exception.APP_FIELD_IS_INVALID", "4000-400"),
     CREATOR_FIELD_IS_INVALID("dena.platform.restapi.exception.CREATOR_FIELD_IS_INVALID", "4001-400"),
-    APPLICATION_ALREADY_EXIST("dena.platform.restapi.exception.APPLICATION_ALREADY_EXIST", "4002-400");
+    APPLICATION_ALREADY_EXIST("dena.platform.restapi.exception.APPLICATION_ALREADY_EXIST", "4002-400"),
+
+    // SEARCH exception - range 8000-8999
+    CAN_NOT_PARSE_QUERY("dena.platform.restapi.exception.CAN_NOT_PARSE_QUERY", "8000-8000");
+
 
     private String messageCode;
     private String errorCode;

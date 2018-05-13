@@ -319,6 +319,22 @@ public class AbstractDataStoreTest {
     }
 
 
+    protected <T> T performSearchWithToken(String username, String query, Class<T> klass, String token) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + username + "/search/" + query)
+                .header("token", token))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String returnContent = result.getResponse().getContentAsString();
+        if (!StringUtils.isEmpty(returnContent))
+            return createObjectFromJSON(returnContent, klass);
+        else
+            return null;
+
+    }
+
+
     /////////////////////////////////////////////
     //            LOGIN
     /////////////////////////////////////////////
