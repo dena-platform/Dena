@@ -21,7 +21,6 @@ public class MongoDBSchemaManagerImpl implements SchemaManager {
         try {
             log.info("Creating schema [{}]", schemaName);
 
-
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
             mongoDatabase.createCollection();
             MongoDBUtils.createSchema(mongoDatabase, schemaName);
