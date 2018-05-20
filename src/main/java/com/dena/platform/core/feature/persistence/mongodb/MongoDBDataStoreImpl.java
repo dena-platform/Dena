@@ -65,7 +65,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 ids.add(objectId.toString());
             }
 
-            MongoDBUtils.createDocuments(mongoDatabase, tableName, bsonDocuments.toArray(new BsonDocument[bsonDocuments.size()]));
+            MongoDBUtils.createDocuments(mongoDatabase, tableName, bsonDocuments.toArray(new BsonDocument[0]));
 
             return new ArrayList<>(find(appName, tableName, ids.toArray(new String[0])));
         } catch (DataStoreException ex) {
@@ -266,7 +266,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                         .stream()
                         .allMatch(denaRelation -> {
                             // check if target type is exist
-                            boolean isCollectionExist = MongoDBUtils.isCollectionExist(mongoDatabase, denaRelation.getTargetName());
+                            boolean isCollectionExist = MongoDBUtils.isSchemaExist(mongoDatabase, denaRelation.getTargetName());
                             String[] ids = denaRelation.getIds().toArray(new String[0]);
                             boolean isIdsExist = ids.length > 0 &&
                                     (MongoDBUtils.findDocumentById(mongoDatabase, denaRelation.getTargetName(), ids)

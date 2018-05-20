@@ -211,7 +211,7 @@ public class MongoDBUtils {
      * @param collectionName Name of collection that we wand search for
      * @return
      */
-    public static boolean isCollectionExist(final MongoDatabase mongoDatabase, final String collectionName) {
+    public static boolean isSchemaExist(final MongoDatabase mongoDatabase, final String collectionName) {
         List<String> collectionList = mongoDatabase.listCollectionNames().into(new ArrayList<>());
         return collectionList.contains(collectionName);
     }
