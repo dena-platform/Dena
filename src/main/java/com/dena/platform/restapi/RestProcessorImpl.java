@@ -320,17 +320,19 @@ public class RestProcessorImpl implements DenaRestProcessor {
     public ResponseEntity handleCreateSchema() {
 
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
-        String requestBody = denaRequestContext.getRequestBody();
         String appId = denaRequestContext.getPathVariable(APP_ID);
         String tableName = denaRequestContext.getPathVariable(TABLE_NAME);
 
-        int schemaCount = schemaManager.createSchema(appId, tableName);
-        DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
-                .withDeleteObjectCount(schemaCount)
-                .withTimestamp(DenaObjectUtils.timeStamp())
-                .build();
-        return ResponseEntity.ok().body(denaResponse);
-
+        try {
+            int schemaCount = schemaManager.createSchema(appId, tableName);
+            DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
+                    .withCreateObjectCount(schemaCount)
+                    .withTimestamp(DenaObjectUtils.timeStamp())
+                    .build();
+            return ResponseEntity.ok().body(denaResponse);
+        } catch (DenaException ex) {
+            throw DenaRestException.buildException(ex);
+        }
 
     }
 

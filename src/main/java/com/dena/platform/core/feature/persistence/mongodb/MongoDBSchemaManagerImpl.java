@@ -21,9 +21,12 @@ public class MongoDBSchemaManagerImpl implements SchemaManager {
         try {
             log.info("Creating schema [{}]", schemaName);
 
-
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
-            mongoDatabase.createCollection();
+            if (MongoDBUtils.isSchemaExist(mongoDatabase, schemaName)) {
+                throw new DataStoreException(String.format("Schema with name [%s] already exist", schemaName),
+                        ErrorCode.SCHEMA_ALREADY_EXIST_EXCEPTION);
+            }
+
             MongoDBUtils.createSchema(mongoDatabase, schemaName);
 
             log.info("Created schema [{}] successfully", schemaName);

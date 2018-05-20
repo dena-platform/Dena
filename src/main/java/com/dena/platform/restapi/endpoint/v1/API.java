@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = API.API_PATH, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 public class API {
@@ -108,7 +109,7 @@ public class API {
     /////////////////////////////////////////////
     //            Schema Management API
     /////////////////////////////////////////////
-    @PostMapping(path = {"/{app-id}/schema/{table-name}"}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(path = {"/{app-id}/schema/{table-name}"})
     public ResponseEntity createSchema() {
         return denaRestProcessor.handleCreateSchema();
     }

@@ -104,11 +104,6 @@ public class DenaResponse {
             return this;
         }
 
-        public DenaResponseBuilder withCreateObjectCount(Long createObjectCount) {
-            this.createObjectCount = createObjectCount;
-            return this;
-        }
-
         public DenaResponseBuilder withCreateObjectCount(Integer createObjectCount) {
             this.createObjectCount = Long.valueOf(createObjectCount);
             return this;
@@ -119,10 +114,6 @@ public class DenaResponse {
             return this;
         }
 
-        public DenaResponseBuilder withUpdateObjectCount(Long updateObjectCount) {
-            this.updateObjectCount = updateObjectCount;
-            return this;
-        }
 
         public DenaResponseBuilder withDeleteObjectCount(Long deleteObjectCount) {
             this.deleteObjectCount = deleteObjectCount;
@@ -131,11 +122,6 @@ public class DenaResponse {
 
         public DenaResponseBuilder withDeleteObjectCount(Integer deleteObjectCount) {
             this.deleteObjectCount = Long.valueOf(deleteObjectCount);
-            return this;
-        }
-
-        public DenaResponseBuilder withDeleteRelationCount(Integer deleteRelationCount) {
-            this.deleteRelationCount = Long.valueOf(deleteRelationCount);
             return this;
         }
 
