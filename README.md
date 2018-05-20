@@ -1,3 +1,7 @@
+## List of Continuous Integration services
+
+[![Build Status](https://travis-ci.org/ligurio/awesome-ci.svg?branch=master)](https://travis-ci.org/dena-platform/Dena.svg?branch=master)
+
 # Dena Platform
 Open source BAAS platform written in Java based on Spring Boot.
 
