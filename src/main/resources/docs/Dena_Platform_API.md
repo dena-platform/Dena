@@ -141,12 +141,6 @@ Response:
 	}
 
 
-  
-
- 
-
-
-
 # Working With Object #
 
 ----------
@@ -195,7 +189,7 @@ Response Body:
       }
 
 
-**Create Bulk Objects**
+**Create Bulk Objects**  
 This API is same is above with the exception that the request can contain 
 multiple request.
 
