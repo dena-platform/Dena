@@ -1,93 +1,144 @@
 # SCHEMA #
-Schema is the structure of the table in Dena platform. With schema developer can define constrain on columns.  
+Schema is the structure of tables in Dena platform. With schema, developers can get table structure ,add/remove columns and define constrains on columns.  
 
 
-## Create Schema (TODO)##
-Method: POST
+## Create Schema ##
 
+Method: POST  
 URL: /v1/<application-id>/schema/<table-name>
 
-Body:
+Headers:  
+token: {user token after login in dena-platform}  
+Content-Type: application/json
 
-{JSON}
+Body: {None}
 
 
-Headers:
-
-Content-Type:application/json
-
-***Example:***
-  
-Request Body:
-
-    {
-       "columns": [
-            {
-                "name": "creation_time",
-                "type": "DATETIME"
-            },
-            {
-                "name": "comment_text",
-                "type": "DATETIME"
-            },
-            {
-                "name": "creation_time",
-                "type": "DATETIME"
-            },
-            {
-                "name": "field1",
-                "type": "STRING"
-            }
-        ]
-    }
-
-Response Body:
-
-    {
-        "timestamp": 1520504910721,
-        "count": 1
-    }
-
-## GET Schema ##
-Method: GET
-
-URL: /v1/<application-id>/<table-name>
-
-Body: None
+Response:  
+Number of created schema
 
 ***Example:***
 
-https://DENA-PLATFORM/v1/<application-id>/schema/<table-name>
-  
+Request URL:https://dena-platform/<application-id>/schema/table1  
+
 Request Body:
 
-    [
-        {
-            "name": "creation_time",
-            "type": "DATETIME"
-        },
-        {
-            "name": "comment_text",
-            "type": "DATETIME"
-        },
-        {
-            "name": "creation_time",
-            "type": "DATETIME"
-        },
-        {
-            "name": "field1",
-            "type": "STRING"
-        }
-    ]
+    Empty
 
 Response Body:
 
-    {
-        "timestamp": 1520504910721,
-        "count": 1
-    }
- 
+	{
+	  "timestamp": 1520504910721,
+	  "count": 1
+	}
 
+
+## GET ALL Schema ##
+Method: GET  
+URL: /v1/<application-id>/schema  
+
+Headers:  
+token: {user token after login in dena-platform}  
+
+Body:  
+{None}
+
+Response   
+Return the schema of table
+
+***Example:***  
+Request URL:https://dena-platform/<application-id>/schema 
+
+Request Body:  
+
+	{
+	  "timestamp": 1520504910721,
+	  "count": 2,
+	  "table": [
+	    {
+	      "name": "table1",
+	      "fields": [
+	        {
+	          "name": "first_name",
+	          "data_type": "unavailable",
+	          "default_value": "unavailable",
+	          "is_identity": "unavailable",
+	          "constrain": "unavailable",
+	          "is_read_only": "unavailable"
+	        },
+	        {
+	          "name": "last_name",
+	          "data_type": "unavailable",
+	          "default_value": "unavailable",
+	          "is_identity": "unavailable",
+	          "constrain": "unavailable"
+	        },
+	        {
+	          "name": "id_number",
+	          "data_type": "unavailable",
+	          "default_value": "unavailable",
+	          "is_identity": "unavailable",
+	          "constrain": "unavailable"
+	        }
+	      ]
+	    },
+	    {
+	      "name": "table2",
+	      "fields": [
+	        {
+	          "name": "first_name",
+	          "data_type": "unavailable",
+	          "default_value": "unavailable",
+	          "is_identity": "unavailable",
+	          "constrain": "unavailable",
+	          "is_read_only": "unavailable"
+	        },
+	        {
+	          "name": "last_name",
+	          "data_type": "unavailable",
+	          "default_value": "unavailable",
+	          "is_identity": "unavailable",
+	          "constrain": "unavailable"
+	        },
+	        {
+	          "name": "id_number",
+	          "data_type": "unavailable",
+	          "default_value": "unavailable",
+	          "is_identity": "unavailable",
+	          "constrain": "unavailable"
+	        }
+	      ]
+	    },
+	  ]
+	}
+
+
+## Delete Schema ##
+Method: DELETE  
+URL: /v1/<application-id>/schema/{table-name}  
+
+Headers:  
+token: {user token after login in dena-platform}  
+
+Body:  
+{None}
+
+Response   
+Number of deleted schema
+
+
+***Example:***  
+Request URL:https://dena-platform/<application-id>/{table-name} 
+
+Body:  
+{None}  
+
+Response:  
+
+	{
+	  "timestamp": 1520504910721,
+	  "count": 1
+	}
 
 
 # Working With Object #
@@ -138,7 +189,7 @@ Response Body:
       }
 
 
-**Create Bulk Objects**
+**Create Bulk Objects**  
 This API is same is above with the exception that the request can contain 
 multiple request.
 
@@ -535,7 +586,7 @@ Response Body:
     }
 
 ----------
-## Find Object##
+## Find Object ##
 By default when you get an object from Dena platform, related objects not included in the response because it may cause load performance on server or client memory. Therefore we should get related object in a separate request.   
 
 1. Find object by id
