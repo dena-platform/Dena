@@ -1,8 +1,8 @@
-# SCHEMA #
+# Schema #
 Schema is the structure of tables in Dena platform. With schema, developers can get table structure ,add/remove columns and define constrains on columns.  
 
 
-## Create Schema ##
+## Create Table ##
 
 Method: POST  
 URL: /v1/<application-id>/schema/<table-name>
@@ -15,7 +15,7 @@ Body: {None}
 
 
 Response:  
-Number of created schema
+Number of created table
 
 ***Example:***
 
@@ -29,11 +29,11 @@ Response Body:
 
 	{
 	  "timestamp": 1520504910721,
-	  "count": 1
+	  "create_table_count(s)": 1
 	}
 
 
-## GET ALL Schema ##
+## GET ALL Table Schema ##
 Method: GET  
 URL: /v1/<application-id>/schema  
 
@@ -47,7 +47,7 @@ Response
 Return the schema of table
 
 ***Example:***  
-Request URL:https://dena-platform/<application-id>/schema 
+Request URL:https://dena-platform.com/<application-id>/schema 
 
 Request Body:  
 
@@ -128,7 +128,7 @@ Number of deleted schema
 
 
 ***Example:***  
-Request URL:https://dena-platform/<application-id>/{table-name} 
+Request URL:https://dena-platform/<application-id>/schema/{table-name} 
 
 Body:  
 {None}  

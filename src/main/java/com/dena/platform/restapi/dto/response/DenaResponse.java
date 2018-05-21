@@ -17,10 +17,13 @@ public class DenaResponse {
     private Long timestamp;
 
     @JsonProperty("create_object_count(s)")
-    private Long createObjectCount;
+    private Integer createObjectCount;
+
+    @JsonProperty("create_table_count(s)")
+    private Integer createTableCount;
 
     @JsonProperty("update_object_count(s)")
-    private Long updateObjectCount;
+    private Integer updateObjectCount;
 
     @JsonProperty("delete_object_count(s)")
     private Long deleteObjectCount;
@@ -29,7 +32,7 @@ public class DenaResponse {
     private Long deleteRelationCount;
 
     @JsonProperty("found_object_count(s)")
-    private Long foundObjectCount;
+    private Integer foundObjectCount;
 
     @JsonProperty("objects")
     private List<DenaObjectResponse> denaObjectResponseList = new ArrayList<>();
@@ -42,23 +45,31 @@ public class DenaResponse {
         this.timestamp = timestamp;
     }
 
-    public Long getCreateObjectCount() {
+    public Integer getCreateObjectCount() {
         return createObjectCount;
     }
 
-    public void setCreateObjectCount(Long createObjectCount) {
+    public void setCreateObjectCount(Integer createObjectCount) {
         this.createObjectCount = createObjectCount;
+    }
+
+    public Integer getCreateTableCount() {
+        return createTableCount;
+    }
+
+    public void setCreateTableCount(Integer createTableCount) {
+        this.createTableCount = createTableCount;
     }
 
     public void setDenaObjectResponseList(List<DenaObjectResponse> denaObjectResponseList) {
         this.denaObjectResponseList = denaObjectResponseList;
     }
 
-    public Long getUpdateObjectCount() {
+    public Integer getUpdateObjectCount() {
         return updateObjectCount;
     }
 
-    public void setUpdateObjectCount(Long updateObjectCount) {
+    public void setUpdateObjectCount(Integer updateObjectCount) {
         this.updateObjectCount = updateObjectCount;
     }
 
@@ -78,21 +89,16 @@ public class DenaResponse {
         return denaObjectResponseList;
     }
 
-    public void setFoundObjectCount(Long foundObjectCount) {
+    public void setFoundObjectCount(Integer foundObjectCount) {
         this.foundObjectCount = foundObjectCount;
     }
 
+
     public static final class DenaResponseBuilder {
-        private Long timestamp;
-        private Long createObjectCount;
-        private Long updateObjectCount;
-        private Long deleteObjectCount;
-        private Long deleteRelationCount;
-        private Long foundObjectCount;
-        private Long page;
-        private List<DenaObjectResponse> denaObjectResponseList = new ArrayList<>();
+        private DenaResponse denaResponse;
 
         private DenaResponseBuilder() {
+            denaResponse = new DenaResponse();
         }
 
         public static DenaResponseBuilder aDenaResponse() {
@@ -100,62 +106,46 @@ public class DenaResponse {
         }
 
         public DenaResponseBuilder withTimestamp(Long timestamp) {
-            this.timestamp = timestamp;
+            denaResponse.setTimestamp(timestamp);
             return this;
         }
 
-        public DenaResponseBuilder withCreateObjectCount(Integer createObjectCount) {
-            this.createObjectCount = Long.valueOf(createObjectCount);
+        public DenaResponseBuilder withCreateObjectCount(int createObjectCount) {
+            denaResponse.setCreateObjectCount(createObjectCount);
             return this;
         }
 
-        public DenaResponseBuilder withUpdateObjectCount(Integer updateObjectCount) {
-            this.updateObjectCount = Long.valueOf(updateObjectCount);
+        public DenaResponseBuilder withCreateTableCount(int createSchemaCount) {
+            denaResponse.setCreateTableCount(createSchemaCount);
             return this;
         }
 
+        public DenaResponseBuilder withUpdateObjectCount(int updateObjectCount) {
+            denaResponse.setUpdateObjectCount(updateObjectCount);
+            return this;
+        }
 
         public DenaResponseBuilder withDeleteObjectCount(Long deleteObjectCount) {
-            this.deleteObjectCount = deleteObjectCount;
-            return this;
-        }
-
-        public DenaResponseBuilder withDeleteObjectCount(Integer deleteObjectCount) {
-            this.deleteObjectCount = Long.valueOf(deleteObjectCount);
+            denaResponse.setDeleteObjectCount(deleteObjectCount);
             return this;
         }
 
         public DenaResponseBuilder withDeleteRelationCount(Long deleteRelationCount) {
-            this.deleteRelationCount = deleteRelationCount;
-            return this;
-        }
-
-
-        public DenaResponseBuilder withObjectResponseList(List<DenaObjectResponse> denaObjectResponseList) {
-            this.denaObjectResponseList = denaObjectResponseList;
-            return this;
-        }
-
-        public DenaResponseBuilder withPage(long page) {
-            this.page = page;
+            denaResponse.setDeleteRelationCount(deleteRelationCount);
             return this;
         }
 
         public DenaResponseBuilder withFoundObjectCount(int foundObjectCount) {
-            this.foundObjectCount = (long) foundObjectCount;
+            denaResponse.setFoundObjectCount(foundObjectCount);
             return this;
         }
 
+        public DenaResponseBuilder withDenaObjectResponseList(List<DenaObjectResponse> denaObjectResponseList) {
+            denaResponse.setDenaObjectResponseList(denaObjectResponseList);
+            return this;
+        }
 
         public DenaResponse build() {
-            DenaResponse denaResponse = new DenaResponse();
-            denaResponse.setTimestamp(timestamp);
-            denaResponse.setCreateObjectCount(createObjectCount);
-            denaResponse.setUpdateObjectCount(updateObjectCount);
-            denaResponse.setDenaObjectResponseList(denaObjectResponseList);
-            denaResponse.setDeleteObjectCount(deleteObjectCount);
-            denaResponse.setDeleteRelationCount(deleteRelationCount);
-            denaResponse.setFoundObjectCount(foundObjectCount);
             return denaResponse;
         }
     }
