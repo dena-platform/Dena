@@ -15,7 +15,7 @@ public interface TokenService {
      */
     public String generate(String appId, User claimedUser);
 
-    // todo: change this method to isValidate and return boolean
+    // todo: change this method to isValid and return boolean
     /**
      * validate token
      * @param token

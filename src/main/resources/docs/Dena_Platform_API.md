@@ -59,6 +59,7 @@ Request Body:
 	  "table": [
 	    {
 	      "name": "table1",
+		  "record_count":123,
 	      "fields": [
 	        {
 	          "name": "first_name",
@@ -68,7 +69,7 @@ Request Body:
 	          "constrain": "unavailable",
 	          "is_read_only": "unavailable"
 	        },
-	        {
+			{
 	          "name": "last_name",
 	          "data_type": "unavailable",
 	          "default_value": "unavailable",
@@ -86,6 +87,7 @@ Request Body:
 	    },
 	    {
 	      "name": "table2",
+		  "record_count":123,
 	      "fields": [
 	        {
 	          "name": "first_name",

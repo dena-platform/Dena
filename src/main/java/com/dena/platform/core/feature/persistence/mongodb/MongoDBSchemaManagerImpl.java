@@ -1,12 +1,17 @@
 package com.dena.platform.core.feature.persistence.mongodb;
 
 import com.dena.platform.common.exception.ErrorCode;
+import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.persistence.SchemaManager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
+import com.mongodb.Block;
 import com.mongodb.client.MongoDatabase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
@@ -36,5 +41,24 @@ public class MongoDBSchemaManagerImpl implements SchemaManager {
         } catch (Exception ex) {
             throw new DataStoreException("Error in creating schema", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
+    }
+
+    @Override
+    public List<DenaObject> findAllSchema(String appName) {
+        List<DenaObject> result = new ArrayList<>();
+
+        MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
+        mongoDatabase.listCollectionNames()
+                .forEach((Block<? super String>) collectionName -> {
+                    DenaObject denaObject = new DenaObject();
+                    long recordCount = mongoDatabase.getCollection(collectionName).count();
+                    denaObject.addProperty("name", collectionName);
+                    denaObject.addProperty("record_count(s)", recordCount);
+
+                    result.add(denaObject);
+                });
+
+        return result;
+
     }
 }

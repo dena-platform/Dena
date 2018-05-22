@@ -8,20 +8,23 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 public class DenaResponseSerializer extends JsonSerializer<DenaObjectResponse> {
     @Override
-    public void serialize(DenaObjectResponse value, JsonGenerator gen, SerializerProvider serializers) throws IOException, JsonProcessingException {
+    public void serialize(DenaObjectResponse denaObjectResponse, JsonGenerator gen, SerializerProvider serializers) throws IOException, JsonProcessingException {
         gen.writeStartObject();
 
-        gen.writeStringField("object_id", value.getObjectId());
-        gen.writeStringField("object_uri", value.getObjectURI());
-        gen.writeObjectField("update_time", value.getUpdateTime());
-        gen.writeObjectField("create_time", value.getCreateTime());
-        value.getAllFields().forEach(LambdaWrapper.uncheckedBiConsumer(gen::writeObjectField));
+        if (!Objects.isNull(denaObjectResponse.getObjectId())) {
+            gen.writeStringField("object_id", denaObjectResponse.getObjectId());
+            gen.writeStringField("object_uri", denaObjectResponse.getObjectURI());
+            gen.writeObjectField("update_time", denaObjectResponse.getUpdateTime());
+            gen.writeObjectField("create_time", denaObjectResponse.getCreateTime());
+        }
+        denaObjectResponse.getAllFields().forEach(LambdaWrapper.uncheckedBiConsumer(gen::writeObjectField));
 
 
         gen.writeEndObject();
