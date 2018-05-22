@@ -337,6 +337,15 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
     }
 
+    @Override
+    public ResponseEntity handleGetAllSchema() {
+        DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
+        String token = denaRequestContext.getRequest().getHeader("token");
+
+
+
+    }
+
     private List<DenaObjectResponse> createObjectResponse(List<DenaObject> denaObjects) {
         List<DenaObjectResponse> denaObjectResponses = new ArrayList<>();
         denaObjects.forEach(denaObject -> {

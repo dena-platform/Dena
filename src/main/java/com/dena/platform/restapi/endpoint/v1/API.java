@@ -114,5 +114,10 @@ public class API {
         return denaRestProcessor.handleCreateSchema();
     }
 
+    @GetMapping(path = {"/{app-id}/schema"})
+    public ResponseEntity getAllSchema() {
+        return denaRestProcessor.handleGetAllSchema();
+    }
+
 
 }

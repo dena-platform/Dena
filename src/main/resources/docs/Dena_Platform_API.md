@@ -19,7 +19,7 @@ Number of created table
 
 ***Example:***
 
-Request URL:https://dena-platform/<application-id>/schema/table1  
+Request URL:https://dena-platform.com/<application-id>/schema/table1  
 
 Request Body:
 
@@ -28,6 +28,7 @@ Request Body:
 Response Body:
 
 	{
+	  "status":200,	
 	  "timestamp": 1520504910721,
 	  "create_table_count(s)": 1
 	}
@@ -52,6 +53,7 @@ Request URL:https://dena-platform.com/<application-id>/schema
 Request Body:  
 
 	{
+	  "status":200,	
 	  "timestamp": 1520504910721,
 	  "count": 2,
 	  "table": [
