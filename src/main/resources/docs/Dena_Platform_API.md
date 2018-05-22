@@ -59,60 +59,12 @@ Request Body:
 	  "table": [
 	    {
 	      "name": "table1",
-		  "record_count":123,
-	      "fields": [
-	        {
-	          "name": "first_name",
-	          "data_type": "unavailable",
-	          "default_value": "unavailable",
-	          "is_identity": "unavailable",
-	          "constrain": "unavailable",
-	          "is_read_only": "unavailable"
-	        },
-			{
-	          "name": "last_name",
-	          "data_type": "unavailable",
-	          "default_value": "unavailable",
-	          "is_identity": "unavailable",
-	          "constrain": "unavailable"
-	        },
-	        {
-	          "name": "id_number",
-	          "data_type": "unavailable",
-	          "default_value": "unavailable",
-	          "is_identity": "unavailable",
-	          "constrain": "unavailable"
-	        }
-	      ]
+		  "record_count":123
 	    },
 	    {
 	      "name": "table2",
-		  "record_count":123,
-	      "fields": [
-	        {
-	          "name": "first_name",
-	          "data_type": "unavailable",
-	          "default_value": "unavailable",
-	          "is_identity": "unavailable",
-	          "constrain": "unavailable",
-	          "is_read_only": "unavailable"
-	        },
-	        {
-	          "name": "last_name",
-	          "data_type": "unavailable",
-	          "default_value": "unavailable",
-	          "is_identity": "unavailable",
-	          "constrain": "unavailable"
-	        },
-	        {
-	          "name": "id_number",
-	          "data_type": "unavailable",
-	          "default_value": "unavailable",
-	          "is_identity": "unavailable",
-	          "constrain": "unavailable"
-	        }
-	      ]
-	    },
+		  "record_count":123
+	    }
 	  ]
 	}
 

@@ -37,6 +37,9 @@ public class DenaResponse {
     @JsonProperty("found_object_count(s)")
     private Integer foundObjectCount;
 
+    @JsonProperty("found_table_count(s)")
+    private Integer foundTableCount;
+
     @JsonProperty("objects")
     private List<DenaObjectResponse> denaObjectResponseList = new ArrayList<>();
 
@@ -96,6 +99,14 @@ public class DenaResponse {
         this.foundObjectCount = foundObjectCount;
     }
 
+    public Integer getFoundTableCount() {
+        return foundTableCount;
+    }
+
+    public void setFoundTableCount(Integer foundTableCount) {
+        this.foundTableCount = foundTableCount;
+    }
+
     public Integer getHttpStatusCode() {
         return httpStatusCode;
     }
@@ -148,6 +159,12 @@ public class DenaResponse {
         public DenaResponseBuilder withFoundObjectCount(int foundObjectCount) {
             denaResponse.setFoundObjectCount(foundObjectCount);
             return this;
+        }
+
+        public DenaResponseBuilder withFoundTableCount(int foundTableCount) {
+            denaResponse.setFoundTableCount(foundTableCount);
+            return this;
+
         }
 
         public DenaResponseBuilder withDenaObjectResponseList(List<DenaObjectResponse> denaObjectResponseList) {

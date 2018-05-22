@@ -201,7 +201,8 @@ public class RestProcessorImpl implements DenaRestProcessor {
             }
             // find related objects
             else {
-                foundDenaObject = denaDataStore.findRelatedObject(appId, parentTypeName, objectId, relationName, constructPager());
+                foundDenaObject = denaDataStore.findRelatedObject(appId, parentTypeName, objectId,
+                        relationName, constructPager());
             }
 
             if (CollectionUtils.isNotEmpty(foundDenaObject)) {
@@ -345,7 +346,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             List<DenaObject> denaObjectList = schemaManager.findAllSchema(appId);
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
                     .withHttpStatusCode(200)
-                    .withFoundObjectCount(denaObjectList.size())
+                    .withFoundTableCount(denaObjectList.size())
                     .withDenaObjectResponseList(createObjectResponse(denaObjectList))
                     .withTimestamp(DenaObjectUtils.timeStamp())
                     .build();
