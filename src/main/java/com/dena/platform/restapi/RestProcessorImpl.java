@@ -326,6 +326,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         try {
             int schemaCount = schemaManager.createSchema(appId, tableName);
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
+                    .withHttpStatusCode(200)
                     .withCreateTableCount(schemaCount)
                     .withTimestamp(DenaObjectUtils.timeStamp())
                     .build();

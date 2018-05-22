@@ -13,6 +13,9 @@ import java.util.List;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class DenaResponse {
+    @JsonProperty("status")
+    private Integer httpStatusCode;
+
     @JsonProperty("timestamp")
     private Long timestamp;
 
@@ -93,6 +96,13 @@ public class DenaResponse {
         this.foundObjectCount = foundObjectCount;
     }
 
+    public Integer getHttpStatusCode() {
+        return httpStatusCode;
+    }
+
+    public void setHttpStatusCode(Integer httpStatusCode) {
+        this.httpStatusCode = httpStatusCode;
+    }
 
     public static final class DenaResponseBuilder {
         private DenaResponse denaResponse;
@@ -144,6 +154,12 @@ public class DenaResponse {
             denaResponse.setDenaObjectResponseList(denaObjectResponseList);
             return this;
         }
+
+        public DenaResponseBuilder withHttpStatusCode(int httpStatusCode) {
+            denaResponse.setHttpStatusCode(httpStatusCode);
+            return this;
+        }
+
 
         public DenaResponse build() {
             return denaResponse;
