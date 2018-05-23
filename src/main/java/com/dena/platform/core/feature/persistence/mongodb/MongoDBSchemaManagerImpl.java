@@ -65,9 +65,10 @@ public class MongoDBSchemaManagerImpl implements SchemaManager {
     public int deleteSchema(String appName, String schemaName) {
         final int deletedSchemaCount = 1;
         MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
-
+        log.info("Deleting schema [{}]", schemaName);
         try {
             mongoDatabase.getCollection(schemaName).drop();
+            log.info("Schema [{}] deleted successfully", schemaName);
             return deletedSchemaCount;
         } catch (DataStoreException ex) {
             throw ex;
