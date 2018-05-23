@@ -59,6 +59,21 @@ public class MongoDBSchemaManagerImpl implements SchemaManager {
                 });
 
         return result;
+    }
+
+    @Override
+    public int deleteSchema(String appName, String schemaName) {
+        final int deletedSchemaCount = 1;
+        MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
+
+        try {
+            mongoDatabase.getCollection(schemaName).drop();
+            return deletedSchemaCount;
+        } catch (DataStoreException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new DataStoreException("Error in creating schema", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
+        }
 
     }
 }

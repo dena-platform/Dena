@@ -56,7 +56,7 @@ Request Body:
 	  "status":200,	
 	  "timestamp": 1520504910721,
 	  "count": 2,
-	  "table": [
+	  "objects": [
 	    {
 	      "name": "table1",
 		  "record_count":123

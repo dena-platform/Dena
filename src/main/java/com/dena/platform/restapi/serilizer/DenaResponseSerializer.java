@@ -18,6 +18,7 @@ public class DenaResponseSerializer extends JsonSerializer<DenaObjectResponse> {
     public void serialize(DenaObjectResponse denaObjectResponse, JsonGenerator gen, SerializerProvider serializers) throws IOException, JsonProcessingException {
         gen.writeStartObject();
 
+        // todo:
         if (!Objects.isNull(denaObjectResponse.getObjectId())) {
             gen.writeStringField("object_id", denaObjectResponse.getObjectId());
             gen.writeStringField("object_uri", denaObjectResponse.getObjectURI());

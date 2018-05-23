@@ -12,4 +12,6 @@ public interface SchemaManager {
 
     List<DenaObject> findAllSchema(String appName);
 
+    int deleteSchema(String appName, String schemaName);
+
 }

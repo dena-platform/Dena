@@ -342,6 +342,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     public ResponseEntity handleGetAllSchema() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
         String appId = denaRequestContext.getPathVariable(APP_ID);
+
         try {
             List<DenaObject> denaObjectList = schemaManager.findAllSchema(appId);
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
@@ -356,6 +357,26 @@ public class RestProcessorImpl implements DenaRestProcessor {
             throw DenaRestException.buildException(ex);
         }
 
+    }
+
+    @Override
+    public ResponseEntity handleDeleteSchema() {
+        DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
+        String appId = denaRequestContext.getPathVariable(APP_ID);
+        String tableName = denaRequestContext.getPathVariable(TABLE_NAME);
+
+        try {
+            int deleteSchemaCount = schemaManager.deleteSchema(appId, tableName);
+            DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
+                    .withHttpStatusCode(200)
+                    .withDeleteTableCount(deleteSchemaCount)
+                    .withTimestamp(DenaObjectUtils.timeStamp())
+                    .build();
+            return ResponseEntity.ok().body(denaResponse);
+
+        } catch (DenaException ex) {
+            throw DenaRestException.buildException(ex);
+        }
 
     }
 

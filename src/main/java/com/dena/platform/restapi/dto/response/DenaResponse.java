@@ -31,6 +31,9 @@ public class DenaResponse {
     @JsonProperty("delete_object_count(s)")
     private Long deleteObjectCount;
 
+    @JsonProperty("delete_table_count(s)")
+    private Integer deleteTableCount;
+
     @JsonProperty("delete_relation_count(s)")
     private Long deleteRelationCount;
 
@@ -115,6 +118,14 @@ public class DenaResponse {
         this.httpStatusCode = httpStatusCode;
     }
 
+    public Integer getDeleteTableCount() {
+        return deleteTableCount;
+    }
+
+    public void setDeleteTableCount(Integer deleteTableCount) {
+        this.deleteTableCount = deleteTableCount;
+    }
+
     public static final class DenaResponseBuilder {
         private DenaResponse denaResponse;
 
@@ -166,6 +177,13 @@ public class DenaResponse {
             return this;
 
         }
+
+        public DenaResponseBuilder withDeleteTableCount(int deleteTableCount) {
+            denaResponse.setDeleteTableCount(deleteTableCount);
+            return this;
+
+        }
+
 
         public DenaResponseBuilder withDenaObjectResponseList(List<DenaObjectResponse> denaObjectResponseList) {
             denaResponse.setDenaObjectResponseList(denaObjectResponseList);

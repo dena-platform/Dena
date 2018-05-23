@@ -119,5 +119,10 @@ public class API {
         return denaRestProcessor.handleGetAllSchema();
     }
 
+    @DeleteMapping(path = {"/{app-id}/schema/{table-name}"})
+    public ResponseEntity deleteSchema() {
+        return denaRestProcessor.handleDeleteSchema();
+    }
+
 
 }
