@@ -28,6 +28,8 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         requestObject.setObjectId(objectId1);
         requestObject.addProperty("job", "new job");
         requestObject.addProperty("new field", "new value");
+        requestObject.addProperty("actor_user", user.getEmail());
+
 
         TestDenaRelationDTO testDenaRelationDTO = TestDenaRelationDTO.TestDenaRelationDTOBuilder.aTestDenaRelationDTO()
                 .withRelationName("test_relation")
@@ -72,6 +74,8 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         requestObject1.setObjectId(objectId1);
         requestObject1.addProperty("job", "new job");
         requestObject1.addProperty("new field", "new value");
+        requestObject1.addProperty("actor_user", user.getEmail());
+
 
         TestDenaRelationDTO testDenaRelationDTO = TestDenaRelationDTO.TestDenaRelationDTOBuilder.aTestDenaRelationDTO()
                 .withRelationName("test_relation")
@@ -86,6 +90,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         requestObject2.setObjectId(objectId2);
         requestObject2.addProperty("job", "new job 2");
         requestObject2.addProperty("new field", "new value");
+        requestObject2.addProperty("actor_user", user.getEmail());
 
 
         TestDenaResponseDTO actualReturnObject = performUpdateObject(createJSONFromObject(Arrays.asList(requestObject1, requestObject2)), TestDenaResponseDTO.class);
@@ -159,6 +164,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         requestObject.setObjectId(invalidObjectId);
         requestObject.addProperty("job", "new developer value");
         requestObject.addProperty("new field", "new value");
+        requestObject.addProperty("actor_user", user.getEmail());
         TestDenaRelationDTO testDenaRelationDTO = TestDenaRelationDTO.TestDenaRelationDTOBuilder.aTestDenaRelationDTO()
                 .withRelationName("test_relation")
                 .withRelationType("ONE-TO-ONE")
@@ -176,7 +182,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "2002";
-        expectedReturnObject.messages = Collections.singletonList("object_id is invalid");
+        expectedReturnObject.messages = Collections.singletonList("Object_id is invalid");
 
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
     }
@@ -191,6 +197,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         requestObject.setObjectId(notExistObjectId);
         requestObject.addProperty("job", "new developer value");
         requestObject.addProperty("new field", "new value");
+        requestObject.addProperty("actor_user", user.getEmail());
 
         TestDenaRelationDTO testDenaRelationDTO = TestDenaRelationDTO.TestDenaRelationDTOBuilder.aTestDenaRelationDTO()
                 .withRelationName("test_relation")
@@ -208,7 +215,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "2003";
-        expectedReturnObject.messages = Collections.singletonList("object_id not found");
+        expectedReturnObject.messages = Collections.singletonList("Object_id not found");
 
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
     }
@@ -222,6 +229,8 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         requestObject.setObjectId(objectId3);
         requestObject.addProperty("job", "new developer value");
         requestObject.addProperty("new field", "new value");
+        requestObject.addProperty("actor_user", user.getEmail());
+
         TestDenaRelationDTO testDenaRelationDTO = TestDenaRelationDTO.TestDenaRelationDTOBuilder.aTestDenaRelationDTO()
                 .withRelationName("test_relation")
                 .withRelationType("ONE-TO-ONE")
@@ -238,7 +247,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "2001";
-        expectedReturnObject.messages = Collections.singletonList("relation(s) is invalid");
+        expectedReturnObject.messages = Collections.singletonList("Relation(s) is invalid");
 
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
     }

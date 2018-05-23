@@ -97,11 +97,12 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String requestBody = denaRequestContext.getRequestBody();
         String appTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String appName = denaRequestContext.getPathVariable(APP_ID);
-        String userName = denaRequestContext.getPathVariable(USER_NAME);
 
-        User user = denaUserManagement.getUserById(appName, userName);
+
 
         List<DenaObject> denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
+        String userName = denaObjects.get(0).getActorUsername();//TODO
+        User user = denaUserManagement.getUserById(appName, userName);
 
         try {
             List<DenaObject> returnObject = denaDataStore.update(appName, appTypeName, denaObjects.toArray(new DenaObject[0]));
@@ -158,7 +159,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String appId = denaRequestContext.getPathVariable(APP_ID);
         String typeName = denaRequestContext.getPathVariable(TYPE_NAME);
         String[] objectIds = denaRequestContext.getPathVariable(OBJECT_ID).split(",");
-        String userName = denaRequestContext.getParameter(USER_NAME);
+        String userName = denaRequestContext.getPathVariable(USER_NAME);
 
         User user = denaUserManagement.getUserById(appId, userName);
 

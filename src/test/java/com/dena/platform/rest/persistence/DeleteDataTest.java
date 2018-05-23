@@ -25,7 +25,8 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Send Delete Objects Request
         /////////////////////////////////////////////
-        TestDenaResponseDTO actualReturnObject = performDeleteRequest(Arrays.asList(objectId1, objectId2, objectId3), 200, TestDenaResponseDTO.class);
+        TestDenaResponseDTO actualReturnObject = performDeleteRequest(Arrays.asList(objectId1, objectId2, objectId3),
+                user.getEmail(), 200, TestDenaResponseDTO.class);
 
         /////////////////////////////////////////////
         //            Assert Deleted Object
@@ -47,12 +48,13 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         //            Send Delete Object Request - Invalid object id format
         /////////////////////////////////////////////////////////////////////////
         String invalidObjectId = "5a1bd6176f";
-        TestErrorResponseDTO actualReturnObject = performDeleteRequest(Collections.singletonList(invalidObjectId), 400, TestErrorResponseDTO.class);
+        TestErrorResponseDTO actualReturnObject = performDeleteRequest(Collections.singletonList(invalidObjectId),
+                user.getEmail(), 400, TestErrorResponseDTO.class);
 
         TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "2002";
-        expectedReturnObject.messages = Collections.singletonList("object_id is invalid");
+        expectedReturnObject.messages = Collections.singletonList("Object_id is invalid");
 
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
     }
@@ -63,7 +65,8 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         //            Send Delete Object Request - object id not exist
         //////////////////////////////////////////////////////////////////
 
-        TestDenaResponseDTO actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId), 200, TestDenaResponseDTO.class);
+        TestDenaResponseDTO actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId),
+                user.getEmail(), 200, TestDenaResponseDTO.class);
 
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.timestamp = actualReturnObject.timestamp;
@@ -79,7 +82,8 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         //////////////////////////////////////////////////////////////////
         //            Send Delete Object Request - app id not exist
         //////////////////////////////////////////////////////////////////
-        TestDenaResponseDTO actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId), "/v1/invalid_app_id/denaTestCollection/", 200, TestDenaResponseDTO.class);
+        TestDenaResponseDTO actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId),
+                user.getEmail(), "/v1/invalid_app_id/denaTestCollection/", 200, TestDenaResponseDTO.class);
 
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.timestamp = (actualReturnObject.timestamp);
@@ -142,7 +146,7 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "2002";
-        expectedReturnObject.messages = Arrays.asList("object_id is invalid");
+        expectedReturnObject.messages = Arrays.asList("Object_id is invalid");
 
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 

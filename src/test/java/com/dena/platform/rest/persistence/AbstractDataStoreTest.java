@@ -1,5 +1,8 @@
 package com.dena.platform.rest.persistence;
 
+import com.dena.platform.core.feature.user.domain.User;
+import com.dena.platform.core.feature.user.service.DenaUserManagement;
+import com.dena.platform.rest.dto.ObjectModelHelper;
 import com.dena.platform.rest.dto.TestDenaResponseDTO;
 import com.dena.platform.utils.CommonConfig;
 import com.mongodb.MongoClient;
@@ -15,8 +18,12 @@ import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.test.web.servlet.MockMvc;
@@ -41,6 +48,7 @@ import static com.dena.platform.utils.JSONMapper.createObjectFromJSON;
 @AutoConfigureMockMvc
 @RunWith(JUnitParamsRunner.class)
 @SpringBootTest
+@ActiveProfiles("noauth")
 public class AbstractDataStoreTest {
     protected final String objectId1 = "5a316b1b4e5f450104c31909";
     protected final String objectId2 = "5a1bd6176f017921441d4a50";
@@ -56,6 +64,8 @@ public class AbstractDataStoreTest {
 
     protected final String randomObjectId = ObjectId.get().toHexString();
 
+    protected User user = ObjectModelHelper.getSampleUser();
+
 
     // for parametrize test runner
     @ClassRule
@@ -70,9 +80,11 @@ public class AbstractDataStoreTest {
     @Resource
     protected MongoClient mongoClient;
 
+    @Resource
+    private DenaUserManagement userManagement;
+
     @Before
     public void setup() {
-
 
         //////////////////////////////////////////////////////
         //       Initialize database
@@ -162,6 +174,7 @@ public class AbstractDataStoreTest {
                         document9, document10, document11
                 ));
 
+        userManagement.registerUser(CommonConfig.APP_ID, this.user);
     }
 
     /////////////////////////////////////////////
@@ -212,13 +225,13 @@ public class AbstractDataStoreTest {
         return createObjectFromJSON(returnContent, TestDenaResponseDTO.class);
     }
 
-    protected <T> T performDeleteRequest(List<String> objectList, int status, Class<T> klass) throws Exception {
-        return performDeleteRequest(objectList, CommonConfig.BASE_URL + "/", status, klass);
+    protected <T> T performDeleteRequest(List<String> objectList, String username, int status, Class<T> klass) throws Exception {
+        return performDeleteRequest(objectList, username, CommonConfig.BASE_URL + "/", status, klass);
     }
 
-    protected <T> T performDeleteRequest(List<String> objectList, String urlRequest, int status, Class<T> klass) throws Exception {
+    protected <T> T performDeleteRequest(List<String> objectList, String username, String urlRequest, int status, Class<T> klass) throws Exception {
         String objectIds = String.join(",", objectList);
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(urlRequest + objectIds))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(urlRequest + objectIds + "/" + username))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is(status))
                 .andReturn();
