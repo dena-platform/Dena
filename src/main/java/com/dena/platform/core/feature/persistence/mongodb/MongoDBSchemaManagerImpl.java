@@ -63,13 +63,16 @@ public class MongoDBSchemaManagerImpl implements SchemaManager {
 
     @Override
     public int deleteSchema(String appName, String schemaName) {
-        final int deletedSchemaCount = 1;
         MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
         log.info("Deleting schema [{}]", schemaName);
         try {
+            if (!MongoDBUtils.isSchemaExist(mongoDatabase, schemaName)) {
+                log.warn("Schema [{}] not found", schemaName);
+                return 0;
+            }
             mongoDatabase.getCollection(schemaName).drop();
             log.info("Schema [{}] deleted successfully", schemaName);
-            return deletedSchemaCount;
+            return 1;
         } catch (DataStoreException ex) {
             throw ex;
         } catch (Exception ex) {
