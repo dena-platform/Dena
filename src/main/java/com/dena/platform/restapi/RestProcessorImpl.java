@@ -27,6 +27,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -210,12 +211,14 @@ public class RestProcessorImpl implements DenaRestProcessor {
                         .withFoundObjectCount(foundDenaObject.size())
                         .withDenaObjectResponseList(createObjectResponse(foundDenaObject))
                         .withTimestamp(DenaObjectUtils.timeStamp())
+                        .withHttpStatusCode(HttpStatus.OK.value())
                         .build();
 
             } else {
                 denaResponse = DenaResponseBuilder.aDenaResponse()
                         .withFoundObjectCount(foundDenaObject.size())
                         .withTimestamp(DenaObjectUtils.timeStamp())
+                        .withHttpStatusCode(HttpStatus.OK.value())
                         .build();
 
             }

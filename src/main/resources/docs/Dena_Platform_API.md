@@ -549,8 +549,7 @@ By default when you get an object from Dena platform, related objects not includ
 2. Find objects in table
 3. Find objects for relation
 
-**Find object By Id**
-
+**Find object By Id**  
 This API provides the functionality that retrieve specified object in table.
 
 
@@ -581,10 +580,9 @@ Response Body:
 
 
 
-**Find All Objects In Table**
+**Find All Objects In Table**  
 This API provides the functionality that retrieve all object of specified table data.
-
-
+  
 Method: GET
 
 URL: /v1/<application-id>/<table-name>?startIndex=45&pageSize=6
