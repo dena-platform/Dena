@@ -101,6 +101,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
                     .withDenaObjectResponseList(createObjectResponse(returnObject))
                     .withUpdateObjectCount(returnObject.size())
                     .withTimestamp(DenaObjectUtils.timeStamp())
+                    .withHttpStatusCode(HttpStatus.OK.value())
                     .build();
             return ResponseEntity.ok().body(response);
         } catch (DataStoreException ex) {

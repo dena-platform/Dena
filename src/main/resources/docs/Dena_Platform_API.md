@@ -354,6 +354,7 @@ Response Body:
 
     {
         "timestamp": 1521095130350,
+        "status":200,
         "update_object_count": 1,
         "objects": [
             {
