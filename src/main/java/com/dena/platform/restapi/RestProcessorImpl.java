@@ -106,7 +106,6 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String appName = denaRequestContext.getPathVariable(APP_ID);
 
 
-
         List<DenaObject> denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
         String userName = denaObjects.get(0).getActorUsername();//TODO
         User user = denaUserManagement.getUserById(appName, userName);
@@ -188,7 +187,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
             search.deleteIndexByIds(appId, user, objectIds);
 
-            long deleteCount = denaDataStore.delete(appId, typeName, objectIds);
+            long deleteCount = denaDataStore.delete(appId, tableName, objectIds);
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
                     .withDeleteObjectCount(deleteCount)
                     .withTimestamp(DenaObjectUtils.timeStamp())
@@ -414,7 +413,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String appId = denaRequestContext.getPathVariable(APP_ID);
         String queryString = denaRequestContext.getPathVariable(QUERY_STRING);
         String userId = denaRequestContext.getPathVariable(USER_NAME);
-        String appTypeName = denaRequestContext.getPathVariable(TYPE_NAME);
+        String appTypeName = denaRequestContext.getPathVariable(TABLE_NAME);
         List<DenaObject> foundDenaObject;
         DenaResponse denaResponse;
 
@@ -425,7 +424,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             if (CollectionUtils.isNotEmpty(foundDenaObject)) {
                 denaResponse = DenaResponseBuilder.aDenaResponse()
                         .withFoundObjectCount(foundDenaObject.size())
-                        .withObjectResponseList(createObjectResponse(foundDenaObject))
+                        .withDenaObjectResponseList(createObjectResponse(foundDenaObject))
                         .withTimestamp(DenaObjectUtils.timeStamp())
                         .build();
 
