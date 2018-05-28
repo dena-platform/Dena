@@ -148,7 +148,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
 
         String appId = denaRequestContext.getPathVariable(APP_ID);
-        String typeName = denaRequestContext.getPathVariable(TABLE_NAME);
+        String tableName = denaRequestContext.getPathVariable(TABLE_NAME);
         String[] objectIds = denaRequestContext.getPathVariable(OBJECT_ID).split(",");
 
 
@@ -161,12 +161,12 @@ public class RestProcessorImpl implements DenaRestProcessor {
                 log.warn("app id is empty");
                 throw new ParameterInvalidException("app id is empty", ErrorCode.INVALID_REQUEST);
             }
-            if (StringUtils.isEmpty(typeName)) {
+            if (StringUtils.isEmpty(tableName)) {
                 log.warn("type name is empty");
                 throw new ParameterInvalidException("type name is empty", ErrorCode.INVALID_REQUEST);
             }
 
-            long deleteCount = denaDataStore.delete(appId, typeName, objectIds);
+            long deleteCount = denaDataStore.delete(appId, tableName, objectIds);
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
                     .withDeleteObjectCount(deleteCount)
                     .withTimestamp(DenaObjectUtils.timeStamp())
@@ -182,8 +182,8 @@ public class RestProcessorImpl implements DenaRestProcessor {
     public ResponseEntity handleFindObject() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
 
-        String parentTypeName = denaRequestContext.getPathVariable(TABLE_NAME);
         String appId = denaRequestContext.getPathVariable(APP_ID);
+        String parentTableName = denaRequestContext.getPathVariable(TABLE_NAME);
         String objectId = denaRequestContext.getPathVariable(OBJECT_ID);
         String relationName = denaRequestContext.getPathVariable(RELATION_NAME);
         List<DenaObject> foundDenaObject;
@@ -195,16 +195,16 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
                 if (StringUtils.isBlank(objectId)) {
                     // find all object in table
-                    foundDenaObject = denaDataStore.findAll(appId, parentTypeName, constructPager());
+                    foundDenaObject = denaDataStore.findAll(appId, parentTableName, constructPager());
                 } else {
                     // find single object by id
-                    foundDenaObject = denaDataStore.find(appId, parentTypeName, objectId);
+                    foundDenaObject = denaDataStore.find(appId, parentTableName, objectId);
                 }
 
             }
             // find related objects
             else {
-                foundDenaObject = denaDataStore.findRelatedObject(appId, parentTypeName, objectId,
+                foundDenaObject = denaDataStore.findRelatedObject(appId, parentTableName, objectId,
                         relationName, constructPager());
             }
 
