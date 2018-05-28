@@ -54,6 +54,16 @@ public class MongoDBUtils {
 
     }
 
+
+    public static void createSchema(MongoDatabase mongoDatabase, String schemaName) {
+        Assert.hasLength(schemaName, "Schema name should not be empty");
+        mongoDatabase.createCollection(schemaName);
+    }
+
+
+    /////////////////////////////////////////////
+    //           CRUD API
+    /////////////////////////////////////////////
     public static void createDocuments(MongoDatabase mongoDatabase, String collectionName, BsonDocument... bsonDocuments) {
         Assert.hasLength(collectionName, "Collection should not be empty");
         Assert.notEmpty(bsonDocuments, "Documents should not be empty");
@@ -201,7 +211,7 @@ public class MongoDBUtils {
      * @param collectionName Name of collection that we wand search for
      * @return
      */
-    public static boolean isCollectionExist(final MongoDatabase mongoDatabase, final String collectionName) {
+    public static boolean isSchemaExist(final MongoDatabase mongoDatabase, final String collectionName) {
         List<String> collectionList = mongoDatabase.listCollectionNames().into(new ArrayList<>());
         return collectionList.contains(collectionName);
     }
