@@ -125,7 +125,7 @@ Request Body:
 
     {
       "name": "javad",
-      "job": "developer",
+      "job": "developer"
     }
 
 
