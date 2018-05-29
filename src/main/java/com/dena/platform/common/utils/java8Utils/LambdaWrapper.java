@@ -19,7 +19,7 @@ public class LambdaWrapper {
     }
 
     /**
-     * Create an {@link UncheckedBiConsumer} instance
+     * Create an {@link UncheckedBiConsumer} instance.
      * @param uncheckedBiConsumer
      * @param <T>
      * @param <E>
