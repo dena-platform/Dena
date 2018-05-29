@@ -1,6 +1,5 @@
 package com.dena.platform.rest.user;
 
-import com.dena.platform.core.feature.security.SecurityUtil;
 import com.dena.platform.rest.dto.TestDenaResponseDTO;
 import com.dena.platform.rest.dto.TestErrorResponseDTO;
 import com.dena.platform.rest.dto.TestObjectResponseDTO;
