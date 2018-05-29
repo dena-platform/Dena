@@ -19,9 +19,17 @@ public interface DenaRestProcessor {
 
     ResponseEntity handleRegisterUser();
 
+    ResponseEntity handleGetAllSchema();
+
+    ResponseEntity handleDeleteSchema();
+
     ResponseEntity login();
 
     ResponseEntity logout();
 
     ResponseEntity handleRegisterApplication();
+
+    ResponseEntity handleCreateSchema();
+
+    ResponseEntity handleSearch();
 }

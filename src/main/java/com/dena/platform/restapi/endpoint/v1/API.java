@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = API.API_PATH, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 public class API {
@@ -29,7 +30,7 @@ public class API {
      *
      * @return number of created objects
      */
-    @PostMapping(path = "/{app-id}/{type-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(path = "/{app-id}/{table-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity createObjects() {
         return denaRestProcessor.handleCreateObject();
     }
@@ -41,7 +42,7 @@ public class API {
      * @return number of updated objects
      */
 
-    @PutMapping(path = "/{app-id}/{type-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(path = "/{app-id}/{table-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity updateObjects() {
         return denaRestProcessor.handleUpdateObject();
     }
@@ -51,7 +52,7 @@ public class API {
      *
      * @return
      */
-    @DeleteMapping(path = "/{app-id}/{type-name}/{object-id}")
+    @DeleteMapping(path = "/{app-id}/{type-name}/{object-id}/{user-name:.+}")
     public ResponseEntity deleteObjects() {
         return denaRestProcessor.handleDeleteObject();
 
@@ -63,8 +64,8 @@ public class API {
      * @return
      */
     @DeleteMapping(path = {
-            "/{app-id}/{type-name}/{object-id}/relation/{type-name-2}/{object-id-2}",
-            "/{app-id}/{type-name}/{object-id}/relation/{type-name-2}"})
+            "/{app-id}/{type-name}/{object-id}/relation/{table-name-2}/{object-id-2}",
+            "/{app-id}/{type-name}/{object-id}/relation/{table-name-2}"})
     public ResponseEntity deleteRelationWithObjectId() {
         return denaRestProcessor.handleDeleteRelation();
     }
@@ -75,12 +76,22 @@ public class API {
      * @return
      */
     @GetMapping(path = {
-            "/{app-id}/{type-name}/{object-id}",
-            "/{app-id}/{type-name}",
-            "/{app-id}/{type-name}/{object-id}/relation/{relation-name}"})
+            "/{app-id}/{table-name}/{object-id}",
+            "/{app-id}/{table-name}",
+            "/{app-id}/{table-name}/{object-id}/relation/{relation-name}"})
     public ResponseEntity findObject() {
         return denaRestProcessor.handleFindObject();
 
+    }
+
+    /**
+     * Search object by a text based search tools
+     *
+     * @return list of DenaObjects
+     */
+    @GetMapping(path = {"/{app-id}/{type-name}/{user-name}/search/{query-string}"})
+    public ResponseEntity searchObject() {
+        return denaRestProcessor.handleSearch();
     }
 
     /////////////////////////////////////////////
@@ -103,6 +114,24 @@ public class API {
     @PostMapping(path = {"/app/register"}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity registerApp() {
         return denaRestProcessor.handleRegisterApplication();
+    }
+
+    /////////////////////////////////////////////
+    //            Schema Management API
+    /////////////////////////////////////////////
+    @PostMapping(path = {"/{app-id}/schema/{table-name}"})
+    public ResponseEntity createSchema() {
+        return denaRestProcessor.handleCreateSchema();
+    }
+
+    @GetMapping(path = {"/{app-id}/schema"})
+    public ResponseEntity getAllSchema() {
+        return denaRestProcessor.handleGetAllSchema();
+    }
+
+    @DeleteMapping(path = {"/{app-id}/schema/{table-name}"})
+    public ResponseEntity deleteSchema() {
+        return denaRestProcessor.handleDeleteSchema();
     }
 
 

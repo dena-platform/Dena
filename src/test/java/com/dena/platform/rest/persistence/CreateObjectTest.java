@@ -30,6 +30,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
         requestObject.addProperty("name", "javad");
         requestObject.addProperty("job", "developer");
+        requestObject.addProperty("actor_user", this.user.getEmail());
 
         TestDenaRelationDTO testDenaRelationDTO = new TestDenaRelationDTO();
         testDenaRelationDTO.setRelationType(RelationType.RELATION_1_TO_1.value);
@@ -76,6 +77,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         TestRequestObjectDTO requestObject1 = new TestRequestObjectDTO();
         requestObject1.addProperty("name", "javad");
         requestObject1.addProperty("job", "developer");
+        requestObject1.addProperty("actor_user", this.user.getEmail());
 
         TestDenaRelationDTO testDenaRelationDTO = new TestDenaRelationDTO();
         testDenaRelationDTO.setRelationType(RelationType.RELATION_1_TO_1.value);
@@ -133,6 +135,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
         requestObject.addProperty("name", "javad");
         requestObject.addProperty("job", "developer");
+        requestObject.addProperty("actor_user", this.user.getEmail());
 
         TestDenaRelationDTO testDenaRelationDTO = new TestDenaRelationDTO();
         testDenaRelationDTO.setRelationType(RelationType.RELATION_1_TO_1.value);

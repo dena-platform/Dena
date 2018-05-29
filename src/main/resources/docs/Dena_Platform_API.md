@@ -1,3 +1,102 @@
+# Schema #
+Schema is the structure of tables in Dena platform. With schema, developers can get table structure ,add/remove columns and define constrains on columns.  
+
+
+## Create Table ##
+
+Method: POST  
+URL: /v1/<application-id>/schema/<table-name>
+
+Headers:  
+token: {user token after login in dena-platform}  
+Content-Type: application/json
+
+Body: {None}
+
+
+Response:  
+Number of created table
+
+***Example:***
+
+Request URL:https://dena-platform.com/<application-id>/schema/table1  
+
+Request Body:
+
+    Empty
+
+Response Body:
+
+	{
+	  "status":200,	
+	  "timestamp": 1520504910721,
+	  "create_table_count(s)": 1
+	}
+
+
+## GET ALL Table Schema ##
+Method: GET  
+URL: /v1/<application-id>/schema  
+
+Headers:  
+token: {user token after login in dena-platform}  
+
+Body:  
+{None}
+
+Response   
+Return the schema of table
+
+***Example:***  
+Request URL:https://dena-platform.com/<application-id>/schema 
+
+Request Body:  
+
+	{
+	  "status":200,	
+	  "timestamp": 1520504910721,
+	  "count": 2,
+	  "objects": [
+	    {
+	      "name": "table1",
+		  "record_count":123
+	    },
+	    {
+	      "name": "table2",
+		  "record_count":123
+	    }
+	  ]
+	}
+
+
+## Delete Schema ##
+Method: DELETE  
+URL: /v1/<application-id>/schema/{table-name}  
+
+Headers:  
+token: {user token after login in dena-platform}  
+
+Body:  
+{None}
+
+Response   
+Number of deleted schema
+
+
+***Example:***  
+Request URL:https://dena-platform/<application-id>/schema/{table-name} 
+
+Body:  
+{None}  
+
+Response:  
+
+	{
+	  "timestamp": 1520504910721,
+	  "count": 1
+	}
+
+
 # Working With Object #
 
 ----------
@@ -9,7 +108,7 @@
 
 Method: POST
 
-URL: /v1/<application-id>/<type-name>
+URL: /v1/<application-id>/<table-name>
 
 Body:
 
@@ -26,7 +125,7 @@ Request Body:
 
     {
       "name": "javad",
-      "job": "developer",
+      "job": "developer"
     }
 
 
@@ -46,13 +145,13 @@ Response Body:
       }
 
 
-**Create Bulk Objects**
+**Create Bulk Objects**  
 This API is same is above with the exception that the request can contain 
 multiple request.
 
 Method: POST
 
-URL: /v1/<application-id>/<type-name>
+URL: /v1/<application-id>/<table-name>
 
 Body:
 
@@ -255,6 +354,7 @@ Response Body:
 
     {
         "timestamp": 1521095130350,
+        "status":200,
         "update_object_count": 1,
         "objects": [
             {
@@ -443,15 +543,14 @@ Response Body:
     }
 
 ----------
-## Find Object##
-By default when you get an object from Dena platform, related objects not included in the response because it may cause load performance on server or client memory.Therefore we should get related object in a separate request.   
+## Find Object ##
+By default when you get an object from Dena platform, related objects not included in the response because it may cause load performance on server or client memory. Therefore we should get related object in a separate request.   
 
 1. Find object by id
 2. Find objects in table
 3. Find objects for relation
 
-**Find object By Id**
-
+**Find object By Id**  
 This API provides the functionality that retrieve specified object in table.
 
 
@@ -482,10 +581,9 @@ Response Body:
 
 
 
-**Find All Objects In Table**
+**Find All Objects In Table**  
 This API provides the functionality that retrieve all object of specified table data.
-
-
+  
 Method: GET
 
 URL: /v1/<application-id>/<table-name>?startIndex=45&pageSize=6

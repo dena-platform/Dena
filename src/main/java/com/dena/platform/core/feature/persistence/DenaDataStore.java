@@ -32,4 +32,6 @@ public interface DenaDataStore {
     List<DenaObject> findAll(String appName, String tableName, DenaPager denaPager);
 
     List<DenaObject> findRelatedObject(String appName, String parentTableName, String parentObjectId, String relationName, DenaPager denaPager);
+
+
 }

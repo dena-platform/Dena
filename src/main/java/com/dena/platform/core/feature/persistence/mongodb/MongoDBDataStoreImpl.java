@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 
-@Service("denaMongoDBDataStoreImpl")
+@Service("denaMongoDBDataStore")
 public class MongoDBDataStoreImpl implements DenaDataStore {
     private final static Logger log = LoggerFactory.getLogger(MongoDBDataStoreImpl.class);
 
@@ -65,7 +65,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 ids.add(objectId.toString());
             }
 
-            MongoDBUtils.createDocuments(mongoDatabase, tableName, bsonDocuments.toArray(new BsonDocument[bsonDocuments.size()]));
+            MongoDBUtils.createDocuments(mongoDatabase, tableName, bsonDocuments.toArray(new BsonDocument[0]));
 
             return new ArrayList<>(find(appName, tableName, ids.toArray(new String[0])));
         } catch (DataStoreException ex) {
@@ -220,10 +220,10 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public List<DenaObject> findRelatedObject(String applicationName, String parentTableName, String parentObjectId, String relationName, DenaPager denaPager) {
+    public List<DenaObject> findRelatedObject(String appName, String parentTableName, String parentObjectId, String relationName, DenaPager denaPager) {
         try {
             checkObjectIdValidity(parentObjectId);
-            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(applicationName);
+            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
             List<BsonDocument> parentDocument = MongoDBUtils.findDocumentById(mongoDatabase, parentTableName, parentObjectId);
 
             if (CollectionUtils.isEmpty(parentDocument)) {
@@ -266,7 +266,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                         .stream()
                         .allMatch(denaRelation -> {
                             // check if target type is exist
-                            boolean isCollectionExist = MongoDBUtils.isCollectionExist(mongoDatabase, denaRelation.getTargetName());
+                            boolean isCollectionExist = MongoDBUtils.isSchemaExist(mongoDatabase, denaRelation.getTargetName());
                             String[] ids = denaRelation.getIds().toArray(new String[0]);
                             boolean isIdsExist = ids.length > 0 &&
                                     (MongoDBUtils.findDocumentById(mongoDatabase, denaRelation.getTargetName(), ids)
