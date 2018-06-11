@@ -37,12 +37,12 @@ public class API {
 
 
     /**
-     * Update object in data store. calling this web service can lead to new field or relation creation
+     * Update (Merge) object in data store. calling this web service can lead to new field or relation creation
      *
      * @return number of updated objects
      */
 
-    @PutMapping(path = "/{app-id}/{table-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PatchMapping(path = "/{app-id}/{table-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity updateObjects() {
         return denaRestProcessor.handleUpdateObject();
     }
