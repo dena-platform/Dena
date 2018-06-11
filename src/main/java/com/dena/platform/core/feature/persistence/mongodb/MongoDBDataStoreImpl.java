@@ -76,7 +76,9 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public List<DenaObject> update(final String appName, final String tableName, DenaObject... denaObjects) {
+    public List<DenaObject> mergeUpdate(final String appName, final String tableName, DenaObject... denaObjects) {
+        log.info("Merging objects [{}]", (Object[]) denaObjects);
+
         MongoDatabase mongoDatabase;
         List<BsonDocument> bsonDocumentList = new ArrayList<>();
 
@@ -104,7 +106,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
                 addFieldsToBsonDocument(bsonDocument, denaObject.getOtherFields());
 
-                // update relation
+                // mergeUpdate relation
                 if (CollectionUtils.isNotEmpty(denaObject.getDenaRelations())) {
                     DenaObject existingDenaObject = find(appName, tableName, objectId.toString()).get(0);
                     List<DenaRelation> existingDenaRelations = existingDenaObject.getDenaRelations();
@@ -153,6 +155,13 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             throw new DataStoreException("Error in updating object(s)", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
 
+    }
+
+    @Override
+    public List<DenaObject> replaceUpdate(String appName, String tableName, DenaObject... denaObjects) {
+        log.info("Updating objects [{}]", (Object[]) denaObjects);
+
+        return null;
     }
 
     @Override
@@ -247,7 +256,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
 
             if (StringUtils.isNotEmpty(parentObject.getObjectId())) {
-                // This is an update operation
+                // This is an mergeUpdate operation
                 // Check if target for relation name matching existing relation name
                 relationList.forEach(denaRelation -> {
                     int indexOfRelation = parentObject.getDenaRelations().indexOf(denaRelation);

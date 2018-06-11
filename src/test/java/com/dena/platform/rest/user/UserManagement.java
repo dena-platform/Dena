@@ -68,7 +68,7 @@ public class UserManagement extends AbstractDataStoreTest {
         // assert timestamp
         assertTrue(isTimeEqualRegardlessOfSecond(expectedReturnObject.timestamp, Instant.now().toEpochMilli()));
         assertTrue(isTimeEqualRegardlessOfSecond(expectedObjectResponse.createTime, Instant.now().toEpochMilli()));
-        assertNull("update time in registering user should be null", expectedObjectResponse.updateTime);
+        assertNull("mergeUpdate time in registering user should be null", expectedObjectResponse.updateTime);
 
         assertNotNull(expectedReturnObject);
 

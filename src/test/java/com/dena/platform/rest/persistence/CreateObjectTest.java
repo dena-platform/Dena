@@ -62,7 +62,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         // assert timestamp
         assertTrue(isTimeEqualRegardlessOfSecond(expectedReturnObject.timestamp, Instant.now().toEpochMilli()));
         assertTrue(isTimeEqualRegardlessOfSecond(expectedObjectResponse.createTime, Instant.now().toEpochMilli()));
-        assertNull("update time in creating object should be null", expectedObjectResponse.updateTime);
+        assertNull("mergeUpdate time in creating object should be null", expectedObjectResponse.updateTime);
 
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
 
@@ -121,7 +121,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         // assert timestamp
         assertTrue(isTimeEqualRegardlessOfSecond(expectedReturnObject.timestamp, Instant.now().toEpochMilli()));
         assertTrue(isTimeEqualRegardlessOfSecond(expectedObjectResponse1.createTime, Instant.now().toEpochMilli()));
-        assertNull("update time in creating object should be null", expectedObjectResponse1.updateTime);
+        assertNull("mergeUpdate time in creating object should be null", expectedObjectResponse1.updateTime);
 
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 

@@ -111,7 +111,12 @@ public class RestProcessorImpl implements DenaRestProcessor {
         User user = denaUserManagement.getUserById(appName, userName);
 
         try {
-            List<DenaObject> returnObject = denaDataStore.update(appName, appTypeName, denaObjects.toArray(new DenaObject[0]));
+            List<DenaObject> returnObject;
+            if (denaRequestContext.isPatchRequest()) {
+                returnObject = denaDataStore.mergeUpdate(appName, appTypeName, denaObjects.toArray(new DenaObject[0]));
+            } else {
+                returnObject = denaDataStore.replaceUpdate(appName, appTypeName, denaObjects.toArray(new DenaObject[0]));
+            }
             // search.updateIndex(appName, appTypeName, user, returnObject.toArray(new DenaObject[0])); // todo : handle user name when security is disabled
 
             DenaResponse response = DenaResponseBuilder.aDenaResponse()
