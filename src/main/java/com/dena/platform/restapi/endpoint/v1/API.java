@@ -49,8 +49,7 @@ public class API {
 
     @PutMapping(path = "/{app-id}/{table-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity replaceUpdateObjects() {
-        //todo: implement me
-        return null;
+        return denaRestProcessor.handleUpdateObject();
     }
 
     /**

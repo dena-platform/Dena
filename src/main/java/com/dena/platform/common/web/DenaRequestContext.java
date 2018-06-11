@@ -60,6 +60,10 @@ public class DenaRequestContext {
         return RequestMethod.DELETE.name().equalsIgnoreCase(request.getMethod());
     }
 
+    public boolean isPatchRequest() {
+        return RequestMethod.PATCH.name().equalsIgnoreCase(request.getMethod());
+    }
+
     public HttpServletRequest getRequest() {
         return request;
     }
