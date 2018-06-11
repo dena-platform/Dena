@@ -364,10 +364,58 @@ Response Body:
         ]
     }
 
+**Update (Replace) One Object**  
+Completely replace object in Dena data-store. remove all previous data and add new object request.
+
+Return: Updated object(s) count.  
+Method: PATCH  
+URL: /v1/<application-id>/<table-name>  
+Headers: Content-Type:application/json  
+Body:  
+{JSON}
+
+***Example:***
+
+Request Body: 
+
+	{
+  		"object_id": "5aa69e99d41a3b2480ec35b0",
+  		"field3": "javad",
+  		"new_field": "new_field_v1",
+  		"related_objects": [
+   	 		{
+   	   		  "relation_name": "comments_rel",
+   	   		  "target_name": "comments",
+   	   		  "ids": [
+   	     	     "5aa9348ed41a3b25b8b49b79"
+   	          ]
+   	 	    }
+  		]
+	}
+
+
+Response Body:
+
+    {
+        "timestamp": 1521095130350,
+        "status":200,
+        "update_object_count": 1,
+        "objects": [
+            {
+                "object_id": "5aaa0ae6ecb1ef188094eed0",
+                "object_uri": "/post/5aaa0ae6ecb1ef188094eed0",
+                "update_time": 1521095130344,
+                "create_time": 1521093350371,
+                "new_field": "new_field_v1",
+                "field3": "javad"                
+            }
+        ]
+    }
+
+
 ----------
 
-**Bulk (Merge) Update Objects**
-
+**Bulk (Merge) Update Objects**  
 if there is a new field or new relation(new type) add to existing fields or relations. if field is exist then update field.
 
 If relation with same type exist then replace with new specified relation. 

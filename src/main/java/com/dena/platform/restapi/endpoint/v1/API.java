@@ -43,8 +43,14 @@ public class API {
      */
 
     @PatchMapping(path = "/{app-id}/{table-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity updateObjects() {
+    public ResponseEntity mergeUpdateObjects() {
         return denaRestProcessor.handleUpdateObject();
+    }
+
+    @PutMapping(path = "/{app-id}/{table-name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity replaceUpdateObjects() {
+        //todo: implement me
+        return null;
     }
 
     /**
