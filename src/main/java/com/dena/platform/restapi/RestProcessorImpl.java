@@ -112,7 +112,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
         try {
             List<DenaObject> returnObject = denaDataStore.update(appName, appTypeName, denaObjects.toArray(new DenaObject[0]));
-            search.updateIndex(appName, appTypeName, user, returnObject.toArray(new DenaObject[0]));
+            // search.updateIndex(appName, appTypeName, user, returnObject.toArray(new DenaObject[0])); // todo : handle user name when security is disabled
 
             DenaResponse response = DenaResponseBuilder.aDenaResponse()
                     .withDenaObjectResponseList(createObjectResponse(returnObject))

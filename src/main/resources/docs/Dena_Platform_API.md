@@ -34,7 +34,7 @@ Response Body:
 	}
 
 
-## GET ALL Table Schema ##
+## GET All Table Schema ##
 Method: GET  
 URL: /v1/<application-id>/schema  
 
@@ -101,7 +101,7 @@ Response:
 
 ----------
 
-## Create Object ##
+## Create Objects ##
 
 **Create Single Object**
 
@@ -306,7 +306,7 @@ Response Body:
 
 ## Updating Objects ##
 
-**Update One Object**
+**Update (Merge) One Object**
 
 - If there is a new field or relation then create it. 
 - if field is exist then update it. 
@@ -316,16 +316,10 @@ Response Body:
  
  
 
-Return: Updated object(s) count.
-
-Method: PUT
-
-URL: /v1/<application-id>/<type-names>
-
-Headers:
-
-Content-Type:application/json
-
+Return: Updated object(s) count.  
+Method: PATCH  
+URL: /v1/<application-id>/<table-name>  
+Headers: Content-Type:application/json  
 Body:
 
 {JSON}
@@ -372,7 +366,7 @@ Response Body:
 
 ----------
 
-**Bulk Update Objects**
+**Bulk (Merge) Update Objects**
 
 if there is a new field or new relation(new type) add to existing fields or relations. if field is exist then update field.
 
@@ -380,7 +374,7 @@ If relation with same type exist then replace with new specified relation.
 
 Return: updated object(s) with only updated fields and relation.
 
-Method: PUT
+Method: PATCH
 
 URL: /v1/<application-id>/<type-names>
 
