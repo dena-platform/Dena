@@ -91,7 +91,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             mongoDatabase = MongoDBUtils.getDataBase(appName);
 
             for (DenaObject denaObject : denaObjects) {
-                checkIfObjectIdIsExist(mongoDatabase, tableName, denaObject.getObjectId());
+                checkIfObjectIdExist(mongoDatabase, tableName, denaObject.getObjectId());
                 checkRelationValidity(mongoDatabase, denaObject, denaObject.getDenaRelations());
             }
 
@@ -160,6 +160,25 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     @Override
     public List<DenaObject> replaceUpdate(String appName, String tableName, DenaObject... denaObjects) {
         log.info("Updating objects [{}]", (Object[]) denaObjects);
+
+        MongoDatabase mongoDatabase;
+        List<BsonDocument> bsonDocumentList = new ArrayList<>();
+
+        if (ArrayUtils.isEmpty(denaObjects)) {
+            log.debug("Object request list is empty");
+            return Collections.emptyList();
+        }
+
+        try {
+            mongoDatabase = MongoDBUtils.getDataBase(appName);
+            for (DenaObject denaObject : denaObjects) {
+                checkIfObjectIdExist(mongoDatabase, tableName, denaObject.getObjectId());
+                checkRelationValidity(mongoDatabase, denaObject, denaObject.getDenaRelations());
+            }
+
+
+        }
+
 
         return null;
     }
@@ -303,7 +322,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
     }
 
-    private void checkIfObjectIdIsExist(MongoDatabase mongoDatabase, String typeName, String objectId) {
+    private void checkIfObjectIdExist(MongoDatabase mongoDatabase, String typeName, String objectId) {
         checkObjectIdValidity(objectId);
 
         boolean isObjectIdExist = CollectionUtils.isNotEmpty(MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId));

@@ -112,7 +112,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
         try {
             List<DenaObject> returnObject;
-            if (denaRequestContext.isPatchRequest()) {
+            if (denaRequestContext.isPatchRequest()) { // is merge update request?
                 returnObject = denaDataStore.mergeUpdate(appName, appTypeName, denaObjects.toArray(new DenaObject[0]));
             } else {
                 returnObject = denaDataStore.replaceUpdate(appName, appTypeName, denaObjects.toArray(new DenaObject[0]));
