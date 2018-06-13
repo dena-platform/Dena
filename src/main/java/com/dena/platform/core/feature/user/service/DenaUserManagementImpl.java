@@ -114,18 +114,18 @@ public class DenaUserManagementImpl implements DenaUserManagement {
                 .findAny();
 
         if (!foundUser.isPresent())
-            throw new UserManagementException(String.format("no user with email %s found for update ", user.getEmail()),
+            throw new UserManagementException(String.format("no user with email %s found for mergeUpdate ", user.getEmail()),
                     ErrorCode.NO_USER_WITH_THIS_EMAIL_FOUND);
 
         DenaObject denaObject = foundUser.get();
 
         denaObject.addProperty(User.EMAIL_FIELD_NAME, user.getEmail());
-//        denaObject.addProperty(User.PASSWORD_FIELD_NAME, user.getPassword());
+//        denaObject.addField(User.PASSWORD_FIELD_NAME, user.getPassword());
         denaObject.addProperty(User.IS_ACTIVE, user.getActive());
         denaObject.addProperty(User.LAST_VALID_TOKEN, user.getLastValidToken());
         denaObject.addFields(user.getOtherFields());
 
-        denaDataStore.update(appId, userInfoTableName, denaObject).get(0);
+        denaDataStore.mergeUpdate(appId, userInfoTableName, denaObject).get(0);
     }
 
 }

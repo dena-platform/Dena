@@ -25,7 +25,8 @@ public class DenaResponseSerializer extends JsonSerializer<DenaObjectResponse> {
             gen.writeObjectField("update_time", denaObjectResponse.getUpdateTime());
             gen.writeObjectField("create_time", denaObjectResponse.getCreateTime());
         }
-        denaObjectResponse.getAllFields().forEach(LambdaWrapper.uncheckedBiConsumer(gen::writeObjectField));
+        denaObjectResponse.getFields().forEach(LambdaWrapper.uncheckedBiConsumer(gen::writeObjectField));
+        gen.writeObjectField("related_objects", denaObjectResponse.getDenaRelation());
 
 
         gen.writeEndObject();

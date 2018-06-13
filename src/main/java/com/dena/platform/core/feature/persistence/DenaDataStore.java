@@ -12,7 +12,9 @@ public interface DenaDataStore {
 
     List<DenaObject> store(String appName, String tableName, DenaObject... denaObjects);
 
-    List<DenaObject> update(String appName, String tableName, DenaObject... denaObjects);
+    List<DenaObject> mergeUpdate(String appName, String tableName, DenaObject... denaObjects);
+
+    List<DenaObject> replaceUpdate(String appName, String tableName, DenaObject... denaObjects);
 
     long delete(String appName, String tableName, String... objectIds);
 

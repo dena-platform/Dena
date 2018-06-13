@@ -18,7 +18,12 @@ public class MockDataStore implements DenaDataStore {
     }
 
     @Override
-    public List<DenaObject> update(String appName, String tableName, DenaObject... denaObjects) {
+    public List<DenaObject> mergeUpdate(String appName, String tableName, DenaObject... denaObjects) {
+        return null;
+    }
+
+    @Override
+    public List<DenaObject> replaceUpdate(String appName, String tableName, DenaObject... denaObjects) {
         return null;
     }
 
