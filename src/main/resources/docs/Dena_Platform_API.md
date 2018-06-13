@@ -365,7 +365,7 @@ Response Body:
     }
 
 **Update (Replace) One Object**  
-Completely replace object in Dena data-store. remove all previous data and add new object request.
+Completely replace object in Dena data-store. remove all previous data and add new requested data .
 
 Return: Updated object(s) count.  
 Method: PATCH  

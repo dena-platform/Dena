@@ -78,7 +78,7 @@ public class MongoDBUtils {
         log.info("Creating document(s) [{}] successfully", bsonDocumentList);
     }
 
-    public static void updateDocument(MongoDatabase mongoDatabase, String collectionName, BsonDocument... bsonDocuments) {
+    public static void mergeUpdateDocument(MongoDatabase mongoDatabase, String collectionName, BsonDocument... bsonDocuments) {
 
         ArrayList<WriteModel<Document>> updates = new ArrayList<>();
         for (BsonDocument bsonDocument : bsonDocuments) {
@@ -94,6 +94,23 @@ public class MongoDBUtils {
 
         log.info("Updates: [{}] document(s)", res.getModifiedCount());
     }
+
+    public static void replaceUpdateDocument(MongoDatabase mongoDatabase, String collectionName, BsonDocument... bsonDocuments) {
+
+        ArrayList<WriteModel<Document>> updates = new ArrayList<>();
+        for (BsonDocument bsonDocument : bsonDocuments) {
+            Bson filter = Filters.eq(ID, bsonDocument.get(ID));
+            ReplaceOneModel<Document> updateOneModel = new ReplaceOneModel<>(filter, convertBsonDocumentToDocument(bsonDocument));
+            updates.add(updateOneModel);
+        }
+
+        BulkWriteResult res = mongoDatabase
+                .getCollection(collectionName)
+                .bulkWrite(updates, new BulkWriteOptions().ordered(true));
+
+        log.info("Updates: [{}] document(s)", res.getModifiedCount());
+    }
+
 
     public static long deleteDocument(MongoDatabase mongoDatabase, String typeName, String... documentIds) {
         List<ObjectId> objectIdList = new LinkedList<>();
@@ -214,6 +231,11 @@ public class MongoDBUtils {
     public static boolean isSchemaExist(final MongoDatabase mongoDatabase, final String collectionName) {
         List<String> collectionList = mongoDatabase.listCollectionNames().into(new ArrayList<>());
         return collectionList.contains(collectionName);
+    }
+
+
+    private static Document convertBsonDocumentToDocument(BsonDocument bsonDocument) {
+        return Document.parse(bsonDocument.toJson());
     }
 
 }
