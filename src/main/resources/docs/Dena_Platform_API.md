@@ -586,7 +586,7 @@ Response Body:
 
 ----------
 ## Find Object ##
-By default when you get an object from Dena platform, related objects not included in the response because it may cause load performance on server or client memory. Therefore we should get related object in a separate request.   
+By default when you get an object from Dena platform, related objects not included in the response because it may cause load performance on server or client memory. Therefore by default we get related object in a separate request.   
 
 1. Find object by id
 2. Find objects in table
@@ -598,7 +598,11 @@ This API provides the functionality that retrieve specified object in table.
 
 Method: GET
 
-URL: /v1/<application-id>/<table-name>/<object-id>
+URL: /v1/<application-id>/<table-name>/<object-id>?reloadRelation=false
+
+Optional Parameter  
+
+- **reloadRelation**: Whether load relation.   
 
 Request Body: None
 

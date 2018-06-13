@@ -50,6 +50,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     public final static String RELATION_NAME = "relation-name";
     public final static String QUERY_STRING = "query-string";
     public final static String USER_NAME = "user-name";
+    public final static String RELOAD_RELATION_PARAMETER = "reloadRelation";
 
     @Resource
     private Search search;
@@ -207,6 +208,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     @Override
     public ResponseEntity handleFindObject() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
+        String reloadRelation = denaRequestContext.getParameter(RELOAD_RELATION_PARAMETER);
 
         String appId = denaRequestContext.getPathVariable(APP_ID);
         String parentTableName = denaRequestContext.getPathVariable(TABLE_NAME);

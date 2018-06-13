@@ -120,7 +120,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
         DenaObject denaObject = foundUser.get();
 
         denaObject.addProperty(User.EMAIL_FIELD_NAME, user.getEmail());
-//        denaObject.addProperty(User.PASSWORD_FIELD_NAME, user.getPassword());
+//        denaObject.addField(User.PASSWORD_FIELD_NAME, user.getPassword());
         denaObject.addProperty(User.IS_ACTIVE, user.getActive());
         denaObject.addProperty(User.LAST_VALID_TOKEN, user.getLastValidToken());
         denaObject.addFields(user.getOtherFields());

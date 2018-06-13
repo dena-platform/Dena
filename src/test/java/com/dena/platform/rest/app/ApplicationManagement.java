@@ -42,8 +42,8 @@ public class ApplicationManagement extends AbstractDataStoreTest {
         //     Assert Register User Response
         /////////////////////////////////////////////
 
-        String application_id = (String) actualReturnObject.getDenaObjectResponseList().get(0).getAllFields().get("application_id");
-        String secretKey = (String) actualReturnObject.getDenaObjectResponseList().get(0).getAllFields().get("secret_key");
+        String application_id = (String) actualReturnObject.getDenaObjectResponseList().get(0).getFields().get("application_id");
+        String secretKey = (String) actualReturnObject.getDenaObjectResponseList().get(0).getFields().get("secret_key");
 
         TestObjectResponseDTO expectedObjectResponse = new TestObjectResponseDTO();
         expectedObjectResponse.objectId = actualReturnObject.getDenaObjectResponseList().get(0).getObjectId();
