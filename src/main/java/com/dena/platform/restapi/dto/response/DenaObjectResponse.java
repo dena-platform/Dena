@@ -1,9 +1,14 @@
 package com.dena.platform.restapi.dto.response;
 
-import com.fasterxml.jackson.annotation.*;
+import com.dena.platform.core.dto.DenaRelation;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,7 +36,8 @@ public class DenaObjectResponse {
         return fields;
     }
 
-    
+    @JsonProperty("related_objects")
+    private List<DenaRelation> denaRelation;
 
     @JsonAnySetter
     public void addField(String name, Object value) {
@@ -41,9 +47,16 @@ public class DenaObjectResponse {
     }
 
 
-
     public void setFields(Map<String, Object> fields) {
         this.fields = fields;
+    }
+
+    public List<DenaRelation> getDenaRelation() {
+        return denaRelation;
+    }
+
+    public void setRelation(List<DenaRelation> denaRelationWrapper) {
+        this.denaRelation = denaRelationWrapper;
     }
 
     public String getObjectURI() {
