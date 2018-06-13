@@ -50,6 +50,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     public final static String RELATION_NAME = "relation-name";
     public final static String QUERY_STRING = "query-string";
     public final static String USER_NAME = "user-name";
+    public final static String RELOAD_RELATION_PARAMETER = "loadRelation";
 
     @Resource
     private Search search;
@@ -84,7 +85,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             String userName = denaObjects.get(0).getActorUsername();//TODO
             User user = denaUserManagement.getUserById(appName, userName);
 
-            search.index(appName, appTypeName, user, returnObject.toArray(new DenaObject[0]));
+            //search.index(appName, appTypeName, user, returnObject.toArray(new DenaObject[0]));
 
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
                     .withHttpStatusCode(HttpStatus.OK.value())
@@ -111,7 +112,12 @@ public class RestProcessorImpl implements DenaRestProcessor {
         User user = denaUserManagement.getUserById(appName, userName);
 
         try {
-            List<DenaObject> returnObject = denaDataStore.update(appName, appTypeName, denaObjects.toArray(new DenaObject[0]));
+            List<DenaObject> returnObject;
+            if (denaRequestContext.isPatchRequest()) { // is merge update request?
+                returnObject = denaDataStore.mergeUpdate(appName, appTypeName, denaObjects.toArray(new DenaObject[0]));
+            } else {
+                returnObject = denaDataStore.replaceUpdate(appName, appTypeName, denaObjects.toArray(new DenaObject[0]));
+            }
             // search.updateIndex(appName, appTypeName, user, returnObject.toArray(new DenaObject[0])); // todo : handle user name when security is disabled
 
             DenaResponse response = DenaResponseBuilder.aDenaResponse()
@@ -202,6 +208,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     @Override
     public ResponseEntity handleFindObject() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
+        boolean reloadRelation = Boolean.parseBoolean(denaRequestContext.getParameter(RELOAD_RELATION_PARAMETER));
 
         String appId = denaRequestContext.getPathVariable(APP_ID);
         String parentTableName = denaRequestContext.getPathVariable(TABLE_NAME);
@@ -232,7 +239,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             if (CollectionUtils.isNotEmpty(foundDenaObject)) {
                 denaResponse = DenaResponseBuilder.aDenaResponse()
                         .withFoundObjectCount(foundDenaObject.size())
-                        .withDenaObjectResponseList(createObjectResponse(foundDenaObject))
+                        .withDenaObjectResponseList(createObjectResponse(foundDenaObject, reloadRelation))
                         .withTimestamp(DenaObjectUtils.timeStamp())
                         .withHttpStatusCode(HttpStatus.OK.value())
                         .build();
@@ -444,6 +451,10 @@ public class RestProcessorImpl implements DenaRestProcessor {
     }
 
     private List<DenaObjectResponse> createObjectResponse(List<DenaObject> denaObjects) {
+        return createObjectResponse(denaObjects, false);
+    }
+
+    private List<DenaObjectResponse> createObjectResponse(List<DenaObject> denaObjects, boolean reloadRelation) {
         List<DenaObjectResponse> denaObjectResponses = new ArrayList<>();
         denaObjects.forEach(denaObject -> {
             DenaObjectResponse objectResponse = new DenaObjectResponse();
@@ -452,6 +463,9 @@ public class RestProcessorImpl implements DenaRestProcessor {
             objectResponse.setUpdateTime(denaObject.getUpdateTime());
             objectResponse.setObjectURI(denaObject.getObjectURI());
             objectResponse.setFields(denaObject.getOtherFields());
+            if (reloadRelation) {
+                objectResponse.setRelation(denaObject.getDenaRelations());
+            }
             denaObjectResponses.add(objectResponse);
         });
 

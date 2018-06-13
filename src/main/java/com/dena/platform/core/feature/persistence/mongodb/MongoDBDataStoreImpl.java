@@ -76,7 +76,9 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public List<DenaObject> update(final String appName, final String tableName, DenaObject... denaObjects) {
+    public List<DenaObject> mergeUpdate(final String appName, final String tableName, DenaObject... denaObjects) {
+        log.info("Merging objects [{}]", (Object[]) denaObjects);
+
         MongoDatabase mongoDatabase;
         List<BsonDocument> bsonDocumentList = new ArrayList<>();
 
@@ -89,7 +91,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             mongoDatabase = MongoDBUtils.getDataBase(appName);
 
             for (DenaObject denaObject : denaObjects) {
-                checkIfObjectIdIsExist(mongoDatabase, tableName, denaObject.getObjectId());
+                checkIfObjectIdExist(mongoDatabase, tableName, denaObject.getObjectId());
                 checkRelationValidity(mongoDatabase, denaObject, denaObject.getDenaRelations());
             }
 
@@ -104,7 +106,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
                 addFieldsToBsonDocument(bsonDocument, denaObject.getOtherFields());
 
-                // update relation
+                // merge-update relation
                 if (CollectionUtils.isNotEmpty(denaObject.getDenaRelations())) {
                     DenaObject existingDenaObject = find(appName, tableName, objectId.toString()).get(0);
                     List<DenaRelation> existingDenaRelations = existingDenaObject.getDenaRelations();
@@ -144,7 +146,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             }
 
 
-            MongoDBUtils.updateDocument(mongoDatabase, tableName, bsonDocumentList.toArray(new BsonDocument[0]));
+            MongoDBUtils.mergeUpdateDocument(mongoDatabase, tableName, bsonDocumentList.toArray(new BsonDocument[0]));
 
             return new ArrayList<>(find(appName, tableName, ids.toArray(new String[0])));
         } catch (DataStoreException ex) {
@@ -153,6 +155,56 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
             throw new DataStoreException("Error in updating object(s)", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
         }
 
+    }
+
+    @Override
+    public List<DenaObject> replaceUpdate(String appName, String tableName, DenaObject... denaObjects) {
+        log.info("Updating objects [{}]", (Object[]) denaObjects);
+
+        MongoDatabase mongoDatabase;
+        List<BsonDocument> bsonDocumentList = new ArrayList<>();
+
+        if (ArrayUtils.isEmpty(denaObjects)) {
+            log.debug("Object request list is empty");
+            return Collections.emptyList();
+        }
+
+        try {
+            mongoDatabase = MongoDBUtils.getDataBase(appName);
+            for (DenaObject denaObject : denaObjects) {
+                checkIfObjectIdExist(mongoDatabase, tableName, denaObject.getObjectId());
+                checkRelationValidity(mongoDatabase, denaObject, denaObject.getDenaRelations());
+            }
+            List<String> ids = new LinkedList<>();
+
+            for (DenaObject denaObject : denaObjects) {
+                ObjectId objectId = new ObjectId(denaObject.getObjectId());
+                BsonDocument bsonDocument = new BsonDocument();
+                bsonDocument.put(MongoDBUtils.ID, new BsonObjectId(objectId));
+                bsonDocument.put(MongoDBUtils.UPDATE_TIME_FIELD, new BsonDateTime(DenaObjectUtils.timeStamp()));
+
+                addFieldsToBsonDocument(bsonDocument, denaObject.getOtherFields());
+
+                // update-replace relation
+                if (CollectionUtils.isNotEmpty(denaObject.getDenaRelations())) {
+                    List<DenaRelation> denaRelations = denaObject.getDenaRelations();
+
+                    denaObject.setDenaRelations(denaRelations);
+                    bsonDocument.putAll(getRelation(denaObject));
+                }
+
+                bsonDocumentList.add(bsonDocument);
+                ids.add(objectId.toString());
+            }
+
+
+            MongoDBUtils.replaceUpdateDocument(mongoDatabase, tableName, bsonDocumentList.toArray(new BsonDocument[0]));
+            return new ArrayList<>(find(appName, tableName, ids.toArray(new String[0])));
+        } catch (DataStoreException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new DataStoreException("Error in updating object(s)", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
+        }
     }
 
     @Override
@@ -247,7 +299,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
 
             if (StringUtils.isNotEmpty(parentObject.getObjectId())) {
-                // This is an update operation
+                // This is an mergeUpdate operation
                 // Check if target for relation name matching existing relation name
                 relationList.forEach(denaRelation -> {
                     int indexOfRelation = parentObject.getDenaRelations().indexOf(denaRelation);
@@ -294,7 +346,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
     }
 
-    private void checkIfObjectIdIsExist(MongoDatabase mongoDatabase, String typeName, String objectId) {
+    private void checkIfObjectIdExist(MongoDatabase mongoDatabase, String typeName, String objectId) {
         checkObjectIdValidity(objectId);
 
         boolean isObjectIdExist = CollectionUtils.isNotEmpty(MongoDBUtils.findDocumentById(mongoDatabase, typeName, objectId));
