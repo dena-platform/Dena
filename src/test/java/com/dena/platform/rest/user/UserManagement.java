@@ -37,7 +37,7 @@ public class UserManagement extends AbstractDataStoreTest {
         //           Send Update Object Request
         /////////////////////////////////////////////
         TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
-        requestObject.addProperty("email", "user2@denaplatform.com");
+        requestObject.addProperty("email", "user2@dena-platform.com");
         requestObject.addProperty("password", "123456");
         requestObject.addProperty("name", "alex");
         requestObject.addProperty("family", "smith");

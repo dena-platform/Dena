@@ -22,6 +22,21 @@ public class API {
 
 
     /////////////////////////////////////////////
+    //            User Management API
+    /////////////////////////////////////////////
+
+    @PostMapping(path = {"/{app-id}/users/register"}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity registerUser() {
+        return denaRestProcessor.handleRegisterUser();
+    }
+
+    @PostMapping(path = {"/{app-id}/users/login_delete"})
+    public ResponseEntity login() {
+        return null;
+    }
+
+
+    /////////////////////////////////////////////
     //            Data Store API
     /////////////////////////////////////////////
 
@@ -99,19 +114,6 @@ public class API {
         return denaRestProcessor.handleSearch();
     }
 
-    /////////////////////////////////////////////
-    //            User Management API
-    /////////////////////////////////////////////
-
-    @PostMapping(path = {"/{app-id}/users/register"}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity registerUser() {
-        return denaRestProcessor.handleRegisterUser();
-    }
-
-    @PostMapping(path = {"/{app-id}/users/login_delete"})
-    public ResponseEntity login() {
-        return null;
-    }
 
     /////////////////////////////////////////////
     //            Application Management API
