@@ -788,35 +788,30 @@ This API provides the functionality related to the user management such as user 
 
 ## Register New User ##
 
-This API can be used to create new user in the application. when user created, by default its status is active.
+This API can be used to create new user in the application. When user created, by default its status is active.
 
-***Note:***
+***Note:***  
+Email and password fields is required in registration new user. Additional property can also included in the request 
+body.
 
-Email and password fields is required in registration. Additional property can also included in request body.
+Method: POST  
+URL: /v1/<application-id>/users/register  
 
-
-Method: POST
-
-URL: /v1/<application-id>/users/register
-
-Body:
-
-{JSON}
-
-
-Headers:
-
+Headers:  
 Content-Type : application/json
+
+Body: {JSON}
 
 ***Example:***
 
 Request Body: 
 
     {
-      "email": "user2@denaplatform.com",
+      "email": "user1@denaplatform.com",
       "password": "123456",
       "name":"javad",
       "family":"alimohammadi"
+      ... other fields
     }
 
 
