@@ -1,14 +1,13 @@
 # Schema #
-Schema is the structure of tables in Dena platform. With schema, developers can get table structure ,add/remove columns and define constrains on columns.  
-
+Schema is the structure of tables in Dena platform. With schema, developers can get table structure ,add/remove columns and define constrains on columns (not implemented yet).
 
 ## Create Table ##
-
+Request:  
 Method: POST  
 URL: /v1/<application-id>/schema/<table-name>
 
 Headers:  
-token: {user token after login in dena-platform}  
+token: {user token after login in Dena platform}  
 Content-Type: application/json
 
 Body: {None}
@@ -19,22 +18,25 @@ Number of created table
 
 ***Example:***
 
-Request URL:https://dena-platform.com/<application-id>/schema/table1  
+Request URL: https://dena-platform.com/<application-id>/schema/table1  
 
-Request Body:
-
-    Empty
+Request Body:  
+```
+Empty
+```
 
 Response Body:
 
-	{
-	  "status":200,	
-	  "timestamp": 1520504910721,
-	  "create_table_count(s)": 1
-	}
+```json
+{
+  "status":200,	
+  "timestamp": 1520504910721,
+  "create_table_count(s)": 1
+}
+```
 
 
-## GET All Table Schema ##
+## Get All Table Schema ##
 Method: GET  
 URL: /v1/<application-id>/schema  
 
@@ -163,7 +165,7 @@ Headers:
 Content-Type:application/json
 
 ***Example:***
- 
+
 Request Body: 
 
     [
@@ -301,7 +303,6 @@ Response Body:
 
  
 
-
 ----------
 
 ## Updating Objects ##
@@ -313,7 +314,7 @@ Response Body:
 - If relation with same name exist in data store and related object not stored before then add, otherwise ignore it. 
 - If object id is not found then return bad request error.
 - If data in relation is invalid for example object id not exist or target type not found then return bad request error.
- 
+
  
 
 Return: Updated object(s) count.  
@@ -412,7 +413,6 @@ Response Body:
         ]
     }
 
-
 ----------
 
 **Bulk (Merge) Update Objects**  
@@ -499,7 +499,6 @@ Response Body:
             }
         ]
     }   
-      
 
 ----------
 
@@ -629,7 +628,7 @@ Response Body:
 
 **Find All Objects In Table**  
 This API provides the functionality that retrieve all object of specified table data.
-  
+
 Method: GET
 
 URL: /v1/<application-id>/<table-name>?startIndex=45&pageSize=6
@@ -639,9 +638,9 @@ Optional Parameter
 - **startIndex**: The start row number from which return result to client.starting from 0 and default to 0.
 - **pageSize**: The number of records to retrieve in a single page. default to 50.
 
- 
+
 *Note:* for more information see [Pagination](#pagination) section
- 
+
 Request Body: None
 
 ***Example:***
@@ -683,7 +682,7 @@ Consider following Pseudo-Code:
     User 1<-->* Transaction
     User user = findUser(userId)
     user.getTransaction() // find all transaction relation in user
-    
+
 Method: GET
 
 URL: /v1/<application-id>/<parent-table-name>/<parent-object-id>/relation/<relation-name>?startIndex=45&pageSize=6
@@ -807,7 +806,7 @@ Body:
 
 Headers:
 
-Content-Type:application/json
+Content-Type : application/json
 
 ***Example:***
 
@@ -893,7 +892,7 @@ Response Body:
 
 ----------
 
-#Application Management#
+# Application Management #
 With this API user can manage application (create, edit, find application)
 
 ## Create New Application ##
@@ -944,7 +943,7 @@ Response Body:
 
 ## Error Response ##
 When error occurred in service then the following json return
- 
+
     {
       "status":400,
       "error_code":"123",
