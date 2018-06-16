@@ -105,6 +105,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String requestBody = denaRequestContext.getRequestBody();
         String appTypeName = denaRequestContext.getPathVariable(TABLE_NAME);
         String appName = denaRequestContext.getPathVariable(APP_ID);
+        boolean loadRelation = Boolean.parseBoolean(denaRequestContext.getParameter(RELOAD_RELATION_PARAMETER));
 
 
         List<DenaObject> denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
@@ -121,7 +122,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             // search.updateIndex(appName, appTypeName, user, returnObject.toArray(new DenaObject[0])); // todo : handle user name when security is disabled
 
             DenaResponse response = DenaResponseBuilder.aDenaResponse()
-                    .withDenaObjectResponseList(createObjectResponse(returnObject))
+                    .withDenaObjectResponseList(createObjectResponse(returnObject, loadRelation))
                     .withUpdateObjectCount(returnObject.size())
                     .withTimestamp(DenaObjectUtils.timeStamp())
                     .withHttpStatusCode(HttpStatus.OK.value())
@@ -208,7 +209,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     @Override
     public ResponseEntity handleFindObject() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
-        boolean reloadRelation = Boolean.parseBoolean(denaRequestContext.getParameter(RELOAD_RELATION_PARAMETER));
+        boolean loadRelation = Boolean.parseBoolean(denaRequestContext.getParameter(RELOAD_RELATION_PARAMETER));
 
         String appId = denaRequestContext.getPathVariable(APP_ID);
         String parentTableName = denaRequestContext.getPathVariable(TABLE_NAME);
@@ -239,7 +240,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             if (CollectionUtils.isNotEmpty(foundDenaObject)) {
                 denaResponse = DenaResponseBuilder.aDenaResponse()
                         .withFoundObjectCount(foundDenaObject.size())
-                        .withDenaObjectResponseList(createObjectResponse(foundDenaObject, reloadRelation))
+                        .withDenaObjectResponseList(createObjectResponse(foundDenaObject, loadRelation))
                         .withTimestamp(DenaObjectUtils.timeStamp())
                         .withHttpStatusCode(HttpStatus.OK.value())
                         .build();
