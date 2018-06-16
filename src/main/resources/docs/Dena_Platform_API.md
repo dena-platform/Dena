@@ -317,13 +317,22 @@ Response Body:
 
  
 
-Return: Updated object(s) count.  
+Return: Updated object(s) count. 
+ 
 Method: PATCH  
-URL: /v1/<application-id>/<table-name>  
-Headers: Content-Type:application/json  
-Body:
 
+URL: /v1/<application-id>/<table-name>?loadRelation=false  
+
+Headers:  
+Content-Type:application/json 
+ 
+Body:  
 {JSON}
+
+Optional Parameter  
+
+- **loadRelation**: Whether load relation.   
+
 
 ***Example:***
 
@@ -370,10 +379,15 @@ Completely replace object in Dena data-store. remove all previous data and add n
 
 Return: Updated object(s) count.  
 Method: PATCH  
-URL: /v1/<application-id>/<table-name>  
+URL: /v1/<application-id>/<table-name>?loadRelation=false   
 Headers: Content-Type:application/json  
 Body:  
 {JSON}
+
+Optional Parameter  
+
+- **loadRelation**: Whether load relation.   
+
 
 ***Example:***
 
@@ -597,11 +611,11 @@ This API provides the functionality that retrieve specified object in table.
 
 Method: GET
 
-URL: /v1/<application-id>/<table-name>/<object-id>?reloadRelation=false
+URL: /v1/<application-id>/<table-name>/<object-id>?loadRelation=false
 
 Optional Parameter  
 
-- **reloadRelation**: Whether load relation.   
+- **loadRelation**: Whether load relation.   
 
 Request Body: None
 
