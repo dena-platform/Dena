@@ -812,22 +812,16 @@ This API can be used to create new user in the application. When user created, b
 Email and password fields is required in registration new user. Additional property can also included in the request 
 body.
 
+Return: Created user account.  
+
 Method: POST  
 URL: /v1/<application-id>/users/register  
 
 Headers:  
 Content-Type : application/json
 
-Body: {JSON}
-
-Response:  
- 
-    {
-        "email": email_address ,
-        "password": encrypted_password ,
-        ... other fields
-    }
-    
+Body:   
+{JSON}
 
 ***Example:***
 
