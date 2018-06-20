@@ -75,6 +75,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String requestBody = denaRequestContext.getRequestBody();
         String appTypeName = denaRequestContext.getPathVariable(TABLE_NAME);
         String appName = denaRequestContext.getPathVariable(APP_ID);
+        boolean loadRelation = Boolean.parseBoolean(denaRequestContext.getParameter(RELOAD_RELATION_PARAMETER));
 
         List<DenaObject> denaObjects;
 
@@ -89,7 +90,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
                     .withHttpStatusCode(HttpStatus.OK.value())
-                    .withDenaObjectResponseList(createObjectResponse(returnObject))
+                    .withDenaObjectResponseList(createObjectResponse(returnObject, loadRelation))
                     .withCreateObjectCount(returnObject.size())
                     .withTimestamp(DenaObjectUtils.timeStamp())
                     .build();

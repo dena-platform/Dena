@@ -104,22 +104,25 @@ Response:
 ----------
 
 ## Create Objects ##
+Create new object in Dena data store.  
 
 **Create Single Object**
 
+Return: Created object(s) count. 
 
 Method: POST
 
-URL: /v1/<application-id>/<table-name>
+URL: /v1/<application-id>/<table-name>/?loadRelation=false 
 
-Body:
 
+Headers:  
+Content-Type:application/json 
+
+Body:  
 {JSON}
 
-
-Headers:
-
-Content-Type:application/json
+Optional Parameter  
+- **loadRelation**: Whether load relation after creating object.   
 
 ***Example:***
 
@@ -151,18 +154,21 @@ Response Body:
 This API is same is above with the exception that the request can contain 
 multiple request.
 
+Return: Created object(s) count. 
+
 Method: POST
 
-URL: /v1/<application-id>/<table-name>
+URL: /v1/<application-id>/<table-name>?loadRelation=false
 
-Body:
+Headers:  
+Content-Type:application/json 
 
+Body:  
 {JSON Array}
 
+Optional Parameter  
+- **loadRelation**: Whether load relation after creating object.   
 
-Headers:
-
-Content-Type:application/json
 
 ***Example:***
 
@@ -329,10 +335,8 @@ Content-Type:application/json
 Body:  
 {JSON}
 
-Optional Parameter  
-
-- **loadRelation**: Whether load relation.   
-
+Optional Parameter   
+- **loadRelation**: Whether load relation after updating object.   
 
 ***Example:***
 
