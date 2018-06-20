@@ -77,7 +77,7 @@ public class API {
      *
      * @return
      */
-    @DeleteMapping(path = "/{app-id}/{type-name}/{object-id}/{user-name:.+}")
+    @DeleteMapping(path = "/{app-id}/{table-name}/{object-id}")
     public ResponseEntity deleteObjects() {
         return denaRestProcessor.handleDeleteObject();
 

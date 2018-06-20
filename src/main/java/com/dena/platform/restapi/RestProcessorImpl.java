@@ -173,9 +173,9 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String appId = denaRequestContext.getPathVariable(APP_ID);
         String tableName = denaRequestContext.getPathVariable(TABLE_NAME);
         String[] objectIds = denaRequestContext.getPathVariable(OBJECT_ID).split(",");
-        String userName = denaRequestContext.getPathVariable(USER_NAME);
+//        String userName = denaRequestContext.getPathVariable(USER_NAME);
 
-        User user = denaUserManagement.getUserById(appId, userName);
+//        User user = denaUserManagement.getUserById(appId, userName);
 
 
         try {
@@ -192,7 +192,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
                 throw new ParameterInvalidException("type name is empty", ErrorCode.INVALID_REQUEST);
             }
 
-            search.deleteIndexByIds(appId, user, objectIds);
+//            search.deleteIndexByIds(appId, user, objectIds);
 
             long deleteCount = denaDataStore.delete(appId, tableName, objectIds);
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
