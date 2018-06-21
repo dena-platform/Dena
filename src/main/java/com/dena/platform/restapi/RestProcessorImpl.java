@@ -276,10 +276,10 @@ public class RestProcessorImpl implements DenaRestProcessor {
         try {
 
             if (StringUtils.isEmpty(email)) {
-                log.warn("email is empty");
+                log.warn("Email field is empty");
                 throw new ParameterInvalidException("email field is not set", ErrorCode.EMAIL_FIELD_IS_INVALID);
             } else if (StringUtils.isEmpty(email)) {
-                log.warn("password is empty");
+                log.warn("Password field is empty");
                 throw new ParameterInvalidException("password field is not set", ErrorCode.PASSWORD_FIELD_IS_INVALID);
             }
 

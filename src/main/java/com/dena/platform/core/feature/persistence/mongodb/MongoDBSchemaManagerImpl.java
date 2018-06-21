@@ -52,8 +52,8 @@ public class MongoDBSchemaManagerImpl implements SchemaManager {
                 .forEach((Block<? super String>) collectionName -> {
                     DenaObject denaObject = new DenaObject();
                     long recordCount = mongoDatabase.getCollection(collectionName).count();
-                    denaObject.addProperty("name", collectionName);
-                    denaObject.addProperty("record_count(s)", recordCount);
+                    denaObject.addField("name", collectionName);
+                    denaObject.addField("record_count(s)", recordCount);
 
                     result.add(denaObject);
                 });

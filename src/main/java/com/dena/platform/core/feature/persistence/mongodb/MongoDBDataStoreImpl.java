@@ -439,7 +439,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                     BsonArray values = fieldValue.asArray();
                     // this field is normal array
                     ArrayList<Object> listOfObject = BSONTypeMapper.convertBSONArrayToJava(values);
-                    denaObject.addProperty(fieldName, listOfObject);
+                    denaObject.addField(fieldName, listOfObject);
                 } else if (fieldName.equals(MongoDBUtils.ID)) {  // type is id field
                     denaObject.setObjectId(fieldValue.asObjectId().getValue().toString());
                 } else if (fieldName.equals(MongoDBUtils.UPDATE_TIME_FIELD)) {  // type is update_time field
@@ -449,7 +449,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 } else if (fieldName.equals(MongoDBUtils.OBJECT_URI_FIELD)) {  // type is uri field
                     denaObject.setObjectURI(fieldValue.asString().getValue());
                 } else { // normal key -> value
-                    denaObject.addProperty(fieldName, BSONTypeMapper.convertBSONToJava(fieldValue));
+                    denaObject.addField(fieldName, BSONTypeMapper.convertBSONToJava(fieldValue));
                 }
             }
             result.add(denaObject);

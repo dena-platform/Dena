@@ -94,7 +94,7 @@ public class SearchTest {
         List<DenaObject> res2 = search.query(CommonConfig.APP_ID, CommonConfig.COLLECTION_NAME, user, "name:احمد", pager);
         Assert.assertEquals(0, res2.size());
 
-        denaObject1.addProperty("name", "احمد");
+        denaObject1.addField("name", "احمد");
         search.updateIndex(CommonConfig.APP_ID, CommonConfig.COLLECTION_NAME, user, denaObject1);
 
         res = search.query(CommonConfig.APP_ID, CommonConfig.COLLECTION_NAME, user, "name:رضا", pager);

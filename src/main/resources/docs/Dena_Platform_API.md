@@ -21,19 +21,18 @@ Number of created table
 Request URL: https://dena-platform.com/<application-id>/schema/table1  
 
 Request Body:  
-```
-Empty
-```
+
+	Empty
+
 
 Response Body:
 
-```json
-{
-  "status":200,	
-  "timestamp": 1520504910721,
-  "create_table_count(s)": 1
-}
-```
+
+	{
+	  "status":200,	
+	  "timestamp": 1520504910721,
+	  "create_table_count(s)": 1
+	}
 
 
 ## Get All Table Schema ##
@@ -50,7 +49,7 @@ Response
 Return the schema of table
 
 ***Example:***  
-Request URL:https://dena-platform.com/<application-id>/schema 
+Request URL: https://dena-platform.com/<application-id>/schema 
 
 Request Body:  
 
@@ -795,6 +794,7 @@ Pagination using in the REST API is implemented with the `startIndex` and `pageS
 `pageSize`: The number of records to retrieve in a single page. Minimum allowed value is 1. Default to 50. 
 
 **Sample Request**
+
 `/v1/<application-id>/<parent-table-name>/<parent-object-id>/relation/<relation-name>?startIndex=45&pageSize=6`
 
 `/v1/<application-id>/<table-name>?startIndex=0&pageSize=2` 
@@ -812,7 +812,7 @@ This API can be used to create new user in the application. When user created, b
 Email and password fields is required in registration new user. Additional property can also included in the request 
 body.
 
-Return: Created user account.  
+Return: Created user account information.  
 
 Method: POST  
 URL: /v1/<application-id>/users/register  

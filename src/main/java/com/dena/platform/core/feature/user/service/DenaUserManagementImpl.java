@@ -8,6 +8,7 @@ import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.security.SecurityUtil;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.exception.UserManagementException;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.validator.GenericValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,7 @@ import java.util.Optional;
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 
-@Service("denaDenaUserManagement")
+@Service("denaUserManagement")
 public class DenaUserManagementImpl implements DenaUserManagement {
     private final static Logger log = LoggerFactory.getLogger(DenaUserManagementImpl.class);
 
@@ -59,20 +60,19 @@ public class DenaUserManagementImpl implements DenaUserManagement {
         String encodedPassword = SecurityUtil.encodePassword(user.getUnencodedPassword());
         user.setPassword(encodedPassword);
 
-        if (user.getActive() == null) {
-            boolean isActive = DenaConfigReader.readBooleanProperty("dena.UserManagement.register.default_status", false);
+        if (BooleanUtils.isTrue(user.getActive())) {
+            boolean isActive = DenaConfigReader.readBooleanProperty("dena.UserManagement.register.default_status", true);
             user.setActive(isActive);
         }
 
-        log.debug("Registering new user [{}] in Dena Platform", user.getEmail());
+        log.debug("Registering new user identifier [{}] in Dena Platform", user.getEmail());
         DenaObject denaObject = new DenaObject();
-        denaObject.addProperty(User.EMAIL_FIELD_NAME, user.getEmail());
-        denaObject.addProperty(User.PASSWORD_FIELD_NAME, user.getPassword());
-        denaObject.addProperty(User.IS_ACTIVE, user.getActive());
+        denaObject.addField(User.EMAIL_FIELD_NAME, user.getEmail());
+        denaObject.addField(User.PASSWORD_FIELD_NAME, user.getPassword());
+        denaObject.addField(User.IS_ACTIVE, user.getActive());
         denaObject.addFields(user.getOtherFields());
 
-        DenaObject returnObject = denaDataStore.store(appId, userInfoTableName, denaObject).get(0);
-        return returnObject;
+        return denaDataStore.store(appId, userInfoTableName, denaObject).get(0);
     }
 
     @Override
@@ -119,10 +119,10 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
         DenaObject denaObject = foundUser.get();
 
-        denaObject.addProperty(User.EMAIL_FIELD_NAME, user.getEmail());
+        denaObject.addField(User.EMAIL_FIELD_NAME, user.getEmail());
 //        denaObject.addField(User.PASSWORD_FIELD_NAME, user.getPassword());
-        denaObject.addProperty(User.IS_ACTIVE, user.getActive());
-        denaObject.addProperty(User.LAST_VALID_TOKEN, user.getLastValidToken());
+        denaObject.addField(User.IS_ACTIVE, user.getActive());
+        denaObject.addField(User.LAST_VALID_TOKEN, user.getLastValidToken());
         denaObject.addFields(user.getOtherFields());
 
         denaDataStore.mergeUpdate(appId, userInfoTableName, denaObject).get(0);
