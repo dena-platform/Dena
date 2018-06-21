@@ -29,15 +29,15 @@ import static org.junit.Assert.*;
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 public class UserManagement extends AbstractDataStoreTest {
-
+                                     
     @Test
     public void test_RegisterUser() throws Exception {
 
         /////////////////////////////////////////////
-        //           Send Update Object Request
+        //           Send Register New User Request
         /////////////////////////////////////////////
         TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
-        requestObject.addProperty("email", "user2@dena-platform.com");
+        requestObject.addProperty("email", "user1@dena-platform.com");
         requestObject.addProperty("password", "123456");
         requestObject.addProperty("name", "alex");
         requestObject.addProperty("family", "smith");
@@ -61,13 +61,15 @@ public class UserManagement extends AbstractDataStoreTest {
 
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
-        expectedReturnObject.createObjectCount = 1L;
+        expectedReturnObject.createUserCount = 1;
         expectedReturnObject.setTestObjectResponseDTOList(Collections.singletonList(expectedObjectResponse));
 
         // assert timestamp
         assertTrue(isTimeEqualRegardlessOfSecond(expectedReturnObject.timestamp, Instant.now().toEpochMilli()));
         assertTrue(isTimeEqualRegardlessOfSecond(expectedObjectResponse.createTime, Instant.now().toEpochMilli()));
-        assertNull("mergeUpdate time in registering user should be null", expectedObjectResponse.updateTime);
+        assertEquals("Create user count is not correct", expectedReturnObject.createUserCount,
+                actualReturnObject.getCreateUserCount());
+        assertNull("Update time in registering user should be null", expectedObjectResponse.updateTime);
 
         assertNotNull(expectedReturnObject);
 
@@ -133,7 +135,7 @@ public class UserManagement extends AbstractDataStoreTest {
         //           Send Update Object Request
         /////////////////////////////////////////////
         TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
-        requestObject.addProperty("email", "user2@denaplatform.com");
+        requestObject.addProperty("email", "user1@denaplatform.com");
         requestObject.addProperty("password", "");
         requestObject.addProperty("name", "alex");
         requestObject.addProperty("family", "smith");

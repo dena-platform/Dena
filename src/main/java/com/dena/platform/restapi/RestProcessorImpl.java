@@ -300,7 +300,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             DenaObject registeredUser = denaUserManagement.registerUser(appId, user);
 
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
-                    .withCreateObjectCount(1)
+                    .withCreatedUserCount(1)
                     .withDenaObjectResponseList(createObjectResponse(Collections.singletonList(registeredUser)))
                     .withTimestamp(DenaObjectUtils.timeStamp())
                     .build();

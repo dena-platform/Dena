@@ -840,18 +840,18 @@ Response Body:
 
       {
         "timestamp": 1520504910721,
-        "count": 1,
+        "create_user_count": 1,
         "objects": [
          {
-           "object_id": "5aa1104e99d0b323487d38a1",
-           "creation_time": 1520504910672,
-           "update_time": null,
-           "email": "user1@dena-platform.com" ,
-           "password": "$2a$10$lkjro.gqyjKA3/PCBPFBauPr69V5eYE8p9kDYh9yY07dRwKPeHiFu",
-           "name": "javad",
-           "family": "alimohammadi",          
-           "is_active": true,
-           ... other fields
+            "object_id": "5b2bc6848db73a10ac999947",
+            "object_uri": "/DENA_USER/5b2bc6848db73a10ac999947",
+            "update_time": null,
+            "create_time": 1529595524645,
+            "password": "$2a$10$b802T370w6I80joRAHgYP.cdO83PIzRt.eBYN1/hBok17/GsS2lxC",
+            "name": "javad",
+            "family": "alimohammadi",
+            "email": "user3@dena-platform.com"           
+            ... other fields
          }
         ]
       }

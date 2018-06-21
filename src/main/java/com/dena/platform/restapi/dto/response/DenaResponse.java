@@ -19,6 +19,9 @@ public class DenaResponse {
     @JsonProperty("timestamp")
     private Long timestamp;
 
+    @JsonProperty("create_user_count(s)")
+    private Integer createUserCount;
+
     @JsonProperty("create_object_count(s)")
     private Integer createObjectCount;
 
@@ -126,6 +129,14 @@ public class DenaResponse {
         this.deleteTableCount = deleteTableCount;
     }
 
+    public Integer getCreateUserCount() {
+        return createUserCount;
+    }
+
+    public void setCreateUserCount(Integer createUserCount) {
+        this.createUserCount = createUserCount;
+    }
+
     public static final class DenaResponseBuilder {
         private DenaResponse denaResponse;
 
@@ -141,6 +152,12 @@ public class DenaResponse {
             denaResponse.setTimestamp(timestamp);
             return this;
         }
+
+        public DenaResponseBuilder withCreatedUserCount(int userCount) {
+            denaResponse.setCreateUserCount(userCount);
+            return this;
+        }
+
 
         public DenaResponseBuilder withCreateObjectCount(int createObjectCount) {
             denaResponse.setCreateObjectCount(createObjectCount);
