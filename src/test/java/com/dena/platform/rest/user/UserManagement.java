@@ -29,7 +29,7 @@ import static org.junit.Assert.*;
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 public class UserManagement extends AbstractDataStoreTest {
-                                     
+
     @Test
     public void test_RegisterUser() throws Exception {
 
@@ -54,7 +54,7 @@ public class UserManagement extends AbstractDataStoreTest {
         expectedObjectResponse.updateTime = null;
 
         expectedObjectResponse.addProperty("is_active", true);
-        expectedObjectResponse.addProperty("email", "user2@denaplatform.com");
+        expectedObjectResponse.addProperty("email", "user1@dena-platform.com");
         expectedObjectResponse.addProperty("name", "alex");
         expectedObjectResponse.addProperty("family", "smith");
 
@@ -122,6 +122,35 @@ public class UserManagement extends AbstractDataStoreTest {
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "3001";
         expectedReturnObject.messages = Collections.singletonList("Email field value is invalid");
+
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
+
+    }
+
+    @Test
+    public void test_RegisterUser_When_Email_Is_Exist() throws Exception {
+
+        /////////////////////////////////////////////
+        //           Send Update Object Request
+        /////////////////////////////////////////////
+        TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
+        requestObject.addProperty("email", "user1@dena-platform.com");
+        requestObject.addProperty("password", "123456");
+        requestObject.addProperty("name", "alex");
+        requestObject.addProperty("family", "smith");
+
+        performRegisterUser(createJSONFromObject(requestObject), HttpStatus.OK, DenaResponse.class);
+
+        ErrorResponse actualReturnObject = performRegisterUser(createJSONFromObject(requestObject), HttpStatus
+                .BAD_REQUEST, ErrorResponse.class);
+
+        /////////////////////////////////////////////
+        //            Assert Register User Response
+        /////////////////////////////////////////////
+        TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
+        expectedReturnObject.status = 400;
+        expectedReturnObject.errorCode = "3000";
+        expectedReturnObject.messages = Collections.singletonList("User with this identity already exist");
 
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
 
