@@ -13,7 +13,8 @@ public interface DenaUserManagement {
      * Register an user in app.<br>
      * If user exist then throw {@link UserManagementException} exception.
      *
-     * @param user
+     * @param appId Name of app for registering new user
+     * @param user User information for registering in platform
      * @return
      * @throws UserManagementException
      */
