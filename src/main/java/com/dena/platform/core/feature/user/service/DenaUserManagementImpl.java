@@ -87,7 +87,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
     }
 
     @Override
-    public User getUserById(String appId, String email) {
+    public User findUserById(String appId, String email) {
         // todo: when we implement search capability in DanaStore module, then refactor this method to use it
 
         List<DenaObject> denaObjects = denaDataStore.findAll(appId, userInfoTableName, new DenaPager(0, DenaConfigReader.readIntProperty("dena.pager.max.results", 50)));

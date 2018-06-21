@@ -67,6 +67,10 @@ public class RestProcessorImpl implements DenaRestProcessor {
     @Resource
     private SchemaManager schemaManager;
 
+    @Resource
+    private TokenService tokenService;
+
+
 
     @Override
     public ResponseEntity handleCreateObject() {
@@ -84,7 +88,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             List<DenaObject> returnObject = denaDataStore.store(appName, appTypeName, denaObjects.toArray(new DenaObject[0]));
 
             String userName = denaObjects.get(0).getActorUsername();//TODO
-            User user = denaUserManagement.getUserById(appName, userName);
+            User user = denaUserManagement.findUserById(appName, userName);
 
             //search.index(appName, appTypeName, user, returnObject.toArray(new DenaObject[0]));
 
@@ -111,7 +115,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
         List<DenaObject> denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
         String userName = denaObjects.get(0).getActorUsername();//TODO
-        User user = denaUserManagement.getUserById(appName, userName);
+        User user = denaUserManagement.findUserById(appName, userName);
 
         try {
             List<DenaObject> returnObject;
@@ -176,7 +180,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String[] objectIds = denaRequestContext.getPathVariable(OBJECT_ID).split(",");
 //        String userName = denaRequestContext.getPathVariable(USER_NAME);
 
-//        User user = denaUserManagement.getUserById(appId, userName);
+//        User user = denaUserManagement.findUserById(appId, userName);
 
 
         try {
@@ -427,7 +431,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         DenaResponse denaResponse;
 
         try {
-            User user = denaUserManagement.getUserById(appId, userId);
+            User user = denaUserManagement.findUserById(appId, userId);
             foundDenaObject = search.query(appId, appTypeName, user, queryString, constructPager());
 
             if (CollectionUtils.isNotEmpty(foundDenaObject)) {
@@ -498,10 +502,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
                 .build();
     }
 
-    @Resource
-    private TokenService tokenService;
 
-    //// TODO: remove form hear
     @Override
     public ResponseEntity login() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();

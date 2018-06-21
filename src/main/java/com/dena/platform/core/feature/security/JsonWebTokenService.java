@@ -41,7 +41,7 @@ public class JsonWebTokenService implements TokenService {
     public String generate(String appId, User claimedUser) {
         String username = claimedUser.getEmail();
         String password = claimedUser.getUnencodedPassword();
-        User user = userManagement.getUserById(appId, username);
+        User user = userManagement.findUserById(appId, username);
 
         if (user != null && SecurityUtil.matchesPassword(password, user.getPassword())) {
             Claims claims = Jwts.claims()
@@ -82,7 +82,7 @@ public class JsonWebTokenService implements TokenService {
             String appId = body.get("app_id", String.class);
             user.setEmail(username);
 
-            User loadedUser = userManagement.getUserById(appId, username);
+            User loadedUser = userManagement.findUserById(appId, username);
             if (!StringUtils.isEmpty(loadedUser.getLastValidToken()) && loadedUser.getLastValidToken().equals(token))
                 return user;
             else

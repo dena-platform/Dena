@@ -862,22 +862,18 @@ Response Body:
 
 With this API user can login in Dena Platform. after user successfully login then in subsequent request access token should be included.
 
+Return: Created object(s) count. 
+
 Method: POST
 
 URL: /v1/<application-id>/users/login
 
-Body:
 
+Headers:  
+Content-Type:application/json
+
+Body:  
 {JSON}
-
-
-Headers:
-
-Content-Type:application/json
-
-Headers:
-
-Content-Type:application/json
 
 ***Example:***
 

@@ -1,23 +1,12 @@
 package com.dena.platform.rest.security;
 
-import com.dena.platform.core.feature.security.SecurityUtil;
-import com.dena.platform.core.feature.user.domain.User;
-import com.dena.platform.core.feature.user.service.DenaUserManagement;
-import com.dena.platform.rest.dto.ObjectModelHelper;
 import com.dena.platform.rest.dto.TestRequestObjectDTO;
 import com.dena.platform.rest.persistence.AbstractDataStoreTest;
 import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.restapi.dto.response.TokenGenResponse;
-import com.dena.platform.utils.CommonConfig;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.annotation.Profile;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
-
-import javax.annotation.Resource;
 
 import static com.dena.platform.utils.JSONMapper.createJSONFromObject;
 import static org.junit.Assert.*;
