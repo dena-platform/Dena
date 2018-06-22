@@ -44,16 +44,17 @@ public class JsonWebTokenService implements TokenService {
         User user = userManagement.findUserById(appId, username);
 
         if (user != null && SecurityUtil.matchesPassword(password, user.getPassword())) {
+            Date expireDate = Date.from(Instant.now().plusMillis(tokenExpireDuration));
+
             Claims claims = Jwts.claims()
                     .setSubject(username);
+            claims.setExpiration(expireDate);
 
             claims.put("role", "fixed_role"); //TODO change role to user role
             claims.put("app_id", appId);
             claims.put("userName", user.getEmail());
             claims.put("creation_date", Instant.now());
 
-            Date expireDate = Date.from(Instant.now().plusMillis(tokenExpireDuration));
-            claims.setExpiration(expireDate);
 
             String token = Jwts.builder()
                     .setClaims(claims)
@@ -63,7 +64,7 @@ public class JsonWebTokenService implements TokenService {
             userManagement.updateUser(appId, user);
             return token;
         } else {
-            throw new AuthenticationServiceException(String.format("not authenticated user: %s", username));
+            throw new AuthenticationServiceException(String.format("Not authenticated user: %s", username));
         }
     }
 
