@@ -1,6 +1,6 @@
-package com.dena.platform.core.feature.security;
+package com.dena.platform.core.feature.security.authentication;
 
-import com.dena.platform.restapi.endpoint.v1.API;
+import com.dena.platform.core.feature.security.JwtAuthenticationToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -15,13 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * When user send simple user & pass this filter call.
  * @author Nazarpour.
  */
-public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
-    private final static Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
+public class DenaUserPassAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+    private final static Logger log = LoggerFactory.getLogger(DenaUserPassAuthenticationFilter.class);
 
-    public JwtAuthenticationFilter() {
-        super(API.API_PATH + "**");
+    public DenaUserPassAuthenticationFilter(String filterProcessingURL) {
+        super(filterProcessingURL);
     }
 
 
