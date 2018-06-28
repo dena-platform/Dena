@@ -26,7 +26,7 @@ public class DenaRequestContext {
     private String requestBody;
 
 
-    private final static ThreadLocal<DenaRequestContext> ZAGROS_REQUEST_CONTEXT = ThreadLocalManager.createThreadLocal(DenaRequestContext.class);
+    private final static ThreadLocal<DenaRequestContext> DENA_REQUEST_CONTEXT = ThreadLocalManager.createThreadLocal(DenaRequestContext.class);
 
 
     public DenaRequestContext(ContentCachingRequestWrapper request) {
@@ -35,12 +35,12 @@ public class DenaRequestContext {
 
 
     public static DenaRequestContext getDenaRequestContext() {
-        return ZAGROS_REQUEST_CONTEXT.get();
+        return DENA_REQUEST_CONTEXT.get();
     }
 
 
-    public static void setDenaRequestContext(DenaRequestContext zagrosRequestContext) {
-        ZAGROS_REQUEST_CONTEXT.set(zagrosRequestContext);
+    public static void setDenaRequestContext(DenaRequestContext denaRequestContext) {
+        DENA_REQUEST_CONTEXT.set(denaRequestContext);
     }
 
 
