@@ -90,13 +90,13 @@ public class DenaApplicationManagementImpl implements DenaApplicationManagement 
 
     }
 
-    // todo: use a better approach to generate unique id
+    // todo: use a better approach to generateJWTToken unique id
     private String generateApplicationId() {
         UUID appId = UUID.randomUUID();
         return appId.toString();
     }
 
-    // todo: use a better approach to generate unique id
+    // todo: use a better approach to generateJWTToken unique id
     private String generateSecretId() {
         UUID appId = UUID.randomUUID();
         return appId.toString();

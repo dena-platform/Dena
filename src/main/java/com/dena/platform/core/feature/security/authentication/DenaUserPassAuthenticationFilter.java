@@ -3,11 +3,10 @@ package com.dena.platform.core.feature.security.authentication;
 import com.dena.platform.common.web.DenaRequestContext;
 import com.dena.platform.common.web.JSONMapper;
 import com.dena.platform.core.feature.security.JwtAuthenticationToken;
-import com.dena.platform.core.feature.security.TokenService;
+import com.dena.platform.core.feature.security.JWTTokenService;
 import com.dena.platform.core.feature.user.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -28,7 +27,7 @@ public class DenaUserPassAuthenticationFilter extends AbstractAuthenticationProc
     private final static Logger log = LoggerFactory.getLogger(DenaUserPassAuthenticationFilter.class);
 
     @Resource
-    private TokenService tokenService;
+    private JWTTokenService JWTTokenService;
 
     public DenaUserPassAuthenticationFilter(String filterProcessingURL) {
         super(filterProcessingURL);
@@ -48,14 +47,8 @@ public class DenaUserPassAuthenticationFilter extends AbstractAuthenticationProc
         String requestBody = denaRequestContext.getRequestBody();
         User user = JSONMapper.createObjectFromJSON(requestBody, User.class);
 
-        String token = tokenService.generate(appId, user);
 
-
-        if (token == null) {
-            log.info("null token passed in the request");
-            throw new AuthenticationServiceException("not a valid token");
-        }
-        JwtAuthenticationToken authenticationToken = new JwtAuthenticationToken(appId, user.getEmail(), user.getUnencodedPassword());
+        JwtAuthenticationToken authenticationToken = new JwtAuthenticationToken(appId, user);
         return authenticationToken;
     }
 

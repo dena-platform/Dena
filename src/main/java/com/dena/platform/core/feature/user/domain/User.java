@@ -58,12 +58,10 @@ public class User {
         this.password = password;
     }
 
-    @JsonGetter("password")
     public String getUnencodedPassword() {
         return unencodedPassword;
     }
 
-    @JsonSetter("password")
     public void setUnencodedPassword(String unencodedPassword) {
         this.unencodedPassword = unencodedPassword;
     }

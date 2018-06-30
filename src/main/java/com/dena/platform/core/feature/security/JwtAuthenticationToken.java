@@ -1,5 +1,6 @@
 package com.dena.platform.core.feature.security;
 
+import com.dena.platform.core.feature.user.domain.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 /**
@@ -10,10 +11,13 @@ public class JwtAuthenticationToken extends UsernamePasswordAuthenticationToken 
 
     private String appId;
 
+    private User user;
 
-    public JwtAuthenticationToken(String appId, String userName, String password) {
-        super(userName, password);
+
+    public JwtAuthenticationToken(String appId, User user) {
+        super(user.getEmail(), user.getUnencodedPassword());
         this.appId = appId;
+        this.user = user;
     }
 
     public String getAppId() {
@@ -24,5 +28,11 @@ public class JwtAuthenticationToken extends UsernamePasswordAuthenticationToken 
         this.appId = appId;
     }
 
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

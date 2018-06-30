@@ -15,7 +15,7 @@ import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.persistence.SchemaManager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.dena.platform.core.feature.search.Search;
-import com.dena.platform.core.feature.security.TokenService;
+import com.dena.platform.core.feature.security.JWTTokenService;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import com.dena.platform.restapi.dto.response.DenaObjectResponse;
@@ -68,7 +68,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     private SchemaManager schemaManager;
 
     @Resource
-    private TokenService tokenService;
+    private JWTTokenService JWTTokenService;
 
 
 
@@ -511,7 +511,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String requestBody = denaRequestContext.getRequestBody();
         User user = JSONMapper.createObjectFromJSON(requestBody, User.class);
 
-        String token = tokenService.generate(appId, user);
+        String token = JWTTokenService.generateJWTToken(appId, user);
 
         TokenGenResponse response = new TokenGenResponse();
         response.setToken(token);
@@ -527,7 +527,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String requestBody = denaRequestContext.getRequestBody();
         User user = JSONMapper.createObjectFromJSON(requestBody, User.class);
 
-        tokenService.expireToken(appId, token);
+        JWTTokenService.expireToken(appId, token);
 
         TokenGenResponse response = new TokenGenResponse();
         return ResponseEntity.ok().body(response);

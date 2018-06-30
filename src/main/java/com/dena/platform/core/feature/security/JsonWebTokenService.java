@@ -21,7 +21,7 @@ import java.util.Date;
  * @author Nazarpour.
  */
 @Service("jwtService")
-public class JsonWebTokenService implements TokenService {
+public class JsonWebTokenService implements JWTTokenService {
     private final static Logger LOGGER = LoggerFactory.getLogger(JsonWebTokenService.class);
 
     @Resource
@@ -38,7 +38,7 @@ public class JsonWebTokenService implements TokenService {
     }
 
     @Override
-    public String generate(String appId, User claimedUser) {
+    public String generateJWTToken(String appId, User claimedUser) {
         String username = claimedUser.getEmail();
         String password = claimedUser.getUnencodedPassword();
         User user = userManagement.findUserById(appId, username);

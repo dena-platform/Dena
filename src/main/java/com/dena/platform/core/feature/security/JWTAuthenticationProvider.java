@@ -2,6 +2,7 @@ package com.dena.platform.core.feature.security;
 
 import com.dena.platform.core.feature.security.model.JWTUserDetails;
 import com.dena.platform.core.feature.user.domain.User;
+import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
@@ -19,23 +20,33 @@ import java.util.List;
 @Component
 public class JWTAuthenticationProvider implements AuthenticationProvider {
     @Resource
-    private TokenService validator;
+    private JWTTokenService validator;
+
+    @Resource
+    private DenaUserManagement userManagement;
 
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
-        String token = jwtAuthenticationToken.getAppId();
+        String appId = jwtAuthenticationToken.getAppId();
 
-        User user = validator.validate(token);
+        User user = jwtAuthenticationToken.getUser();
 
-        if (user == null) {
+        User retrievedUser = userManagement.findUserById(appId, user.getEmail());
+
+        if (retrievedUser != null && SecurityUtil.matchesPassword(user.getUnencodedPassword(), retrievedUser.getPassword())) {
+
+        } else {
             throw new AuthenticationServiceException("not a valid token");
         }
 
+        User user = validator.validate(appId);
+
+
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
                 .commaSeparatedStringToAuthorityList("admin"); //todo change to proper role
-        return new JWTUserDetails(user.getEmail(), token, grantedAuthorities);
+        return new JWTUserDetails(user.getEmail(), appId, grantedAuthorities);
     }
 
     @Override
