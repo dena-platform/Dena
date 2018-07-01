@@ -4,6 +4,7 @@ import com.dena.platform.common.web.DenaRequestProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import javax.annotation.Resource;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 @Component("denaRequestFilter")
-public class DenaRequestFilter extends AbstractDenaFilter {
+public class DenaRequestFilter extends GenericFilterBean {
     private final static Logger log = LoggerFactory.getLogger(DenaRequestFilter.class);
 
     @Resource

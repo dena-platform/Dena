@@ -33,7 +33,6 @@ public class DenaRequestContext {
         this.request = request;
     }
 
-
     public static DenaRequestContext getDenaRequestContext() {
         return DENA_REQUEST_CONTEXT.get();
     }
