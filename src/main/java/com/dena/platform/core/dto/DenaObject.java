@@ -46,7 +46,7 @@ public class DenaObject {
 
 
     @JsonAnySetter
-    public void addProperty(String name, Object value) {
+    public void addField(String name, Object value) {
         if (StringUtils.isNotBlank(name) && value != null) {
             otherFields.put(name, value);
         }

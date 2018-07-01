@@ -26,6 +26,7 @@
         <apache-commons-collection>4.1</apache-commons-collection>
         <apache-common-validator>1.6</apache-common-validator>
         <apache-commons-io>2.5</apache-commons-io>
+        <embedded-mongo.version>2.0.3</embedded-mongo.version>
     </properties>
 
     <dependencies>

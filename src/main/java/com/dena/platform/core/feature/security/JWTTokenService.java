@@ -5,29 +5,33 @@ import com.dena.platform.core.feature.user.domain.User;
 /**
  * @author Nazarpour.
  */
-public interface TokenService {
+public interface JWTTokenService {
 
     /**
-     * try to generate token if user is authenticated
+     * try to generateJWTToken token if user is authenticated
+     *
      * @param appId
      * @param claimedUser
      * @return token as a string
      */
-    public String generate(String appId, User claimedUser);
+    String generateJWTToken(String appId, User claimedUser);
 
     // todo: change this method to isValid and return boolean
+
     /**
      * validate token
+     *
      * @param token
      * @return corresponding user
      */
-    public User validate(String token);
+    User validate(String token);
 
     /**
      * Invalidate token
+     *
      * @param appId
      * @param token
      */
-    public void expireToken(String appId, String token);
+    void expireToken(String appId, String token);
 
 }

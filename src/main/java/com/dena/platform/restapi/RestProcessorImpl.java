@@ -15,7 +15,7 @@ import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.persistence.SchemaManager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.dena.platform.core.feature.search.Search;
-import com.dena.platform.core.feature.security.TokenService;
+import com.dena.platform.core.feature.security.JWTTokenService;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import com.dena.platform.restapi.dto.response.DenaObjectResponse;
@@ -67,6 +67,10 @@ public class RestProcessorImpl implements DenaRestProcessor {
     @Resource
     private SchemaManager schemaManager;
 
+    @Resource
+    private JWTTokenService JWTTokenService;
+
+
 
     @Override
     public ResponseEntity handleCreateObject() {
@@ -75,6 +79,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String requestBody = denaRequestContext.getRequestBody();
         String appTypeName = denaRequestContext.getPathVariable(TABLE_NAME);
         String appName = denaRequestContext.getPathVariable(APP_ID);
+        boolean loadRelation = Boolean.parseBoolean(denaRequestContext.getParameter(RELOAD_RELATION_PARAMETER));
 
         List<DenaObject> denaObjects;
 
@@ -83,13 +88,13 @@ public class RestProcessorImpl implements DenaRestProcessor {
             List<DenaObject> returnObject = denaDataStore.store(appName, appTypeName, denaObjects.toArray(new DenaObject[0]));
 
             String userName = denaObjects.get(0).getActorUsername();//TODO
-            User user = denaUserManagement.getUserById(appName, userName);
+            User user = denaUserManagement.findUserById(appName, userName);
 
             //search.index(appName, appTypeName, user, returnObject.toArray(new DenaObject[0]));
 
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
                     .withHttpStatusCode(HttpStatus.OK.value())
-                    .withDenaObjectResponseList(createObjectResponse(returnObject))
+                    .withDenaObjectResponseList(createObjectResponse(returnObject, loadRelation))
                     .withCreateObjectCount(returnObject.size())
                     .withTimestamp(DenaObjectUtils.timeStamp())
                     .build();
@@ -110,7 +115,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
         List<DenaObject> denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
         String userName = denaObjects.get(0).getActorUsername();//TODO
-        User user = denaUserManagement.getUserById(appName, userName);
+        User user = denaUserManagement.findUserById(appName, userName);
 
         try {
             List<DenaObject> returnObject;
@@ -175,7 +180,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String[] objectIds = denaRequestContext.getPathVariable(OBJECT_ID).split(",");
 //        String userName = denaRequestContext.getPathVariable(USER_NAME);
 
-//        User user = denaUserManagement.getUserById(appId, userName);
+//        User user = denaUserManagement.findUserById(appId, userName);
 
 
         try {
@@ -275,10 +280,10 @@ public class RestProcessorImpl implements DenaRestProcessor {
         try {
 
             if (StringUtils.isEmpty(email)) {
-                log.warn("email is empty");
+                log.warn("Email field is empty");
                 throw new ParameterInvalidException("email field is not set", ErrorCode.EMAIL_FIELD_IS_INVALID);
             } else if (StringUtils.isEmpty(email)) {
-                log.warn("password is empty");
+                log.warn("Password field is empty");
                 throw new ParameterInvalidException("password field is not set", ErrorCode.PASSWORD_FIELD_IS_INVALID);
             }
 
@@ -299,7 +304,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             DenaObject registeredUser = denaUserManagement.registerUser(appId, user);
 
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
-                    .withCreateObjectCount(1)
+                    .withCreatedUserCount(1)
                     .withDenaObjectResponseList(createObjectResponse(Collections.singletonList(registeredUser)))
                     .withTimestamp(DenaObjectUtils.timeStamp())
                     .build();
@@ -426,7 +431,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         DenaResponse denaResponse;
 
         try {
-            User user = denaUserManagement.getUserById(appId, userId);
+            User user = denaUserManagement.findUserById(appId, userId);
             foundDenaObject = search.query(appId, appTypeName, user, queryString, constructPager());
 
             if (CollectionUtils.isNotEmpty(foundDenaObject)) {
@@ -497,10 +502,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
                 .build();
     }
 
-    @Resource
-    private TokenService tokenService;
 
-    //// TODO: remove form hear
     @Override
     public ResponseEntity login() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
@@ -509,7 +511,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String requestBody = denaRequestContext.getRequestBody();
         User user = JSONMapper.createObjectFromJSON(requestBody, User.class);
 
-        String token = tokenService.generate(appId, user);
+        String token = JWTTokenService.generateJWTToken(appId, user);
 
         TokenGenResponse response = new TokenGenResponse();
         response.setToken(token);
@@ -525,7 +527,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String requestBody = denaRequestContext.getRequestBody();
         User user = JSONMapper.createObjectFromJSON(requestBody, User.class);
 
-        tokenService.expireToken(appId, token);
+        JWTTokenService.expireToken(appId, token);
 
         TokenGenResponse response = new TokenGenResponse();
         return ResponseEntity.ok().body(response);

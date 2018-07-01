@@ -21,19 +21,18 @@ Number of created table
 Request URL: https://dena-platform.com/<application-id>/schema/table1  
 
 Request Body:  
-```
-Empty
-```
+
+	Empty
+
 
 Response Body:
 
-```json
-{
-  "status":200,	
-  "timestamp": 1520504910721,
-  "create_table_count(s)": 1
-}
-```
+
+	{
+	  "status":200,	
+	  "timestamp": 1520504910721,
+	  "create_table_count(s)": 1
+	}
 
 
 ## Get All Table Schema ##
@@ -50,7 +49,7 @@ Response
 Return the schema of table
 
 ***Example:***  
-Request URL:https://dena-platform.com/<application-id>/schema 
+Request URL: https://dena-platform.com/<application-id>/schema 
 
 Request Body:  
 
@@ -104,22 +103,25 @@ Response:
 ----------
 
 ## Create Objects ##
+Create new object in Dena data store.  
 
 **Create Single Object**
 
+Return: Created object(s) count. 
 
 Method: POST
 
-URL: /v1/<application-id>/<table-name>
+URL: /v1/<application-id>/<table-name>/?loadRelation=false 
 
-Body:
 
+Headers:  
+Content-Type:application/json 
+
+Body:  
 {JSON}
 
-
-Headers:
-
-Content-Type:application/json
+Optional Parameter  
+- **loadRelation**: Whether load relation after creating object.   
 
 ***Example:***
 
@@ -151,18 +153,21 @@ Response Body:
 This API is same is above with the exception that the request can contain 
 multiple request.
 
+Return: Created object(s) count. 
+
 Method: POST
 
-URL: /v1/<application-id>/<table-name>
+URL: /v1/<application-id>/<table-name>?loadRelation=false
 
-Body:
+Headers:  
+Content-Type:application/json 
 
+Body:  
 {JSON Array}
 
+Optional Parameter  
+- **loadRelation**: Whether load relation after creating object.   
 
-Headers:
-
-Content-Type:application/json
 
 ***Example:***
 
@@ -329,10 +334,8 @@ Content-Type:application/json
 Body:  
 {JSON}
 
-Optional Parameter  
-
-- **loadRelation**: Whether load relation.   
-
+Optional Parameter   
+- **loadRelation**: Whether load relation after updating object.   
 
 ***Example:***
 
@@ -791,6 +794,7 @@ Pagination using in the REST API is implemented with the `startIndex` and `pageS
 `pageSize`: The number of records to retrieve in a single page. Minimum allowed value is 1. Default to 50. 
 
 **Sample Request**
+
 `/v1/<application-id>/<parent-table-name>/<parent-object-id>/relation/<relation-name>?startIndex=45&pageSize=6`
 
 `/v1/<application-id>/<table-name>?startIndex=0&pageSize=2` 
@@ -808,22 +812,16 @@ This API can be used to create new user in the application. When user created, b
 Email and password fields is required in registration new user. Additional property can also included in the request 
 body.
 
+Return: Created user account information.  
+
 Method: POST  
 URL: /v1/<application-id>/users/register  
 
 Headers:  
 Content-Type : application/json
 
-Body: {JSON}
-
-Response:  
- 
-    {
-        "email": email_address ,
-        "password": encrypted_password ,
-        ... other fields
-    }
-    
+Body:   
+{JSON}
 
 ***Example:***
 
@@ -842,18 +840,18 @@ Response Body:
 
       {
         "timestamp": 1520504910721,
-        "count": 1,
+        "create_user_count": 1,
         "objects": [
          {
-           "object_id": "5aa1104e99d0b323487d38a1",
-           "creation_time": 1520504910672,
-           "update_time": null,
-           "email": "user1@dena-platform.com" ,
-           "password": "$2a$10$lkjro.gqyjKA3/PCBPFBauPr69V5eYE8p9kDYh9yY07dRwKPeHiFu",
-           "name": "javad",
-           "family": "alimohammadi",          
-           "is_active": true,
-           ... other fields
+            "object_id": "5b2bc6848db73a10ac999947",
+            "object_uri": "/DENA_USER/5b2bc6848db73a10ac999947",
+            "update_time": null,
+            "create_time": 1529595524645,
+            "password": "$2a$10$b802T370w6I80joRAHgYP.cdO83PIzRt.eBYN1/hBok17/GsS2lxC",
+            "name": "javad",
+            "family": "alimohammadi",
+            "email": "user3@dena-platform.com"           
+            ... other fields
          }
         ]
       }
@@ -862,24 +860,21 @@ Response Body:
 
 ## Login ##
 
-With this API user can login in Dena Platform. after user successfully login then in subsequent request access token should be included.
+With this API user can login in Dena Platform. After user successfully login then in subsequent request access token 
+should be included in the request.
+
+Return: Created object(s) count. 
 
 Method: POST
 
 URL: /v1/<application-id>/users/login
 
-Body:
 
+Headers:  
+Content-Type:application/json
+
+Body:  
 {JSON}
-
-
-Headers:
-
-Content-Type:application/json
-
-Headers:
-
-Content-Type:application/json
 
 ***Example:***
 

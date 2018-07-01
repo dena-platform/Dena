@@ -14,10 +14,11 @@ import java.io.IOException;
  * @author Nazarpour.
  */
 public class JwtSuccessHandler implements AuthenticationSuccessHandler {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JwtSuccessHandler.class);
+    private final static Logger log = LoggerFactory.getLogger(JwtSuccessHandler.class);
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         //do nothing on success
-        LOGGER.info("successful authentication");
+        log.info("successful authentication");
     }
 }

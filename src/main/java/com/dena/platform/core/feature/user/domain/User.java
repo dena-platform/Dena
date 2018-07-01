@@ -1,6 +1,9 @@
 package com.dena.platform.core.feature.user.domain;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collections;
@@ -26,14 +29,16 @@ public class User {
     @JsonProperty("email")
     private String email;
 
+    @JsonProperty("password")
+    private String unencodedPassword;
+
+    @JsonProperty("is_active")
+    private Boolean isActive;
+
     private String lastValidToken;
 
     private String password;
 
-    private Boolean isActive;
-
-    @JsonProperty("password")
-    private String unencodedPassword;
 
     private Map<String, Object> otherFields = new HashMap<>();
 
@@ -53,12 +58,10 @@ public class User {
         this.password = password;
     }
 
-    @JsonGetter("password")
     public String getUnencodedPassword() {
         return unencodedPassword;
     }
 
-    @JsonSetter("password")
     public void setUnencodedPassword(String unencodedPassword) {
         this.unencodedPassword = unencodedPassword;
     }

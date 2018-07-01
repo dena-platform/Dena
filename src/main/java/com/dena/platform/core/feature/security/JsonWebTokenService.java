@@ -21,7 +21,7 @@ import java.util.Date;
  * @author Nazarpour.
  */
 @Service("jwtService")
-public class JsonWebTokenService implements TokenService {
+public class JsonWebTokenService implements JWTTokenService {
     private final static Logger LOGGER = LoggerFactory.getLogger(JsonWebTokenService.class);
 
     @Resource
@@ -38,22 +38,23 @@ public class JsonWebTokenService implements TokenService {
     }
 
     @Override
-    public String generate(String appId, User claimedUser) {
+    public String generateJWTToken(String appId, User claimedUser) {
         String username = claimedUser.getEmail();
         String password = claimedUser.getUnencodedPassword();
-        User user = userManagement.getUserById(appId, username);
+        User user = userManagement.findUserById(appId, username);
 
         if (user != null && SecurityUtil.matchesPassword(password, user.getPassword())) {
+            Date expireDate = Date.from(Instant.now().plusMillis(tokenExpireDuration));
+
             Claims claims = Jwts.claims()
                     .setSubject(username);
+            claims.setExpiration(expireDate);
 
             claims.put("role", "fixed_role"); //TODO change role to user role
             claims.put("app_id", appId);
             claims.put("userName", user.getEmail());
             claims.put("creation_date", Instant.now());
 
-            Date expireDate = Date.from(Instant.now().plusMillis(tokenExpireDuration));
-            claims.setExpiration(expireDate);
 
             String token = Jwts.builder()
                     .setClaims(claims)
@@ -63,7 +64,7 @@ public class JsonWebTokenService implements TokenService {
             userManagement.updateUser(appId, user);
             return token;
         } else {
-            throw new AuthenticationServiceException(String.format("not authenticated user: %s", username));
+            throw new AuthenticationServiceException(String.format("Not authenticated user: %s", username));
         }
     }
 
@@ -82,7 +83,7 @@ public class JsonWebTokenService implements TokenService {
             String appId = body.get("app_id", String.class);
             user.setEmail(username);
 
-            User loadedUser = userManagement.getUserById(appId, username);
+            User loadedUser = userManagement.findUserById(appId, username);
             if (!StringUtils.isEmpty(loadedUser.getLastValidToken()) && loadedUser.getLastValidToken().equals(token))
                 return user;
             else

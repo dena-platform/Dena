@@ -13,15 +13,15 @@ public interface DenaUserManagement {
      * Register an user in app.<br>
      * If user exist then throw {@link UserManagementException} exception.
      *
-     * @param user
-     * @return
+     * @param appId Name of app for registering new user
+     * @param user User information for registering in platform
+     * @return registered user in platform
      * @throws UserManagementException
      */
     DenaObject registerUser(String appId, User user);
 
     /**
      * Check if user is registered in dena platform before
-     *
      *
      * @param appId
      * @param user
@@ -36,7 +36,7 @@ public interface DenaUserManagement {
      * @param email
      * @return User object if exists or null
      */
-    User getUserById(String appId, String email);
+    User findUserById(String appId, String email);
 
 
     /**

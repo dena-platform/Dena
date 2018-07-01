@@ -2,8 +2,7 @@ package com.dena.platform.config;
 
 import com.dena.platform.common.config.DenaConfigReader;
 import com.dena.platform.core.feature.security.JwtAuthenticationEntryPoint;
-import com.dena.platform.core.feature.security.JwtAuthenticationFilter;
-import com.dena.platform.core.feature.security.JwtAuthenticationProvider;
+import com.dena.platform.core.feature.security.JWTAuthenticationProvider;
 import com.dena.platform.core.feature.security.JwtSuccessHandler;
 import com.dena.platform.restapi.endpoint.v1.API;
 import org.slf4j.Logger;
@@ -33,10 +32,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final static Logger log = LoggerFactory.getLogger(SecurityConfig.class);
 
     private JwtAuthenticationEntryPoint entryPoint;
-    private JwtAuthenticationProvider authenticationProvider;
+    private JWTAuthenticationProvider authenticationProvider;
 
     @Autowired
-    public SecurityConfig(JwtAuthenticationEntryPoint entryPoint, JwtAuthenticationProvider authenticationProvider) {
+    public SecurityConfig(JwtAuthenticationEntryPoint entryPoint, JWTAuthenticationProvider authenticationProvider) {
         this.entryPoint = entryPoint;
         this.authenticationProvider = authenticationProvider;
     }
@@ -74,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private void registerAuthenticationFilter(HttpSecurity http) {
-        JwtAuthenticationFilter filter = new JwtAuthenticationFilter();
+        DenaUserPassAuthenticationFilter filter = new DenaUserPassAuthenticationFilter();
         filter.setAuthenticationManager(authenticationManager());
         filter.setAuthenticationSuccessHandler(new JwtSuccessHandler());
 
