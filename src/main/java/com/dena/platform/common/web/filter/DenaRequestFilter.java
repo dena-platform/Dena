@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
-@Component("denaRequestFilter")
+
 public class DenaRequestFilter extends GenericFilterBean {
     private final static Logger log = LoggerFactory.getLogger(DenaRequestFilter.class);
 

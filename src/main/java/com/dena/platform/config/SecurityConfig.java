@@ -1,6 +1,7 @@
 package com.dena.platform.config;
 
 import com.dena.platform.common.config.DenaConfigReader;
+import com.dena.platform.common.web.filter.DenaRequestFilter;
 import com.dena.platform.core.feature.security.JWTAuthenticationEntryPoint;
 import com.dena.platform.core.feature.security.JWTAuthenticationProvider;
 import com.dena.platform.core.feature.security.JWTSuccessHandler;
@@ -19,6 +20,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter;
 
 import java.util.Collections;
 
@@ -31,6 +33,7 @@ import java.util.Collections;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final static Logger log = LoggerFactory.getLogger(SecurityConfig.class);
+
 
     private JWTAuthenticationEntryPoint entryPoint;
 
@@ -70,6 +73,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/**")
                     .permitAll();
         }
+
+
+        http.addFilterBefore(new DenaRequestFilter(), RememberMeAuthenticationFilter.class);
 
     }
 
