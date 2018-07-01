@@ -4,7 +4,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
-import java.util.List;
 
 public class JWTUserDetails implements Authentication {
 
@@ -12,13 +11,11 @@ public class JWTUserDetails implements Authentication {
     private String token;
     private Long id;
     private boolean isAuthenticated;
-    private Collection<? extends GrantedAuthority> authorities;
 
 
-    public JWTUserDetails(String userName, String token, List<GrantedAuthority> grantedAuthorities) {
+    public JWTUserDetails(String userName, String token) {
         this.userName = userName;
         this.token = token;
-        this.authorities = grantedAuthorities;
         this.isAuthenticated = true;
     }
 
@@ -38,7 +35,7 @@ public class JWTUserDetails implements Authentication {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return null;
     }
 
     @Override

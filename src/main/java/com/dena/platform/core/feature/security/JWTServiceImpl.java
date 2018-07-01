@@ -21,8 +21,8 @@ import java.util.Date;
  * @author Nazarpour.
  */
 @Service("jwtService")
-public class JsonWebTokenService implements JWTTokenService {
-    private final static Logger LOGGER = LoggerFactory.getLogger(JsonWebTokenService.class);
+public class JWTServiceImpl implements JWTService {
+    private final static Logger LOGGER = LoggerFactory.getLogger(JWTServiceImpl.class);
 
     @Resource
     private DenaUserManagement userManagement;

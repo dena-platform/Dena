@@ -3,7 +3,7 @@ package com.dena.platform.core.feature.security.authentication;
 import com.dena.platform.common.web.DenaRequestContext;
 import com.dena.platform.common.web.JSONMapper;
 import com.dena.platform.core.feature.security.JwtAuthenticationToken;
-import com.dena.platform.core.feature.security.JWTTokenService;
+import com.dena.platform.core.feature.security.JWTService;
 import com.dena.platform.core.feature.user.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,7 @@ public class DenaUserPassAuthenticationFilter extends AbstractAuthenticationProc
     private final static Logger log = LoggerFactory.getLogger(DenaUserPassAuthenticationFilter.class);
 
     @Resource
-    private JWTTokenService JWTTokenService;
+    private JWTService JWTService;
 
     public DenaUserPassAuthenticationFilter(String filterProcessingURL) {
         super(filterProcessingURL);

@@ -5,10 +5,10 @@ import com.dena.platform.core.feature.user.domain.User;
 /**
  * @author Nazarpour.
  */
-public interface JWTTokenService {
+public interface JWTService {
 
     /**
-     * try to generateJWTToken token if user is authenticated
+     * Generate JWT token based on provided information.
      *
      * @param appId
      * @param claimedUser
