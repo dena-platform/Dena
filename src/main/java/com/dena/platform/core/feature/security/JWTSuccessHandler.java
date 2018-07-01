@@ -13,8 +13,8 @@ import java.io.IOException;
 /**
  * @author Nazarpour.
  */
-public class JwtSuccessHandler implements AuthenticationSuccessHandler {
-    private final static Logger log = LoggerFactory.getLogger(JwtSuccessHandler.class);
+public class JWTSuccessHandler implements AuthenticationSuccessHandler {
+    private final static Logger log = LoggerFactory.getLogger(JWTSuccessHandler.class);
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
