@@ -7,14 +7,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
  * @author Nazarpour.
  */
 
-public class JwtAuthenticationToken extends UsernamePasswordAuthenticationToken {
+public class JWTAuthenticationToken extends UsernamePasswordAuthenticationToken {
 
     private String appId;
 
     private User user;
 
 
-    public JwtAuthenticationToken(String appId, User user) {
+    public JWTAuthenticationToken(String appId, User user) {
         super(user.getEmail(), user.getUnencodedPassword());
         this.appId = appId;
         this.user = user;

@@ -1,7 +1,6 @@
 package com.dena.platform.config;
 
 import com.dena.platform.common.config.DenaConfigReader;
-import com.dena.platform.common.web.filter.DenaRequestFilter;
 import com.dena.platform.core.feature.security.JWTAuthenticationEntryPoint;
 import com.dena.platform.core.feature.security.JWTAuthenticationProvider;
 import com.dena.platform.core.feature.security.JWTSuccessHandler;
@@ -19,11 +18,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter;
 
-import javax.annotation.Resource;
 import java.util.Collections;
 
 /**
@@ -77,12 +73,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll();
         }
 
-
     }
 
 
     private void registerAuthenticationFilter(HttpSecurity http) {
-        DenaUserPassAuthenticationFilter filter = new DenaUserPassAuthenticationFilter("/users/login");
+        DenaUserPassAuthenticationFilter filter = new DenaUserPassAuthenticationFilter("/*/users/login");
         filter.setAuthenticationManager(authenticationManager());
         filter.setAuthenticationSuccessHandler(new JWTSuccessHandler());
 

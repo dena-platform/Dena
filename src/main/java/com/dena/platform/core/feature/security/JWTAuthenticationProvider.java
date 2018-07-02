@@ -24,10 +24,10 @@ public class JWTAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
-        String appId = jwtAuthenticationToken.getAppId();
+        JWTAuthenticationToken JWTAuthenticationToken = (JWTAuthenticationToken) authentication;
+        String appId = JWTAuthenticationToken.getAppId();
 
-        User user = jwtAuthenticationToken.getUser();
+        User user = JWTAuthenticationToken.getUser();
 
         User retrievedUser = userManagement.findUserById(appId, user.getEmail());
 
@@ -42,6 +42,6 @@ public class JWTAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return (JwtAuthenticationToken.class.isAssignableFrom(authentication));
+        return (JWTAuthenticationToken.class.isAssignableFrom(authentication));
     }
 }

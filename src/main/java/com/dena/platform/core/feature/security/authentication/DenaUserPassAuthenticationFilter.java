@@ -2,7 +2,7 @@ package com.dena.platform.core.feature.security.authentication;
 
 import com.dena.platform.common.web.DenaRequestContext;
 import com.dena.platform.common.web.JSONMapper;
-import com.dena.platform.core.feature.security.JwtAuthenticationToken;
+import com.dena.platform.core.feature.security.JWTAuthenticationToken;
 import com.dena.platform.core.feature.security.JWTService;
 import com.dena.platform.core.feature.user.domain.User;
 import org.slf4j.Logger;
@@ -48,7 +48,7 @@ public class DenaUserPassAuthenticationFilter extends AbstractAuthenticationProc
         User user = JSONMapper.createObjectFromJSON(requestBody, User.class);
 
 
-        JwtAuthenticationToken authenticationToken = new JwtAuthenticationToken(appId, user);
+        JWTAuthenticationToken authenticationToken = new JWTAuthenticationToken(appId, user);
         return authenticationToken;
     }
 

@@ -3,7 +3,6 @@ package com.dena.platform.restapi.login;
 import com.dena.platform.restapi.DenaRestProcessor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,15 +14,13 @@ import javax.annotation.Resource;
  */
 @RestController
 
-@RequestMapping(value = LoginController.API_PATH, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+@RequestMapping(produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 public class LoginController {
-
-    public final static String API_PATH = "/security";
 
     @Resource(name = "denaRestEntityProcessorImpl")
     protected DenaRestProcessor denaRestProcessor;
 
-    @PostMapping(path = {"/login/{app-id}"}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(path = {"/{app-id}/users/{app-id}"}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity login() {
         return denaRestProcessor.login();
     }
