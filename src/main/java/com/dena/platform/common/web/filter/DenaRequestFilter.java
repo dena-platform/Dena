@@ -3,6 +3,7 @@ package com.dena.platform.common.web.filter;
 import com.dena.platform.common.web.DenaRequestProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.util.ContentCachingRequestWrapper;
@@ -16,8 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
-
-public class DenaRequestFilter extends GenericFilterBean {
+@Component
+public class DenaRequestFilter extends GenericFilterBean implements Ordered {
     private final static Logger log = LoggerFactory.getLogger(DenaRequestFilter.class);
 
     @Resource
@@ -33,5 +34,10 @@ public class DenaRequestFilter extends GenericFilterBean {
         } finally {
             denaRequestProcessor.postProcess();
         }
+    }
+
+    @Override
+    public int getOrder() {
+        return FilterOrder.PRE_SECURITY_ORDER;
     }
 }
