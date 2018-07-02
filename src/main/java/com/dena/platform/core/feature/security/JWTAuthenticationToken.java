@@ -9,23 +9,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 
 public class JWTAuthenticationToken extends UsernamePasswordAuthenticationToken {
 
-    private String appId;
-
     private User user;
 
-
-    public JWTAuthenticationToken(String appId, User user) {
+    public JWTAuthenticationToken(User user) {
         super(user.getEmail(), user.getUnencodedPassword());
-        this.appId = appId;
         this.user = user;
-    }
-
-    public String getAppId() {
-        return appId;
-    }
-
-    public void setAppId(String appId) {
-        this.appId = appId;
     }
 
     public User getUser() {

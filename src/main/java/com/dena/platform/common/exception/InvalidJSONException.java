@@ -6,10 +6,17 @@ package com.dena.platform.common.exception;
 public class InvalidJSONException extends DenaException {
     private ErrorCode errorCode;
 
+
     public InvalidJSONException(String message, ErrorCode errorCode) {
         super(message);
         this.errorCode = errorCode;
     }
+
+    public InvalidJSONException(String message, ErrorCode errorCode, Throwable cause) {
+        super(message, cause);
+        this.errorCode = errorCode;
+    }
+
 
     @Override
     public ErrorCode getErrorCode() {

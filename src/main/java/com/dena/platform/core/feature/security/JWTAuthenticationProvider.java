@@ -1,5 +1,6 @@
 package com.dena.platform.core.feature.security;
 
+import com.dena.platform.common.web.DenaRequestContext;
 import com.dena.platform.core.feature.security.model.JWTUserDetails;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;
@@ -25,7 +26,7 @@ public class JWTAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         JWTAuthenticationToken JWTAuthenticationToken = (JWTAuthenticationToken) authentication;
-        String appId = JWTAuthenticationToken.getAppId();
+        String appId = DenaRequestContext.getDenaRequestContext().getAppId();
 
         User user = JWTAuthenticationToken.getUser();
 

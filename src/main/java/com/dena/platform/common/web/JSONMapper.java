@@ -51,7 +51,7 @@ public class JSONMapper {
             return JSON_MAPPER.readValue(jsonString, classType);
         } catch (IOException ex) {
             String errMessage = String.format("Error in converting from JSON [%s] to class [%s]", jsonString, classType);
-            throw new InvalidJSONException(errMessage, ErrorCode.INVALID_REQUEST);
+            throw new InvalidJSONException(errMessage, ErrorCode.INVALID_REQUEST, ex);
         }
     }
 

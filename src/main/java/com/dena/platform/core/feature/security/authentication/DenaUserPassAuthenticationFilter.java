@@ -42,13 +42,11 @@ public class DenaUserPassAuthenticationFilter extends AbstractAuthenticationProc
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
-
-        String appId = denaRequestContext.getPathVariable("app_id");
         String requestBody = denaRequestContext.getRequestBody();
         User user = JSONMapper.createObjectFromJSON(requestBody, User.class);
 
 
-        JWTAuthenticationToken authenticationToken = new JWTAuthenticationToken(appId, user);
+        JWTAuthenticationToken authenticationToken = new JWTAuthenticationToken(user);
         return authenticationToken;
     }
 

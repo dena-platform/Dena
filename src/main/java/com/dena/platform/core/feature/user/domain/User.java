@@ -1,9 +1,8 @@
 package com.dena.platform.core.feature.user.domain;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collections;
@@ -15,6 +14,7 @@ import java.util.Map;
  *
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
+
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class User {
 
@@ -37,6 +37,7 @@ public class User {
 
     private String lastValidToken;
 
+    @JsonIgnore
     private String password;
 
 
