@@ -23,6 +23,8 @@ public class DenaRequestContext {
 
     private ContentCachingRequestWrapper request;
 
+    private String appId;
+
     private String requestBody;
 
 
@@ -94,5 +96,9 @@ public class DenaRequestContext {
 
     public String getParameter(String name) {
         return request.getParameter(name);
+    }
+
+    public String getAppId() {
+        return appId;
     }
 }
