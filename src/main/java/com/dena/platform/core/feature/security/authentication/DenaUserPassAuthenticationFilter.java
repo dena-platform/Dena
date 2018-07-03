@@ -47,6 +47,7 @@ public class DenaUserPassAuthenticationFilter extends AbstractAuthenticationProc
 
 
         JWTAuthenticationToken authenticationToken = new JWTAuthenticationToken(user);
+
         return authenticationToken;
     }
 
