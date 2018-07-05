@@ -19,9 +19,12 @@ public class DenaRequestProcessorImpl implements DenaRequestProcessor {
         /////////////////////////////////////////////
         //            Set app id
         /////////////////////////////////////////////
-        String appId = request.getServletPath().substring(1, request.getServletPath().indexOf("/", 1));
+        String path = request.getServletPath();
+        int indexOfVersion = path.indexOf("v");
+        int beginAppNameIndex = path.indexOf("/", indexOfVersion) + 1;
+        int endAppNameIndex = path.indexOf("/", beginAppNameIndex) - 1;
+        String appId = path.substring(beginAppNameIndex, endAppNameIndex + 1);
         denaRequestContext.setAppId(appId);
-
 
 
     }

@@ -15,9 +15,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 
 import java.util.Collections;
 
@@ -61,6 +62,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers(API.API_PATH + "/*/users/login");
+    }
+
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         boolean isDenaSecurityModuleEnabled = DenaConfigReader.readBooleanProperty("dena.api.security.enabled", true);
 
@@ -68,12 +75,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             http.csrf().disable();
 
             http.authorizeRequests().antMatchers(API.API_PATH + "**").authenticated();
-//            http.exceptionHandling().authenticationEntryPoint(entryPoint);
+            http.exceptionHandling().authenticationEntryPoint(entryPoint);
 
-//            http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
             http.headers().cacheControl();
             registerAuthenticationFilter(http);
+
 
         } else {
             log.warn("Security is disabled. this property should be used in development mode only");
@@ -87,8 +95,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private void registerAuthenticationFilter(HttpSecurity http) {
-        DenaUserPassAuthenticationFilter filter = getUserPassAuthenticationFilter();
-        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+//        DenaUserPassAuthenticationFilter filter = getUserPassAuthenticationFilter();
+//        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 
     }
 }

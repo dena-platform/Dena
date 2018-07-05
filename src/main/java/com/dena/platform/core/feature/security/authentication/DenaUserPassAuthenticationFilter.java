@@ -27,11 +27,6 @@ import javax.servlet.http.HttpServletResponse;
 public class DenaUserPassAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
     private final static Logger log = LoggerFactory.getLogger(DenaUserPassAuthenticationFilter.class);
 
-    @Resource
-    private JWTService jwtService;
-
-    @Resource
-    private DenaUserManagement denaUserManagement;
 
     public DenaUserPassAuthenticationFilter(String filterProcessingURL) {
         super(filterProcessingURL);
@@ -45,20 +40,7 @@ public class DenaUserPassAuthenticationFilter extends AbstractAuthenticationProc
      */
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
-        String appId = DenaRequestContext.getDenaRequestContext().getAppId();
-        String requestBody = denaRequestContext.getRequestBody();
-        User user = JSONMapper.createObjectFromJSON(requestBody, User.class);
-
-        User retrievedUser = denaUserManagement.findUserById(appId, user.getEmail());
-
-        if (retrievedUser != null && SecurityUtil.matchesPassword(user.getUnencodedPassword(), retrievedUser.getPassword())) {
-            String jwtToken = jwtService.generateJWTToken(appId, retrievedUser);
-            return new JWTUserDetails(retrievedUser, jwtToken);
-        } else {
-            throw new BadCredentialsException("User name or password is invalid");
-        }
-
+        return null;
     }
 
 }

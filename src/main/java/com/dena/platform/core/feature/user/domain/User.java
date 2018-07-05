@@ -26,6 +26,8 @@ public class User {
 
     public final static String LAST_VALID_TOKEN = "last_valid_token";
 
+    public final static String JWT_TOKEN = "token";
+
     @JsonProperty("email")
     private String email;
 

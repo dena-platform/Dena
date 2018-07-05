@@ -16,6 +16,7 @@ import com.dena.platform.core.feature.persistence.SchemaManager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.dena.platform.core.feature.search.Search;
 import com.dena.platform.core.feature.security.JWTService;
+import com.dena.platform.core.feature.security.service.DenaSecurityService;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import com.dena.platform.restapi.dto.response.DenaObjectResponse;
@@ -69,6 +70,9 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
     @Resource
     private JWTService JWTService;
+
+    @Resource
+    private DenaSecurityService denaSecurityService;
 
 
     @Override
@@ -455,6 +459,41 @@ public class RestProcessorImpl implements DenaRestProcessor {
         }
     }
 
+    @Override
+    public ResponseEntity handleLoginUser() {
+        String appId = DenaRequestContext.getDenaRequestContext().getAppId();
+        String requestBody = DenaRequestContext.getDenaRequestContext().getRequestBody();
+        User user = JSONMapper.createObjectFromJSON(requestBody, User.class);
+
+        String userName = user.getEmail();
+        String password = user.getUnencodedPassword();
+        DenaResponse denaResponse;
+
+        try {
+
+            if (StringUtils.isEmpty(userName)) {
+                log.warn("user name field is empty");
+                throw new ParameterInvalidException("user_name is not set", ErrorCode.EMAIL_FIELD_IS_INVALID);
+            }
+
+            if (StringUtils.isEmpty(password)) {
+                log.warn("password field is empty");
+                throw new ParameterInvalidException("password is not set", ErrorCode.PASSWORD_FIELD_IS_INVALID);
+            }
+
+            DenaObject authenticateUser = denaSecurityService.authenticateUser(appId, userName, password);
+            denaResponse = DenaResponseBuilder.aDenaResponse()
+                    .withFoundObjectCount(1)
+                    .withDenaObjectResponseList(createObjectResponse(Collections.singletonList(authenticateUser)))
+                    .withTimestamp(DenaObjectUtils.timeStamp())
+                    .build();
+            return ResponseEntity.ok().body(denaResponse);
+        } catch (DenaException ex) {
+            throw DenaRestException.buildException(ex);
+        }
+
+    }
+
     private List<DenaObjectResponse> createObjectResponse(List<DenaObject> denaObjects) {
         return createObjectResponse(denaObjects, false);
     }
@@ -501,21 +540,6 @@ public class RestProcessorImpl implements DenaRestProcessor {
                 .build();
     }
 
-
-    @Override
-    public ResponseEntity handleLoginUser() {
-        DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
-
-        String appId = denaRequestContext.getAppId();
-        String requestBody = denaRequestContext.getRequestBody();
-        User user = JSONMapper.createObjectFromJSON(requestBody, User.class);
-
-        String token = JWTService.generateJWTToken(appId, user);
-
-        TokenGenResponse response = new TokenGenResponse();
-        response.setToken(token);
-        return ResponseEntity.ok().body(response);
-    }
 
     @Override
     public ResponseEntity logout() {

@@ -20,11 +20,6 @@ public class LoginController {
     @Resource(name = "denaRestEntityProcessorImpl")
     protected DenaRestProcessor denaRestProcessor;
 
-    @PostMapping(path = {"/{app-id}/users/{app-id}"}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public String login() {
-        return "ok";
-    }
-
     @PostMapping(path = {"/logout/{app-id}"}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity logout() {
         return denaRestProcessor.logout();
