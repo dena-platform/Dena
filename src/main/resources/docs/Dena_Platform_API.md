@@ -863,7 +863,7 @@ Response Body:
 With this API user can login in Dena Platform. After user successfully login then in subsequent request access token 
 should be included in the request.
 
-Return: Created object(s) count. 
+Return: Logined user information except password. 
 
 Method: POST
 

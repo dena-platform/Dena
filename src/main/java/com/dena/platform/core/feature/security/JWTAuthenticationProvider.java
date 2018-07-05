@@ -25,16 +25,16 @@ public class JWTAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        JWTAuthenticationToken JWTAuthenticationToken = (JWTAuthenticationToken) authentication;
+        JWTAuthenticationToken jwtAuthenticationToken = (JWTAuthenticationToken) authentication;
         String appId = DenaRequestContext.getDenaRequestContext().getAppId();
 
-        User user = JWTAuthenticationToken.getUser();
+        User user = jwtAuthenticationToken.getUser();
 
         User retrievedUser = userManagement.findUserById(appId, user.getEmail());
 
         if (retrievedUser != null && SecurityUtil.matchesPassword(user.getUnencodedPassword(), retrievedUser.getPassword())) {
             jwtService.generateJWTToken(appId, retrievedUser);
-            return new JWTUserDetails(user.getEmail(), appId);
+            return new JWTUserDetails(retrievedUser, appId);
         } else {
             throw new BadCredentialsException("User name or password is invalid");
         }

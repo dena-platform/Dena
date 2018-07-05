@@ -1,9 +1,9 @@
 package com.dena.platform.config;
 
 import com.dena.platform.common.config.DenaConfigReader;
+import com.dena.platform.core.feature.security.DenaAuthenticationSuccessHandler;
 import com.dena.platform.core.feature.security.JWTAuthenticationEntryPoint;
 import com.dena.platform.core.feature.security.JWTAuthenticationProvider;
-import com.dena.platform.core.feature.security.JWTSuccessHandler;
 import com.dena.platform.core.feature.security.authentication.DenaUserPassAuthenticationFilter;
 import com.dena.platform.restapi.endpoint.v1.API;
 import org.slf4j.Logger;
@@ -17,7 +17,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.Collections;
@@ -44,9 +43,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.authenticationProvider = authenticationProvider;
     }
 
+
     @Bean
     public AuthenticationManager authenticationManager() {
         return new ProviderManager(Collections.singletonList(authenticationProvider));
+    }
+
+
+    @Bean
+    public DenaUserPassAuthenticationFilter getUserPassAuthenticationFilter() {
+        DenaUserPassAuthenticationFilter filter = new DenaUserPassAuthenticationFilter("/*/users/handleLoginUser");
+        filter.setAuthenticationManager(authenticationManager());
+        filter.setAuthenticationSuccessHandler(new DenaAuthenticationSuccessHandler());
+
+        return filter;
     }
 
 
@@ -55,12 +65,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         boolean isDenaSecurityModuleEnabled = DenaConfigReader.readBooleanProperty("dena.api.security.enabled", true);
 
         if (isDenaSecurityModuleEnabled) {
-            http.csrf().disable()
-                    .authorizeRequests().antMatchers("**" + API.API_PATH + "**").authenticated()
-                    .and()
-                    .exceptionHandling().authenticationEntryPoint(entryPoint)
-                    .and()
-                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            http.csrf().disable();
+
+            http.authorizeRequests().antMatchers(API.API_PATH + "**").authenticated();
+//            http.exceptionHandling().authenticationEntryPoint(entryPoint);
+
+//            http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
             http.headers().cacheControl();
             registerAuthenticationFilter(http);
@@ -77,10 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private void registerAuthenticationFilter(HttpSecurity http) {
-        DenaUserPassAuthenticationFilter filter = new DenaUserPassAuthenticationFilter("/*/users/login");
-        filter.setAuthenticationManager(authenticationManager());
-        filter.setAuthenticationSuccessHandler(new JWTSuccessHandler());
-
+        DenaUserPassAuthenticationFilter filter = getUserPassAuthenticationFilter();
         http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 
     }

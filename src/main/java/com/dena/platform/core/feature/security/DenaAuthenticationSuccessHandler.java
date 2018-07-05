@@ -1,5 +1,6 @@
 package com.dena.platform.core.feature.security;
 
+import com.dena.platform.core.feature.security.model.JWTUserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -13,12 +14,14 @@ import java.io.IOException;
 /**
  * @author Nazarpour.
  */
-public class JWTSuccessHandler implements AuthenticationSuccessHandler {
-    private final static Logger log = LoggerFactory.getLogger(JWTSuccessHandler.class);
+public class DenaAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+    private final static Logger log = LoggerFactory.getLogger(DenaAuthenticationSuccessHandler.class);
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-        //do nothing on success
-        log.info("successful authentication");
+        log.trace("successful authentication with jwt");
+
+        JWTUserDetails jwtUserDetails = (JWTUserDetails) authentication;
+        httpServletResponse.getWriter().print("ok");
     }
 }

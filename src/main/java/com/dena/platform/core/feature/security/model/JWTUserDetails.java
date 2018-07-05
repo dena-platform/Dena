@@ -1,37 +1,27 @@
 package com.dena.platform.core.feature.security.model;
 
+import com.dena.platform.core.feature.user.domain.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
 public class JWTUserDetails implements Authentication {
-
-    private String userName;
+    private User denaUser;
     private String token;
-    private Long id;
     private boolean isAuthenticated;
 
 
-    public JWTUserDetails(String userName, String token) {
-        this.userName = userName;
+    public JWTUserDetails(User denaUser, String token) {
+        this.denaUser = denaUser;
         this.token = token;
         this.isAuthenticated = true;
-    }
-
-
-    public String getUserName() {
-        return userName;
     }
 
     public String getToken() {
         return token;
     }
 
-
-    public Long getId() {
-        return id;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -65,6 +55,6 @@ public class JWTUserDetails implements Authentication {
 
     @Override
     public String getName() {
-        return userName;
+        return denaUser.getEmail();
     }
 }

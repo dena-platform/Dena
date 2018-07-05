@@ -9,7 +9,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -40,32 +39,27 @@ public class JWTServiceImpl implements JWTService {
     @Override
     public String generateJWTToken(String appId, User claimedUser) {
         String username = claimedUser.getEmail();
-        String password = claimedUser.getUnencodedPassword();
-        User user = userManagement.findUserById(appId, username);
 
-        if (user != null && SecurityUtil.matchesPassword(password, user.getPassword())) {
-            Date expireDate = Date.from(Instant.now().plusMillis(tokenExpireDuration));
+        Date expireDate = Date.from(Instant.now().plusMillis(tokenExpireDuration));
 
-            Claims claims = Jwts.claims()
-                    .setSubject(username);
-            claims.setExpiration(expireDate);
+        Claims claims = Jwts.claims()
+                .setSubject(username);
+        claims.setExpiration(expireDate);
 
-            claims.put("role", "fixed_role"); //TODO change role to user role
-            claims.put("app_id", appId);
-            claims.put("userName", user.getEmail());
-            claims.put("creation_date", Instant.now());
+        claims.put("role", "fixed_role"); //TODO change role to user role
+        claims.put("app_id", appId);
+        claims.put("userName", username);
+        claims.put("creation_date", Instant.now());
 
 
-            String token = Jwts.builder()
-                    .setClaims(claims)
-                    .signWith(SignatureAlgorithm.HS512, secret)
-                    .compact();
-            user.setLastValidToken(token);
-            userManagement.updateUser(appId, user);
-            return token;
-        } else {
-            throw new AuthenticationServiceException(String.format("Not authenticated user: %s", username));
-        }
+        String token = Jwts.builder()
+                .setClaims(claims)
+                .signWith(SignatureAlgorithm.HS512, secret)
+                .compact();
+        claimedUser.setLastValidToken(token);
+        userManagement.updateUser(appId, claimedUser);
+        return token;
+
     }
 
 

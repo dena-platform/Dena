@@ -71,14 +71,13 @@ public class RestProcessorImpl implements DenaRestProcessor {
     private JWTService JWTService;
 
 
-
     @Override
     public ResponseEntity handleCreateObject() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
 
         String requestBody = denaRequestContext.getRequestBody();
         String appTypeName = denaRequestContext.getPathVariable(TABLE_NAME);
-        String appName = denaRequestContext.getPathVariable(APP_ID);
+        String appName = denaRequestContext.getAppId();
         boolean loadRelation = Boolean.parseBoolean(denaRequestContext.getParameter(RELOAD_RELATION_PARAMETER));
 
         List<DenaObject> denaObjects;
@@ -504,10 +503,10 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
 
     @Override
-    public ResponseEntity login() {
+    public ResponseEntity handleLoginUser() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
 
-        String appId = denaRequestContext.getPathVariable(APP_ID);
+        String appId = denaRequestContext.getAppId();
         String requestBody = denaRequestContext.getRequestBody();
         User user = JSONMapper.createObjectFromJSON(requestBody, User.class);
 
