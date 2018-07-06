@@ -15,7 +15,7 @@ import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.persistence.SchemaManager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.dena.platform.core.feature.search.Search;
-import com.dena.platform.core.feature.security.JWTService;
+import com.dena.platform.core.feature.security.service.JWTService;
 import com.dena.platform.core.feature.security.service.DenaSecurityService;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;

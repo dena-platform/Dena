@@ -13,10 +13,11 @@ import java.io.IOException;
  * @author Nazarpour.
  */
 @Component
-public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class JWTInvalidAuthenticationHandler implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "UNAUTHORIZED");
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.getWriter().print("bad response");
+
+        
     }
 }

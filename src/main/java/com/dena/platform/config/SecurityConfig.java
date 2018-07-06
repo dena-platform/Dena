@@ -2,13 +2,13 @@ package com.dena.platform.config;
 
 import com.dena.platform.common.config.DenaConfigReader;
 import com.dena.platform.core.feature.security.DenaAuthenticationSuccessHandler;
-import com.dena.platform.core.feature.security.JWTAuthenticationEntryPoint;
 import com.dena.platform.core.feature.security.JWTAuthenticationProvider;
-import com.dena.platform.core.feature.security.authentication.DenaUserPassAuthenticationFilter;
+import com.dena.platform.core.feature.security.JWTInvalidAuthenticationHandler;
+import com.dena.platform.core.feature.security.filter.DenaUserPassAuthenticationFilter;
+import com.dena.platform.core.feature.security.filter.JWTAuthenticationFilter;
 import com.dena.platform.restapi.endpoint.v1.API;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,7 +19,9 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter;
 
+import javax.annotation.Resource;
 import java.util.Collections;
 
 /**
@@ -32,17 +34,11 @@ import java.util.Collections;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final static Logger log = LoggerFactory.getLogger(SecurityConfig.class);
 
+    @Resource
+    private JWTInvalidAuthenticationHandler invalidAuthenticationHandler;
 
-    private JWTAuthenticationEntryPoint entryPoint;
-
+    @Resource
     private JWTAuthenticationProvider authenticationProvider;
-
-
-    @Autowired
-    public SecurityConfig(JWTAuthenticationEntryPoint entryPoint, JWTAuthenticationProvider authenticationProvider) {
-        this.entryPoint = entryPoint;
-        this.authenticationProvider = authenticationProvider;
-    }
 
 
     @Bean
@@ -63,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(API.API_PATH + "/*/users/*");
+        web.ignoring().antMatchers(API.API_PATH + "*/users/*");
     }
 
 
@@ -75,7 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             http.csrf().disable();
 
             http.authorizeRequests().antMatchers(API.API_PATH + "**").authenticated();
-            http.exceptionHandling().authenticationEntryPoint(entryPoint);
+
+            http.exceptionHandling().authenticationEntryPoint(invalidAuthenticationHandler);
 
             http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
@@ -95,8 +92,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private void registerAuthenticationFilter(HttpSecurity http) {
-//        DenaUserPassAuthenticationFilter filter = getUserPassAuthenticationFilter();
-//        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+        JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter(API.API_PATH + "*/users/*");
+        http.addFilterBefore(jwtAuthenticationFilter, RememberMeAuthenticationFilter.class);
 
     }
 }

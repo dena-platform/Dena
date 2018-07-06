@@ -1,8 +1,9 @@
 package com.dena.platform.core.feature.security;
 
+import com.dena.platform.common.exception.ErrorCode;
 import com.dena.platform.common.web.DenaRequestContext;
-import com.dena.platform.core.feature.security.model.JWTUserDetails;
-import com.dena.platform.core.feature.user.domain.User;
+import com.dena.platform.core.feature.security.exception.SecurityException;
+import com.dena.platform.core.feature.security.service.JWTService;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -20,24 +21,19 @@ public class JWTAuthenticationProvider implements AuthenticationProvider {
     @Resource
     private JWTService jwtService;
 
-    @Resource
-    private DenaUserManagement userManagement;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         JWTAuthenticationToken jwtAuthenticationToken = (JWTAuthenticationToken) authentication;
-        String appId = DenaRequestContext.getDenaRequestContext().getAppId();
 
-        User user = jwtAuthenticationToken.getUser();
+        String jwtToken = jwtAuthenticationToken.getToken();
 
-        User retrievedUser = userManagement.findUserById(appId, user.getEmail());
-
-        if (retrievedUser != null && SecurityUtil.matchesPassword(user.getUnencodedPassword(), retrievedUser.getPassword())) {
-            jwtService.generateJWTToken(appId, retrievedUser);
-            return new JWTUserDetails(retrievedUser, appId);
+        if (jwtService.isTokenValid(jwtToken)) {
+            return jwtAuthenticationToken;
         } else {
             throw new BadCredentialsException("User name or password is invalid");
         }
+
 
     }
 

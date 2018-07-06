@@ -1,4 +1,4 @@
-package com.dena.platform.core.feature.security;
+package com.dena.platform.core.feature.security.service;
 
 import com.dena.platform.core.feature.user.domain.User;
 
