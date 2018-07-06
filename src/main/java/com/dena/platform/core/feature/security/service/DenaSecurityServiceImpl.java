@@ -1,13 +1,14 @@
 package com.dena.platform.core.feature.security.service;
 
+import com.dena.platform.common.exception.ErrorCode;
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.security.JWTService;
 import com.dena.platform.core.feature.security.SecurityUtil;
+import com.dena.platform.core.feature.security.exception.SecurityException;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -46,7 +47,7 @@ public class DenaSecurityServiceImpl implements DenaSecurityService {
             log.trace("User [{}] successfully logined", userName);
             return retrievedUser;
         } else {
-            throw new BadCredentialsException("User name or password is invalid");
+            throw new SecurityException("User name or password is invalid", ErrorCode.BAD_CREDENTIAL);
         }
 
     }
