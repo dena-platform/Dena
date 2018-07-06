@@ -62,6 +62,10 @@ public class DenaObject {
         return Collections.unmodifiableMap(otherFields);
     }
 
+    public <T> T getField(String name, Class<T> klass) {
+        return klass.cast(otherFields.get(name));
+    }
+
     public void addFields(Map<String, Object> fields) {
         otherFields.putAll(fields);
     }

@@ -16,15 +16,13 @@ public interface JWTService {
      */
     String generateJWTToken(String appId, User claimedUser);
 
-    // todo: change this method to isValid and return boolean
-
     /**
-     * validate token
+     * Check if provided token is valid
      *
      * @param token
-     * @return corresponding user
+     * @return True if provided token is valid.
      */
-    User validate(String token);
+    boolean isTokenValid(String token);
 
     /**
      * Invalidate token

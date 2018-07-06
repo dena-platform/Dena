@@ -63,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(API.API_PATH + "/*/users/login");
+        web.ignoring().antMatchers(API.API_PATH + "/*/users/*");
     }
 
 

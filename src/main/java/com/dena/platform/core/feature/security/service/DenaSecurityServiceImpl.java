@@ -5,6 +5,7 @@ import com.dena.platform.core.feature.security.JWTService;
 import com.dena.platform.core.feature.security.SecurityUtil;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -32,16 +33,20 @@ public class DenaSecurityServiceImpl implements DenaSecurityService {
         User retrievedUser = denaUserManagement.findUserById(appId, userName);
 
         if (retrievedUser != null && SecurityUtil.matchesPassword(password, retrievedUser.getPassword())) {
-            String jwtToken = jwtService.generateJWTToken(appId, retrievedUser);
 
-            DenaObject denaObject = new DenaObject();
-            denaObject.addField(User.EMAIL_FIELD_NAME, userName);
-            denaObject.addField(User.JWT_TOKEN, jwtToken);
-            denaObject.addField(User.IS_ACTIVE, retrievedUser.getActive());
-            denaObject.addFields(retrievedUser.getOtherFields());
+            if (!jwtService.isTokenValid(retrievedUser.getToken())) {
+                log.debug("Stored token for user [{}] is invalid", userName);
+                log.debug("Generate new token for user [{}], app [{}]", userName, appId);
+                String jwtToken = jwtService.generateJWTToken(appId, retrievedUser);
+                retrievedUser.setToken(jwtToken);
+                denaUserManagement.updateUser(appId, retrievedUser);
+            }
+
+            retrievedUser.setToken(StringUtils.EMPTY);
+            retrievedUser.setPassword(StringUtils.EMPTY);
 
             log.trace("User [{}] successfully logined", userName);
-            return denaObject;
+            return retrievedUser;
         } else {
             throw new BadCredentialsException("User name or password is invalid");
         }

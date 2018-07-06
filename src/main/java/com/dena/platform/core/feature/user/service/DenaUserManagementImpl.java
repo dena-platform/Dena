@@ -69,7 +69,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
         DenaObject denaObject = new DenaObject();
         denaObject.addField(User.EMAIL_FIELD_NAME, user.getEmail());
         denaObject.addField(User.PASSWORD_FIELD_NAME, user.getPassword());
-        denaObject.addField(User.IS_ACTIVE, user.getActive());
+        denaObject.addField(User.IS_ACTIVE_FIELD_NAME, user.getActive());
         denaObject.addFields(user.getOtherFields());
 
         return denaDataStore.store(appId, userInfoTableName, denaObject).get(0);
@@ -77,7 +77,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
     @Override
     public boolean isUserExist(String appId, User user) {
-        // todo: when we implement search capability in DanaStore module, then refactor this method to use it
+        // todo: when we implement search capability in DanaStore module, then refactor this method to use that
         List<DenaObject> denaObjects = denaDataStore.findAll(appId, userInfoTableName, new DenaPager(0, DenaConfigReader.readIntProperty("dena.pager.max.results", 50)));
         Optional<DenaObject> foundUser = denaObjects.stream()
                 .filter(denaObject -> denaObject.hasProperty(User.EMAIL_FIELD_NAME, user.getEmail()))
@@ -88,7 +88,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
     @Override
     public User findUserById(String appId, String email) {
-        // todo: when we implement search capability in DanaStore module, then refactor this method to use it
+        // todo: when we implement search capability in DanaStore module, then refactor this method to use that
 
         List<DenaObject> denaObjects = denaDataStore.findAll(appId, userInfoTableName, new DenaPager(0, DenaConfigReader.readIntProperty("dena.pager.max.results", 50)));
 
@@ -103,11 +103,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
             foundUser.setObjectURI(foundDenaObject.get().getObjectURI());
             foundUser.setCreateTime(foundDenaObject.get().getCreateTime());
             foundUser.setUpdateTime(foundDenaObject.get().getUpdateTime());
-            foundUser.setActive((Boolean) foundDenaObject.get().getOtherFields().get(User.IS_ACTIVE));
-            foundUser.setEmail((String) foundDenaObject.get().getOtherFields().get(User.EMAIL_FIELD_NAME));
-            foundUser.setPassword((String) foundDenaObject.get().getOtherFields().get(User.PASSWORD_FIELD_NAME));
-            foundUser.setLastValidToken((String) foundDenaObject.get().getOtherFields().get(User.LAST_VALID_TOKEN));
-            foundUser.setOtherFields(foundDenaObject.get().getOtherFields());
+            foundUser.addFields(foundDenaObject.get().getOtherFields());
         }
 
 
@@ -131,8 +127,8 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
         denaObject.addField(User.EMAIL_FIELD_NAME, user.getEmail());
 //        denaObject.addField(User.PASSWORD_FIELD_NAME, user.getPassword());
-        denaObject.addField(User.IS_ACTIVE, user.getActive());
-        denaObject.addField(User.LAST_VALID_TOKEN, user.getLastValidToken());
+        denaObject.addField(User.IS_ACTIVE_FIELD_NAME, user.getActive());
+        denaObject.addField(User.TOKEN_FIELD_NAME, user.getToken());
         denaObject.addFields(user.getOtherFields());
 
         denaDataStore.mergeUpdate(appId, userInfoTableName, denaObject).get(0);

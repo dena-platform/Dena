@@ -1,13 +1,9 @@
 package com.dena.platform.core.feature.user.domain;
 
 import com.dena.platform.core.dto.DenaObject;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.commons.lang3.StringUtils;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -23,43 +19,28 @@ public class User extends DenaObject {
 
     public final static String PASSWORD_FIELD_NAME = "password";
 
-    public final static String IS_ACTIVE = "is_active";
+    public final static String IS_ACTIVE_FIELD_NAME = "is_active";
 
-    public final static String LAST_VALID_TOKEN = "last_valid_token";
+    public final static String TOKEN_FIELD_NAME = "token";
 
-    public final static String JWT_TOKEN = "token";
-
-    @JsonProperty("email")
-    private String email;
 
     @JsonProperty("password")
     private String unencodedPassword;
 
-    @JsonProperty("is_active")
-    private Boolean isActive;
-
-    private String lastValidToken;
-
-    @JsonIgnore
-    private String password;
-
-
-    private Map<String, Object> otherFields = new HashMap<>();
-
     public String getEmail() {
-        return email;
+        return getField(EMAIL_FIELD_NAME, String.class);
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        addField(EMAIL_FIELD_NAME, email);
     }
 
     public String getPassword() {
-        return password;
+        return getField(PASSWORD_FIELD_NAME, String.class);
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        addField(PASSWORD_FIELD_NAME, password);
     }
 
     public String getUnencodedPassword() {
@@ -71,35 +52,20 @@ public class User extends DenaObject {
     }
 
     public Boolean getActive() {
-        return isActive;
+        return getField(IS_ACTIVE_FIELD_NAME, Boolean.class);
     }
 
-    public void setActive(Boolean active) {
-        isActive = active;
+    public void setActive(Boolean isActive) {
+        addField(IS_ACTIVE_FIELD_NAME, isActive);
     }
 
-    public String getLastValidToken() {
-        return lastValidToken;
+    public String getToken() {
+        return getField(TOKEN_FIELD_NAME, String.class);
     }
 
-    public void setLastValidToken(String lastValidToken) {
-        this.lastValidToken = lastValidToken;
+    public void setToken(String token) {
+        addField(TOKEN_FIELD_NAME, token);
     }
-
-    public void addProperty(final String name, final Object value) {
-        if (StringUtils.isNotBlank(name) && value != null) {
-            otherFields.put(name, value);
-        }
-    }
-
-    public void setOtherFields(Map<String, Object> otherFields) {
-        this.otherFields = otherFields;
-    }
-
-    public Map<String, Object> getOtherFields() {
-        return Collections.unmodifiableMap(otherFields);
-    }
-
 
     public static final class UserBuilder {
         private User user;
@@ -133,7 +99,7 @@ public class User extends DenaObject {
         }
 
         public UserBuilder withOtherFields(Map<String, Object> otherFields) {
-            user.setOtherFields(otherFields);
+            user.addFields(otherFields);
             return this;
         }
 

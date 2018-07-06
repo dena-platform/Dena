@@ -6,7 +6,6 @@ import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,7 @@ import java.util.Date;
  */
 @Service("jwtService")
 public class JWTServiceImpl implements JWTService {
-    private final static Logger LOGGER = LoggerFactory.getLogger(JWTServiceImpl.class);
+    private final static Logger lof = LoggerFactory.getLogger(JWTServiceImpl.class);
 
     @Resource
     private DenaUserManagement userManagement;
@@ -56,7 +55,7 @@ public class JWTServiceImpl implements JWTService {
                 .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
-        claimedUser.setLastValidToken(token);
+        claimedUser.setToken(token);
         userManagement.updateUser(appId, claimedUser);
         return token;
 
@@ -64,36 +63,25 @@ public class JWTServiceImpl implements JWTService {
 
 
     @Override
-    public User validate(String token) {
-        User user = null;
+    public boolean isTokenValid(String jwtToken) {
         try {
             Claims body = Jwts.parser()
                     .setSigningKey(secret)
-                    .parseClaimsJws(token)
+                    .parseClaimsJws(jwtToken)
                     .getBody();
 
-            user = new User();
-            String username = body.getSubject();
-            String appId = body.get("app_id", String.class);
-            user.setEmail(username);
-
-            User loadedUser = userManagement.findUserById(appId, username);
-            if (!StringUtils.isEmpty(loadedUser.getLastValidToken()) && loadedUser.getLastValidToken().equals(token))
-                return user;
-            else
-                return null;
-
+            return true;
         } catch (Exception e) {
-            LOGGER.error("not a valid token", e);
+            lof.error("Not a valid token", e);
+            return false;
         }
 
-        return user;
     }
 
     @Override
     public void expireToken(String appId, String token) {
-        User user = validate(token);
-        user.setLastValidToken("");
-        userManagement.updateUser(appId, user);
+//        User user = isTokenValid(token);
+//        user.setToken("");
+//        userManagement.updateUser(appId, user);
     }
 }
