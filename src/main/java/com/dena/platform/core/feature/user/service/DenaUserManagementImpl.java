@@ -92,16 +92,26 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
         List<DenaObject> denaObjects = denaDataStore.findAll(appId, userInfoTableName, new DenaPager(0, DenaConfigReader.readIntProperty("dena.pager.max.results", 50)));
 
-        Optional<DenaObject> foundUser = denaObjects.stream()
+        Optional<DenaObject> foundDenaObject = denaObjects.stream()
                 .filter(denaObject -> denaObject.hasProperty(User.EMAIL_FIELD_NAME, email))
                 .findAny();
 
-        User found = new User();
-        foundUser.ifPresent(x -> found.setActive((Boolean) x.getOtherFields().get(User.IS_ACTIVE)));
-        foundUser.ifPresent(x -> found.setEmail((String) x.getOtherFields().get(User.EMAIL_FIELD_NAME)));
-        foundUser.ifPresent(x -> found.setPassword((String) x.getOtherFields().get(User.PASSWORD_FIELD_NAME)));
-        foundUser.ifPresent(x -> found.setLastValidToken((String) x.getOtherFields().get(User.LAST_VALID_TOKEN)));
-        return found;
+        User foundUser = new User();
+
+        if (foundDenaObject.isPresent()) {
+            foundUser.setObjectId(foundDenaObject.get().getObjectId());
+            foundUser.setObjectURI(foundDenaObject.get().getObjectURI());
+            foundUser.setCreateTime(foundDenaObject.get().getCreateTime());
+            foundUser.setUpdateTime(foundDenaObject.get().getUpdateTime());
+            foundUser.setActive((Boolean) foundDenaObject.get().getOtherFields().get(User.IS_ACTIVE));
+            foundUser.setEmail((String) foundDenaObject.get().getOtherFields().get(User.EMAIL_FIELD_NAME));
+            foundUser.setPassword((String) foundDenaObject.get().getOtherFields().get(User.PASSWORD_FIELD_NAME));
+            foundUser.setLastValidToken((String) foundDenaObject.get().getOtherFields().get(User.LAST_VALID_TOKEN));
+            foundUser.setOtherFields(foundDenaObject.get().getOtherFields());
+        }
+
+
+        return foundUser;
     }
 
 

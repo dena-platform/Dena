@@ -1,5 +1,6 @@
 package com.dena.platform.core.feature.user.domain;
 
+import com.dena.platform.core.dto.DenaObject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,7 +17,7 @@ import java.util.Map;
  */
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class User {
+public class User extends DenaObject {
 
     public final static String EMAIL_FIELD_NAME = "email";
 
