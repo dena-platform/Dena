@@ -74,10 +74,6 @@ public class DenaObject {
         otherFields.remove(fieldName);
     }
 
-    public void addnew() {
-        System.out.println("yes you are ok");
-    }
-
     public String getObjectId() {
         return objectId;
     }

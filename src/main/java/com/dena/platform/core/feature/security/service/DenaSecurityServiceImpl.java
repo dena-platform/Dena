@@ -42,7 +42,6 @@ public class DenaSecurityServiceImpl implements DenaSecurityService {
             }
 
             retrievedUser.removeField(User.PASSWORD_FIELD_NAME);
-            retrievedUser.addnew();
 
             log.trace("User [{}] successfully logined", userName);
             return retrievedUser;
