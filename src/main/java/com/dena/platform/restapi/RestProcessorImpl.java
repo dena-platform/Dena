@@ -463,10 +463,10 @@ public class RestProcessorImpl implements DenaRestProcessor {
     public ResponseEntity handleLoginUser() {
         String appId = DenaRequestContext.getDenaRequestContext().getAppId();
         String requestBody = DenaRequestContext.getDenaRequestContext().getRequestBody();
-        User user = JSONMapper.createObjectFromJSON(requestBody, User.class);
+        HashMap<String, Object> parameters = JSONMapper.createHashMapFromJSON(requestBody);
 
-        String userName = user.getEmail();
-        String password = user.getUnencodedPassword();
+        String userName = (String) parameters.get(User.EMAIL_FIELD_NAME);
+        String password = (String) parameters.get(User.PASSWORD_FIELD_NAME);
         DenaResponse denaResponse;
 
         try {

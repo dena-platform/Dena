@@ -47,7 +47,7 @@ public class DenaObject {
 
     @JsonAnySetter
     public void addField(String name, Object value) {
-        if (StringUtils.isNotBlank(name) && value != null) {
+        if (StringUtils.isNotBlank(name) ) {
             otherFields.put(name, value);
         }
     }
@@ -70,6 +70,13 @@ public class DenaObject {
         otherFields.putAll(fields);
     }
 
+    public void removeField(String fieldName) {
+        otherFields.remove(fieldName);
+    }
+
+    public void addnew() {
+        System.out.println("yes you are ok");
+    }
 
     public String getObjectId() {
         return objectId;

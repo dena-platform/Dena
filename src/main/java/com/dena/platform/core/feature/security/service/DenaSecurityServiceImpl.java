@@ -5,7 +5,6 @@ import com.dena.platform.core.feature.security.JWTService;
 import com.dena.platform.core.feature.security.SecurityUtil;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -42,8 +41,8 @@ public class DenaSecurityServiceImpl implements DenaSecurityService {
                 denaUserManagement.updateUser(appId, retrievedUser);
             }
 
-            retrievedUser.setToken(StringUtils.EMPTY);
-            retrievedUser.setPassword(StringUtils.EMPTY);
+            retrievedUser.removeField(User.PASSWORD_FIELD_NAME);
+            retrievedUser.addnew();
 
             log.trace("User [{}] successfully logined", userName);
             return retrievedUser;
