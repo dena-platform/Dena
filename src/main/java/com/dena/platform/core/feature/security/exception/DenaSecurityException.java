@@ -7,15 +7,15 @@ import com.dena.platform.common.exception.ErrorCode;
  * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
  */
 
-public class SecurityException extends DenaException {
+public class DenaSecurityException extends DenaException {
     private ErrorCode errorCode;
 
-    public SecurityException(String message, ErrorCode errorCode) {
+    public DenaSecurityException(String message, ErrorCode errorCode) {
         super(message);
         this.errorCode = errorCode;
     }
 
-    public SecurityException(String message, Throwable cause, ErrorCode errorCode) {
+    public DenaSecurityException(String message, Throwable cause, ErrorCode errorCode) {
         super(message, cause);
     }
 

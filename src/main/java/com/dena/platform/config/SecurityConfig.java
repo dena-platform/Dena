@@ -92,7 +92,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private void registerAuthenticationFilter(HttpSecurity http) {
-        JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter(API.API_PATH + "*/users/*");
+        JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter(API.API_PATH + "*/users/*", authenticationManager());
         http.addFilterBefore(jwtAuthenticationFilter, RememberMeAuthenticationFilter.class);
 
     }

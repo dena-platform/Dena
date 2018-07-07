@@ -3,7 +3,7 @@ package com.dena.platform.core.feature.security.service;
 import com.dena.platform.common.exception.ErrorCode;
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.security.SecurityUtil;
-import com.dena.platform.core.feature.security.exception.SecurityException;
+import com.dena.platform.core.feature.security.exception.DenaSecurityException;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import org.slf4j.Logger;
@@ -46,7 +46,7 @@ public class DenaSecurityServiceImpl implements DenaSecurityService {
             log.trace("User [{}] successfully logined", userName);
             return retrievedUser;
         } else {
-            throw new SecurityException("User name or password is invalid", ErrorCode.BAD_CREDENTIAL);
+            throw new DenaSecurityException("User name or password is invalid", ErrorCode.BAD_CREDENTIAL);
         }
 
     }
