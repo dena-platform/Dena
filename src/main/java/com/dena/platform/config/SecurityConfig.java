@@ -59,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(API.API_PATH + "*/users/*");
+//        web.ignoring().antMatchers(API.API_PATH + "*/users/*");
     }
 
 
@@ -70,7 +70,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         if (isDenaSecurityModuleEnabled) {
             http.csrf().disable();
 
+            http.authorizeRequests().antMatchers(API.API_PATH + "*/users/*").permitAll();
+
             http.authorizeRequests().antMatchers(API.API_PATH + "**").authenticated();
+
+
 
             http.exceptionHandling().authenticationEntryPoint(invalidAuthenticationHandler);
 

@@ -43,7 +43,6 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
 
         if (path.matches(httpServletRequest)) {
             log.info("should not intercept this url");
-            return;
         } else {
             log.info("Get authorization header");
             String jwtToken = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
@@ -59,8 +58,10 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
             }
 
 
-            chain.doFilter(request, response);
+
         }
+
+        chain.doFilter(request, response);
     }
 
     public void setAuthenticationManager(AuthenticationManager authenticationManager) {
