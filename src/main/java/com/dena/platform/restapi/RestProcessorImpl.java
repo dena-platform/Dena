@@ -504,7 +504,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
         denaSecurityService.logoutUser(appId, userName);
 
-        return ResponseEntity.ok().body("");
+        return ResponseEntity.ok().body("User logout");
     }
 
     private List<DenaObjectResponse> createObjectResponse(List<DenaObject> denaObjects) {
