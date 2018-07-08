@@ -35,9 +35,8 @@ public enum ErrorCode {
     EMAIL_FIELD_IS_INVALID("dena.platform.restapi.exception.EMAIL_FIELD_IS_INVALID", "3001-400"),
     PASSWORD_FIELD_IS_INVALID("dena.platform.restapi.exception.PASSWORD_FIELD_IS_INVALID", "3002-400"),
     NO_USER_WITH_THIS_EMAIL_FOUND("dena.platform.restapi.exception.NO_USER_WITH_THIS_EMAIL_FOUND", "3003-400"),
-    // todo check http status response code 
-    BAD_CREDENTIAL("dena.platform.restapi.exception.BAD_CREDENTIAL", "3004-400"),
-    TOKEN_INVALID("dena.platform.restapi.exception.BAD_CREDENTIAL", "3005-400"),
+    BAD_CREDENTIAL("dena.platform.restapi.exception.BAD_CREDENTIAL", "3004-403"),
+    TOKEN_INVALID("dena.platform.restapi.exception.TOKEN_INVALID", "3005-403"),
 
 
     // Application management exception - range 4000-4999
