@@ -1,6 +1,7 @@
 package com.dena.platform.core.feature.security.filter;
 
 import com.dena.platform.core.feature.security.JWTAuthenticationToken;
+import com.dena.platform.restapi.endpoint.v1.API;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -26,11 +27,11 @@ import java.io.IOException;
 public class JWTAuthenticationFilter extends GenericFilterBean {
     private final static Logger log = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
 
-    private AntPathRequestMatcher path;
+    private AntPathRequestMatcher path = new AntPathRequestMatcher(API.API_PATH + "*/users/*");
+
     private AuthenticationManager authenticationManager;
 
-    public JWTAuthenticationFilter(String path, AuthenticationManager authenticationManager) {
-        this.path = new AntPathRequestMatcher(path);
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
@@ -42,9 +43,9 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
 
 
         if (path.matches(httpServletRequest)) {
-            log.info("should not intercept this url");
+            log.trace("Should not intercept this url");
         } else {
-            log.info("Get authorization header");
+            log.trace("Get authorization header");
             String jwtToken = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
             JWTAuthenticationToken jwtAuthenticationToken = new JWTAuthenticationToken(jwtToken);
 
@@ -58,13 +59,12 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
             }
 
 
-
         }
 
         chain.doFilter(request, response);
     }
 
-    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
+    public void setPath(String path) {
+        this.path = new AntPathRequestMatcher(path);
     }
 }

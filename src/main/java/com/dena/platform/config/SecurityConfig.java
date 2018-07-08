@@ -70,10 +70,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         if (isDenaSecurityModuleEnabled) {
             http.csrf().disable();
 
-            http.authorizeRequests().antMatchers(API.API_PATH + "*/users/*").permitAll();
+            http.authorizeRequests().antMatchers(API.API_PATH + "*/users/login").permitAll();
+            http.authorizeRequests().antMatchers(API.API_PATH + "*/users/handleLogoutUser").permitAll();
 
             http.authorizeRequests().antMatchers(API.API_PATH + "**").authenticated();
-
 
 
             http.exceptionHandling().authenticationEntryPoint(invalidAuthenticationHandler);
@@ -96,7 +96,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private void registerAuthenticationFilter(HttpSecurity http) {
-        JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter(API.API_PATH + "*/users/*", authenticationManager());
+        JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter(authenticationManager());
+        jwtAuthenticationFilter.setPath(API.API_PATH + "*/users/login");
         http.addFilterBefore(jwtAuthenticationFilter, RememberMeAuthenticationFilter.class);
 
     }

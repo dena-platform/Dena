@@ -15,14 +15,13 @@ import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.persistence.SchemaManager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.dena.platform.core.feature.search.Search;
-import com.dena.platform.core.feature.security.service.JWTService;
 import com.dena.platform.core.feature.security.service.DenaSecurityService;
+import com.dena.platform.core.feature.security.service.JWTService;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import com.dena.platform.restapi.dto.response.DenaObjectResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse.DenaResponseBuilder;
-import com.dena.platform.restapi.dto.response.TokenGenResponse;
 import com.dena.platform.restapi.exception.DenaRestException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -494,6 +493,20 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
     }
 
+    @Override
+    public ResponseEntity handleLogoutUser() {
+        DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
+
+        HashMap<String, Object> parameters = JSONMapper.createHashMapFromJSON(denaRequestContext.getRequestBody());
+
+        String appId = DenaRequestContext.getDenaRequestContext().getAppId();
+        String userName = (String) parameters.get(User.EMAIL_FIELD_NAME);
+
+        denaSecurityService.logoutUser(appId, userName);
+
+        return ResponseEntity.ok().body("");
+    }
+
     private List<DenaObjectResponse> createObjectResponse(List<DenaObject> denaObjects) {
         return createObjectResponse(denaObjects, false);
     }
@@ -540,19 +553,4 @@ public class RestProcessorImpl implements DenaRestProcessor {
                 .build();
     }
 
-
-    @Override
-    public ResponseEntity logout() {
-        DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
-
-        String appId = denaRequestContext.getPathVariable(APP_ID);
-        String token = denaRequestContext.getRequest().getHeader("token");
-        String requestBody = denaRequestContext.getRequestBody();
-        User user = JSONMapper.createObjectFromJSON(requestBody, User.class);
-
-        JWTService.expireToken(appId, token);
-
-        TokenGenResponse response = new TokenGenResponse();
-        return ResponseEntity.ok().body(response);
-    }
 }

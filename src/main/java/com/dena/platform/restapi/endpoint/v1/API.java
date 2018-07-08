@@ -30,10 +30,14 @@ public class API {
         return denaRestProcessor.handleRegisterUser();
     }
 
-
     @PostMapping(path = {"/{app-id}/users/login"}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity login() {
         return denaRestProcessor.handleLoginUser();
+    }
+
+    @PostMapping(path = {"/{app-id}/users/logout"}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity logout() {
+        return denaRestProcessor.handleLogoutUser();
     }
 
 

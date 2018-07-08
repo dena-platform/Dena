@@ -10,4 +10,6 @@ public interface DenaSecurityService {
 
     DenaObject authenticateUser(String appId, String userName, String password);
 
+    void logoutUser(String appId, String userName);
+
 }

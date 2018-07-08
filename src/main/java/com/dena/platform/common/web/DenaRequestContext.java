@@ -25,6 +25,8 @@ public class DenaRequestContext {
 
     private String appId;
 
+    private String token;
+
     private String requestBody;
 
 
@@ -104,5 +106,14 @@ public class DenaRequestContext {
 
     public void setAppId(String appId) {
         this.appId = appId;
+    }
+
+    public void setToken(String token) {
+
+    }
+
+
+    public String getToken() {
+        return token;
     }
 }
