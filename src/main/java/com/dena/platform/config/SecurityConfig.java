@@ -53,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         boolean isDenaSecurityModuleEnabled = DenaConfigReader.readBooleanProperty("dena.api.security.enabled", true);
+        String registerUserURL = "*/users/register";
 
         if (isDenaSecurityModuleEnabled) {
             http.csrf().disable();
