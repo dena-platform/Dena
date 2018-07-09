@@ -1,7 +1,6 @@
 package com.dena.platform.core.feature.security.service;
 
 import com.dena.platform.common.config.DenaConfigReader;
-import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -22,10 +21,8 @@ import java.util.Date;
 public class JWTServiceImpl implements JWTService {
     private final static Logger lof = LoggerFactory.getLogger(JWTServiceImpl.class);
 
-    @Resource
-    private DenaUserManagement userManagement;
-
     private String secret;
+
     private int tokenExpireDuration;
 
     @PostConstruct
@@ -36,18 +33,17 @@ public class JWTServiceImpl implements JWTService {
     }
 
     @Override
-    public String generateJWTToken(String appId, User claimedUser) {
-        String username = claimedUser.getEmail();
+    public String generateJWTToken(String appId, String userName) {
 
         Date expireDate = Date.from(Instant.now().plusMillis(tokenExpireDuration));
 
         Claims claims = Jwts.claims()
-                .setSubject(username);
+                .setSubject(userName);
         claims.setExpiration(expireDate);
 
         claims.put("role", "fixed_role"); //TODO change role to user role
         claims.put("app_id", appId);
-        claims.put("userName", username);
+        claims.put("userName", userName);
         claims.put("creation_date", Instant.now());
 
 
@@ -55,8 +51,6 @@ public class JWTServiceImpl implements JWTService {
                 .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
-        claimedUser.setToken(token);
-        userManagement.updateUser(appId, claimedUser);
         return token;
 
     }

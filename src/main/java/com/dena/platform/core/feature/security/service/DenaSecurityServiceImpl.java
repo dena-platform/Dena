@@ -38,7 +38,7 @@ public class DenaSecurityServiceImpl implements DenaSecurityService {
             if (!jwtService.isTokenValid(retrievedUser.getToken())) {
                 log.debug("Stored token for user [{}] is invalid", userName);
                 log.debug("Generate new token for user [{}], app [{}]", userName, appId);
-                String jwtToken = jwtService.generateJWTToken(appId, retrievedUser);
+                String jwtToken = jwtService.generateJWTToken(appId, userName);
                 retrievedUser.setToken(jwtToken);
                 denaUserManagement.updateUser(appId, retrievedUser);
             }

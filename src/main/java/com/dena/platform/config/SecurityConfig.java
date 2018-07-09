@@ -1,10 +1,8 @@
 package com.dena.platform.config;
 
 import com.dena.platform.common.config.DenaConfigReader;
-import com.dena.platform.core.feature.security.DenaAuthenticationSuccessHandler;
 import com.dena.platform.core.feature.security.JWTAuthenticationProvider;
 import com.dena.platform.core.feature.security.JWTInvalidAuthenticationHandler;
-import com.dena.platform.core.feature.security.filter.DenaUserPassAuthenticationFilter;
 import com.dena.platform.core.feature.security.filter.JWTAuthenticationFilter;
 import com.dena.platform.restapi.endpoint.v1.API;
 import org.slf4j.Logger;
@@ -46,17 +44,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new ProviderManager(Collections.singletonList(authenticationProvider));
     }
 
-
-    @Bean
-    public DenaUserPassAuthenticationFilter getUserPassAuthenticationFilter() {
-        DenaUserPassAuthenticationFilter filter = new DenaUserPassAuthenticationFilter("/*/users/handleLoginUser");
-        filter.setAuthenticationManager(authenticationManager());
-        filter.setAuthenticationSuccessHandler(new DenaAuthenticationSuccessHandler());
-
-        return filter;
-    }
-
-
     @Override
     public void configure(WebSecurity web) throws Exception {
 //        web.ignoring().antMatchers(API.API_PATH + "*/users/*");
@@ -70,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         if (isDenaSecurityModuleEnabled) {
             http.csrf().disable();
 
-            http.authorizeRequests().antMatchers(API.API_PATH + "*/users/login").permitAll();
+            http.authorizeRequests().antMatchers(API.API_PATH + JWTAuthenticationFilter.defaultPath).permitAll();
             http.authorizeRequests().antMatchers(API.API_PATH + "**").authenticated();
 
             http.exceptionHandling().authenticationEntryPoint(invalidAuthenticationHandler);
@@ -94,7 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private void registerAuthenticationFilter(HttpSecurity http) {
         JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter(authenticationManager());
-        jwtAuthenticationFilter.setPath(API.API_PATH + "*/users/login");
+        jwtAuthenticationFilter.setPath(API.API_PATH + JWTAuthenticationFilter.defaultPath);
         http.addFilterBefore(jwtAuthenticationFilter, RememberMeAuthenticationFilter.class);
 
     }

@@ -1,7 +1,5 @@
 package com.dena.platform.core.feature.security.service;
 
-import com.dena.platform.core.feature.user.domain.User;
-
 /**
  * @author Nazarpour.
  */
@@ -11,10 +9,10 @@ public interface JWTService {
      * Generate JWT token based on provided information.
      *
      * @param appId
-     * @param claimedUser
+     * @param userName
      * @return token as a string
      */
-    String generateJWTToken(String appId, User claimedUser);
+    String generateJWTToken(String appId, String userName);
 
     /**
      * Check if provided token is valid

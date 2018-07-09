@@ -1,7 +1,6 @@
 package com.dena.platform.core.feature.security.filter;
 
 import com.dena.platform.core.feature.security.JWTAuthenticationToken;
-import com.dena.platform.restapi.endpoint.v1.API;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -19,13 +18,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * Perform login operation based on JWT token in request.
+ *
  * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
  */
 
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
     private final static Logger log = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
 
-    private AntPathRequestMatcher path = new AntPathRequestMatcher(API.API_PATH + "*/users/*");
+    public final static String defaultPath = "*/users/login";
+
+    private AntPathRequestMatcher path;
 
     private AuthenticationManager authenticationManager;
 
@@ -45,8 +48,11 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
                 // Token is valid
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+
+
             } catch (AuthenticationException e) {
-                log.error("Provided JWT token is invalid", e);
+                log.trace("Provided JWT token is invalid", e);
+                throw e;
             }
 
 

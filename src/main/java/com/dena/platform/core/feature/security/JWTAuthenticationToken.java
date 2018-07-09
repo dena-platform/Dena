@@ -3,7 +3,6 @@ package com.dena.platform.core.feature.security;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.naming.OperationNotSupportedException;
 import java.util.Collection;
 
 /**
@@ -16,7 +15,6 @@ public class JWTAuthenticationToken implements Authentication {
     private boolean isAuthenticated = false;
 
 
-
     public JWTAuthenticationToken(String token) {
         this.token = token;
     }
@@ -25,8 +23,6 @@ public class JWTAuthenticationToken implements Authentication {
         this.token = token;
         this.isAuthenticated = isAuthenticated;
     }
-
-
 
 
     public String getToken() {
@@ -60,7 +56,8 @@ public class JWTAuthenticationToken implements Authentication {
 
     @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-        throw new UnsupportedOperationException("This method should not used");
+        throw new IllegalArgumentException(
+                "Cannot set this token to trusted - use constructor");
     }
 
     @Override
