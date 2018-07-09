@@ -865,8 +865,7 @@ should be included in the request.
 
 Return: Logged in user information except password. 
 
-Method: POST
-
+Method: POST  
 URL: /v1/<application-id>/users/login
 
 
@@ -881,27 +880,65 @@ Body:
 Request Body: 
 
     {
-      "email": "user2@denaplatform.com",
+      "email": "user1@dena-platform.com",
       "password": "123456"
     }
 
 Response Body:
 
     {
-      "timestamp": 1520504910721,
-      "count": 1,
-      "objects": [
-        {
-          "object_id": "5aa1104e99d0b323487d38a1",
-          "email": "user1@dena-platform.com" ,
-          "access-token": "46s4f6sf4s6d5fd2s3df1sd3f1sdf5weredvx",
-          "name": "javad",
-          "family": "alimohammadi",
-          "is_active": true,
-          ... other fields
-        }
-      ]
+        "timestamp": 1531160269366,
+        "found_object_count(s)": 1,
+        "objects": [
+            {
+                "object_id": "5b3f2959daf29de3ccf75ac0",
+                "object_uri": "/DENA_USER/5b3f2959daf29de3ccf75ac0",
+                "update_time": 1530901422412,
+                "create_time": 1530866009459,
+                "is_active": null,
+                "name": "javad",
+                "family": "alimohammadi",
+                "email": "user1@dena-platform.com",
+                "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBkZW5hLXBsYXRmb3JtLmNvbSIsImV4cCI6MTUzMTE3NDY2MCwicm9sZSI6ImZpeGVkX3JvbGUiLCJhcHBfaWQiOiJkZW5hUUEiLCJ1c2VyTmFtZSI6InVzZXIxQGRlbmEtcGxhdGZvcm0uY29tIiwiY3JlYXRpb25fZGF0ZSI6eyJlcG9jaFNlY29uZCI6MTUzMTE2MDI2MCwibmFubyI6NzU0MDAwMDAwfX0.zFKdWGTjgqK2WgabThHf9qf7EbGajncFDCMRkesnZq-PAfJ32jp_jIzGQpN7yhJ7CkAmty9DtnceshK6ZM_Wbw"
+            }
+        ]
     }
+
+## Logout ##
+
+With this API user can logout in Dena Platform. 
+
+Return: Success logout message. 
+
+Method: POST  
+URL: /v1/<application-id>/users/logout
+
+
+Headers:  
+Content-Type:application/json
+
+Body:  
+{JSON}
+
+***Example:***
+
+Request Body: 
+
+    {
+      "email": "user1@dena-platform.com"
+    }
+
+Response Body:
+
+    {
+        "timestamp": 1531162294570,
+        "objects": [
+            {
+                "Message": " User logout successfully"
+            }
+        ]
+    }
+
 
 ----------
 
