@@ -1,6 +1,7 @@
 package com.dena.platform.core.feature.security.service;
 
 import com.dena.platform.common.exception.ErrorCode;
+import com.dena.platform.common.utils.DenaMessageUtils;
 import com.dena.platform.common.web.DenaRequestContext;
 import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.security.SecurityUtil;
@@ -54,13 +55,17 @@ public class DenaSecurityServiceImpl implements DenaSecurityService {
     }
 
     @Override
-    public void logoutUser(String appId, String userName) {
+    public DenaObject logoutUser(String appId, String userName) {
         String token = DenaRequestContext.getDenaRequestContext().getToken();
         if (jwtService.isTokenValid(token)) {
             User retrievedUser = denaUserManagement.findUserById(appId, userName);
             retrievedUser.setToken(StringUtils.EMPTY);
             denaUserManagement.updateUser(appId, retrievedUser);
+            DenaObject result = new DenaObject();
+            result.addField("Message", DenaMessageUtils.getMessage("user.logout.message", " User logout successfully"));
+
             log.trace("User [{}] logout successfully", userName);
+            return result;
         } else {
             throw new DenaSecurityException("Token is invalid", ErrorCode.TOKEN_INVALID);
         }

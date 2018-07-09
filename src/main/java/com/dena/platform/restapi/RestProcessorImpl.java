@@ -502,9 +502,24 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String appId = DenaRequestContext.getDenaRequestContext().getAppId();
         String userName = (String) parameters.get(User.EMAIL_FIELD_NAME);
 
-        denaSecurityService.logoutUser(appId, userName);
+        try {
+            if (StringUtils.isEmpty(userName)) {
+                log.warn("user name field is empty");
+                throw new ParameterInvalidException("user_name is not set", ErrorCode.EMAIL_FIELD_IS_INVALID);
+            }
 
-        return ResponseEntity.ok().body("User logout");
+            DenaObject denaObject = denaSecurityService.logoutUser(appId, userName);
+            DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
+                    .withDenaObjectResponseList(createObjectResponse(Collections.singletonList(denaObject)))
+                    .withTimestamp(DenaObjectUtils.timeStamp())
+                    .build();
+
+            return ResponseEntity.ok().body(denaResponse);
+        } catch (DenaException ex) {
+            throw DenaRestException.buildException(ex);
+        }
+
+
     }
 
     private List<DenaObjectResponse> createObjectResponse(List<DenaObject> denaObjects) {
