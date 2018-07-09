@@ -18,6 +18,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.annotation.Resource;
 import java.util.Collections;
@@ -53,12 +54,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         boolean isDenaSecurityModuleEnabled = DenaConfigReader.readBooleanProperty("dena.api.security.enabled", true);
-        String registerUserURL = "*/users/register";
 
         if (isDenaSecurityModuleEnabled) {
             http.csrf().disable();
 
-            http.authorizeRequests().antMatchers(API.API_PATH + JWTAuthenticationFilter.defaultPath).permitAll();
+            http.authorizeRequests().antMatchers(getIgnorePath().getPattern()).permitAll();
             http.authorizeRequests().antMatchers(API.API_PATH + "**").authenticated();
 
             http.exceptionHandling().authenticationEntryPoint(invalidAuthenticationHandler);
@@ -82,8 +82,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private void registerAuthenticationFilter(HttpSecurity http) {
         JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter(authenticationManager());
-        jwtAuthenticationFilter.setPath(API.API_PATH + JWTAuthenticationFilter.defaultPath);
+        jwtAuthenticationFilter.setPath(getIgnorePath());
         http.addFilterBefore(jwtAuthenticationFilter, RememberMeAuthenticationFilter.class);
 
+    }
+
+    private AntPathRequestMatcher getIgnorePath() {
+        String[] result = new String[2];
+        result[0] = API.API_PATH + "*/users/register";
+        result[1] = API.API_PATH + "*/users/login";
+
+        AntPathRequestMatcher requestMatcher = new AntPathRequestMatcher(result[0] + "|" + result[1]);
+
+        return requestMatcher;
     }
 }

@@ -26,8 +26,6 @@ import java.io.IOException;
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
     private final static Logger log = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
 
-    public final static String defaultPath = "*/users/login";
-
     private AntPathRequestMatcher path;
 
     private AuthenticationManager authenticationManager;
@@ -63,7 +61,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     }
 
 
-    public void setPath(String path) {
-        this.path = new AntPathRequestMatcher(path);
+    public void setPath(AntPathRequestMatcher path) {
+        this.path = path;
     }
 }
