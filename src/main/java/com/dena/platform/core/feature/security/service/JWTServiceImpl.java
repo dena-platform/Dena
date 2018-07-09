@@ -78,10 +78,4 @@ public class JWTServiceImpl implements JWTService {
 
     }
 
-    @Override
-    public void expireToken(String appId, String token) {
-//        User user = isTokenValid(token);
-//        user.setToken("");
-//        userManagement.updateUser(appId, user);
-    }
 }

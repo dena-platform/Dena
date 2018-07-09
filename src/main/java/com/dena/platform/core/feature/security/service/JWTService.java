@@ -24,12 +24,4 @@ public interface JWTService {
      */
     boolean isTokenValid(String token);
 
-    /**
-     * Invalidate token
-     *
-     * @param appId
-     * @param token
-     */
-    void expireToken(String appId, String token);
-
 }

@@ -1,10 +1,6 @@
 package com.dena.platform.core.feature.security;
 
-import com.dena.platform.common.exception.ErrorCode;
-import com.dena.platform.common.web.DenaRequestContext;
-import com.dena.platform.core.feature.security.exception.SecurityException;
 import com.dena.platform.core.feature.security.service.JWTService;
-import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
