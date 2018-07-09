@@ -13,11 +13,20 @@ import java.util.Collection;
 public class JWTAuthenticationToken implements Authentication {
 
     private String token;
-    private boolean isAuthenticated = true;
+    private boolean isAuthenticated = false;
+
+
 
     public JWTAuthenticationToken(String token) {
         this.token = token;
     }
+
+    public JWTAuthenticationToken(String token, boolean isAuthenticated) {
+        this.token = token;
+        this.isAuthenticated = isAuthenticated;
+    }
+
+
 
 
     public String getToken() {

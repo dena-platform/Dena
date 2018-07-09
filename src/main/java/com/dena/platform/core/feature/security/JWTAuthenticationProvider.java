@@ -25,7 +25,8 @@ public class JWTAuthenticationProvider implements AuthenticationProvider {
         String jwtToken = jwtAuthenticationToken.getToken();
 
         if (jwtService.isTokenValid(jwtToken)) {
-            return jwtAuthenticationToken;
+            JWTAuthenticationToken authenticatedUser = new JWTAuthenticationToken(jwtToken, true);
+            return authenticatedUser;
         } else {
             throw new BadCredentialsException("User name or password is invalid");
         }
