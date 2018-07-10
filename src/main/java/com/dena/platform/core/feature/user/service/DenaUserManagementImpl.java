@@ -58,7 +58,6 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
 
         String encodedPassword = SecurityUtil.encodePassword(user.getUnencodedPassword());
-        user.setPassword(encodedPassword);
 
         if (BooleanUtils.isTrue(user.getActive())) {
             boolean isActive = DenaConfigReader.readBooleanProperty("dena.UserManagement.register.default_status", true);
@@ -68,7 +67,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
         log.debug("Registering new user identifier [{}] in Dena Platform", user.getEmail());
         DenaObject denaObject = new DenaObject();
         denaObject.addField(User.EMAIL_FIELD_NAME, user.getEmail());
-        denaObject.addField(User.PASSWORD_FIELD_NAME, user.getPassword());
+        denaObject.addField(User.PASSWORD_FIELD_NAME, encodedPassword);
         denaObject.addField(User.IS_ACTIVE_FIELD_NAME, user.getActive());
         denaObject.addFields(user.getOtherFields());
 

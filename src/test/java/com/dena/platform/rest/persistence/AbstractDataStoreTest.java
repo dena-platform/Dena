@@ -45,7 +45,6 @@ import static com.dena.platform.utils.JSONMapper.createObjectFromJSON;
 @AutoConfigureMockMvc
 @RunWith(JUnitParamsRunner.class)
 @SpringBootTest
-@ActiveProfiles("noauth")
 public class AbstractDataStoreTest {
     protected final String objectId1 = "5a316b1b4e5f450104c31909";
     protected final String objectId2 = "5a1bd6176f017921441d4a50";
@@ -345,21 +344,6 @@ public class AbstractDataStoreTest {
     }
 
 
-    /////////////////////////////////////////////
-    //            LOGIN
-    /////////////////////////////////////////////
-    protected <T> T performLoginUser(String body, HttpStatus httpStatus, Class<T> klass) throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.LOGIN_URL)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(body))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is(httpStatus.value()))
-                .andReturn();
-
-        String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, klass);
-
-    }
 
     /////////////////////////////////////////////
     //            LOGOUT

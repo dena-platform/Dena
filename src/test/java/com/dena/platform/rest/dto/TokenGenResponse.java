@@ -1,4 +1,4 @@
-package com.dena.platform.restapi.dto.response;
+package com.dena.platform.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;

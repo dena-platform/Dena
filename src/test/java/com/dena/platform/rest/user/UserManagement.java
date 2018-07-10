@@ -71,7 +71,6 @@ public class UserManagement extends AbstractDataStoreTest {
                 actualReturnObject.getCreateUserCount());
         assertNull("Update time in registering user should be null", expectedObjectResponse.updateTime);
 
-        assertNotNull(expectedReturnObject);
 
     }
 
@@ -182,6 +181,8 @@ public class UserManagement extends AbstractDataStoreTest {
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
 
     }
+
+
 
 
     /////////////////////////////////////////////

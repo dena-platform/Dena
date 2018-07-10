@@ -19,8 +19,10 @@ public interface CommonConfig {
 
     String REGISTER_USER_URL = ROOT_URL + APP_ID + "/users/register";
 
-    String REGISTER_APPLICATION_URL= ROOT_URL  + "/app/register";
+    String LOGIN_URL = ROOT_URL + APP_ID + "/users/login";
 
-    String LOGIN_URL = "/security/handleLoginUser/" + APP_ID;
-    String LOGOUT_URL = "/security/handleLogoutUser/" + APP_ID;
+    String LOGOUT_URL = ROOT_URL + APP_ID + "/users/logout";
+
+    String REGISTER_APPLICATION_URL = ROOT_URL + "/app/register";
+
 }

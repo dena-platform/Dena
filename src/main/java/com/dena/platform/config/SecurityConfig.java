@@ -57,7 +57,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         if (isDenaSecurityModuleEnabled) {
             http.csrf().disable();
 
-//            http.authorizeRequests().requestMatchers(AllowedRequestMatcher.INSTANCE).permitAll();
             http.authorizeRequests().antMatchers(API.API_PATH + "**").authenticated();
 
             http.exceptionHandling().authenticationEntryPoint(invalidAuthenticationHandler);

@@ -1,5 +1,6 @@
 package com.dena.platform.core.feature.security.filter;
 
+import com.dena.platform.common.web.DenaRequestContext;
 import com.dena.platform.core.feature.security.JWTAuthenticationToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         log.trace("Get authorization header");
-        String jwtToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+        String jwtToken = DenaRequestContext.getDenaRequestContext().getToken();
         JWTAuthenticationToken jwtAuthenticationToken = new JWTAuthenticationToken(jwtToken);
 
         try {

@@ -20,7 +20,7 @@ public class TestDenaResponseDTO {
     public Long timestamp;
 
     @JsonProperty("create_object_count(s)")
-    public long createObjectCount;
+    public Long createObjectCount;
 
     @JsonProperty("create_user_count(s)")
     public Integer createUserCount;
@@ -35,7 +35,7 @@ public class TestDenaResponseDTO {
     public Long deleteRelationCount;
 
     @JsonProperty("found_object_count(s)")
-    public Long foundObjectCount;
+    public Integer foundObjectCount;
 
     @JsonProperty("objects")
     private List<TestObjectResponseDTO> testObjectResponseDTOList = new ArrayList<>();

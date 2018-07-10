@@ -1,7 +1,6 @@
 package com.dena.platform.rest.dto;
 
 import com.dena.platform.core.dto.DenaObject;
-import com.dena.platform.core.feature.security.SecurityUtil;
 import com.dena.platform.core.feature.user.domain.User;
 
 /**
@@ -12,8 +11,8 @@ public class ObjectModelHelper {
     public static User getSampleUser() {
         return User.UserBuilder.anUser()
                 .withEmail("ali@hotmail.com")
-                .withPassword(SecurityUtil.encodePassword("123"))
                 .withUnencodedPassword("123")
+                .withStatus(true)
                 .build();
     }
 

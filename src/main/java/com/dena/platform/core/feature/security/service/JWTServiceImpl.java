@@ -66,7 +66,7 @@ public class JWTServiceImpl implements JWTService {
 
             return true;
         } catch (Exception e) {
-            lof.error("Not a valid token", e);
+            lof.trace("Not a valid token", e);
             return false;
         }
 

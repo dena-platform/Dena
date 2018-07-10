@@ -8,6 +8,7 @@ import com.dena.platform.core.feature.security.SecurityUtil;
 import com.dena.platform.core.feature.security.exception.DenaSecurityException;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,8 +35,18 @@ public class DenaSecurityServiceImpl implements DenaSecurityService {
     public DenaObject authenticateUser(String appId, String userName, String password) {
         User retrievedUser = denaUserManagement.findUserById(appId, userName);
 
-        if (retrievedUser != null && SecurityUtil.matchesPassword(password, retrievedUser.getPassword())) {
+        boolean isUserPasswordValid = (retrievedUser != null &&
+                SecurityUtil.matchesPassword(password, retrievedUser.getPassword()));
 
+
+        if (isUserPasswordValid) {
+            boolean isUserActive = BooleanUtils.toBoolean(retrievedUser.getActive());
+
+            if (!isUserActive) {
+                throw new DenaSecurityException("User is not active", ErrorCode.USER_IS_NOT_ACTIVE);
+            }
+
+            // use existing token if existing
             if (!jwtService.isTokenValid(retrievedUser.getToken())) {
                 log.debug("Stored token for user [{}] is invalid", userName);
                 log.debug("Generate new token for user [{}], app [{}]", userName, appId);

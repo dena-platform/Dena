@@ -29,7 +29,7 @@ public class FindDataTest extends AbstractDataStoreTest {
         TestDenaResponseDTO actualReturnObject = performFindRequestByObjectId(objectId3);
 
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
-        expectedReturnObject.foundObjectCount = 1L;
+        expectedReturnObject.foundObjectCount = 1;
         expectedReturnObject.timestamp = actualReturnObject.timestamp;
 
         /////////////////////////////////////////////
@@ -57,11 +57,11 @@ public class FindDataTest extends AbstractDataStoreTest {
         TestDenaResponseDTO actualReturnObject2 = performFindRequestInTable(CommonConfig.COLLECTION_NAME, 4, 5);
 
         TestDenaResponseDTO expectedReturnObject1 = new TestDenaResponseDTO();
-        expectedReturnObject1.foundObjectCount = 2L;
+        expectedReturnObject1.foundObjectCount = 2;
         expectedReturnObject1.timestamp = actualReturnObject1.timestamp;
 
         TestDenaResponseDTO expectedReturnObject2 = new TestDenaResponseDTO();
-        expectedReturnObject2.foundObjectCount = 5L;
+        expectedReturnObject2.foundObjectCount = 5;
         expectedReturnObject2.timestamp = actualReturnObject2.timestamp;
 
 
@@ -142,7 +142,7 @@ public class FindDataTest extends AbstractDataStoreTest {
         //            Assert Found Object
         /////////////////////////////////////////////
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
-        expectedReturnObject.foundObjectCount = 2L;
+        expectedReturnObject.foundObjectCount = 2;
         expectedReturnObject.timestamp = actualReturnObject.timestamp;
 
 
@@ -179,7 +179,7 @@ public class FindDataTest extends AbstractDataStoreTest {
         //            Assert Found Object
         /////////////////////////////////////////////
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
-        expectedReturnObject.foundObjectCount = 0L;
+        expectedReturnObject.foundObjectCount = 0;
         expectedReturnObject.timestamp = actualReturnObject.timestamp;
 
         // check timestamp field of returned object

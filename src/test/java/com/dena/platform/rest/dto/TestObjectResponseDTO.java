@@ -1,11 +1,12 @@
 package com.dena.platform.rest.dto;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE;
@@ -32,6 +33,10 @@ public class TestObjectResponseDTO {
     @JsonAnyGetter
     public Map<String, Object> getAllFields() {
         return fields;
+    }
+
+    public <T> T getField(String name, Class<T> klass) {
+        return klass.cast(fields.get(name));
     }
 
 
