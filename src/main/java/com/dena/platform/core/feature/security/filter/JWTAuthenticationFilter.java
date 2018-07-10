@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -26,7 +27,6 @@ import java.io.IOException;
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
     private final static Logger log = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
 
-    private AntPathRequestMatcher path;
 
     private AuthenticationManager authenticationManager;
 
@@ -34,22 +34,18 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        if (path.matches(request)) {
-            log.trace("Should not intercept this url");
-        } else {
-            log.trace("Get authorization header");
-            String jwtToken = request.getHeader(HttpHeaders.AUTHORIZATION);
-            JWTAuthenticationToken jwtAuthenticationToken = new JWTAuthenticationToken(jwtToken);
+        log.trace("Get authorization header");
+        String jwtToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+        JWTAuthenticationToken jwtAuthenticationToken = new JWTAuthenticationToken(jwtToken);
 
-            try {
-                Authentication authentication = authenticationManager.authenticate(jwtAuthenticationToken);
+        try {
+            Authentication authentication = authenticationManager.authenticate(jwtAuthenticationToken);
 
-                // Token is valid
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+            // Token is valid
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            } catch (AuthenticationException e) {
-                log.trace("Provided JWT token is invalid", e);
-            }
+        } catch (AuthenticationException e) {
+            log.trace("Provided JWT token is invalid", e);
         }
 
         filterChain.doFilter(request, response);
@@ -60,8 +56,4 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         this.authenticationManager = authenticationManager;
     }
 
-
-    public void setPath(AntPathRequestMatcher path) {
-        this.path = path;
-    }
 }

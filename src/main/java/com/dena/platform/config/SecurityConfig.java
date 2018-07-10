@@ -18,7 +18,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.annotation.Resource;
 import java.util.Collections;
@@ -47,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers(API.API_PATH + "*/users/*");
+        web.ignoring().requestMatchers(AllowedRequestMatcher.INSTANCE);
     }
 
 
@@ -58,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         if (isDenaSecurityModuleEnabled) {
             http.csrf().disable();
 
-            http.authorizeRequests().antMatchers(getIgnorePath().getPattern()).permitAll();
+//            http.authorizeRequests().requestMatchers(AllowedRequestMatcher.INSTANCE).permitAll();
             http.authorizeRequests().antMatchers(API.API_PATH + "**").authenticated();
 
             http.exceptionHandling().authenticationEntryPoint(invalidAuthenticationHandler);
@@ -82,18 +81,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private void registerAuthenticationFilter(HttpSecurity http) {
         JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter(authenticationManager());
-        jwtAuthenticationFilter.setPath(getIgnorePath());
         http.addFilterBefore(jwtAuthenticationFilter, RememberMeAuthenticationFilter.class);
 
     }
 
-    private AntPathRequestMatcher getIgnorePath() {
-        String[] result = new String[2];
-        result[0] = API.API_PATH + "*/users/register";
-        result[1] = API.API_PATH + "*/users/login";
-
-        AntPathRequestMatcher requestMatcher = new AntPathRequestMatcher(result[0] + "|" + result[1]);
-
-        return requestMatcher;
-    }
 }
