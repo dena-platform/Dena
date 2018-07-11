@@ -519,7 +519,6 @@ public class RestProcessorImpl implements DenaRestProcessor {
             throw DenaRestException.buildException(ex);
         }
 
-
     }
 
     private List<DenaObjectResponse> createObjectResponse(List<DenaObject> denaObjects) {
