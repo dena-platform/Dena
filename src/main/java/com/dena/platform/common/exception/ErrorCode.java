@@ -37,7 +37,7 @@ public enum ErrorCode {
     NO_USER_WITH_THIS_EMAIL_FOUND("dena.platform.restapi.exception.NO_USER_WITH_THIS_EMAIL_FOUND", "3003-400"),
     BAD_CREDENTIAL("dena.platform.restapi.exception.BAD_CREDENTIAL", "3004-401"),
     TOKEN_INVALID("dena.platform.restapi.exception.TOKEN_INVALID", "3005-401"),
-    USER_IS_NOT_ACTIVE("dena.platform.restapi.exception.TOKEN_INVALID", "3006-401"),
+    USER_IS_NOT_ACTIVE("dena.platform.restapi.exception.USER_IS_NOT_ACTIVE", "3006-401"),
 
 
     // Application management exception - range 4000-4999

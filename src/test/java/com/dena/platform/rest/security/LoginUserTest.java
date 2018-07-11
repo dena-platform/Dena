@@ -1,10 +1,14 @@
 package com.dena.platform.rest.security;
 
 import com.dena.platform.core.feature.security.service.JWTService;
-import com.dena.platform.rest.dto.*;
+import com.dena.platform.rest.dto.TestDenaResponseDTO;
+import com.dena.platform.rest.dto.TestObjectResponseDTO;
+import com.dena.platform.rest.dto.TestRequestObjectDTO;
 import com.dena.platform.rest.persistence.AbstractDataStoreTest;
+import com.dena.platform.restapi.dto.response.DenaObjectResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.utils.CommonConfig;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.http.HttpStatus;
@@ -16,7 +20,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.annotation.Resource;
-
 import java.util.Collections;
 
 import static com.dena.platform.utils.JSONMapper.createJSONFromObject;
@@ -33,7 +36,7 @@ public class LoginUserTest extends AbstractDataStoreTest {
     private JWTService jwtService;
 
     @Test
-    public void loginUser() throws Exception {
+    public void test_loginUser() throws Exception {
         /////////////////////////////////////////////
         //           Send Login User Request
         /////////////////////////////////////////////
@@ -63,50 +66,46 @@ public class LoginUserTest extends AbstractDataStoreTest {
         assertTrue(jwtService.isTokenValid(token));
 
     }
-    
+
     @Test
-    public void tryCreateObjectWithAnLoggedInUser() throws Exception {
-        TokenGenResponse tokenResp = performLoginUser(createJSONFromObject(user), HttpStatus.OK, TokenGenResponse.class);
+    public void test_CreateObject_When_User_Is_LoggedIn() throws Exception {
+        /////////////////////////////////////////////////////////
+        //       Send Create Object Request With Logged_In User
+        /////////////////////////////////////////////////////////
+
+        DenaResponse loggedInResponse = performLoginUser(createJSONFromObject(user), HttpStatus.OK, DenaResponse.class);
+        String token = String.valueOf(loggedInResponse.getDenaObjectResponseList().get(0).getFields().get("token"));
 
         TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
         requestObject.addProperty("name", "reza");
         requestObject.addProperty("job", "developer");
-        requestObject.addProperty("actor_user", this.user.getEmail());
 
-        DenaResponse actualReturnObject = performCreateObjectWithToken(createJSONFromObject(requestObject), HttpStatus.OK.value(),
-                DenaResponse.class,
-                tokenResp.getToken());
+        DenaResponse actualReturnObject = performCreateObjectWithToken(createJSONFromObject(requestObject), HttpStatus.OK,
+                DenaResponse.class, token);
+
+        DenaObjectResponse denaObjectResponse = actualReturnObject.getDenaObjectResponseList().get(0);
+        /////////////////////////////////////////////
+        //            Assert Create Object Response
+        /////////////////////////////////////////////
 
         assertNotNull(actualReturnObject);
+        assertEquals(denaObjectResponse.getFields().get("name"), "reza");
+        assertEquals(denaObjectResponse.getFields().get("job"), "developer");
     }
 
     @Test
-    public void twoLogInWillCreateNotEqualTokens() throws Exception {
-        TokenGenResponse firstLogin = performLoginUser(createJSONFromObject(user), HttpStatus.OK, TokenGenResponse.class);
-        TokenGenResponse secondLogin = performLoginUser(createJSONFromObject(user), HttpStatus.OK, TokenGenResponse.class);
-        assertNotEquals(firstLogin.getToken(), secondLogin.getToken());
-    }
+    public void test_logoutUser() throws Exception {
+        /////////////////////////////////////////////////////////
+        //       Send Logout Request
+        /////////////////////////////////////////////////////////
 
-    @Test
-    public void performLogout_tokenIsNotValidAnyMore() throws Exception {
-        TokenGenResponse loginResponse = performLoginUser(createJSONFromObject(user), HttpStatus.OK, TokenGenResponse.class);
+        DenaResponse loggedInResponse = performLoginUser(createJSONFromObject(user), HttpStatus.OK, DenaResponse.class);
+        String token = String.valueOf(loggedInResponse.getDenaObjectResponseList().get(0).getFields().get("token"));
 
+        DenaResponse logoutResponse = performLogOutUser(createJSONFromObject(user), HttpStatus.OK, token, DenaResponse.class);
+        DenaObjectResponse denaObjectResponse = logoutResponse.getDenaObjectResponseList().get(0);
 
-        TokenGenResponse logoutResponse = performLogOutUser(createJSONFromObject(user),
-                HttpStatus.OK,
-                loginResponse.getToken(),
-                TokenGenResponse.class);
-
-        TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
-        requestObject.addProperty("name", "reza");
-        requestObject.addProperty("job", "developer");
-        requestObject.addProperty("actor_user", this.user.getEmail());
-
-        DenaResponse actualReturnObject = performCreateObjectWithToken(createJSONFromObject(requestObject), HttpStatus.UNAUTHORIZED.value(),
-                DenaResponse.class,
-                loginResponse.getToken());
-
-        assertNull(actualReturnObject);
+        assertTrue(StringUtils.isNotBlank((String) denaObjectResponse.getFields().get("Message")));
     }
 
     /////////////////////////////////////////////
@@ -122,6 +121,41 @@ public class LoginUserTest extends AbstractDataStoreTest {
 
         String returnContent = result.getResponse().getContentAsString();
         return createObjectFromJSON(returnContent, klass);
+
+    }
+
+    /////////////////////////////////////////////
+    //            LOGOUT
+    /////////////////////////////////////////////
+    protected <T> T performLogOutUser(String body, HttpStatus httpStatus, String token, Class<T> klass) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.LOGOUT_URL)
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(body))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is(httpStatus.value()))
+                .andReturn();
+
+        String returnContent = result.getResponse().getContentAsString();
+        return createObjectFromJSON(returnContent, klass);
+
+    }
+
+
+    protected <T> T performCreateObjectWithToken(String body, HttpStatus httpStatus, Class<T> klass, String token) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.BASE_URL)
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(body))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is(httpStatus.value()))
+                .andReturn();
+
+        String returnContent = result.getResponse().getContentAsString();
+        if (!StringUtils.isEmpty(returnContent))
+            return createObjectFromJSON(returnContent, klass);
+        else
+            return null;
 
     }
 

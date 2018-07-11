@@ -310,22 +310,6 @@ public class AbstractDataStoreTest {
 
     }
 
-    protected <T> T performCreateObjectWithToken(String body, int status, Class<T> klass, String token) throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.BASE_URL)
-                .header("token", token)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(body))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is(status))
-                .andReturn();
-
-        String returnContent = result.getResponse().getContentAsString();
-        if (!StringUtils.isEmpty(returnContent))
-            return createObjectFromJSON(returnContent, klass);
-        else
-            return null;
-
-    }
 
 
     protected <T> T performSearchWithToken(String username, String query, Class<T> klass, String token) throws Exception {
@@ -340,25 +324,6 @@ public class AbstractDataStoreTest {
             return createObjectFromJSON(returnContent, klass);
         else
             return null;
-
-    }
-
-
-
-    /////////////////////////////////////////////
-    //            LOGOUT
-    /////////////////////////////////////////////
-    protected <T> T performLogOutUser(String body, HttpStatus httpStatus, String token, Class<T> klass) throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.LOGOUT_URL)
-                .header("token", token)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(body))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().is(httpStatus.value()))
-                .andReturn();
-
-        String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, klass);
 
     }
 
