@@ -188,7 +188,6 @@ public class UserManagement extends AbstractDataStoreTest {
 
     }
 
-
     @Test
     public void test_loginUser() throws Exception {
         /////////////////////////////////////////////
@@ -264,7 +263,7 @@ public class UserManagement extends AbstractDataStoreTest {
 
 
     /////////////////////////////////////////////
-    //            USER MANAGEMENT REQUEST
+    //            Register User
     /////////////////////////////////////////////
     public <T> T performRegisterUser(String body, HttpStatus httpStatus, Class<T> klass) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.REGISTER_USER_URL)
