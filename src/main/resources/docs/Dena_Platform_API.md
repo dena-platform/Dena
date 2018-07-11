@@ -1,3 +1,146 @@
+# User Management #
+This API provides the functionality related to the user management such as user registrations, login and logout.
+
+
+## Register New User ##
+
+This API can be used to create new user in the application. When user created, by default its status is active.
+
+***Note:***  
+Email and password fields is required in registration new user. Additional property can also included in the request 
+body.
+
+Return: Created user account information.  
+
+Method: POST  
+URL: /v1/<application-id>/users/register  
+
+Headers:  
+Content-Type : application/json
+
+Body:   
+{JSON}
+
+***Example:***
+
+Request Body: 
+
+    {
+      "email": "user1@dena-platform.com",
+      "password": "123456",
+      "name":"javad",
+      "family":"alimohammadi"
+      ... other fields
+    }
+
+
+Response Body:
+
+      {
+        "timestamp": 1520504910721,
+        "create_user_count": 1,
+        "objects": [
+         {
+            "object_id": "5b2bc6848db73a10ac999947",
+            "object_uri": "/DENA_USER/5b2bc6848db73a10ac999947",
+            "update_time": null,
+            "create_time": 1529595524645,
+            "password": "$2a$10$b802T370w6I80joRAHgYP.cdO83PIzRt.eBYN1/hBok17/GsS2lxC",
+            "name": "javad",
+            "family": "alimohammadi",
+            "email": "user3@dena-platform.com"           
+            ... other fields
+         }
+        ]
+      }
+
+
+
+## Login ##
+
+With this API user can login in Dena Platform. After user successfully login then in subsequent request access token 
+should be included in the request.
+
+Return: Logged in user information except password. 
+
+Method: POST  
+URL: /v1/<application-id>/users/login
+
+
+Headers:  
+Content-Type:application/json
+
+Body:  
+{JSON}
+
+***Example:***
+
+Request Body: 
+
+    {
+      "email": "user1@dena-platform.com",
+      "password": "123456"
+    }
+
+Response Body:
+
+    {
+        "timestamp": 1531160269366,
+        "found_object_count(s)": 1,
+        "objects": [
+            {
+                "object_id": "5b3f2959daf29de3ccf75ac0",
+                "object_uri": "/DENA_USER/5b3f2959daf29de3ccf75ac0",
+                "update_time": 1530901422412,
+                "create_time": 1530866009459,
+                "is_active": null,
+                "name": "javad",
+                "family": "alimohammadi",
+                "email": "user1@dena-platform.com",
+                "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBkZW5hLXBsYXRmb3JtLmNvbSIsImV4cCI6MTUzMTE3NDY2MCwicm9sZSI6ImZpeGVkX3JvbGUiLCJhcHBfaWQiOiJkZW5hUUEiLCJ1c2VyTmFtZSI6InVzZXIxQGRlbmEtcGxhdGZvcm0uY29tIiwiY3JlYXRpb25fZGF0ZSI6eyJlcG9jaFNlY29uZCI6MTUzMTE2MDI2MCwibmFubyI6NzU0MDAwMDAwfX0.zFKdWGTjgqK2WgabThHf9qf7EbGajncFDCMRkesnZq-PAfJ32jp_jIzGQpN7yhJ7CkAmty9DtnceshK6ZM_Wbw"
+            }
+        ]
+    }
+
+## Logout ##
+
+With this API user can logout in Dena Platform. 
+
+Return: Success logout message. 
+
+Method: POST  
+URL: /v1/<application-id>/users/logout
+
+
+Headers:  
+Content-Type:application/json
+
+Body:  
+{JSON}
+
+***Example:***
+
+Request Body: 
+
+    {
+      "email": "user1@dena-platform.com"
+    }
+
+Response Body:
+
+    {
+        "timestamp": 1531162294570,
+        "objects": [
+            {
+                "Message": " User logout successfully"
+            }
+        ]
+    }
+
+
+----------
+
+
 # Schema #
 Schema is the structure of tables in Dena platform. With schema, developers can get table structure ,add/remove columns and define constrains on columns (not implemented yet).
 
@@ -798,147 +941,6 @@ Pagination using in the REST API is implemented with the `startIndex` and `pageS
 `/v1/<application-id>/<parent-table-name>/<parent-object-id>/relation/<relation-name>?startIndex=45&pageSize=6`
 
 `/v1/<application-id>/<table-name>?startIndex=0&pageSize=2` 
-
-----------
-# User Management #
-This API provides the functionality related to the user management such as user registrations, login and logout.
-
-
-## Register New User ##
-
-This API can be used to create new user in the application. When user created, by default its status is active.
-
-***Note:***  
-Email and password fields is required in registration new user. Additional property can also included in the request 
-body.
-
-Return: Created user account information.  
-
-Method: POST  
-URL: /v1/<application-id>/users/register  
-
-Headers:  
-Content-Type : application/json
-
-Body:   
-{JSON}
-
-***Example:***
-
-Request Body: 
-
-    {
-      "email": "user1@dena-platform.com",
-      "password": "123456",
-      "name":"javad",
-      "family":"alimohammadi"
-      ... other fields
-    }
-
-
-Response Body:
-
-      {
-        "timestamp": 1520504910721,
-        "create_user_count": 1,
-        "objects": [
-         {
-            "object_id": "5b2bc6848db73a10ac999947",
-            "object_uri": "/DENA_USER/5b2bc6848db73a10ac999947",
-            "update_time": null,
-            "create_time": 1529595524645,
-            "password": "$2a$10$b802T370w6I80joRAHgYP.cdO83PIzRt.eBYN1/hBok17/GsS2lxC",
-            "name": "javad",
-            "family": "alimohammadi",
-            "email": "user3@dena-platform.com"           
-            ... other fields
-         }
-        ]
-      }
-
-
-
-## Login ##
-
-With this API user can login in Dena Platform. After user successfully login then in subsequent request access token 
-should be included in the request.
-
-Return: Logged in user information except password. 
-
-Method: POST  
-URL: /v1/<application-id>/users/login
-
-
-Headers:  
-Content-Type:application/json
-
-Body:  
-{JSON}
-
-***Example:***
-
-Request Body: 
-
-    {
-      "email": "user1@dena-platform.com",
-      "password": "123456"
-    }
-
-Response Body:
-
-    {
-        "timestamp": 1531160269366,
-        "found_object_count(s)": 1,
-        "objects": [
-            {
-                "object_id": "5b3f2959daf29de3ccf75ac0",
-                "object_uri": "/DENA_USER/5b3f2959daf29de3ccf75ac0",
-                "update_time": 1530901422412,
-                "create_time": 1530866009459,
-                "is_active": null,
-                "name": "javad",
-                "family": "alimohammadi",
-                "email": "user1@dena-platform.com",
-                "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBkZW5hLXBsYXRmb3JtLmNvbSIsImV4cCI6MTUzMTE3NDY2MCwicm9sZSI6ImZpeGVkX3JvbGUiLCJhcHBfaWQiOiJkZW5hUUEiLCJ1c2VyTmFtZSI6InVzZXIxQGRlbmEtcGxhdGZvcm0uY29tIiwiY3JlYXRpb25fZGF0ZSI6eyJlcG9jaFNlY29uZCI6MTUzMTE2MDI2MCwibmFubyI6NzU0MDAwMDAwfX0.zFKdWGTjgqK2WgabThHf9qf7EbGajncFDCMRkesnZq-PAfJ32jp_jIzGQpN7yhJ7CkAmty9DtnceshK6ZM_Wbw"
-            }
-        ]
-    }
-
-## Logout ##
-
-With this API user can logout in Dena Platform. 
-
-Return: Success logout message. 
-
-Method: POST  
-URL: /v1/<application-id>/users/logout
-
-
-Headers:  
-Content-Type:application/json
-
-Body:  
-{JSON}
-
-***Example:***
-
-Request Body: 
-
-    {
-      "email": "user1@dena-platform.com"
-    }
-
-Response Body:
-
-    {
-        "timestamp": 1531162294570,
-        "objects": [
-            {
-                "Message": " User logout successfully"
-            }
-        ]
-    }
-
 
 ----------
 
