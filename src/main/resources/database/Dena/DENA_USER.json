@@ -1,0 +1,15 @@
+{
+  "_id": {
+    "$oid": "5b4a0213d41a3b0ed8e6c859"
+  },
+  "create_time": {
+    "$date": "2018-07-14T14:00:51.504Z"
+  },
+  "update_time": null,
+  "object_uri": "/DENA_USER/5b4a0213d41a3b0ed8e6c859",
+  "password": "$2a$10$4LZkD.YWG0Ey0/GHzuo08.IOzSPV8ckn3FX3isbWK8z9cYs6.jR7m",
+  "is_active": null,
+  "name": "john",
+  "family": "smith",
+  "email": "admin@dena-platform.com"
+}
