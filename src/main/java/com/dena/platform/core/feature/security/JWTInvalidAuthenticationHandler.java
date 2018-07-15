@@ -46,6 +46,5 @@ public class JWTInvalidAuthenticationHandler implements AuthenticationEntryPoint
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         response.getWriter().print(JSONMapper.createJSON(errorResponse));
 
-
     }
 }
