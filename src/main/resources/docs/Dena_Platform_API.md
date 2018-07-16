@@ -222,6 +222,7 @@ URL: /v1/<application-id>/schema/{table-name}
 Headers:  
 token: {user token after login in dena-platform}  
 
+
 Body:  
 {None}
 
