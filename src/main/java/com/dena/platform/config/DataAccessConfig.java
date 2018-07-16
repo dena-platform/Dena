@@ -24,6 +24,7 @@ public class DataAccessConfig {
     @Configuration
     @ConditionalOnClass(Mongo.class)
     static class configMongoDB {
+
         @Resource
         private MongoClient mongoClient;
 

@@ -144,6 +144,8 @@ Response Body:
 # Schema #
 Schema is the structure of tables in Dena platform. With schema, developers can get table structure ,add/remove columns and define constrains on columns (not implemented yet).
 
+
+
 ## Create Table ##
 Request:  
 Method: POST  
