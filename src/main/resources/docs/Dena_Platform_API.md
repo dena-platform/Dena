@@ -15,7 +15,8 @@ Return: Created user account information.
 Method: POST  
 URL: /v1/<application-id>/users/register  
 
-Headers:  
+Headers:
+token: {user token after login in Dena platform}  
 Content-Type : application/json
 
 Body:   
@@ -112,7 +113,8 @@ Method: POST
 URL: /v1/<application-id>/users/logout
 
 
-Headers:  
+Headers: 
+token: {user token after login in Dena platform} 
 Content-Type:application/json
 
 Body:  
@@ -142,12 +144,14 @@ Response Body:
 
 
 # Schema #
-Schema is the structure of tables in Dena platform. With schema, developers can get table structure ,add/remove columns and define constrains on columns (not implemented yet).
+Schema is the structure of tables in Dena platform. With schema, developers can get table structure, add/remove columns and define constrains on columns (not implemented yet).
 
 
 
 ## Create Table ##
-Request:  
+
+Return: Number of created table. 
+
 Method: POST  
 URL: /v1/<application-id>/schema/<table-name>
 
@@ -157,9 +161,6 @@ Content-Type: application/json
 
 Body: {None}
 
-
-Response:  
-Number of created table
 
 ***Example:***
 
@@ -171,7 +172,6 @@ Request Body:
 
 
 Response Body:
-
 
 	{
 	  "status":200,	

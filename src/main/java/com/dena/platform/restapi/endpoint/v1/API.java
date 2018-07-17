@@ -42,6 +42,30 @@ public class API {
 
 
     /////////////////////////////////////////////
+    //            Schema Management API
+    /////////////////////////////////////////////
+
+    /**
+     * Create table based
+     * @return
+     */
+    @PostMapping(path = {"/{app-id}/schema/{table-name}"})
+    public ResponseEntity createTable() {
+        return denaRestProcessor.handleCreateSchema();
+    }
+
+    @GetMapping(path = {"/{app-id}/schema"})
+    public ResponseEntity getAllTable() {
+        return denaRestProcessor.handleGetAllSchema();
+    }
+
+    @DeleteMapping(path = {"/{app-id}/schema/{table-name}"})
+    public ResponseEntity deleteTable() {
+        return denaRestProcessor.handleDeleteSchema();
+    }
+
+
+    /////////////////////////////////////////////
     //            Data Store API
     /////////////////////////////////////////////
 
@@ -133,23 +157,6 @@ public class API {
         return denaRestProcessor.handleRegisterApplication();
     }
 
-    /////////////////////////////////////////////
-    //            Schema Management API
-    /////////////////////////////////////////////
-    @PostMapping(path = {"/{app-id}/schema/{table-name}"})
-    public ResponseEntity createSchema() {
-        return denaRestProcessor.handleCreateSchema();
-    }
-
-    @GetMapping(path = {"/{app-id}/schema"})
-    public ResponseEntity getAllSchema() {
-        return denaRestProcessor.handleGetAllSchema();
-    }
-
-    @DeleteMapping(path = {"/{app-id}/schema/{table-name}"})
-    public ResponseEntity deleteSchema() {
-        return denaRestProcessor.handleDeleteSchema();
-    }
 
 
 }
