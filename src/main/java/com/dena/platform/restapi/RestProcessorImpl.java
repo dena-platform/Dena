@@ -68,9 +68,6 @@ public class RestProcessorImpl implements DenaRestProcessor {
     private SchemaManager schemaManager;
 
     @Resource
-    private JWTService JWTService;
-
-    @Resource
     private DenaSecurityService denaSecurityService;
 
 
@@ -362,7 +359,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     public ResponseEntity handleCreateSchema() {
 
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
-        String appId = denaRequestContext.getPathVariable(APP_ID);
+        String appId = denaRequestContext.getAppId();
         String tableName = denaRequestContext.getPathVariable(TABLE_NAME);
 
         try {

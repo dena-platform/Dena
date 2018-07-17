@@ -25,7 +25,6 @@ import java.util.Collections;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
-
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
 @Configuration
