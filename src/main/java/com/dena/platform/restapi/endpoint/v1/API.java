@@ -46,7 +46,7 @@ public class API {
     /////////////////////////////////////////////
 
     /**
-     * Create table based
+     * Create table
      * @return
      */
     @PostMapping(path = {"/{app-id}/schema/{table-name}"})

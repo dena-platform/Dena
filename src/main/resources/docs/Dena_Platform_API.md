@@ -164,8 +164,6 @@ Body: {None}
 
 ***Example:***
 
-Request URL: https://dena-platform.com/<application-id>/schema/table1  
-
 Request Body:  
 
 	Empty
