@@ -1,5 +1,6 @@
 package com.dena.platform.rest.dto;
 
+import com.dena.platform.core.dto.DenaRelation;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -7,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE;
@@ -15,7 +17,7 @@ import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE;
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 @JsonAutoDetect(fieldVisibility = NONE, getterVisibility = NONE, setterVisibility = NONE)
-public class TestObjectResponseDTO {
+public class TestObjectResponse {
     private Map<String, Object> fields = new LinkedHashMap<>();
 
     @JsonProperty("object_id")
@@ -29,6 +31,10 @@ public class TestObjectResponseDTO {
 
     @JsonProperty("create_time")
     public Long createTime;
+
+    @JsonProperty("related_objects")
+    public List<DenaRelation> denaRelation;
+
 
     @JsonAnyGetter
     public Map<String, Object> getAllFields() {
@@ -52,7 +58,7 @@ public class TestObjectResponseDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        TestObjectResponseDTO that = (TestObjectResponseDTO) o;
+        TestObjectResponse that = (TestObjectResponse) o;
 
         if (fields != null ? !fields.equals(that.fields) : that.fields != null) return false;
         return objectId.equals(that.objectId);

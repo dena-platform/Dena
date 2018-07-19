@@ -29,25 +29,25 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //           Send Create Object Request
         /////////////////////////////////////////////
-        TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
+        TestRequestObject requestObject = new TestRequestObject();
         requestObject.addProperty("name", "javad");
         requestObject.addProperty("job", "developer");
         requestObject.addProperty("actor_user", this.user.getEmail());
 
-        TestDenaRelationDTO testDenaRelationDTO = new TestDenaRelationDTO();
-        testDenaRelationDTO.setRelationType(RelationType.RELATION_1_TO_1.value);
-        testDenaRelationDTO.setRelationName("new_relation");
-        testDenaRelationDTO.setIds(Collections.singletonList(objectId1));
-        testDenaRelationDTO.setTargetName(CommonConfig.COLLECTION_NAME);
+        TestDenaRelation testDenaRelation = new TestDenaRelation();
+        testDenaRelation.setRelationType(RelationType.RELATION_1_TO_1.value);
+        testDenaRelation.setRelationName("new_relation");
+        testDenaRelation.setIds(Collections.singletonList(objectId1));
+        testDenaRelation.setTargetName(CommonConfig.COLLECTION_NAME);
 
-        requestObject.addRelatedObject(testDenaRelationDTO);
+        requestObject.addRelatedObject(testDenaRelation);
 
         DenaResponse actualReturnObject = performCreateObject(createJSONFromObject(requestObject), DenaResponse.class);
 
         /////////////////////////////////////////////
         //            Assert Create Object Response
         /////////////////////////////////////////////
-        TestObjectResponseDTO expectedObjectResponse = new TestObjectResponseDTO();
+        TestObjectResponse expectedObjectResponse = new TestObjectResponse();
         expectedObjectResponse.objectId = actualReturnObject.getDenaObjectResponseList().get(0).getObjectId();
         expectedObjectResponse.createTime = actualReturnObject.getDenaObjectResponseList().get(0).getCreateTime();
         expectedObjectResponse.updateTime = actualReturnObject.getDenaObjectResponseList().get(0).getUpdateTime();
@@ -59,7 +59,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
         expectedReturnObject.createObjectCount = 1L;
-        expectedReturnObject.setTestObjectResponseDTOList(Collections.singletonList(expectedObjectResponse));
+        expectedReturnObject.setTestObjectResponseList(Collections.singletonList(expectedObjectResponse));
 
         // assert timestamp
         assertTrue(isTimeEqualRegardlessOfSecond(expectedReturnObject.timestamp, Instant.now().toEpochMilli()));
@@ -76,20 +76,20 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //           Send Create Object Request
         /////////////////////////////////////////////
-        TestRequestObjectDTO requestObject1 = new TestRequestObjectDTO();
+        TestRequestObject requestObject1 = new TestRequestObject();
         requestObject1.addProperty("name", "javad");
         requestObject1.addProperty("job", "developer");
         requestObject1.addProperty("actor_user", this.user.getEmail());
 
-        TestDenaRelationDTO testDenaRelationDTO = new TestDenaRelationDTO();
-        testDenaRelationDTO.setRelationType(RelationType.RELATION_1_TO_1.value);
-        testDenaRelationDTO.setRelationName("new_relation");
-        testDenaRelationDTO.setIds(Collections.singletonList(objectId1));
-        testDenaRelationDTO.setTargetName(CommonConfig.COLLECTION_NAME);
+        TestDenaRelation testDenaRelation = new TestDenaRelation();
+        testDenaRelation.setRelationType(RelationType.RELATION_1_TO_1.value);
+        testDenaRelation.setRelationName("new_relation");
+        testDenaRelation.setIds(Collections.singletonList(objectId1));
+        testDenaRelation.setTargetName(CommonConfig.COLLECTION_NAME);
 
-        requestObject1.addRelatedObject(testDenaRelationDTO);
+        requestObject1.addRelatedObject(testDenaRelation);
 
-        TestRequestObjectDTO requestObject2 = new TestRequestObjectDTO();
+        TestRequestObject requestObject2 = new TestRequestObject();
         requestObject2.addProperty("name", "abdolah");
         requestObject2.addProperty("job", "developer");
 
@@ -98,7 +98,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Assert Create Object Response
         /////////////////////////////////////////////
-        TestObjectResponseDTO expectedObjectResponse1 = new TestObjectResponseDTO();
+        TestObjectResponse expectedObjectResponse1 = new TestObjectResponse();
         expectedObjectResponse1.objectId = actualReturnObject.getDenaObjectResponseList().get(0).getObjectId();
         expectedObjectResponse1.createTime = actualReturnObject.getDenaObjectResponseList().get(0).getCreateTime();
         expectedObjectResponse1.updateTime = actualReturnObject.getDenaObjectResponseList().get(0).getUpdateTime();
@@ -106,7 +106,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         expectedObjectResponse1.addProperty("name", "javad");
         expectedObjectResponse1.addProperty("job", "developer");
 
-        TestObjectResponseDTO expectedObjectResponse2 = new TestObjectResponseDTO();
+        TestObjectResponse expectedObjectResponse2 = new TestObjectResponse();
         expectedObjectResponse2.objectId = actualReturnObject.getDenaObjectResponseList().get(1).getObjectId();
         expectedObjectResponse2.createTime = actualReturnObject.getDenaObjectResponseList().get(1).getCreateTime();
         expectedObjectResponse2.updateTime = actualReturnObject.getDenaObjectResponseList().get(1).getUpdateTime();
@@ -118,7 +118,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
         expectedReturnObject.createObjectCount = 2L;
-        expectedReturnObject.setTestObjectResponseDTOList(Arrays.asList(expectedObjectResponse1, expectedObjectResponse2));
+        expectedReturnObject.setTestObjectResponseList(Arrays.asList(expectedObjectResponse1, expectedObjectResponse2));
 
         // assert timestamp
         assertTrue(isTimeEqualRegardlessOfSecond(expectedReturnObject.timestamp, Instant.now().toEpochMilli()));
@@ -134,18 +134,18 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////////////////////////
         //           Send Create Object Request - relation not exist
         /////////////////////////////////////////////////////////////////
-        TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
+        TestRequestObject requestObject = new TestRequestObject();
         requestObject.addProperty("name", "javad");
         requestObject.addProperty("job", "developer");
         requestObject.addProperty("actor_user", this.user.getEmail());
 
-        TestDenaRelationDTO testDenaRelationDTO = new TestDenaRelationDTO();
-        testDenaRelationDTO.setRelationType(RelationType.RELATION_1_TO_1.value);
-        testDenaRelationDTO.setRelationName("new_relation");
-        testDenaRelationDTO.setIds(Collections.singletonList(objectId1));
-        testDenaRelationDTO.setTargetName("not_exist_target");
+        TestDenaRelation testDenaRelation = new TestDenaRelation();
+        testDenaRelation.setRelationType(RelationType.RELATION_1_TO_1.value);
+        testDenaRelation.setRelationName("new_relation");
+        testDenaRelation.setIds(Collections.singletonList(objectId1));
+        testDenaRelation.setTargetName("not_exist_target");
 
-        requestObject.addRelatedObject(testDenaRelationDTO);
+        requestObject.addRelatedObject(testDenaRelation);
 
         TestErrorResponseDTO actualReturnObject = performCreateObject(createJSONFromObject(requestObject), 400, TestErrorResponseDTO.class);
 

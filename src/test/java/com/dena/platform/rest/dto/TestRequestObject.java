@@ -13,7 +13,7 @@ import java.util.Map;
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class TestRequestObjectDTO {
+public class TestRequestObject {
     private Map<String, Object> fields = new HashMap<>();
 
     @JsonProperty(value = "object_id")
@@ -23,17 +23,17 @@ public class TestRequestObjectDTO {
     private String actorUsername;
 
     @JsonProperty(value = "related_objects")
-    private List<TestDenaRelationDTO> relatedObjects = new ArrayList<>();
+    private List<TestDenaRelation> relatedObjects = new ArrayList<>();
 
-    public void addRelatedObject(TestDenaRelationDTO testDenaRelationDTO) {
-        relatedObjects.add(testDenaRelationDTO);
+    public void addRelatedObject(TestDenaRelation testDenaRelation) {
+        relatedObjects.add(testDenaRelation);
     }
 
-    public List<TestDenaRelationDTO> getRelatedObjects() {
+    public List<TestDenaRelation> getRelatedObjects() {
         return relatedObjects;
     }
 
-    public void setRelatedObjects(List<TestDenaRelationDTO> relatedObjects) {
+    public void setRelatedObjects(List<TestDenaRelation> relatedObjects) {
         this.relatedObjects = relatedObjects;
     }
 

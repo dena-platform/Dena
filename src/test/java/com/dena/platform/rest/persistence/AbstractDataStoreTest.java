@@ -258,6 +258,20 @@ public class AbstractDataStoreTest {
 
     }
 
+    protected <T> T performMergeObject(String body, Class<T> klass) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.patch(CommonConfig.BASE_URL)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(body))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String returnContent = result.getResponse().getContentAsString();
+        return createObjectFromJSON(returnContent, klass);
+
+    }
+
+
     protected <T> T performUpdateObject(String body, Class<T> klass) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(CommonConfig.BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)

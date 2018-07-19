@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
-public class TestDenaRelationDTO {
+public class TestDenaRelation {
     @JsonProperty(value = "relation_name", required = true)
     public String relationName;
 
@@ -40,10 +40,10 @@ public class TestDenaRelationDTO {
 
 
     public static final class TestDenaRelationDTOBuilder {
-        private TestDenaRelationDTO testDenaRelationDTO;
+        private TestDenaRelation testDenaRelation;
 
         private TestDenaRelationDTOBuilder() {
-            testDenaRelationDTO = new TestDenaRelationDTO();
+            testDenaRelation = new TestDenaRelation();
         }
 
         public static TestDenaRelationDTOBuilder aTestDenaRelationDTO() {
@@ -51,27 +51,27 @@ public class TestDenaRelationDTO {
         }
 
         public TestDenaRelationDTOBuilder withRelationName(String relationName) {
-            testDenaRelationDTO.setRelationName(relationName);
+            testDenaRelation.setRelationName(relationName);
             return this;
         }
 
         public TestDenaRelationDTOBuilder withRelationType(String relationType) {
-            testDenaRelationDTO.setRelationType(relationType);
+            testDenaRelation.setRelationType(relationType);
             return this;
         }
 
         public TestDenaRelationDTOBuilder withTargetName(String targetName) {
-            testDenaRelationDTO.setTargetName(targetName);
+            testDenaRelation.setTargetName(targetName);
             return this;
         }
 
         public TestDenaRelationDTOBuilder withIds(String... ids) {
-            testDenaRelationDTO.setIds(Arrays.asList(ids));
+            testDenaRelation.setIds(Arrays.asList(ids));
             return this;
         }
 
-        public TestDenaRelationDTO build() {
-            return testDenaRelationDTO;
+        public TestDenaRelation build() {
+            return testDenaRelation;
         }
     }
 }

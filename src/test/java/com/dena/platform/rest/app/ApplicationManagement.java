@@ -2,8 +2,8 @@ package com.dena.platform.rest.app;
 
 import com.dena.platform.rest.dto.TestDenaResponseDTO;
 import com.dena.platform.rest.dto.TestErrorResponseDTO;
-import com.dena.platform.rest.dto.TestObjectResponseDTO;
-import com.dena.platform.rest.dto.TestRequestObjectDTO;
+import com.dena.platform.rest.dto.TestObjectResponse;
+import com.dena.platform.rest.dto.TestRequestObject;
 import com.dena.platform.rest.persistence.AbstractDataStoreTest;
 import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.restapi.dto.response.ErrorResponse;
@@ -32,7 +32,7 @@ public class ApplicationManagement extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //     Send Register New Application Request
         /////////////////////////////////////////////
-        TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
+        TestRequestObject requestObject = new TestRequestObject();
         requestObject.addProperty("application_name", "great_app");
         requestObject.addProperty("creator_id", "developer@dena.com");
 
@@ -45,7 +45,7 @@ public class ApplicationManagement extends AbstractDataStoreTest {
         String application_id = (String) actualReturnObject.getDenaObjectResponseList().get(0).getFields().get("application_id");
         String secretKey = (String) actualReturnObject.getDenaObjectResponseList().get(0).getFields().get("secret_key");
 
-        TestObjectResponseDTO expectedObjectResponse = new TestObjectResponseDTO();
+        TestObjectResponse expectedObjectResponse = new TestObjectResponse();
         expectedObjectResponse.objectId = actualReturnObject.getDenaObjectResponseList().get(0).getObjectId();
         expectedObjectResponse.objectURI = "/DENA_APPLICATION_INFO/" + expectedObjectResponse.objectId;
         expectedObjectResponse.createTime = actualReturnObject.getDenaObjectResponseList().get(0).getCreateTime();
@@ -59,7 +59,7 @@ public class ApplicationManagement extends AbstractDataStoreTest {
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
         expectedReturnObject.createObjectCount = 1L;
-        expectedReturnObject.setTestObjectResponseDTOList(Collections.singletonList(expectedObjectResponse));
+        expectedReturnObject.setTestObjectResponseList(Collections.singletonList(expectedObjectResponse));
 
 
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
@@ -73,7 +73,7 @@ public class ApplicationManagement extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //     Send Register New Application Request
         /////////////////////////////////////////////
-        TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
+        TestRequestObject requestObject = new TestRequestObject();
         requestObject.addProperty("application_name", "great_app");
         requestObject.addProperty("creator_id", "developer@dena.com");
 
@@ -101,7 +101,7 @@ public class ApplicationManagement extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //     Send Register New Application Request
         /////////////////////////////////////////////
-        TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
+        TestRequestObject requestObject = new TestRequestObject();
         requestObject.addProperty("application_name", "as");   // application name length is invalid
         requestObject.addProperty("creator_id", "developer@dena.com");
 

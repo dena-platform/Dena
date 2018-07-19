@@ -16,6 +16,10 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class TestDenaResponseDTO {
 
+    @JsonProperty("status")
+    public Integer httpStatusCode;
+
+
     @JsonProperty("timestamp")
     public Long timestamp;
 
@@ -47,15 +51,15 @@ public class TestDenaResponseDTO {
     public Integer foundObjectCount;
 
     @JsonProperty("objects")
-    private List<TestObjectResponseDTO> testObjectResponseDTOList = new ArrayList<>();
+    private List<TestObjectResponse> testObjectResponseList = new ArrayList<>();
 
 
-    public List<TestObjectResponseDTO> getTestObjectResponseDTOList() {
-        return testObjectResponseDTOList;
+    public List<TestObjectResponse> getTestObjectResponseList() {
+        return testObjectResponseList;
     }
 
-    public void setTestObjectResponseDTOList(List<TestObjectResponseDTO> testObjectResponseDTOList) {
-        this.testObjectResponseDTOList = testObjectResponseDTOList;
+    public void setTestObjectResponseList(List<TestObjectResponse> testObjectResponseList) {
+        this.testObjectResponseList = testObjectResponseList;
     }
 
     @Override
@@ -69,14 +73,14 @@ public class TestDenaResponseDTO {
         if (!TestUtils.isTimeEqualRegardlessOfSecond(Long.valueOf(timestamp), that.timestamp)) {
             return false;
         }
-        return testObjectResponseDTOList != null ? testObjectResponseDTOList.equals(that.testObjectResponseDTOList) : that.testObjectResponseDTOList == null;
+        return testObjectResponseList != null ? testObjectResponseList.equals(that.testObjectResponseList) : that.testObjectResponseList == null;
     }
 
     @Override
     public int hashCode() {
         int result = timestamp.hashCode();
         result = 31 * result + (int) (createObjectCount ^ (createObjectCount >>> 32));
-        result = 31 * result + (testObjectResponseDTOList != null ? testObjectResponseDTOList.hashCode() : 0);
+        result = 31 * result + (testObjectResponseList != null ? testObjectResponseList.hashCode() : 0);
         return result;
     }
 }

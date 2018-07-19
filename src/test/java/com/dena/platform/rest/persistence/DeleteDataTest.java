@@ -2,7 +2,7 @@ package com.dena.platform.rest.persistence;
 
 import com.dena.platform.rest.dto.TestDenaResponseDTO;
 import com.dena.platform.rest.dto.TestErrorResponseDTO;
-import com.dena.platform.rest.dto.TestObjectResponseDTO;
+import com.dena.platform.rest.dto.TestObjectResponse;
 import com.dena.platform.utils.CommonConfig;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -123,12 +123,12 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         expectedReturnObject.foundObjectCount = 1;
         expectedReturnObject.timestamp = actualReturnObject.timestamp;
 
-        TestObjectResponseDTO testObjectResponseDTO = new TestObjectResponseDTO();
-        testObjectResponseDTO.objectId = objectId2;
-        testObjectResponseDTO.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId2;
-        testObjectResponseDTO.addProperty("name", "javad");
-        testObjectResponseDTO.addProperty("job", "developer");
-        expectedReturnObject.setTestObjectResponseDTOList(Collections.singletonList(testObjectResponseDTO));
+        TestObjectResponse testObjectResponse = new TestObjectResponse();
+        testObjectResponse.objectId = objectId2;
+        testObjectResponse.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId2;
+        testObjectResponse.addProperty("name", "javad");
+        testObjectResponse.addProperty("job", "developer");
+        expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
 
         assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.timestamp, Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
@@ -179,7 +179,7 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         expectedReturnObject.foundObjectCount = 0;
         expectedReturnObject.timestamp = actualReturnObject.timestamp;
 
-        expectedReturnObject.setTestObjectResponseDTOList(Collections.emptyList());
+        expectedReturnObject.setTestObjectResponseList(Collections.emptyList());
 
         assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.timestamp, Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);

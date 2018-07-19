@@ -16,7 +16,7 @@ Method: POST
 URL: /v1/<application-id>/users/register  
 
 Headers:
-token: {user token after login in Dena platform}  
+Authorization: {user token after login in Dena platform}  
 Content-Type : application/json
 
 Body:   
@@ -114,7 +114,7 @@ URL: /v1/<application-id>/users/logout
 
 
 Headers: 
-token: {user token after login in Dena platform} 
+Authorization: {user token after login in Dena platform} 
 Content-Type:application/json
 
 Body:  
@@ -156,7 +156,7 @@ Method: POST
 URL: /v1/<application-id>/schema/<table-name>
 
 Headers:  
-token: {user token after login in Dena platform}  
+Authorization: {user token after login in Dena platform}  
 Content-Type: application/json
 
 Body: {None}
@@ -186,7 +186,7 @@ Method: GET
 URL: /v1/<application-id>/schema  
 
 Headers:  
-token: {user token after login in dena-platform}  
+Authorization: {user token after login in dena-platform}  
 
 Body: {None}
 
@@ -222,7 +222,7 @@ Method: DELETE
 URL: /v1/<application-id>/schema/{table-name}  
 
 Headers:  
-token: {user token after login in dena-platform}  
+Authorization: {user token after login in dena-platform}  
 
 
 Body: {None}
@@ -256,7 +256,7 @@ URL: /v1/<application-id>/<table-name>/?loadRelation=false
 
 Headers:  
 Content-Type:application/json  
-token: {user token after login in Dena platform}
+Authorization: {user token after login in Dena platform}
 
 Body: {JSON}
 
@@ -300,7 +300,7 @@ URL: /v1/<application-id>/<table-name>?loadRelation=false
 
 Headers:  
 Content-Type:application/json  
-token: {user token after login in Dena platform} 
+Authorization: {user token after login in Dena platform} 
 
 Body: {JSON}
 
@@ -372,7 +372,7 @@ Response Body:
 ## Create Relation ##
 Related object should exist before calling this API.
 
-There is two approach to create relation between objects.
+There are two approach to create relation between objects.
 
 1. Create relation when requesting create new object.
 2. Use separate API for creating relation between objects.
@@ -403,7 +403,7 @@ URL: /v1/<application-id>/<type-name>
 
 Headers:
 Content-Type:application/json  
-token: {user token after login in Dena platform}
+Authorization: {user token after login in Dena platform}
 
 Body: {JSON}
 
@@ -451,8 +451,8 @@ Response Body:
 **Update (Merge) One Object**
 
 - If there is a new field or relation then create it. 
-- if field is exist then update it. 
-- If relation with same name exist in data store and related object not stored before then add, otherwise ignore it. 
+- If field is exist then update it. 
+- If relation with same name exist in data store and related object not stored before then add it, otherwise ignore it. 
 - If object id is not found then return bad request error.
 - If data in relation is invalid for example object id not exist or target type not found then return bad request error.
 
@@ -461,14 +461,13 @@ Response Body:
 Return: Updated object(s) count. 
  
 Method: PATCH  
-
 URL: /v1/<application-id>/<table-name>?loadRelation=false  
 
 Headers:  
-Content-Type:application/json 
- 
-Body:  
-{JSON}
+Content-Type:application/json  
+Authorization: {user token after login in Dena platform}
+
+Body: {JSON}
 
 Optional Parameter   
 - **loadRelation**: Whether load relation after updating object.   
@@ -517,11 +516,15 @@ Response Body:
 Completely replace object in Dena data-store. remove all previous data and add new requested data .
 
 Return: Updated object(s) count.  
-Method: PATCH  
+
+Method: PUT  
 URL: /v1/<application-id>/<table-name>?loadRelation=false   
-Headers: Content-Type:application/json  
-Body:  
-{JSON}
+
+Headers: 
+Content-Type:application/json    
+Authorization: {user token after login in Dena platform}
+
+Body: {JSON}
 
 Optional Parameter  
 
@@ -576,16 +579,14 @@ If relation with same type exist then replace with new specified relation.
 Return: updated object(s) with only updated fields and relation.
 
 Method: PATCH
-
 URL: /v1/<application-id>/<type-names>
 
 Headers:
+Content-Type:application/json  
+Authorization: {user token after login in Dena platform} 
 
-Content-Type:application/json
 
-Body:
-
-{JSON}
+Body: {JSON}
 
 
 ***Example:***

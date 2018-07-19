@@ -3,8 +3,8 @@ package com.dena.platform.rest.user;
 import com.dena.platform.core.feature.security.service.JWTService;
 import com.dena.platform.rest.dto.TestDenaResponseDTO;
 import com.dena.platform.rest.dto.TestErrorResponseDTO;
-import com.dena.platform.rest.dto.TestObjectResponseDTO;
-import com.dena.platform.rest.dto.TestRequestObjectDTO;
+import com.dena.platform.rest.dto.TestObjectResponse;
+import com.dena.platform.rest.dto.TestRequestObject;
 import com.dena.platform.rest.persistence.AbstractDataStoreTest;
 import com.dena.platform.restapi.dto.response.DenaObjectResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse;
@@ -43,7 +43,7 @@ public class UserManagement extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //           Send Register New User Request
         /////////////////////////////////////////////
-        TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
+        TestRequestObject requestObject = new TestRequestObject();
         requestObject.addProperty("email", "user1@dena-platform.com");
         requestObject.addProperty("password", "123456");
         requestObject.addProperty("name", "alex");
@@ -54,7 +54,7 @@ public class UserManagement extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Assert Register User Response
         /////////////////////////////////////////////
-        TestObjectResponseDTO expectedObjectResponse = new TestObjectResponseDTO();
+        TestObjectResponse expectedObjectResponse = new TestObjectResponse();
         expectedObjectResponse.objectId = actualReturnObject.getDenaObjectResponseList().get(0).getObjectId();
         expectedObjectResponse.objectURI = "/DENA_USER/" + expectedObjectResponse.objectId;
         expectedObjectResponse.createTime = actualReturnObject.getDenaObjectResponseList().get(0).getCreateTime();
@@ -69,7 +69,7 @@ public class UserManagement extends AbstractDataStoreTest {
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
         expectedReturnObject.createUserCount = 1;
-        expectedReturnObject.setTestObjectResponseDTOList(Collections.singletonList(expectedObjectResponse));
+        expectedReturnObject.setTestObjectResponseList(Collections.singletonList(expectedObjectResponse));
 
         // assert timestamp
         assertTrue(isTimeEqualRegardlessOfSecond(expectedReturnObject.timestamp, Instant.now().toEpochMilli()));
@@ -87,7 +87,7 @@ public class UserManagement extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //           Send Update Object Request
         /////////////////////////////////////////////
-        TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
+        TestRequestObject requestObject = new TestRequestObject();
         requestObject.addProperty("email", "");
         requestObject.addProperty("password", "123456");
         requestObject.addProperty("name", "alex");
@@ -113,7 +113,7 @@ public class UserManagement extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //           Send Update Object Request
         /////////////////////////////////////////////
-        TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
+        TestRequestObject requestObject = new TestRequestObject();
         requestObject.addProperty("email", "dsdsf@d");
         requestObject.addProperty("password", "123456");
         requestObject.addProperty("name", "alex");
@@ -139,7 +139,7 @@ public class UserManagement extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //           Send Update Object Request
         /////////////////////////////////////////////
-        TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
+        TestRequestObject requestObject = new TestRequestObject();
         requestObject.addProperty("email", "user1@dena-platform.com");
         requestObject.addProperty("password", "123456");
         requestObject.addProperty("name", "alex");
@@ -168,7 +168,7 @@ public class UserManagement extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //           Send Update Object Request
         /////////////////////////////////////////////
-        TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
+        TestRequestObject requestObject = new TestRequestObject();
         requestObject.addProperty("email", "user1@denaplatform.com");
         requestObject.addProperty("password", "");
         requestObject.addProperty("name", "alex");
@@ -199,7 +199,7 @@ public class UserManagement extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Assert Login User Response
         /////////////////////////////////////////////
-        TestObjectResponseDTO expectedObjectResponse = new TestObjectResponseDTO();
+        TestObjectResponse expectedObjectResponse = new TestObjectResponse();
         expectedObjectResponse.objectId = actualReturnObject.getDenaObjectResponseList().get(0).getObjectId();
         expectedObjectResponse.objectURI = "/DENA_USER/" + expectedObjectResponse.objectId;
         expectedObjectResponse.createTime = actualReturnObject.getDenaObjectResponseList().get(0).getCreateTime();
@@ -209,7 +209,7 @@ public class UserManagement extends AbstractDataStoreTest {
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
         expectedReturnObject.foundObjectCount = 1;
-        expectedReturnObject.setTestObjectResponseDTOList(Collections.singletonList(expectedObjectResponse));
+        expectedReturnObject.setTestObjectResponseList(Collections.singletonList(expectedObjectResponse));
 
 
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
@@ -229,7 +229,7 @@ public class UserManagement extends AbstractDataStoreTest {
         DenaResponse loggedInResponse = performLoginUser(createJSONFromObject(user), HttpStatus.OK, DenaResponse.class);
         String token = String.valueOf(loggedInResponse.getDenaObjectResponseList().get(0).getFields().get("token"));
 
-        TestRequestObjectDTO requestObject = new TestRequestObjectDTO();
+        TestRequestObject requestObject = new TestRequestObject();
         requestObject.addProperty("name", "reza");
         requestObject.addProperty("job", "developer");
 
