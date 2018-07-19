@@ -659,15 +659,22 @@ Response Body:
 ## Delete Objects ##
 
 **Delete One Object**
-This API remove object completely from Dena storage. If the object is successfully delete, the API returns the timestamp of deletion time in milliseconds and number of deleted object count.
+This API remove object completely from Dena storage. If the object is successfully deleted then API returns the timestamp of deletion time in milliseconds and number of deleted object count.
 
-Method: DELETE
+Return: Number of deleted object count.
 
+Method: DELETE  
 URL: /v1/<application-id>/<type-names>/<object-id>
 
-Body: None
+Headers:  
+Content-Type : application/json  
+Authorization: {user token after login in Dena platform} 
+
+Body: {None}
 
 ***Example:***
+
+Request Body: {None}
 
 Response Body:
 
@@ -679,17 +686,26 @@ Response Body:
 ----------
 **Delete Bulk Objects**
 
-Method: DELETE
+Return: Number of deleted object counts.
 
-URL: /v1/<application-id>/<type-names>/<object-id-1,object-id-2>
+Method: DELETE  
+URL: /v1/<application-id>/<type-names>/<object-id-1,object-id-2>  
 
-Request Body: None
+
+Headers:  
+Content-Type : application/json  
+Authorization: {user token after login in Dena platform} 
+
+
+***Example:***
+
+Request Body: {None}
 
 Response Body:
 
       {
-       "timestamp" : 1521104923089,
-       "delete_object_count(s)": 4
+         "timestamp" : 1521104923089,
+         "delete_object_count(s)": 4
       }
 
 ----------
@@ -697,8 +713,11 @@ Response Body:
 
 Remove all relation between parent and child.
 
-**Note:** This only delete relation between parent and child and do not remove child objects.
+**Note:** 
 
+This only delete relation between parent and child and do not remove child objects.
+
+Return: Number of deleted object counts.
 
 Method: DELETE
 

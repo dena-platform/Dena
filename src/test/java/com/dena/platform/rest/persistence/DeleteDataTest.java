@@ -6,6 +6,7 @@ import com.dena.platform.rest.dto.TestObjectResponse;
 import com.dena.platform.utils.CommonConfig;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
+import org.springframework.test.context.TestPropertySource;
 
 import java.time.Instant;
 import java.util.Arrays;
@@ -18,6 +19,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
+@TestPropertySource(properties = {"dena.api.security.enabled=false"})
 public class DeleteDataTest extends AbstractDataStoreTest {
 
     @Test
