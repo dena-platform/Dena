@@ -21,6 +21,8 @@ public interface CommonConfig {
 
     String CREATE_TABLE_URL = ROOT_URL + APP_ID + "/schema/";
 
+    String GET_ALL_TABLE_SCHEMA_URL = ROOT_URL + APP_ID + "/schema";
+
     String LOGIN_URL = ROOT_URL + APP_ID + "/users/login";
 
     String LOGOUT_URL = ROOT_URL + APP_ID + "/users/logout";

@@ -28,6 +28,9 @@ public class TestDenaResponseDTO {
     @JsonProperty("create_table_count(s)")
     public Integer createTableCount;
 
+    @JsonProperty("found_table_count(s)")
+    public Integer foundTableCount;
+
     @JsonProperty("update_object_count(s)")
     public Long updateObjectCount;
 

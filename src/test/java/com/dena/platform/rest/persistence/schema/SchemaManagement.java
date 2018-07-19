@@ -1,7 +1,9 @@
 package com.dena.platform.rest.persistence.schema;
 
 import com.dena.platform.rest.dto.TestDenaResponseDTO;
+import com.dena.platform.rest.dto.TestObjectResponseDTO;
 import com.dena.platform.rest.persistence.AbstractDataStoreTest;
+import com.dena.platform.restapi.dto.response.DenaObjectResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.utils.CommonConfig;
 import org.junit.Test;
@@ -14,6 +16,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.Instant;
+import java.util.Objects;
 
 import static com.dena.platform.utils.JSONMapper.createJSONFromObject;
 import static com.dena.platform.utils.JSONMapper.createObjectFromJSON;
@@ -33,7 +36,7 @@ public class SchemaManagement extends AbstractDataStoreTest {
         //         Send Create New Table Request
         /////////////////////////////////////////////
 
-        DenaResponse actualReturnObject = performCreateTable("tabel1", DenaResponse.class);
+        DenaResponse actualReturnObject = performCreateTable("table1", DenaResponse.class);
 
         TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
         expectedReturnObject.createTableCount = 1;
@@ -48,7 +51,31 @@ public class SchemaManagement extends AbstractDataStoreTest {
     }
 
     @Test
-    public void test_get_all_schema() throws Exception {
+    public void test_Get_All_Schema() throws Exception {
+        /////////////////////////////////////////////
+        //         Send Get All Schema
+        /////////////////////////////////////////////
+        performCreateTable("table1", DenaResponse.class);
+        DenaResponse actualReturnObject = performReadTableSchema(DenaResponse.class);
+
+        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
+        expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
+
+
+        boolean isTableFoundInResponseObject = false;
+        for (DenaObjectResponse denaObjectResponse : actualReturnObject.getDenaObjectResponseList()) {
+            if (denaObjectResponse.getFields().get("name").equals("table1") &&
+                    Objects.equals(denaObjectResponse.getFields().get("record_count(s)"), 0)) {
+                isTableFoundInResponseObject = true;
+                break;
+            }
+        }
+
+        /////////////////////////////////////////////
+        //            Assert Found Object
+        /////////////////////////////////////////////
+        assertTrue(isTimeEqualRegardlessOfSecond(expectedReturnObject.timestamp, Instant.now().toEpochMilli()));
+        assertTrue(isTableFoundInResponseObject);
 
     }
 
@@ -65,8 +92,8 @@ public class SchemaManagement extends AbstractDataStoreTest {
 
     }
 
-    protected <T> T performReadTableSchema(String tableName, Class<T> klass) throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.CREATE_TABLE_URL + tableName))
+    protected <T> T performReadTableSchema(Class<T> klass) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.GET_ALL_TABLE_SCHEMA_URL))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
