@@ -140,6 +140,15 @@ public class API {
 
     }
 
+    /////////////////////////////////////////////
+    //            Application Management API
+    /////////////////////////////////////////////
+    @PostMapping(path = {"/app/register"}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity registerApp() {
+        return denaRestProcessor.handleRegisterApplication();
+    }
+
+
     /**
      * Search object by a text based search tools
      *
@@ -151,13 +160,6 @@ public class API {
     }
 
 
-    /////////////////////////////////////////////
-    //            Application Management API
-    /////////////////////////////////////////////
-    @PostMapping(path = {"/app/register"}, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity registerApp() {
-        return denaRestProcessor.handleRegisterApplication();
-    }
 
 
 

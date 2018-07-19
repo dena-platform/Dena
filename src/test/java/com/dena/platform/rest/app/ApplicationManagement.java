@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -25,6 +26,7 @@ import static com.dena.platform.utils.JSONMapper.createObjectFromJSON;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
+@TestPropertySource(properties = {"dena.api.security.enabled=false"})
 public class ApplicationManagement extends AbstractDataStoreTest {
     @Test
     public void test_registerNewApplication() throws Exception {
@@ -57,6 +59,7 @@ public class ApplicationManagement extends AbstractDataStoreTest {
         expectedObjectResponse.addProperty("application_id", application_id);
 
         TestDenaResponse expectedReturnObject = new TestDenaResponse();
+
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
         expectedReturnObject.createObjectCount = 1L;
         expectedReturnObject.setTestObjectResponseList(Collections.singletonList(expectedObjectResponse));
@@ -77,7 +80,7 @@ public class ApplicationManagement extends AbstractDataStoreTest {
         requestObject.addProperty("application_name", "great_app");
         requestObject.addProperty("creator_id", "developer@dena.com");
 
-        DenaResponse okReturn = performRegisterNewApplication(createJSONFromObject(requestObject), HttpStatus.OK, DenaResponse.class);
+        performRegisterNewApplication(createJSONFromObject(requestObject), HttpStatus.OK, DenaResponse.class);
         ErrorResponse errorReturn = performRegisterNewApplication(createJSONFromObject(requestObject), HttpStatus.BAD_REQUEST, ErrorResponse.class);
 
         /////////////////////////////////////////////
@@ -87,7 +90,6 @@ public class ApplicationManagement extends AbstractDataStoreTest {
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "4002";
         expectedReturnObject.messages = Collections.singletonList("Application already exist");
-
 
 
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(errorReturn), true);
@@ -116,15 +118,12 @@ public class ApplicationManagement extends AbstractDataStoreTest {
         expectedReturnObject.messages = Collections.singletonList("Application name field is invalid");
 
 
-
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
 
 
-
-
-        /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
     //            Application MANAGEMENT REQUEST
     /////////////////////////////////////////////////
     protected <T> T performRegisterNewApplication(String body, HttpStatus httpStatus, Class<T> klass) throws Exception {

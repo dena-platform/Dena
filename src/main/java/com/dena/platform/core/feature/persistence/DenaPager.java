@@ -8,9 +8,9 @@ public class DenaPager {
 
     public final static String START_INDEX_PARAMETER = "startIndex";
 
-    private Integer startIndex;
+    private Integer startIndex = 0;
 
-    private Integer pageSize;
+    private Integer pageSize = 50;
 
 
     public DenaPager() {

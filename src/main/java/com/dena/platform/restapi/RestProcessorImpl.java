@@ -345,6 +345,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
                     .withCreateObjectCount(1)
                     .withDenaObjectResponseList(createObjectResponse(Collections.singletonList(registeredApplication)))
                     .withTimestamp(DenaObjectUtils.timeStamp())
+                    .withHttpStatusCode(200)
                     .build();
 
 
