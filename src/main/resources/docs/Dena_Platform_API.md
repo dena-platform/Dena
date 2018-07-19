@@ -238,10 +238,10 @@ Response Body:
 	  "delete_table_count(s)": 1
 	}
 
+----------
 
 # Working With Object #
 
-----------
 
 ## Create Objects ##
 Create new object in Dena data store.  
@@ -250,16 +250,15 @@ Create new object in Dena data store.
 
 Return: Created object(s) count. 
 
-Method: POST
-
+Method: POST  
 URL: /v1/<application-id>/<table-name>/?loadRelation=false 
 
 
 Headers:  
-Content-Type:application/json 
+Content-Type:application/json  
+token: {user token after login in Dena platform}
 
-Body:  
-{JSON}
+Body: {JSON}
 
 Optional Parameter  
 - **loadRelation**: Whether load relation after creating object.   
@@ -297,14 +296,13 @@ multiple request.
 Return: Created object(s) count. 
 
 Method: POST
-
 URL: /v1/<application-id>/<table-name>?loadRelation=false
 
 Headers:  
-Content-Type:application/json 
+Content-Type:application/json  
+token: {user token after login in Dena platform} 
 
-Body:  
-{JSON Array}
+Body: {JSON}
 
 Optional Parameter  
 - **loadRelation**: Whether load relation after creating object.   
@@ -389,10 +387,10 @@ Begin Implementation Detail
 related_objects contain three field
 
 1. relation_name: name of relation in Dena platform. we store it so when we retrieve a Dena object we can recognize field. 
-2. target_type: name of destination relation type.To recognize destination type for example when we want show destination type in panel.   
+2. target_type: name of destination relation type. To recognize destination type for example when we want show destination type in panel.   
 3. id: ids of destination type. 
 
-In response to client Dena do not return relation objects because of object because of performance.
+In response to client Dena do not return relation objects because of performance consideration.
 
 
 > 
@@ -400,17 +398,14 @@ End Implementation Detail
 
 
 
-Method: POST
-
+Method: POST  
 URL: /v1/<application-id>/<type-name>
 
 Headers:
+Content-Type:application/json  
+token: {user token after login in Dena platform}
 
-Content-Type:application/json
-
-Body:
-
-{JSON}
+Body: {JSON}
 
 ***Example:***
 

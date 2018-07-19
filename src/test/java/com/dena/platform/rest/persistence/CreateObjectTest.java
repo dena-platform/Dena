@@ -6,6 +6,7 @@ import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.utils.CommonConfig;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
+import org.springframework.test.context.TestPropertySource;
 
 import java.time.Instant;
 import java.util.Arrays;
@@ -19,6 +20,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
+@TestPropertySource(properties = {"dena.api.security.enabled=false"})
 public class CreateObjectTest extends AbstractDataStoreTest {
 
     @Test
@@ -123,7 +125,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         assertTrue(isTimeEqualRegardlessOfSecond(expectedObjectResponse1.createTime, Instant.now().toEpochMilli()));
         assertNull("mergeUpdate time in creating object should be null", expectedObjectResponse1.updateTime);
 
-        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
 
     }
 
