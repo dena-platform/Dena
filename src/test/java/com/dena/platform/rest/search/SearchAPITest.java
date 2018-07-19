@@ -6,6 +6,7 @@ import com.dena.platform.rest.dto.ObjectModelHelper;
 import com.dena.platform.rest.persistence.AbstractDataStoreTest;
 import com.dena.platform.utils.CommonConfig;
 import org.junit.Before;
+import org.junit.Ignore;
 
 import javax.annotation.Resource;
 
@@ -14,6 +15,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * @author Nazarpour.
  */
+@Ignore
 public class SearchAPITest extends AbstractDataStoreTest {
 
     private User user = ObjectModelHelper.getSampleUser();
