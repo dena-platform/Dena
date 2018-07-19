@@ -175,17 +175,17 @@ public class AbstractDataStoreTest {
     //            DATA ACCESS REQUEST
     /////////////////////////////////////////////
 
-    protected TestDenaResponse performFindRequestByObjectId(String objectId1) throws Exception {
+    protected <T> T performFindRequestByObjectId(String objectId1, Class<T> klass) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId1))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, TestDenaResponse.class);
+        return createObjectFromJSON(returnContent, klass);
     }
 
-    protected TestDenaResponse performFindRequestInTable(String tableName, int startIndex, int pageSize) throws Exception {
+    protected <T> T performFindRequestInTable(String tableName, int startIndex, int pageSize,Class<T> klass) throws Exception {
         String URITemplate = CommonConfig.ROOT_URL + CommonConfig.APP_ID + "/" + tableName;
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder
                 .fromUriString(URITemplate)
@@ -198,7 +198,7 @@ public class AbstractDataStoreTest {
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, TestDenaResponse.class);
+        return createObjectFromJSON(returnContent, klass);
     }
 
 

@@ -780,23 +780,30 @@ By default when you get an object from Dena platform, related objects not includ
 **Find object By Id**  
 This API provides the functionality that retrieve specified object in table.
 
-Return: Number of deleted object counts.
+Return: Found object in data store.
 
 Method: GET  
 URL: /v1/<application-id>/<table-name>/<object-id>?loadRelation=false
+
+Headers:  
+Content-Type : application/json  
+Authorization: {user token after login in Dena platform} 
 
 Optional Parameter  
 
 - **loadRelation**: Whether load relation.   
 
-Request Body: None
+Request Body: {None}
 
 ***Example:***
+
+Request Body: {None}
 
 Response Body:
 
     {
         "timestamp": 1522349375351,
+        "status":200,
         "found_object_count(s)": 1,
         "objects": [
             {
@@ -815,9 +822,14 @@ Response Body:
 **Find All Objects In Table**  
 This API provides the functionality that retrieve all object of specified table data.
 
-Method: GET
+Return: Found object in data store.
 
+Method: GET  
 URL: /v1/<application-id>/<table-name>?startIndex=45&pageSize=6
+
+Headers:  
+Content-Type : application/json  
+Authorization: {user token after login in Dena platform} 
 
 Optional Parameter
 
@@ -825,9 +837,9 @@ Optional Parameter
 - **pageSize**: The number of records to retrieve in a single page. default to 50.
 
 
-*Note:* for more information see [Pagination](#pagination) section
+*Note:* For more information see [Pagination](#pagination) section
 
-Request Body: None
+Request Body: {None}
 
 ***Example:***
 
@@ -837,6 +849,7 @@ Response Body:
 
     {
         "timestamp": 1522448368270,
+        "status":200,
         "found_object_count(s)": 2,
         "objects": [
             {
@@ -869,29 +882,38 @@ Consider following Pseudo-Code:
     User user = findUser(userId)
     user.getTransaction() // find all transaction relation in user
 
+
+Return: Found related object(s) in data store.
+
 Method: GET
 
 URL: /v1/<application-id>/<parent-table-name>/<parent-object-id>/relation/<relation-name>?startIndex=45&pageSize=6
 
+Headers:  
+Content-Type : application/json  
+Authorization: {user token after login in Dena platform} 
+
+
 Optional Parameter
 
-- **startIndex**: The start row number from which return result to client.starting from 0 and default to 0.
+- **startIndex**: The start row number from which return result to client. starting from 0 and default to 0.
 - **pageSize**: The number of records to retrieve in a single page. default to 50.
 
 *Note:* for more information see [Pagination](#pagination) section
 
 
 
-Request Body: None
+Request Body: {None}
 
 ***Example:***
 
-/v1/denaQA/post?startIndex=0&pageSize=2
+Request Body: {None}
 
 Response Body:
 
     {
         "timestamp": 1522485942626,
+        "status":200,
         "found_object_count(s)": 2,
         "objects": [
             {

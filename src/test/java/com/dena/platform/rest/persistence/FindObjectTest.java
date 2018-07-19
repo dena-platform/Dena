@@ -7,6 +7,7 @@ import com.dena.platform.utils.CommonConfig;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.springframework.test.context.TestPropertySource;
 
 import java.time.Instant;
 import java.util.Arrays;
@@ -19,7 +20,8 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
-public class FindDataTest extends AbstractDataStoreTest {
+@TestPropertySource(properties = {"dena.api.security.enabled=false"})
+public class FindObjectTest extends AbstractDataStoreTest {
 
     @Test
     public void test_FindObject_By_Id_When_Object_Exist() throws Exception {
@@ -27,11 +29,12 @@ public class FindDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Send Find Object Request
         /////////////////////////////////////////////
-        TestDenaResponse actualReturnObject = performFindRequestByObjectId(objectId3);
+        DenaResponse actualReturnObject = performFindRequestByObjectId(objectId3, DenaResponse.class);
 
         TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        expectedReturnObject.httpStatusCode = 200;
         expectedReturnObject.foundObjectCount = 1;
-        expectedReturnObject.timestamp = actualReturnObject.timestamp;
+        expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
 
         /////////////////////////////////////////////
         //            Assert Found Object
@@ -44,7 +47,7 @@ public class FindDataTest extends AbstractDataStoreTest {
         expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
 
         // check timestamp field of returned object
-        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.timestamp, Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
@@ -54,16 +57,18 @@ public class FindDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Send Find Object Request
         /////////////////////////////////////////////
-        TestDenaResponse actualReturnObject1 = performFindRequestInTable(CommonConfig.COLLECTION_NAME, 0, 2);
-        TestDenaResponse actualReturnObject2 = performFindRequestInTable(CommonConfig.COLLECTION_NAME, 4, 5);
+        DenaResponse actualReturnObject1 = performFindRequestInTable(CommonConfig.COLLECTION_NAME, 0, 2, DenaResponse.class);
+        DenaResponse actualReturnObject2 = performFindRequestInTable(CommonConfig.COLLECTION_NAME, 4, 5, DenaResponse.class);
 
         TestDenaResponse expectedReturnObject1 = new TestDenaResponse();
+        expectedReturnObject1.httpStatusCode = 200;
         expectedReturnObject1.foundObjectCount = 2;
-        expectedReturnObject1.timestamp = actualReturnObject1.timestamp;
+        expectedReturnObject1.timestamp = actualReturnObject1.getTimestamp();
 
         TestDenaResponse expectedReturnObject2 = new TestDenaResponse();
+        expectedReturnObject2.httpStatusCode = 200;
         expectedReturnObject2.foundObjectCount = 5;
-        expectedReturnObject2.timestamp = actualReturnObject2.timestamp;
+        expectedReturnObject2.timestamp = actualReturnObject2.getTimestamp();
 
 
         /////////////////////////////////////////////
@@ -123,8 +128,8 @@ public class FindDataTest extends AbstractDataStoreTest {
 
 
         // check timestamp field of returned object
-        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject1.timestamp, Instant.now().toEpochMilli()));
-        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject2.timestamp, Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject1.getTimestamp(), Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject2.getTimestamp(), Instant.now().toEpochMilli()));
 
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject1), createJSONFromObject(actualReturnObject1), JSONCompareMode.NON_EXTENSIBLE);
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject2), createJSONFromObject(actualReturnObject2), JSONCompareMode.NON_EXTENSIBLE);
@@ -143,6 +148,7 @@ public class FindDataTest extends AbstractDataStoreTest {
         //            Assert Found Object
         /////////////////////////////////////////////
         TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        expectedReturnObject.httpStatusCode = 200;
         expectedReturnObject.foundObjectCount = 2;
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
 
@@ -174,17 +180,18 @@ public class FindDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Send Find Object Request
         /////////////////////////////////////////////
-        TestDenaResponse actualReturnObject = performFindRequestByObjectId(randomObjectId);
+        DenaResponse actualReturnObject = performFindRequestByObjectId(randomObjectId, DenaResponse.class);
 
         /////////////////////////////////////////////
         //            Assert Found Object
         /////////////////////////////////////////////
         TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        expectedReturnObject.httpStatusCode = 200;
         expectedReturnObject.foundObjectCount = 0;
-        expectedReturnObject.timestamp = actualReturnObject.timestamp;
+        expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
 
         // check timestamp field of returned object
-        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.timestamp, Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), JSONCompareMode.NON_EXTENSIBLE);
 
     }
