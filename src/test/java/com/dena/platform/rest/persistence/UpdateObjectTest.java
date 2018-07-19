@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
  */
 
 @TestPropertySource(properties = {"dena.api.security.enabled=false"})
-public class UpdateDataTest extends AbstractDataStoreTest {
+public class UpdateObjectTest extends AbstractDataStoreTest {
 
     @Test
     public void test_UpdateObject() throws Exception {
@@ -58,7 +58,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         testObjectResponse.addProperty("name", "javad");
 
 
-        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.httpStatusCode = 200;
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
         expectedReturnObject.updateObjectCount = (1L);
@@ -150,7 +150,7 @@ public class UpdateDataTest extends AbstractDataStoreTest {
         }
 
 
-        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.httpStatusCode = 200;
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
         expectedReturnObject.updateObjectCount = (2L);

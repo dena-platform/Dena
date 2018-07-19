@@ -56,7 +56,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         expectedObjectResponse.addProperty("job", "developer");
 
 
-        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
         expectedReturnObject.createObjectCount = 1L;
         expectedReturnObject.setTestObjectResponseList(Collections.singletonList(expectedObjectResponse));
@@ -115,7 +115,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         expectedObjectResponse2.addProperty("job", "developer");
 
 
-        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
         expectedReturnObject.createObjectCount = 2L;
         expectedReturnObject.setTestObjectResponseList(Arrays.asList(expectedObjectResponse1, expectedObjectResponse2));

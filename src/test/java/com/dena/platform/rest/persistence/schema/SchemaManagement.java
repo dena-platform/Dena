@@ -1,6 +1,6 @@
 package com.dena.platform.rest.persistence.schema;
 
-import com.dena.platform.rest.dto.TestDenaResponseDTO;
+import com.dena.platform.rest.dto.TestDenaResponse;
 import com.dena.platform.rest.persistence.AbstractDataStoreTest;
 import com.dena.platform.restapi.dto.response.DenaObjectResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse;
@@ -37,7 +37,7 @@ public class SchemaManagement extends AbstractDataStoreTest {
 
         DenaResponse actualReturnObject = performCreateTable("table1", DenaResponse.class);
 
-        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.createTableCount = 1;
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
 
@@ -57,7 +57,7 @@ public class SchemaManagement extends AbstractDataStoreTest {
         performCreateTable("table1", DenaResponse.class);
         DenaResponse actualReturnObject = performReadTableSchema(DenaResponse.class);
 
-        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
 
 
@@ -86,7 +86,7 @@ public class SchemaManagement extends AbstractDataStoreTest {
         performCreateTable("table1", DenaResponse.class);
         DenaResponse actualReturnObject = performDeleteTable("table1", DenaResponse.class);
 
-        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.deleteTableCount = 1;
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
 

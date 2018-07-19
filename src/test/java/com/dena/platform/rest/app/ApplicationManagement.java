@@ -1,6 +1,6 @@
 package com.dena.platform.rest.app;
 
-import com.dena.platform.rest.dto.TestDenaResponseDTO;
+import com.dena.platform.rest.dto.TestDenaResponse;
 import com.dena.platform.rest.dto.TestErrorResponse;
 import com.dena.platform.rest.dto.TestObjectResponse;
 import com.dena.platform.rest.dto.TestRequestObject;
@@ -56,7 +56,7 @@ public class ApplicationManagement extends AbstractDataStoreTest {
         expectedObjectResponse.addProperty("creator_id", "developer@dena.com");
         expectedObjectResponse.addProperty("application_id", application_id);
 
-        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
         expectedReturnObject.createObjectCount = 1L;
         expectedReturnObject.setTestObjectResponseList(Collections.singletonList(expectedObjectResponse));

@@ -14,7 +14,7 @@ import java.util.List;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class TestDenaResponseDTO {
+public class TestDenaResponse {
 
     @JsonProperty("status")
     public Integer httpStatusCode;
@@ -67,7 +67,7 @@ public class TestDenaResponseDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        TestDenaResponseDTO that = (TestDenaResponseDTO) o;
+        TestDenaResponse that = (TestDenaResponse) o;
 
         if (createObjectCount != that.createObjectCount) return false;
         if (!TestUtils.isTimeEqualRegardlessOfSecond(Long.valueOf(timestamp), that.timestamp)) {

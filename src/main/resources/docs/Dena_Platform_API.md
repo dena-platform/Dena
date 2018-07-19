@@ -713,19 +713,23 @@ Response Body:
 
 Remove all relation between parent and child.
 
-**Note:** 
-
-This only delete relation between parent and child and do not remove child objects.
+**Note:** This only delete relation between parent and child and do not remove child objects.
 
 Return: Number of deleted object counts.
 
 Method: DELETE
-
 URL: /v1/<application-id>/<parent-type-name>/<parent-object-id>/relation/<child-type-name>
 
-Request Body: None
+Headers:  
+Content-Type : application/json  
+Authorization: {user token after login in Dena platform} 
+
+
+Request Body: {None}
 
 ***Example:***
+
+Request Body: {None}
 
 Response Body:
 
@@ -741,13 +745,18 @@ Remove relation between parent and specified child object.
 
 **Note:** This API only delete relation between parent and child and do not remove child.
 
-Method: DELETE
-
+Method: DELETE  
 URL: /v1/<application-id>/<parent-type-names>/<parent-object-id>/relation/<child-type-names>/<child-object-id>
 
-Request Body: None
+Headers:  
+Content-Type : application/json  
+Authorization: {user token after login in Dena platform} 
+
+Request Body: {None}
 
 ***Example:***
+
+Request Body: {None}
 
 Response Body:
 

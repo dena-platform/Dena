@@ -1,8 +1,9 @@
 package com.dena.platform.rest.persistence;
 
-import com.dena.platform.rest.dto.TestDenaResponseDTO;
+import com.dena.platform.rest.dto.TestDenaResponse;
 import com.dena.platform.rest.dto.TestErrorResponse;
 import com.dena.platform.rest.dto.TestObjectResponse;
+import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.utils.CommonConfig;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -20,25 +21,25 @@ import static org.junit.Assert.assertTrue;
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 @TestPropertySource(properties = {"dena.api.security.enabled=false"})
-public class DeleteDataTest extends AbstractDataStoreTest {
+public class DeleteObjectTest extends AbstractDataStoreTest {
 
     @Test
     public void test_DeleteObjects() throws Exception {
         /////////////////////////////////////////////
         //            Send Delete Objects Request
         /////////////////////////////////////////////
-        TestDenaResponseDTO actualReturnObject = performDeleteRequest(Arrays.asList(objectId1, objectId2, objectId3),
-                user.getEmail(), 200, TestDenaResponseDTO.class);
+        DenaResponse actualReturnObject = performDeleteRequest(Arrays.asList(objectId1, objectId2, objectId3),
+                200, DenaResponse.class);
 
         /////////////////////////////////////////////
         //            Assert Deleted Object
         /////////////////////////////////////////////
-        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
-        expectedReturnObject.timestamp = actualReturnObject.timestamp;
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
         expectedReturnObject.deleteObjectCount = 3L;
 
         // check timestamp field of returned object
-        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.timestamp, Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
@@ -51,7 +52,7 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////////////////////////////////
         String invalidObjectId = "5a1bd6176f";
         TestErrorResponse actualReturnObject = performDeleteRequest(Collections.singletonList(invalidObjectId),
-                user.getEmail(), 400, TestErrorResponse.class);
+                400, TestErrorResponse.class);
 
         TestErrorResponse expectedReturnObject = new TestErrorResponse();
         expectedReturnObject.status = 400;
@@ -67,15 +68,15 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         //            Send Delete Object Request - object id not exist
         //////////////////////////////////////////////////////////////////
 
-        TestDenaResponseDTO actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId),
-                user.getEmail(), 200, TestDenaResponseDTO.class);
+        DenaResponse actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId),
+                200, DenaResponse.class);
 
-        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
-        expectedReturnObject.timestamp = actualReturnObject.timestamp;
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
         expectedReturnObject.deleteObjectCount = 0L;
 
         // check timestamp field of returned object
-        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.timestamp, Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
     }
 
@@ -84,15 +85,15 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         //////////////////////////////////////////////////////////////////
         //            Send Delete Object Request - app id not exist
         //////////////////////////////////////////////////////////////////
-        TestDenaResponseDTO actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId),
-                user.getEmail(), "/v1/invalid_app_id/denaTestCollection/", 200, TestDenaResponseDTO.class);
+        DenaResponse actualReturnObject = performDeleteRequest(Collections.singletonList(randomObjectId),
+                200, DenaResponse.class);
 
-        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
-        expectedReturnObject.timestamp = (actualReturnObject.timestamp);
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        expectedReturnObject.timestamp = (actualReturnObject.getTimestamp());
         expectedReturnObject.deleteObjectCount = (0L);
 
         // check timestamp field of returned object
-        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.timestamp, Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
@@ -104,26 +105,27 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Send Delete Relation
         /////////////////////////////////////////////
-        TestDenaResponseDTO actualReturnObject = performDeleteRelationWithObject(objectId3, CommonConfig.RELATION_NAME, 200, objectId1, TestDenaResponseDTO.class);
+        DenaResponse actualReturnObject = performDeleteRelationWithObject(objectId3, CommonConfig.RELATION_NAME, 200,
+                objectId1, DenaResponse.class);
 
         /////////////////////////////////////////////
         //            Assert Delete Relation
         /////////////////////////////////////////////
-        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
-        expectedReturnObject.timestamp = (actualReturnObject.timestamp);
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        expectedReturnObject.timestamp = (actualReturnObject.getTimestamp());
         expectedReturnObject.deleteRelationCount = 1L;
 
-        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.timestamp, Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
 
         /////////////////////////////////////////////
         //            Check Deleted Object
         /////////////////////////////////////////////
-        actualReturnObject = performFindRelationRequest(objectId3, CommonConfig.RELATION_NAME, 0, 1);
-        expectedReturnObject = new TestDenaResponseDTO();
+        actualReturnObject = performFindRelationRequest(objectId3, CommonConfig.RELATION_NAME, 0, 1, DenaResponse.class);
+        expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.foundObjectCount = 1;
-        expectedReturnObject.timestamp = actualReturnObject.timestamp;
+        expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
 
         TestObjectResponse testObjectResponse = new TestObjectResponse();
         testObjectResponse.objectId = objectId2;
@@ -132,7 +134,7 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         testObjectResponse.addProperty("job", "developer");
         expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
 
-        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.timestamp, Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
@@ -159,16 +161,16 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Send Delete Relation
         /////////////////////////////////////////////
-        TestDenaResponseDTO actualReturnObject = performDeleteRelation(objectId3, CommonConfig.RELATION_NAME);
+        DenaResponse actualReturnObject = performDeleteRelation(objectId3, CommonConfig.RELATION_NAME, DenaResponse.class);
 
         /////////////////////////////////////////////
         //            Assert Delete Relation
         /////////////////////////////////////////////
-        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
-        expectedReturnObject.timestamp = (actualReturnObject.timestamp);
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        expectedReturnObject.timestamp = (actualReturnObject.getTimestamp());
         expectedReturnObject.deleteRelationCount = 2L;
 
-        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.timestamp, Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
 
@@ -176,14 +178,14 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         //            Check Deleted Object
         /////////////////////////////////////////////
 
-        actualReturnObject = performFindRelationRequest(objectId3, CommonConfig.RELATION_NAME, 0, 1);
-        expectedReturnObject = new TestDenaResponseDTO();
+        actualReturnObject = performFindRelationRequest(objectId3, CommonConfig.RELATION_NAME, 0, 1, DenaResponse.class);
+        expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.foundObjectCount = 0;
-        expectedReturnObject.timestamp = actualReturnObject.timestamp;
+        expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
 
         expectedReturnObject.setTestObjectResponseList(Collections.emptyList());
 
-        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.timestamp, Instant.now().toEpochMilli()));
+        assertTrue(isTimeEqualRegardlessOfSecond(actualReturnObject.getTimestamp(), Instant.now().toEpochMilli()));
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);
 
     }
@@ -193,9 +195,9 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////////////////////////////////
         //            Send Delete Relation - Invalid relation name
         /////////////////////////////////////////////////////////////////////////
-        TestDenaResponseDTO actualReturnObject = performDeleteRelationWithObject(objectId3, "not_exist_relation", 200, objectId1, TestDenaResponseDTO.class);
+        TestDenaResponse actualReturnObject = performDeleteRelationWithObject(objectId3, "not_exist_relation", 200, objectId1, TestDenaResponse.class);
 
-        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.timestamp = (actualReturnObject.timestamp);
         expectedReturnObject.deleteRelationCount = 0L;
 

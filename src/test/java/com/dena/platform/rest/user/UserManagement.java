@@ -1,7 +1,7 @@
 package com.dena.platform.rest.user;
 
 import com.dena.platform.core.feature.security.service.JWTService;
-import com.dena.platform.rest.dto.TestDenaResponseDTO;
+import com.dena.platform.rest.dto.TestDenaResponse;
 import com.dena.platform.rest.dto.TestErrorResponse;
 import com.dena.platform.rest.dto.TestObjectResponse;
 import com.dena.platform.rest.dto.TestRequestObject;
@@ -66,7 +66,7 @@ public class UserManagement extends AbstractDataStoreTest {
         expectedObjectResponse.addProperty("family", "smith");
 
 
-        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
         expectedReturnObject.createUserCount = 1;
         expectedReturnObject.setTestObjectResponseList(Collections.singletonList(expectedObjectResponse));
@@ -206,7 +206,7 @@ public class UserManagement extends AbstractDataStoreTest {
         expectedObjectResponse.addProperty("is_active", true);
         expectedObjectResponse.addProperty("email", "ali@hotmail.com");
 
-        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
+        TestDenaResponse expectedReturnObject = new TestDenaResponse();
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
         expectedReturnObject.foundObjectCount = 1;
         expectedReturnObject.setTestObjectResponseList(Collections.singletonList(expectedObjectResponse));

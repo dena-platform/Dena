@@ -3,7 +3,7 @@ package com.dena.platform.rest.persistence;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import com.dena.platform.rest.dto.ObjectModelHelper;
-import com.dena.platform.rest.dto.TestDenaResponseDTO;
+import com.dena.platform.rest.dto.TestDenaResponse;
 import com.dena.platform.utils.CommonConfig;
 import com.mongodb.MongoClient;
 import junitparams.JUnitParamsRunner;
@@ -18,9 +18,7 @@ import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.test.web.servlet.MockMvc;
@@ -177,17 +175,17 @@ public class AbstractDataStoreTest {
     //            DATA ACCESS REQUEST
     /////////////////////////////////////////////
 
-    protected TestDenaResponseDTO performFindRequestByObjectId(String objectId1) throws Exception {
+    protected TestDenaResponse performFindRequestByObjectId(String objectId1) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.BASE_URL + "/" + objectId1))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, TestDenaResponseDTO.class);
+        return createObjectFromJSON(returnContent, TestDenaResponse.class);
     }
 
-    protected TestDenaResponseDTO performFindRequestInTable(String tableName, int startIndex, int pageSize) throws Exception {
+    protected TestDenaResponse performFindRequestInTable(String tableName, int startIndex, int pageSize) throws Exception {
         String URITemplate = CommonConfig.ROOT_URL + CommonConfig.APP_ID + "/" + tableName;
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder
                 .fromUriString(URITemplate)
@@ -200,11 +198,12 @@ public class AbstractDataStoreTest {
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, TestDenaResponseDTO.class);
+        return createObjectFromJSON(returnContent, TestDenaResponse.class);
     }
 
 
-    protected TestDenaResponseDTO performFindRelationRequest(String objectId, String relationName, int startIndex, int pageSize) throws Exception {
+    protected <T> T performFindRelationRequest(String objectId, String relationName, int startIndex,
+                                               int pageSize, Class<T> klass) throws Exception {
         String URITemplate = CommonConfig.BASE_URL + "/" + objectId + "/relation/" + relationName;
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder
                 .fromUriString(URITemplate)
@@ -218,16 +217,12 @@ public class AbstractDataStoreTest {
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, TestDenaResponseDTO.class);
+        return createObjectFromJSON(returnContent, klass);
     }
 
-    protected <T> T performDeleteRequest(List<String> objectList, String username, int status, Class<T> klass) throws Exception {
-        return performDeleteRequest(objectList, username, CommonConfig.BASE_URL + "/", status, klass);
-    }
-
-    protected <T> T performDeleteRequest(List<String> objectList, String username, String urlRequest, int status, Class<T> klass) throws Exception {
+    protected <T> T performDeleteRequest(List<String> objectList, int status, Class<T> klass) throws Exception {
         String objectIds = String.join(",", objectList);
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(urlRequest + objectIds + "/" + username))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + objectIds))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is(status))
                 .andReturn();
@@ -247,14 +242,14 @@ public class AbstractDataStoreTest {
 
     }
 
-    protected TestDenaResponseDTO performDeleteRelation(String type1, String relationName) throws Exception {
+    protected <T> T performDeleteRelation(String type1, String relationName, Class<T> klass) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.BASE_URL + "/" + type1 + "/relation/" + relationName))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
         String returnContent = result.getResponse().getContentAsString();
-        return createObjectFromJSON(returnContent, TestDenaResponseDTO.class);
+        return createObjectFromJSON(returnContent, klass);
 
     }
 
@@ -323,7 +318,6 @@ public class AbstractDataStoreTest {
         return createObjectFromJSON(returnContent, klass);
 
     }
-
 
 
     protected <T> T performSearchWithToken(String username, String query, Class<T> klass, String token) throws Exception {
