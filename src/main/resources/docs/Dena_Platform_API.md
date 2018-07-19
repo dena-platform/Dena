@@ -193,6 +193,8 @@ Body: {None}
 
 ***Example:***  
 
+Request Body: {None}
+
 Response Body:  
 
 	{
@@ -213,6 +215,9 @@ Response Body:
 
 
 ## Delete Schema ##
+
+Return: Number of deleted table. 
+
 Method: DELETE  
 URL: /v1/<application-id>/schema/{table-name}  
 
@@ -220,24 +225,17 @@ Headers:
 token: {user token after login in dena-platform}  
 
 
-Body:  
-{None}
-
-Response   
-Number of deleted schema
-
+Body: {None}
 
 ***Example:***  
-Request URL:https://dena-platform/<application-id>/schema/{table-name} 
 
-Body:  
-{None}  
+Request Body: {None}  
 
-Response:  
+Response Body:  
 
 	{
 	  "timestamp": 1520504910721,
-	  "count": 1
+	  "delete_table_count(s)": 1
 	}
 
 

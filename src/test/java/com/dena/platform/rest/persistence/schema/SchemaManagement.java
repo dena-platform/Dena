@@ -1,7 +1,6 @@
 package com.dena.platform.rest.persistence.schema;
 
 import com.dena.platform.rest.dto.TestDenaResponseDTO;
-import com.dena.platform.rest.dto.TestObjectResponseDTO;
 import com.dena.platform.rest.persistence.AbstractDataStoreTest;
 import com.dena.platform.restapi.dto.response.DenaObjectResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse;
@@ -79,6 +78,27 @@ public class SchemaManagement extends AbstractDataStoreTest {
 
     }
 
+    @Test
+    public void test_Delete_Table() throws Exception {
+        /////////////////////////////////////////////
+        //         Send Delete Schema
+        /////////////////////////////////////////////
+        performCreateTable("table1", DenaResponse.class);
+        DenaResponse actualReturnObject = performDeleteTable("table1", DenaResponse.class);
+
+        TestDenaResponseDTO expectedReturnObject = new TestDenaResponseDTO();
+        expectedReturnObject.deleteTableCount = 1;
+        expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
+
+        /////////////////////////////////////////////
+        //            Assert Found Object
+        /////////////////////////////////////////////
+        assertTrue(isTimeEqualRegardlessOfSecond(expectedReturnObject.timestamp, Instant.now().toEpochMilli()));
+        JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
+
+
+    }
+
 
     protected <T> T performCreateTable(String tableName, Class<T> klass) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(CommonConfig.CREATE_TABLE_URL + tableName)
@@ -94,6 +114,17 @@ public class SchemaManagement extends AbstractDataStoreTest {
 
     protected <T> T performReadTableSchema(Class<T> klass) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(CommonConfig.GET_ALL_TABLE_SCHEMA_URL))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String returnContent = result.getResponse().getContentAsString();
+        return createObjectFromJSON(returnContent, klass);
+
+    }
+
+    protected <T> T performDeleteTable(String tableName, Class<T> klass) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(CommonConfig.DELETE_TABLE_SCHEMA_URL + tableName))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
