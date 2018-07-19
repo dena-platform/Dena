@@ -1,7 +1,7 @@
 package com.dena.platform.rest.app;
 
 import com.dena.platform.rest.dto.TestDenaResponseDTO;
-import com.dena.platform.rest.dto.TestErrorResponseDTO;
+import com.dena.platform.rest.dto.TestErrorResponse;
 import com.dena.platform.rest.dto.TestObjectResponse;
 import com.dena.platform.rest.dto.TestRequestObject;
 import com.dena.platform.rest.persistence.AbstractDataStoreTest;
@@ -83,7 +83,7 @@ public class ApplicationManagement extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //     Assert Register User Response
         /////////////////////////////////////////////
-        TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
+        TestErrorResponse expectedReturnObject = new TestErrorResponse();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "4002";
         expectedReturnObject.messages = Collections.singletonList("Application already exist");
@@ -110,7 +110,7 @@ public class ApplicationManagement extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //     Assert Register User Response
         /////////////////////////////////////////////
-        TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
+        TestErrorResponse expectedReturnObject = new TestErrorResponse();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "4000";
         expectedReturnObject.messages = Collections.singletonList("Application name field is invalid");

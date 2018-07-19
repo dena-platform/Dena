@@ -2,7 +2,7 @@ package com.dena.platform.rest.user;
 
 import com.dena.platform.core.feature.security.service.JWTService;
 import com.dena.platform.rest.dto.TestDenaResponseDTO;
-import com.dena.platform.rest.dto.TestErrorResponseDTO;
+import com.dena.platform.rest.dto.TestErrorResponse;
 import com.dena.platform.rest.dto.TestObjectResponse;
 import com.dena.platform.rest.dto.TestRequestObject;
 import com.dena.platform.rest.persistence.AbstractDataStoreTest;
@@ -98,7 +98,7 @@ public class UserManagement extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Assert Register User Response
         /////////////////////////////////////////////
-        TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
+        TestErrorResponse expectedReturnObject = new TestErrorResponse();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "3001";
         expectedReturnObject.messages = Collections.singletonList("Email field value is invalid");
@@ -124,7 +124,7 @@ public class UserManagement extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Assert Register User Response
         /////////////////////////////////////////////
-        TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
+        TestErrorResponse expectedReturnObject = new TestErrorResponse();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "3001";
         expectedReturnObject.messages = Collections.singletonList("Email field value is invalid");
@@ -153,7 +153,7 @@ public class UserManagement extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Assert Register User Response
         /////////////////////////////////////////////
-        TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
+        TestErrorResponse expectedReturnObject = new TestErrorResponse();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "3000";
         expectedReturnObject.messages = Collections.singletonList("User with this identity already exist");
@@ -179,7 +179,7 @@ public class UserManagement extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Assert Register User Response
         /////////////////////////////////////////////
-        TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
+        TestErrorResponse expectedReturnObject = new TestErrorResponse();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "3002";
         expectedReturnObject.messages = Collections.singletonList("Password field is invalid");

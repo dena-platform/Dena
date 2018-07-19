@@ -182,12 +182,12 @@ public class UpdateDataTest extends AbstractDataStoreTest {
 
         requestObject.getRelatedObjects().add(testDenaRelation);
 
-        TestErrorResponseDTO actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), 400, TestErrorResponseDTO.class);
+        TestErrorResponse actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), 400, TestErrorResponse.class);
 
         ////////////////////////////////////////////////////////////////////////////
         //            Assert Update Object Request  - Invalid object id format
         ////////////////////////////////////////////////////////////////////////////
-        TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
+        TestErrorResponse expectedReturnObject = new TestErrorResponse();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "2002";
         expectedReturnObject.messages = Collections.singletonList("Object_id is invalid");
@@ -215,12 +215,12 @@ public class UpdateDataTest extends AbstractDataStoreTest {
                 .build();
 
         requestObject.getRelatedObjects().add(testDenaRelation);
-        TestErrorResponseDTO actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), 400, TestErrorResponseDTO.class);
+        TestErrorResponse actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), 400, TestErrorResponse.class);
 
         ////////////////////////////////////////////////////////////////////////////
         //            Assert Update Object Request  - object id not exist
         ////////////////////////////////////////////////////////////////////////////
-        TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
+        TestErrorResponse expectedReturnObject = new TestErrorResponse();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "2003";
         expectedReturnObject.messages = Collections.singletonList("Object_id not found");
@@ -247,12 +247,12 @@ public class UpdateDataTest extends AbstractDataStoreTest {
                 .build();
 
         requestObject.getRelatedObjects().add(testDenaRelation);
-        TestErrorResponseDTO actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), 400, TestErrorResponseDTO.class);
+        TestErrorResponse actualReturnObject = performUpdateObject(createJSONFromObject(requestObject), 400, TestErrorResponse.class);
 
         ////////////////////////////////////////////////////////////////////////////
         //            Assert Update Object Request  - relation is not exist
         ////////////////////////////////////////////////////////////////////////////
-        TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
+        TestErrorResponse expectedReturnObject = new TestErrorResponse();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "2001";
         expectedReturnObject.messages = Collections.singletonList("Relation(s) is invalid");

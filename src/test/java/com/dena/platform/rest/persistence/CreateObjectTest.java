@@ -147,12 +147,12 @@ public class CreateObjectTest extends AbstractDataStoreTest {
 
         requestObject.addRelatedObject(testDenaRelation);
 
-        TestErrorResponseDTO actualReturnObject = performCreateObject(createJSONFromObject(requestObject), 400, TestErrorResponseDTO.class);
+        TestErrorResponse actualReturnObject = performCreateObject(createJSONFromObject(requestObject), 400, TestErrorResponse.class);
 
         /////////////////////////////////////////////////////////////////
         //            Assert Create Object Response - relation not exist
         /////////////////////////////////////////////////////////////////
-        TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
+        TestErrorResponse expectedReturnObject = new TestErrorResponse();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "2001";
         expectedReturnObject.messages = Collections.singletonList("Relation(s) is invalid");

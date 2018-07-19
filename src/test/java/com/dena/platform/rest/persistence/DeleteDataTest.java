@@ -1,7 +1,7 @@
 package com.dena.platform.rest.persistence;
 
 import com.dena.platform.rest.dto.TestDenaResponseDTO;
-import com.dena.platform.rest.dto.TestErrorResponseDTO;
+import com.dena.platform.rest.dto.TestErrorResponse;
 import com.dena.platform.rest.dto.TestObjectResponse;
 import com.dena.platform.utils.CommonConfig;
 import org.junit.Test;
@@ -48,10 +48,10 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         //            Send Delete Object Request - Invalid object id format
         /////////////////////////////////////////////////////////////////////////
         String invalidObjectId = "5a1bd6176f";
-        TestErrorResponseDTO actualReturnObject = performDeleteRequest(Collections.singletonList(invalidObjectId),
-                user.getEmail(), 400, TestErrorResponseDTO.class);
+        TestErrorResponse actualReturnObject = performDeleteRequest(Collections.singletonList(invalidObjectId),
+                user.getEmail(), 400, TestErrorResponse.class);
 
-        TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
+        TestErrorResponse expectedReturnObject = new TestErrorResponse();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "2002";
         expectedReturnObject.messages = Collections.singletonList("Object_id is invalid");
@@ -141,9 +141,9 @@ public class DeleteDataTest extends AbstractDataStoreTest {
         //            Send Delete Relation - Invalid object id format
         /////////////////////////////////////////////////////////////////////////
         String invalidObjectId = "5a1bd6176f";
-        TestErrorResponseDTO actualReturnObject = performDeleteRelationWithObject(invalidObjectId, CommonConfig.COLLECTION_NAME, 400, objectId1, TestErrorResponseDTO.class);
+        TestErrorResponse actualReturnObject = performDeleteRelationWithObject(invalidObjectId, CommonConfig.COLLECTION_NAME, 400, objectId1, TestErrorResponse.class);
 
-        TestErrorResponseDTO expectedReturnObject = new TestErrorResponseDTO();
+        TestErrorResponse expectedReturnObject = new TestErrorResponse();
         expectedReturnObject.status = 400;
         expectedReturnObject.errorCode = "2002";
         expectedReturnObject.messages = Arrays.asList("Object_id is invalid");
