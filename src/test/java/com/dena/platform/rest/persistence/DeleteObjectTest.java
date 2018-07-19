@@ -35,6 +35,7 @@ public class DeleteObjectTest extends AbstractDataStoreTest {
         //            Assert Deleted Object
         /////////////////////////////////////////////
         TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        expectedReturnObject.httpStatusCode = 200;
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
         expectedReturnObject.deleteObjectCount = 3L;
 
@@ -72,6 +73,7 @@ public class DeleteObjectTest extends AbstractDataStoreTest {
                 200, DenaResponse.class);
 
         TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        expectedReturnObject.httpStatusCode = 200;
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
         expectedReturnObject.deleteObjectCount = 0L;
 
@@ -89,6 +91,7 @@ public class DeleteObjectTest extends AbstractDataStoreTest {
                 200, DenaResponse.class);
 
         TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        expectedReturnObject.httpStatusCode = 200;
         expectedReturnObject.timestamp = (actualReturnObject.getTimestamp());
         expectedReturnObject.deleteObjectCount = (0L);
 
@@ -112,6 +115,7 @@ public class DeleteObjectTest extends AbstractDataStoreTest {
         //            Assert Delete Relation
         /////////////////////////////////////////////
         TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        expectedReturnObject.httpStatusCode = 200;
         expectedReturnObject.timestamp = (actualReturnObject.getTimestamp());
         expectedReturnObject.deleteRelationCount = 1L;
 
@@ -124,6 +128,7 @@ public class DeleteObjectTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         actualReturnObject = performFindRelationRequest(objectId3, CommonConfig.RELATION_NAME, 0, 1, DenaResponse.class);
         expectedReturnObject = new TestDenaResponse();
+        expectedReturnObject.httpStatusCode = 200;
         expectedReturnObject.foundObjectCount = 1;
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
 
@@ -167,6 +172,7 @@ public class DeleteObjectTest extends AbstractDataStoreTest {
         //            Assert Delete Relation
         /////////////////////////////////////////////
         TestDenaResponse expectedReturnObject = new TestDenaResponse();
+        expectedReturnObject.httpStatusCode = 200;
         expectedReturnObject.timestamp = (actualReturnObject.getTimestamp());
         expectedReturnObject.deleteRelationCount = 2L;
 
@@ -180,6 +186,7 @@ public class DeleteObjectTest extends AbstractDataStoreTest {
 
         actualReturnObject = performFindRelationRequest(objectId3, CommonConfig.RELATION_NAME, 0, 1, DenaResponse.class);
         expectedReturnObject = new TestDenaResponse();
+        expectedReturnObject.httpStatusCode = 200;
         expectedReturnObject.foundObjectCount = 0;
         expectedReturnObject.timestamp = actualReturnObject.getTimestamp();
 
@@ -195,10 +202,11 @@ public class DeleteObjectTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////////////////////////////////
         //            Send Delete Relation - Invalid relation name
         /////////////////////////////////////////////////////////////////////////
-        TestDenaResponse actualReturnObject = performDeleteRelationWithObject(objectId3, "not_exist_relation", 200, objectId1, TestDenaResponse.class);
+        DenaResponse actualReturnObject = performDeleteRelationWithObject(objectId3, "not_exist_relation", 200, objectId1, DenaResponse.class);
 
         TestDenaResponse expectedReturnObject = new TestDenaResponse();
-        expectedReturnObject.timestamp = (actualReturnObject.timestamp);
+        expectedReturnObject.httpStatusCode = 200;
+        expectedReturnObject.timestamp = (actualReturnObject.getTimestamp());
         expectedReturnObject.deleteRelationCount = 0L;
 
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), true);

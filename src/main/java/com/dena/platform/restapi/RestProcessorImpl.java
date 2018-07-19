@@ -144,7 +144,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String parentTypeName = denaRequestContext.getPathVariable(TABLE_NAME);
         String appName = denaRequestContext.getPathVariable(APP_ID);
         String parentObjectId = denaRequestContext.getPathVariable(OBJECT_ID);
-        String relationName = denaRequestContext.getPathVariable("type-name-2");
+        String relationName = denaRequestContext.getPathVariable("table-name-2");
         String childObjectId = denaRequestContext.getPathVariable("object-id-2");
 
         try {
@@ -162,6 +162,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
                     .withDeleteRelationCount(deleteCount)
                     .withTimestamp(DenaObjectUtils.timeStamp())
+                    .withHttpStatusCode(HttpStatus.OK.value())
                     .build();
             return ResponseEntity.ok().body(denaResponse);
         } catch (DenaException ex) {
@@ -202,6 +203,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()
                     .withDeleteObjectCount(deleteCount)
                     .withTimestamp(DenaObjectUtils.timeStamp())
+                    .withHttpStatusCode(HttpStatus.OK.value())
                     .build();
             return ResponseEntity.ok().body(denaResponse);
         } catch (DenaException ex) {

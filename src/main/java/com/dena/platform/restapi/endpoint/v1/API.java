@@ -120,8 +120,8 @@ public class API {
      * @return
      */
     @DeleteMapping(path = {
-            "/{app-id}/{type-name}/{object-id}/relation/{table-name-2}/{object-id-2}",
-            "/{app-id}/{type-name}/{object-id}/relation/{table-name-2}"})
+            "/{app-id}/{table-name}/{object-id}/relation/{table-name-2}/{object-id-2}",
+            "/{app-id}/{table-name}/{object-id}/relation/{table-name-2}"})
     public ResponseEntity deleteRelationWithObjectId() {
         return denaRestProcessor.handleDeleteRelation();
     }

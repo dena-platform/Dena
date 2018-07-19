@@ -680,6 +680,7 @@ Response Body:
 
     {
         "timestamp": 1521104923089,
+        "status":200,
         "delete_object_count(s)": 1
     }
 
@@ -705,6 +706,7 @@ Response Body:
 
       {
          "timestamp" : 1521104923089,
+         "status":200,
          "delete_object_count(s)": 4
       }
 
@@ -735,6 +737,7 @@ Response Body:
 
     {
         "timestamp": 1521108111690,
+        "status":200,
         "delete_relation_count(s)": 1
     }
 
@@ -762,6 +765,7 @@ Response Body:
 
     {
         "timestamp": 1521108111690,
+        "status":200,
         "delete_relation_count(s)": 1
     }
 
