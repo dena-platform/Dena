@@ -46,7 +46,7 @@ public class API {
     /////////////////////////////////////////////
 
     /**
-     * Create table
+     * Create table in application.
      * @return
      */
     @PostMapping(path = {"/{app-id}/schema/{table-name}"})
@@ -54,10 +54,12 @@ public class API {
         return denaRestProcessor.handleCreateSchema();
     }
 
+
     @GetMapping(path = {"/{app-id}/schema"})
     public ResponseEntity getAllTable() {
         return denaRestProcessor.handleGetAllSchema();
     }
+
 
     @DeleteMapping(path = {"/{app-id}/schema/{table-name}"})
     public ResponseEntity deleteTable() {

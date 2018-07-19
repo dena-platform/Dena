@@ -179,22 +179,21 @@ Response Body:
 
 
 ## Get All Table Schema ##
+
+Return: All created schema in appliaction.  
+
 Method: GET  
 URL: /v1/<application-id>/schema  
 
 Headers:  
 token: {user token after login in dena-platform}  
 
-Body:  
-{None}
+Body: {None}
 
-Response   
-Return the schema of table
 
 ***Example:***  
-Request URL: https://dena-platform.com/<application-id>/schema 
 
-Request Body:  
+Response Body:  
 
 	{
 	  "status":200,	

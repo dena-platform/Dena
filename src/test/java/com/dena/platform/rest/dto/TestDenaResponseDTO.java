@@ -25,6 +25,9 @@ public class TestDenaResponseDTO {
     @JsonProperty("create_user_count(s)")
     public Integer createUserCount;
 
+    @JsonProperty("create_table_count(s)")
+    public Integer createTableCount;
+
     @JsonProperty("update_object_count(s)")
     public Long updateObjectCount;
 
