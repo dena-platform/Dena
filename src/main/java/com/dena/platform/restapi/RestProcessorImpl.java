@@ -16,7 +16,6 @@ import com.dena.platform.core.feature.persistence.SchemaManager;
 import com.dena.platform.core.feature.persistence.exception.DataStoreException;
 import com.dena.platform.core.feature.search.Search;
 import com.dena.platform.core.feature.security.service.DenaSecurityService;
-import com.dena.platform.core.feature.security.service.JWTService;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import com.dena.platform.restapi.dto.response.DenaObjectResponse;
@@ -45,7 +44,6 @@ public class RestProcessorImpl implements DenaRestProcessor {
     private final static Logger log = getLogger(RestProcessorImpl.class);
 
     public final static String TABLE_NAME = "table-name";
-    public final static String APP_ID = "app-id";
     public final static String OBJECT_ID = "object-id";
     public final static String RELATION_NAME = "relation-name";
     public final static String QUERY_STRING = "query-string";
@@ -108,7 +106,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
         String requestBody = denaRequestContext.getRequestBody();
         String appTypeName = denaRequestContext.getPathVariable(TABLE_NAME);
-        String appName = denaRequestContext.getPathVariable(APP_ID);
+        String appName = denaRequestContext.getAppId();
         boolean loadRelation = Boolean.parseBoolean(denaRequestContext.getParameter(RELOAD_RELATION_PARAMETER));
 
 
@@ -141,8 +139,8 @@ public class RestProcessorImpl implements DenaRestProcessor {
     public ResponseEntity handleDeleteRelation() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
 
+        String appName = denaRequestContext.getAppId();
         String parentTypeName = denaRequestContext.getPathVariable(TABLE_NAME);
-        String appName = denaRequestContext.getPathVariable(APP_ID);
         String parentObjectId = denaRequestContext.getPathVariable(OBJECT_ID);
         String relationName = denaRequestContext.getPathVariable("table-name-2");
         String childObjectId = denaRequestContext.getPathVariable("object-id-2");
@@ -175,7 +173,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     public ResponseEntity handleDeleteObject() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
 
-        String appId = denaRequestContext.getPathVariable(APP_ID);
+        String appId = denaRequestContext.getAppId();
         String tableName = denaRequestContext.getPathVariable(TABLE_NAME);
         String[] objectIds = denaRequestContext.getPathVariable(OBJECT_ID).split(",");
 //        String userName = denaRequestContext.getPathVariable(USER_NAME);
@@ -217,7 +215,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
         boolean loadRelation = Boolean.parseBoolean(denaRequestContext.getParameter(RELOAD_RELATION_PARAMETER));
 
-        String appId = denaRequestContext.getPathVariable(APP_ID);
+        String appId = denaRequestContext.getAppId();
         String parentTableName = denaRequestContext.getPathVariable(TABLE_NAME);
         String objectId = denaRequestContext.getPathVariable(OBJECT_ID);
         String relationName = denaRequestContext.getPathVariable(RELATION_NAME);
@@ -270,7 +268,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     @Override
     public ResponseEntity handleRegisterUser() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
-        String appId = denaRequestContext.getPathVariable(APP_ID);
+        String appId = denaRequestContext.getAppId();
         String requestBody = denaRequestContext.getRequestBody();
         HashMap<String, Object> requestParameter = JSONMapper.createHashMapFromJSON(requestBody);
 
@@ -401,7 +399,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     @Override
     public ResponseEntity handleDeleteSchema() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
-        String appId = denaRequestContext.getPathVariable(APP_ID);
+        String appId = denaRequestContext.getAppId();
         String tableName = denaRequestContext.getPathVariable(TABLE_NAME);
 
         try {
@@ -423,7 +421,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     public ResponseEntity handleSearch() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
 
-        String appId = denaRequestContext.getPathVariable(APP_ID);
+        String appId = denaRequestContext.getAppId();
         String queryString = denaRequestContext.getPathVariable(QUERY_STRING);
         String userId = denaRequestContext.getPathVariable(USER_NAME);
         String appTypeName = denaRequestContext.getPathVariable(TABLE_NAME);

@@ -771,7 +771,7 @@ Response Body:
 
 ----------
 ## Find Object ##
-By default when you get an object from Dena platform, related objects not included in the response because it may cause load performance on server or client memory. Therefore by default we get related object in a separate request.   
+By default when you get an object from Dena platform, related objects not included in the response because it may cause load performance on server or client memory. Therefore by default we get related object in a separate request or with loadRelation parameter. for getting object there are three approach:   
 
 1. Find object by id
 2. Find objects in table
@@ -780,9 +780,9 @@ By default when you get an object from Dena platform, related objects not includ
 **Find object By Id**  
 This API provides the functionality that retrieve specified object in table.
 
+Return: Number of deleted object counts.
 
-Method: GET
-
+Method: GET  
 URL: /v1/<application-id>/<table-name>/<object-id>?loadRelation=false
 
 Optional Parameter  
