@@ -24,7 +24,7 @@ Dena have the following feature:
 
 
 ## Getting Started ##
-First go to the root and then run following maven command (Java 8 is required)
+First go to the root folder and then run following command (Java 8 is required)
 ```
 $ ./mvnw.cmd clean spring-boot:run
 
