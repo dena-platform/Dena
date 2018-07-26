@@ -11,8 +11,8 @@
    
 
 ## Introduction ##
-Dena is an Open Source Backend as a service for mobile and web applications. Dena enable developers to build 
-applications faster.  
+Dena is an Open Source Backend as a service for mobile and web applications. Dena enables developers to build 
+application faster.  
 
 Dena have the following feature:  
 -  Persistence: Storing, retrieving data and schema management.
@@ -21,13 +21,10 @@ Dena have the following feature:
 -  Security: Authentication based on JWT protocol.
   
 
-Dena is made with the following framework and third-party projects:
-
-- [Spring Boot](https://github.com/spring-projects/spring-boot) (Spring MVC, Spring Security)
 
 
-## Development
-Run with maven command (Java 8 is required)
+## Getting Started ##
+First go to the root and then run following maven command (Java 8 is required)
 ```
 $ ./mvnw.cmd clean spring-boot:run
 
@@ -35,3 +32,8 @@ OR (if you have maven installed)
 
 $ ./mvn clean spring-boot:run
 ```
+Dena by default uses embedded MongoDB database, but you can use your local MongoDB. For configuration please 
+see application.properties file in project.  
+
+After installing application you can call web service. 
+
