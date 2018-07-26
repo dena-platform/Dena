@@ -15,10 +15,10 @@ Dena is an Open Source Backend as a service for mobile and web applications. Den
 application faster.  
 
 Dena have the following feature:  
--  Persistence: Storing, retrieving data and schema management.
--  User Management: Provide login, logout and user registration.
--  App Management: Creating application.
--  Security: Authentication based on JWT protocol.
+-  **Persistence** : Storing, retrieving data and schema management.
+-  **User Management**: Provide login, logout and user registration.
+-  **App Management**: Creating application.
+-  **Security**: Authentication based on JWT protocol.
   
 
 
@@ -35,6 +35,6 @@ $ ./mvn clean spring-boot:run
 Dena by default uses embedded MongoDB database, but you can use your local MongoDB. For configuration please 
 see application.properties file in project.  
 
-After installing application you can call web service. For more information see 
+After installing application you can call web service. For more information please see 
 <a href="https://github.com/dena-platform/Dena/wiki/REST-API">REST-API</a> page.
 
