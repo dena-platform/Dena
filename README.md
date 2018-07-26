@@ -35,5 +35,6 @@ $ ./mvn clean spring-boot:run
 Dena by default uses embedded MongoDB database, but you can use your local MongoDB. For configuration please 
 see application.properties file in project.  
 
-After installing application you can call web service. 
+After installing application you can call web service. For more information see 
+<a href="https://github.com/dena-platform/Dena/wiki/REST-API">REST-API</a> page.
 
