@@ -1,9 +1,12 @@
-# Dena Platform
+# Dena Platform #
 
-[![Build Status](https://travis-ci.org/ligurio/awesome-ci.svg?branch=master)](https://travis-ci.org/dena-platform/Dena)
+<h4 align="center">Open source BAAS platform written in Java based on Spring Boot.</h4>
 
-##
-Open source BAAS platform written in Java based on Spring Boot.
+<p align="center">
+    <a href="http://www.apache.org/licenses/LICENSE-2.0"><img src="https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat" alt="license" title=""></a>
+    <a href="https://travis-ci.org/dena-platform/Dena"><img src="https://travis-ci.org/dena-platform/Dena.svg?branch=master" alt="Build Status"></a>
+</p>
+
 
 Dena is based on the following framework and third-party projects:
 

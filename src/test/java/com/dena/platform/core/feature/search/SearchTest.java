@@ -6,10 +6,7 @@ import com.dena.platform.core.feature.search.lucene.LuceneSearch;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.rest.dto.ObjectModelHelper;
 import com.dena.platform.utils.CommonConfig;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +15,7 @@ import java.util.List;
 /**
  * @author Nazarpour.
  */
+@Ignore
 public class SearchTest {
 
     private Search search;
@@ -47,7 +45,7 @@ public class SearchTest {
 
     @Test
     public void createIndex_thenSearchForIt() throws Exception {
-        search.index(CommonConfig.APP_ID, CommonConfig.COLLECTION_NAME,user, denaObject1);
+        search.index(CommonConfig.APP_ID, CommonConfig.COLLECTION_NAME, user, denaObject1);
         List<DenaObject> r1 = search.query(CommonConfig.APP_ID, CommonConfig.COLLECTION_NAME, user, "name:رضا", pager);
 
         Assert.assertTrue(r1.size() > 0);
