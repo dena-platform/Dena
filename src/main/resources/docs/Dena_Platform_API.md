@@ -13,14 +13,14 @@ body.
 Return: Created user account information.  
 
 Method: POST  
-URL: /v1/<application-id>/users/register  
+URL: /v1/< application-id >/users/register  
+
 
 Headers:
 Authorization: {user token after login in Dena platform}  
 Content-Type : application/json
 
-Body:   
-{JSON}
+Body: {JSON}
 
 ***Example:***
 
@@ -65,14 +65,13 @@ should be included in the request.
 Return: Logged in user information except password. 
 
 Method: POST  
-URL: /v1/<application-id>/users/login
+URL: /v1/< application-id >/users/login
 
 
 Headers:  
 Content-Type:application/json
 
-Body:  
-{JSON}
+Body: {JSON}
 
 ***Example:***
 
@@ -110,15 +109,14 @@ With this API user can logout in Dena Platform.
 Return: Success logout message. 
 
 Method: POST  
-URL: /v1/<application-id>/users/logout
+URL: /v1/< application-id >/users/logout
 
 
 Headers: 
 Authorization: {user token after login in Dena platform} 
 Content-Type:application/json
 
-Body:  
-{JSON}
+Body: {JSON}
 
 ***Example:***
 
@@ -153,7 +151,7 @@ Schema is the structure of tables in Dena platform. With schema, developers can 
 Return: Number of created table. 
 
 Method: POST  
-URL: /v1/<application-id>/schema/<table-name>
+URL: /v1/< application-id >/schema/<table-name>
 
 Headers:  
 Authorization: {user token after login in Dena platform}  
@@ -183,7 +181,7 @@ Response Body:
 Return: All created schema in appliaction.  
 
 Method: GET  
-URL: /v1/<application-id>/schema  
+URL: /v1/< application-id >/schema  
 
 Headers:  
 Authorization: {user token after login in dena-platform}  
@@ -219,7 +217,7 @@ Response Body:
 Return: Number of deleted table. 
 
 Method: DELETE  
-URL: /v1/<application-id>/schema/{table-name}  
+URL: /v1/< application-id >/schema/{table-name}  
 
 Headers:  
 Authorization: {user token after login in dena-platform}  
@@ -251,7 +249,7 @@ Create new object in Dena data store.
 Return: Created object(s) count. 
 
 Method: POST  
-URL: /v1/<application-id>/<table-name>/?loadRelation=false 
+URL: /v1/< application-id >/<table-name>/?loadRelation=false 
 
 
 Headers:  
@@ -296,7 +294,7 @@ multiple request.
 Return: Created object(s) count. 
 
 Method: POST
-URL: /v1/<application-id>/<table-name>?loadRelation=false
+URL: /v1/< application-id >/<table-name>?loadRelation=false
 
 Headers:  
 Content-Type:application/json  
@@ -399,7 +397,7 @@ End Implementation Detail
 
 
 Method: POST  
-URL: /v1/<application-id>/<type-name>
+URL: /v1/< application-id >/<type-name>
 
 Headers:
 Content-Type:application/json  
@@ -461,7 +459,7 @@ Response Body:
 Return: Updated object(s) count. 
  
 Method: PATCH  
-URL: /v1/<application-id>/<table-name>?loadRelation=false  
+URL: /v1/< application-id >/<table-name>?loadRelation=false  
 
 Headers:  
 Content-Type:application/json  
@@ -518,7 +516,7 @@ Completely replace object in Dena data-store. remove all previous data and add n
 Return: Updated object(s) count.  
 
 Method: PUT  
-URL: /v1/<application-id>/<table-name>?loadRelation=false   
+URL: /v1/< application-id >/<table-name>?loadRelation=false   
 
 Headers: 
 Content-Type:application/json    
@@ -579,7 +577,7 @@ If relation with same type exist then replace with new specified relation.
 Return: updated object(s) with only updated fields and relation.
 
 Method: PATCH
-URL: /v1/<application-id>/<type-names>
+URL: /v1/< application-id >/<type-names>
 
 Headers:
 Content-Type:application/json  
@@ -664,7 +662,7 @@ This API remove object completely from Dena storage. If the object is successful
 Return: Number of deleted object count.
 
 Method: DELETE  
-URL: /v1/<application-id>/<type-names>/<object-id>
+URL: /v1/< application-id >/<type-names>/<object-id>
 
 Headers:  
 Content-Type : application/json  
@@ -690,7 +688,7 @@ Response Body:
 Return: Number of deleted object counts.
 
 Method: DELETE  
-URL: /v1/<application-id>/<type-names>/<object-id-1,object-id-2>  
+URL: /v1/< application-id >/<type-names>/<object-id-1,object-id-2>  
 
 
 Headers:  
@@ -720,7 +718,7 @@ Remove all relation between parent and child.
 Return: Number of deleted object counts.
 
 Method: DELETE
-URL: /v1/<application-id>/<parent-type-name>/<parent-object-id>/relation/<child-type-name>
+URL: /v1/< application-id >/<parent-type-name>/<parent-object-id>/relation/<child-type-name>
 
 Headers:  
 Content-Type : application/json  
@@ -749,7 +747,7 @@ Remove relation between parent and specified child object.
 **Note:** This API only delete relation between parent and child and do not remove child.
 
 Method: DELETE  
-URL: /v1/<application-id>/<parent-type-names>/<parent-object-id>/relation/<child-type-names>/<child-object-id>
+URL: /v1/< application-id >/<parent-type-names>/<parent-object-id>/relation/<child-type-names>/<child-object-id>
 
 Headers:  
 Content-Type : application/json  
@@ -783,7 +781,7 @@ This API provides the functionality that retrieve specified object in table.
 Return: Found object in data store.
 
 Method: GET  
-URL: /v1/<application-id>/<table-name>/<object-id>?loadRelation=false
+URL: /v1/< application-id >/<table-name>/<object-id>?loadRelation=false
 
 Headers:  
 Content-Type : application/json  
@@ -825,7 +823,7 @@ This API provides the functionality that retrieve all object of specified table 
 Return: Found object in data store.
 
 Method: GET  
-URL: /v1/<application-id>/<table-name>?startIndex=45&pageSize=6
+URL: /v1/< application-id >/<table-name>?startIndex=45&pageSize=6
 
 Headers:  
 Content-Type : application/json  
@@ -887,7 +885,7 @@ Return: Found related object(s) in data store.
 
 Method: GET
 
-URL: /v1/<application-id>/<parent-table-name>/<parent-object-id>/relation/<relation-name>?startIndex=45&pageSize=6
+URL: /v1/< application-id >/<parent-table-name>/<parent-object-id>/relation/<relation-name>?startIndex=45&pageSize=6
 
 Headers:  
 Content-Type : application/json  
@@ -950,7 +948,7 @@ We can count number of objects in three way:
 
 Method: GET
 
-URL: /v1/<application-id>/<type-names-1>/relation/<type-names-2>
+URL: /v1/< application-id >/<type-names-1>/relation/<type-names-2>
 
 Request Body: None
 
@@ -965,7 +963,7 @@ Return Value:
 
 Method: GET
 
-URL: /v1/<application-id>/<type-names>
+URL: /v1/< application-id >/<type-names>
 
 Request Body: None
                                      
@@ -988,9 +986,9 @@ Pagination using in the REST API is implemented with the `startIndex` and `pageS
 
 **Sample Request**
 
-`/v1/<application-id>/<parent-table-name>/<parent-object-id>/relation/<relation-name>?startIndex=45&pageSize=6`
+`/v1/< application-id >/<parent-table-name>/<parent-object-id>/relation/<relation-name>?startIndex=45&pageSize=6`
 
-`/v1/<application-id>/<table-name>?startIndex=0&pageSize=2` 
+`/v1/< application-id >/<table-name>?startIndex=0&pageSize=2` 
 
 ----------
 
