@@ -54,7 +54,7 @@ public class DenaApplicationManagementImpl implements DenaApplicationManagement 
             throw new ApplicationManagementException(String.format("Application name [%s] is empty", applicationName), ErrorCode.APP_NAME_FIELD_IS_INVALID);
         }
 
-        if (applicationName.length() <= DenaConfigReader.readIntProperty("dena.application.name.min.length", 3)) {
+        if (applicationName.length() < DenaConfigReader.readIntProperty("dena.application.name.min.length", 3)) {
             throw new ApplicationManagementException(String.format("Application name [%s] length is invalid", applicationName), ErrorCode.APP_NAME_FIELD_IS_INVALID);
         }
 
@@ -71,7 +71,12 @@ public class DenaApplicationManagementImpl implements DenaApplicationManagement 
         denaObject.addField(DenaApplication.APP_ID_FIELD, applicationId);
         denaObject.addField(DenaApplication.SECRET_KEY_FIELD, secretId);
 
-        DenaObject returnObject = denaDataStore.store(applicationDatabaseName, applicationInfoTableName, denaObject).get(0);
+        DenaObject returnObject = denaDataStore
+                .store(applicationDatabaseName, applicationInfoTableName, denaObject)
+                .get(0);
+
+
+        returnObject.removeField(DenaApplication.SECRET_KEY_FIELD);
         return returnObject;
 
 

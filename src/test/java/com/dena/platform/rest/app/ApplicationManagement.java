@@ -45,7 +45,6 @@ public class ApplicationManagement extends AbstractDataStoreTest {
         /////////////////////////////////////////////
 
         String application_id = (String) actualReturnObject.getDenaObjectResponseList().get(0).getFields().get("application_id");
-        String secretKey = (String) actualReturnObject.getDenaObjectResponseList().get(0).getFields().get("secret_key");
 
         TestObjectResponse expectedObjectResponse = new TestObjectResponse();
         expectedObjectResponse.objectId = actualReturnObject.getDenaObjectResponseList().get(0).getObjectId();
@@ -53,7 +52,6 @@ public class ApplicationManagement extends AbstractDataStoreTest {
         expectedObjectResponse.createTime = actualReturnObject.getDenaObjectResponseList().get(0).getCreateTime();
         expectedObjectResponse.updateTime = null;
 
-        expectedObjectResponse.addProperty("secret_key", secretKey);
         expectedObjectResponse.addProperty("application_name", "great_app");
         expectedObjectResponse.addProperty("creator_id", "developer@dena.com");
         expectedObjectResponse.addProperty("application_id", application_id);

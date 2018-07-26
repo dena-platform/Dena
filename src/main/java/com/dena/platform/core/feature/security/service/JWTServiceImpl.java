@@ -38,8 +38,8 @@ public class JWTServiceImpl implements JWTService {
         Date expireDate = Date.from(Instant.now().plusMillis(tokenExpireDuration));
 
         Claims claims = Jwts.claims()
-                .setSubject(userName);
-        claims.setExpiration(expireDate);
+                .setSubject(userName)
+                .setExpiration(expireDate) ;
 
         claims.put("role", "fixed_role"); //TODO change role to user role
         claims.put("app_id", appId);

@@ -658,7 +658,7 @@ Response Body:
 
 ## Delete Objects ##
 
-**Delete One Object**
+**Delete One Object**  
 This API remove object completely from Dena storage. If the object is successfully deleted then API returns the timestamp of deletion time in milliseconds and number of deleted object count.
 
 Return: Number of deleted object count.
@@ -935,13 +935,15 @@ Response Body:
 
 ----------
 
-## Count Object ##
-We can count number of objects three way:
+## Count Object (TO-DO) ##
+We can count number of objects in three way:
 
 
 1. Object count for relation
 2. Object count for type
-3. Object count using query (TO-DO)
+3. Object count using query (TO-DO)  
+
+
 
 
 **Object Count For Relation**
@@ -997,22 +999,18 @@ With this API user can manage application (create, edit, find application)
 
 ## Create New Application ##
 
-Method: POST
+Return: Created application information. 
 
+Method: POST  
 URL: /v1/app/register
 
-Body:
+Headers:  
+Content-Type : application/json  
+Authorization: {user token after login in Dena platform} 
 
-{JSON}
 
+Body: {JSON}
 
-Headers:
-
-Content-Type:application/json
-
-Headers:
-
-Content-Type:application/json
 
 ***Example:***
 

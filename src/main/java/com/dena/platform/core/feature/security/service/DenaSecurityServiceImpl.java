@@ -46,7 +46,7 @@ public class DenaSecurityServiceImpl implements DenaSecurityService {
                 throw new DenaSecurityException("User is not active", ErrorCode.USER_IS_NOT_ACTIVE);
             }
 
-            // use existing token if existing
+            // use existing token if exist
             if (!jwtService.isTokenValid(retrievedUser.getToken())) {
                 log.debug("Stored token for user [{}] is invalid", userName);
                 log.debug("Generate new token for user [{}], app [{}]", userName, appId);
