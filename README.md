@@ -41,6 +41,6 @@ After installing application you can call web service. For more information plea
 ## Road Map ##
 -   **Authorization** 
 -   **Search** 
--   **SDK**
+-   **Client SDK**
 -   **Dashboard**
 
