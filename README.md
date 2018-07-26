@@ -38,3 +38,9 @@ see application.properties file in project.
 After installing application you can call web service. For more information please see 
 <a href="https://github.com/dena-platform/Dena/wiki/REST-API">REST-API</a> page.
 
+## Road Map ##
+-   **Authorization** 
+-   **Search** 
+-   **SDK**
+-   **Dashboard**
+
