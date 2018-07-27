@@ -11,6 +11,43 @@
     <name>Dena-Platform</name>
     <description>Dena BAAS Platform</description>
 
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>j-alimohammadi</id>
+            <name>Javad Alimohammadi</name>
+            <email>bs.alimohammadi@gmail.com</email>
+            <url>https://github.com/j-alimohammadi</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>nazar-pour</id>
+            <name>Reza Nazarpour</name>
+            <url>https://github.com/nazar-pour</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+
+    <scm>
+        <connection>scm:git:git@github.com:dena-platform/Dena.git</connection>
+        <developerConnection>scm:git:git@github.com:dena-platform/Dena.git</developerConnection>
+        <url>https://github.com/dena-platform/Dena</url>
+        <tag>HEAD</tag>
+    </scm>
+
+                                             
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -27,6 +64,7 @@
         <apache-common-validator>1.6</apache-common-validator>
         <apache-commons-io>2.5</apache-commons-io>
         <embedded-mongo.version>2.0.3</embedded-mongo.version>
+        <jjwt-version>1.1.1</jjwt-version>
     </properties>
 
     <dependencies>
@@ -55,7 +93,7 @@
         <dependency>
             <groupId>pl.pragmatists</groupId>
             <artifactId>JUnitParams</artifactId>
-            <version>1.1.1</version>
+            <version>${jjwt-version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -125,6 +163,29 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <compilerArgument>-Xlint:-options</compilerArgument>
+                    <encoding>UTF-8</encoding>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                    <debug>true</debug>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+            </plugin>
+
 
         </plugins>
     </build>
