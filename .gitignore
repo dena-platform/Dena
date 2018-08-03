@@ -34,3 +34,6 @@ target/
 
 # JRebel config
 /src/main/resources/rebel.xml
+
+# Release plugin files
+release.properties
