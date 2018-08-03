@@ -43,7 +43,7 @@
         <connection>scm:git:git@github.com:dena-platform/Dena.git</connection>
         <developerConnection>scm:git:git@github.com:dena-platform/Dena.git</developerConnection>
         <url>https://github.com/dena-platform/Dena</url>
-        <tag>platform-1.0.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
                                              
@@ -185,20 +185,18 @@
                 <version>2.5.3</version>
                 <configuration>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <!-- Name of tag -->
                     <tagNameFormat>v@{project.version}</tagNameFormat>
                     <preparationGoals>clean</preparationGoals>
-
-                    <!-- Do not use default release plugin in parent -->
                     <useReleaseProfile>false</useReleaseProfile>
-
-                    <!--Profile to active when use release plugin -->
                     <releaseProfiles>release</releaseProfiles>
-
-
-                </configuration>
+                </configuration>                                                                       
             </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
+            </plugin>
 
         </plugins>
     </build>
