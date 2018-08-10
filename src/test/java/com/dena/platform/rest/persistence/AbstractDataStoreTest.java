@@ -3,7 +3,6 @@ package com.dena.platform.rest.persistence;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import com.dena.platform.rest.dto.ObjectModelHelper;
-import com.dena.platform.rest.dto.TestDenaResponse;
 import com.dena.platform.utils.CommonConfig;
 import com.mongodb.MongoClient;
 import junitparams.JUnitParamsRunner;
@@ -185,7 +184,7 @@ public class AbstractDataStoreTest {
         return createObjectFromJSON(returnContent, klass);
     }
 
-    protected <T> T performFindRequestInTable(String tableName, int startIndex, int pageSize,Class<T> klass) throws Exception {
+    protected <T> T performFindRequestInTable(String tableName, int startIndex, int pageSize, Class<T> klass) throws Exception {
         String URITemplate = CommonConfig.ROOT_URL + CommonConfig.APP_ID + "/" + tableName;
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder
                 .fromUriString(URITemplate)
