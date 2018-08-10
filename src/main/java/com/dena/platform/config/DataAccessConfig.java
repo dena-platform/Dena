@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.io.File;
+import java.nio.charset.Charset;
 
 
 /**
@@ -33,7 +34,7 @@ public class DataAccessConfig {
             log.info("Initializing mongodb");
             try {
                 File file = new File(getClass().getClassLoader().getResource("database/Dena/DENA_USER.json").toURI());
-                String data = FileUtils.readFileToString(file);
+                String data = FileUtils.readFileToString(file, Charset.forName("UTF8"));
                 Document userDocs = Document.parse(data);
                 mongoClient.getDatabase("Dena")
                         .getCollection("DENA_USER")

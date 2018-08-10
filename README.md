@@ -25,6 +25,7 @@ Dena have the following feature:
 
 ## Getting Started ##
 First go to the root folder and then run following command (Java 8 is required)
+
 ```
 $ ./mvnw.cmd clean spring-boot:run
 
@@ -32,11 +33,19 @@ OR (if you have maven installed)
 
 $ ./mvn clean spring-boot:run
 ```
-Dena by default uses embedded MongoDB database, but you can use your local MongoDB. For configuration please 
-see application.properties file in project.  
 
-After installing application you can call web service. For more information please see 
-<a href="https://github.com/dena-platform/Dena/wiki/REST-API">REST-API</a> page.
+Dena by default uses embedded MongoDB database, but you can use your local MongoDB. For configuration please 
+see application.properties file in the project.  
+
+By default database is configured with:
+
+``` 
+email:admin@dena-platform.com 
+password:123456  
+ ```
+After calling login api you get an jwt token that you can use for calling other web service.
+For more information please see 
+<a href="https://github.com/dena-platform/Dena/wiki/REST-API">REST-API</a> documentation.
 
 ## Road Map ##
 -   **Authorization** 
