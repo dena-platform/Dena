@@ -32,7 +32,7 @@ import static org.junit.Assert.*;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
-public class UserManagement extends AbstractDataStoreTest {
+public class UserManagementTest extends AbstractDataStoreTest {
     @Resource
     private JWTService jwtService;
 

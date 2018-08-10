@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.dena-platform</groupId>
@@ -46,12 +47,12 @@
         <tag>HEAD</tag>
     </scm>
 
-                                             
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.5.3.RELEASE</version>
-        <relativePath /> <!-- lookup parent from repository -->
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <properties>
@@ -63,7 +64,7 @@
         <apache-common-validator>1.6</apache-common-validator>
         <apache-commons-io>2.5</apache-commons-io>
         <embedded-mongo.version>2.0.3</embedded-mongo.version>
-        <jjwt-version>1.1.1</jjwt-version>
+        <junit-params-version>1.1.1</junit-params-version>
     </properties>
 
     <dependencies>
@@ -92,7 +93,7 @@
         <dependency>
             <groupId>pl.pragmatists</groupId>
             <artifactId>JUnitParams</artifactId>
-            <version>${jjwt-version}</version>
+            <version>${junit-params-version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -128,7 +129,7 @@
         </dependency>
 
 
-        <!--embedded mongodb for testing-->
+        <!--embedded mongodb for testing and developing-->
         <dependency>
             <groupId>de.flapdoodle.embed</groupId>
             <artifactId>de.flapdoodle.embed.mongo</artifactId>
@@ -141,6 +142,7 @@
             <version>0.6.0</version>
         </dependency>
 
+        <!-- search -->
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-core</artifactId>
@@ -161,6 +163,13 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.0</version>
             </plugin>
 
 
@@ -189,7 +198,7 @@
                     <preparationGoals>clean</preparationGoals>
                     <useReleaseProfile>false</useReleaseProfile>
                     <releaseProfiles>release</releaseProfiles>
-                </configuration>                                                                       
+                </configuration>
             </plugin>
 
             <plugin>

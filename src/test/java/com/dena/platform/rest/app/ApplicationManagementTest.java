@@ -27,7 +27,7 @@ import static com.dena.platform.utils.JSONMapper.createObjectFromJSON;
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 @TestPropertySource(properties = {"dena.api.security.enabled=false"})
-public class ApplicationManagement extends AbstractDataStoreTest {
+public class ApplicationManagementTest extends AbstractDataStoreTest {
     @Test
     public void test_registerNewApplication() throws Exception {
 

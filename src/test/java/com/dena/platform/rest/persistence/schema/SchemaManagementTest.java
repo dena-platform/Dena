@@ -26,7 +26,7 @@ import static org.junit.Assert.assertTrue;
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
 @TestPropertySource(properties = {"dena.api.security.enabled=false"})
-public class SchemaManagement extends AbstractDataStoreTest {
+public class SchemaManagementTest extends AbstractDataStoreTest {
 
     @Test
     public void test_Create_Table() throws Exception {
