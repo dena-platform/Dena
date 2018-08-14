@@ -13,7 +13,7 @@ import java.util.Locale;
  */
 @Component("denaMessageUtils")
 public final class DenaMessageUtils implements ApplicationContextAware {
-    private static ApplicationContext applicationContext;
+    protected static ApplicationContext applicationContext;
 
     public static String getMessage(String code) {
         return getMessage(code, (Object) null);
