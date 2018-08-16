@@ -3,7 +3,7 @@ package com.dena.platform.rest.search;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;
 import com.dena.platform.rest.dto.ObjectModelHelper;
-import com.dena.platform.rest.persistence.AbstractDataStoreTest;
+import com.dena.platform.rest.persistence.store.AbstractDataStoreTest;
 import com.dena.platform.utils.CommonConfig;
 import org.junit.Before;
 import org.junit.Ignore;

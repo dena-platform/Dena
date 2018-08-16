@@ -8,8 +8,8 @@ import com.dena.platform.core.dto.DenaObject;
 
 public interface DenaSecurityService {
 
-    DenaObject authenticateUser(String appId, String userName, String password);
+    DenaObject authenticateUser(String appName, String userName, String password);
 
-    DenaObject logoutUser(String appId, String userName);
+    DenaObject logoutUser(String appName, String userName);
 
 }

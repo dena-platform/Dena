@@ -1,4 +1,4 @@
-package com.dena.platform.rest.persistence;
+package com.dena.platform.rest.persistence.store;
 
 import com.dena.platform.rest.dto.TestDenaResponse;
 import com.dena.platform.rest.dto.TestErrorResponse;

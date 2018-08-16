@@ -1,5 +1,7 @@
 package com.dena.platform.core.feature.security;
 
+import com.dena.platform.common.web.DenaRequestContext;
+import com.dena.platform.core.feature.app.service.DenaApplicationManagement;
 import com.dena.platform.core.feature.security.service.JWTService;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -17,6 +19,9 @@ public class JWTAuthenticationProvider implements AuthenticationProvider {
     @Resource
     private JWTService jwtService;
 
+    @Resource
+    private DenaApplicationManagement denaApplicationManagement;
+
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -24,7 +29,10 @@ public class JWTAuthenticationProvider implements AuthenticationProvider {
 
         String jwtToken = jwtAuthenticationToken.getToken();
 
-        if (jwtService.isTokenValid(jwtToken)) {
+        String appId = DenaRequestContext.getDenaRequestContext().getAppId();
+        String secret = denaApplicationManagement.getSecretId(appId);
+
+        if (jwtService.isTokenValid(jwtToken, secret)) {
             JWTAuthenticationToken authenticatedUser = new JWTAuthenticationToken(jwtToken, true);
             return authenticatedUser;
         } else {

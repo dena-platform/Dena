@@ -4,7 +4,7 @@ import com.dena.platform.rest.dto.TestDenaResponse;
 import com.dena.platform.rest.dto.TestErrorResponse;
 import com.dena.platform.rest.dto.TestObjectResponse;
 import com.dena.platform.rest.dto.TestRequestObject;
-import com.dena.platform.rest.persistence.AbstractDataStoreTest;
+import com.dena.platform.rest.persistence.store.AbstractDataStoreTest;
 import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.restapi.dto.response.ErrorResponse;
 import com.dena.platform.utils.CommonConfig;

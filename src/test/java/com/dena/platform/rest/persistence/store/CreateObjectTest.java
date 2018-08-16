@@ -1,10 +1,9 @@
-package com.dena.platform.rest.persistence;
+package com.dena.platform.rest.persistence.store;
 
 import com.dena.platform.core.feature.persistence.RelationType;
 import com.dena.platform.rest.dto.*;
 import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.utils.CommonConfig;
-import org.junit.Assert;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.test.context.TestPropertySource;

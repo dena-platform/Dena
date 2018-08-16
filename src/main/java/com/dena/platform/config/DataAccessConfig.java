@@ -33,16 +33,26 @@ public class DataAccessConfig {
         public void init() {
             log.info("Initializing mongodb");
             try {
-                File file = new File(getClass().getClassLoader().getResource("database/Dena/DENA_USER.json").toURI());
-                String data = FileUtils.readFileToString(file, Charset.forName("UTF8"));
-                Document userDocs = Document.parse(data);
+                File appFile = new File(getClass().getClassLoader().getResource("database/DENA_APPLICATIONS/DENA_APPLICATION_INFO.json").toURI());
+                String appData = FileUtils.readFileToString(appFile, Charset.forName("UTF8"));
+                Document appDocs = Document.parse(appData);
+                mongoClient.getDatabase("DENA_APPLICATIONS")
+                        .getCollection("DENA_APPLICATION_INFO")
+                        .insertOne(appDocs);
+
+                File usersFile = new File(getClass().getClassLoader().getResource("database/Dena/DENA_USER.json").toURI());
+                String userData = FileUtils.readFileToString(usersFile, Charset.forName("UTF8"));
+                Document userDocs = Document.parse(userData);
                 mongoClient.getDatabase("Dena")
                         .getCollection("DENA_USER")
                         .insertOne(userDocs);
+
+
             } catch (Exception ex) {
                 log.error("Error initializing mongodb", ex);
             }
         }
     }
+
 
 }

@@ -1,7 +1,7 @@
 package com.dena.platform.rest.persistence.schema;
 
 import com.dena.platform.rest.dto.TestDenaResponse;
-import com.dena.platform.rest.persistence.AbstractDataStoreTest;
+import com.dena.platform.rest.persistence.store.AbstractDataStoreTest;
 import com.dena.platform.restapi.dto.response.DenaObjectResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.utils.CommonConfig;

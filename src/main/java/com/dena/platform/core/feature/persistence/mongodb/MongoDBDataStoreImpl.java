@@ -32,7 +32,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
 
     @Override
-    public List<DenaObject> store(String appName, String tableName, DenaObject... denaObjects) {
+    public List<DenaObject> store(String appId, String tableName, DenaObject... denaObjects) {
         List<BsonDocument> bsonDocuments = new ArrayList<>();
         MongoDatabase mongoDatabase;
 
@@ -43,7 +43,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
         List<String> ids = new ArrayList<>();
         try {
-            mongoDatabase = MongoDBUtils.getDataBase(appName);
+            mongoDatabase = MongoDBUtils.getDataBase(appId);
             for (DenaObject denaObject : denaObjects) {
 
                 ObjectId objectId = ObjectId.get();
@@ -67,7 +67,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
             MongoDBUtils.createDocuments(mongoDatabase, tableName, bsonDocuments.toArray(new BsonDocument[0]));
 
-            return new ArrayList<>(find(appName, tableName, ids.toArray(new String[0])));
+            return new ArrayList<>(find(appId, tableName, ids.toArray(new String[0])));
         } catch (DataStoreException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -76,7 +76,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public List<DenaObject> mergeUpdate(final String appName, final String tableName, DenaObject... denaObjects) {
+    public List<DenaObject> mergeUpdate(final String appId, final String tableName, DenaObject... denaObjects) {
         log.info("Merging objects [{}]", (Object[]) denaObjects);
 
         MongoDatabase mongoDatabase;
@@ -88,7 +88,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         }
 
         try {
-            mongoDatabase = MongoDBUtils.getDataBase(appName);
+            mongoDatabase = MongoDBUtils.getDataBase(appId);
 
             for (DenaObject denaObject : denaObjects) {
                 checkIfObjectIdExist(mongoDatabase, tableName, denaObject.getObjectId());
@@ -108,7 +108,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
                 // merge-update relation
                 if (CollectionUtils.isNotEmpty(denaObject.getDenaRelations())) {
-                    DenaObject existingDenaObject = find(appName, tableName, objectId.toString()).get(0);
+                    DenaObject existingDenaObject = find(appId, tableName, objectId.toString()).get(0);
                     List<DenaRelation> existingDenaRelations = existingDenaObject.getDenaRelations();
                     List<DenaRelation> requestRelations = denaObject.getDenaRelations();
                     List<DenaRelation> resultRelation = new LinkedList<>();
@@ -148,7 +148,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
             MongoDBUtils.mergeUpdateDocument(mongoDatabase, tableName, bsonDocumentList.toArray(new BsonDocument[0]));
 
-            return new ArrayList<>(find(appName, tableName, ids.toArray(new String[0])));
+            return new ArrayList<>(find(appId, tableName, ids.toArray(new String[0])));
         } catch (DataStoreException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -158,7 +158,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public List<DenaObject> replaceUpdate(String appName, String tableName, DenaObject... denaObjects) {
+    public List<DenaObject> replaceUpdate(String appId, String tableName, DenaObject... denaObjects) {
         log.info("Updating objects [{}]", (Object[]) denaObjects);
 
         MongoDatabase mongoDatabase;
@@ -170,7 +170,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         }
 
         try {
-            mongoDatabase = MongoDBUtils.getDataBase(appName);
+            mongoDatabase = MongoDBUtils.getDataBase(appId);
             for (DenaObject denaObject : denaObjects) {
                 checkIfObjectIdExist(mongoDatabase, tableName, denaObject.getObjectId());
                 checkRelationValidity(mongoDatabase, denaObject, denaObject.getDenaRelations());
@@ -199,7 +199,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
 
 
             MongoDBUtils.replaceUpdateDocument(mongoDatabase, tableName, bsonDocumentList.toArray(new BsonDocument[0]));
-            return new ArrayList<>(find(appName, tableName, ids.toArray(new String[0])));
+            return new ArrayList<>(find(appId, tableName, ids.toArray(new String[0])));
         } catch (DataStoreException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -208,14 +208,14 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public long delete(String appName, String tableName, String... objectIds) {
+    public long delete(String appId, String tableName, String... objectIds) {
         if (ArrayUtils.isEmpty(objectIds)) {
             return 0;
         }
 
         checkObjectIdValidity(objectIds);
         try {
-            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
+            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appId);
             return MongoDBUtils.deleteDocument(mongoDatabase, tableName, objectIds);
         } catch (Exception ex) {
             throw new DataStoreException("Error in deleting object(s)", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
@@ -224,10 +224,10 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public long deleteRelation(String appName, String parentTableName, String parentObjectId, String childTableName, String childObjectId) {
+    public long deleteRelation(String appId, String parentTableName, String parentObjectId, String childTableName, String childObjectId) {
         checkObjectIdValidity(parentObjectId, childObjectId);
         try {
-            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
+            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appId);
             return MongoDBUtils.deleteRelationWithObjectId(mongoDatabase, parentTableName, parentObjectId, childTableName, childObjectId);
         } catch (Exception ex) {
             throw new DataStoreException("Error in deleting relation", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
@@ -235,10 +235,10 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public long deleteRelation(String appName, String parentTableName, String parentObjectId, String relationName) {
+    public long deleteRelation(String appId, String parentTableName, String parentObjectId, String relationName) {
         checkObjectIdValidity(parentObjectId);
         try {
-            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
+            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appId);
             return MongoDBUtils.deleteRelationWithType(mongoDatabase, parentTableName, parentObjectId, relationName);
         } catch (Exception ex) {
             throw new DataStoreException("Error in deleting relation", ErrorCode.GENERAL_DATA_STORE_EXCEPTION, ex);
@@ -246,9 +246,9 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public List<DenaObject> find(String appName, String tableName, String... objectId) {
+    public List<DenaObject> find(String appId, String tableName, String... objectId) {
         try {
-            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
+            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appId);
 
             List<BsonDocument> foundDocuments = MongoDBUtils.findDocumentById(mongoDatabase, tableName, objectId);
 
@@ -259,9 +259,9 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public List<DenaObject> findAll(String appName, String tableName, DenaPager denaPager) {
+    public List<DenaObject> findAll(String appId, String tableName, DenaPager denaPager) {
         try {
-            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
+            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appId);
 
             List<BsonDocument> foundDocuments = MongoDBUtils.findALLDocument(mongoDatabase, tableName, denaPager);
 
@@ -272,10 +272,10 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public List<DenaObject> findRelatedObject(String appName, String parentTableName, String parentObjectId, String relationName, DenaPager denaPager) {
+    public List<DenaObject> findRelatedObject(String appId, String parentTableName, String parentObjectId, String relationName, DenaPager denaPager) {
         try {
             checkObjectIdValidity(parentObjectId);
-            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appName);
+            MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appId);
             List<BsonDocument> parentDocument = MongoDBUtils.findDocumentById(mongoDatabase, parentTableName, parentObjectId);
 
             if (CollectionUtils.isEmpty(parentDocument)) {

@@ -10,30 +10,30 @@ import java.util.List;
 
 public interface DenaDataStore {
 
-    List<DenaObject> store(String appName, String tableName, DenaObject... denaObjects);
+    List<DenaObject> store(String appId, String tableName, DenaObject... denaObjects);
 
-    List<DenaObject> mergeUpdate(String appName, String tableName, DenaObject... denaObjects);
+    List<DenaObject> mergeUpdate(String appId, String tableName, DenaObject... denaObjects);
 
-    List<DenaObject> replaceUpdate(String appName, String tableName, DenaObject... denaObjects);
+    List<DenaObject> replaceUpdate(String appId, String tableName, DenaObject... denaObjects);
 
-    long delete(String appName, String tableName, String... objectIds);
+    long delete(String appId, String tableName, String... objectIds);
 
-    long deleteRelation(String appName, String parentTableName, String parentObjectId, String childTableName, String childObjectId);
+    long deleteRelation(String appId, String parentTableName, String parentObjectId, String childTableName, String childObjectId);
 
-    long deleteRelation(String appName, String parentTableName, String parentObjectId, String relationName);
+    long deleteRelation(String appId, String parentTableName, String parentObjectId, String relationName);
 
-    List<DenaObject> find(String appName, String tableName, String... objectId);
+    List<DenaObject> find(String appId, String tableName, String... objectId);
 
     /**
      * Find all object that exist in the given table.
      *
-     * @param appName
+     * @param appId
      * @param tableName
      * @return
      */
-    List<DenaObject> findAll(String appName, String tableName, DenaPager denaPager);
+    List<DenaObject> findAll(String appId, String tableName, DenaPager denaPager);
 
-    List<DenaObject> findRelatedObject(String appName, String parentTableName, String parentObjectId, String relationName, DenaPager denaPager);
+    List<DenaObject> findRelatedObject(String appId, String parentTableName, String parentObjectId, String relationName, DenaPager denaPager);
 
 
 }

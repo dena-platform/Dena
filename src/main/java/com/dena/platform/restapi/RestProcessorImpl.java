@@ -74,18 +74,18 @@ public class RestProcessorImpl implements DenaRestProcessor {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
 
         String requestBody = denaRequestContext.getRequestBody();
-        String appTypeName = denaRequestContext.getPathVariable(TABLE_NAME);
-        String appName = denaRequestContext.getAppId();
+        String tableName = denaRequestContext.getPathVariable(TABLE_NAME);
+        String appId = denaRequestContext.getAppId();
         boolean loadRelation = Boolean.parseBoolean(denaRequestContext.getParameter(RELOAD_RELATION_PARAMETER));
 
         List<DenaObject> denaObjects;
 
         try {
             denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
-            List<DenaObject> returnObject = denaDataStore.store(appName, appTypeName, denaObjects.toArray(new DenaObject[0]));
+            List<DenaObject> returnObject = denaDataStore.store(appId, tableName, denaObjects.toArray(new DenaObject[0]));
 
             String userName = denaObjects.get(0).getActorUsername();//TODO
-            User user = denaUserManagement.findUserById(appName, userName);
+            User user = denaUserManagement.findUserById(appId, userName);
 
             //search.index(appName, appTypeName, user, returnObject.toArray(new DenaObject[0]));
 
@@ -139,7 +139,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
     public ResponseEntity handleDeleteRelation() {
         DenaRequestContext denaRequestContext = DenaRequestContext.getDenaRequestContext();
 
-        String appName = denaRequestContext.getAppId();
+        String appId = denaRequestContext.getAppId();
         String parentTypeName = denaRequestContext.getPathVariable(TABLE_NAME);
         String parentObjectId = denaRequestContext.getPathVariable(OBJECT_ID);
         String relationName = denaRequestContext.getPathVariable("table-name-2");
@@ -150,11 +150,11 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
             // delete relation with object
             if (StringUtils.isNotBlank(childObjectId)) {
-                deleteCount = denaDataStore.deleteRelation(appName, parentTypeName, parentObjectId, relationName, childObjectId);
+                deleteCount = denaDataStore.deleteRelation(appId, parentTypeName, parentObjectId, relationName, childObjectId);
             }
             // delete relation with target type
             else {
-                deleteCount = denaDataStore.deleteRelation(appName, parentTypeName, parentObjectId, relationName);
+                deleteCount = denaDataStore.deleteRelation(appId, parentTypeName, parentObjectId, relationName);
             }
 
             DenaResponse denaResponse = DenaResponseBuilder.aDenaResponse()

@@ -11,6 +11,8 @@ public interface CommonConfig {
 
     String DENA_APPLICATION = "DENA_APPLICATIONS";
 
+    String DENA_APPLICATION_INFO_COLLECTION_NAME = "DENA_APPLICATION_INFO";
+
     String COLLECTION_NAME = "denaTestCollection";
 
     String RELATION_NAME = "test_relation_name";

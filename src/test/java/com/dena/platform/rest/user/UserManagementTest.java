@@ -5,7 +5,7 @@ import com.dena.platform.rest.dto.TestDenaResponse;
 import com.dena.platform.rest.dto.TestErrorResponse;
 import com.dena.platform.rest.dto.TestObjectResponse;
 import com.dena.platform.rest.dto.TestRequestObject;
-import com.dena.platform.rest.persistence.AbstractDataStoreTest;
+import com.dena.platform.rest.persistence.store.AbstractDataStoreTest;
 import com.dena.platform.restapi.dto.response.DenaObjectResponse;
 import com.dena.platform.restapi.dto.response.DenaResponse;
 import com.dena.platform.restapi.dto.response.ErrorResponse;
@@ -215,8 +215,12 @@ public class UserManagementTest extends AbstractDataStoreTest {
         JSONAssert.assertEquals(createJSONFromObject(expectedReturnObject), createJSONFromObject(actualReturnObject), false);
 
         // assert token
-        String token = String.valueOf(actualReturnObject.getDenaObjectResponseList().get(0).getFields().get("token"));
-        assertTrue(jwtService.isTokenValid(token));
+        String token = String.valueOf(actualReturnObject
+                .getDenaObjectResponseList()
+                .get(0)
+                .getFields().get("token"));
+
+        assertTrue(jwtService.isTokenValid(token, SECRET_KEY));
 
     }
 

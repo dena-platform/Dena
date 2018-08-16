@@ -83,6 +83,30 @@ public class DenaApplicationManagementImpl implements DenaApplicationManagement 
     }
 
     @Override
+    public Optional<DenaObject> findApplicationByName(final String creatorId, final String appName) {
+        // todo: when we implement search capability in DanaStore module, then refactor this method to use it
+        List<DenaObject> denaObjects = denaDataStore.findAll(applicationDatabaseName, applicationInfoTableName, new DenaPager());
+        Optional<DenaObject> foundApplication = denaObjects.stream()
+                .filter(denaObject -> denaObject.hasProperty(DenaApplication.CREATOR_ID_FIELD, creatorId))
+                .filter(denaObject -> denaObject.hasProperty(DenaApplication.APP_NAME_FIELD, appName))
+                .findAny();
+
+        return foundApplication;
+    }
+
+    @Override
+    public Optional<DenaObject> findApplicationById(String appId) {
+        // todo: when we implement search capability in DanaStore module, then refactor this method to use it
+        List<DenaObject> denaObjects = denaDataStore.findAll(applicationDatabaseName, applicationInfoTableName, new DenaPager());
+        Optional<DenaObject> foundApplication = denaObjects.stream()
+                .filter(denaObject -> denaObject.hasProperty(DenaApplication.APP_ID_FIELD, appId))
+                .findAny();
+
+        return foundApplication;
+
+    }
+
+    @Override
     public boolean isApplicationExist(final String creatorId, final String applicationName) {
         // todo: when we implement search capability in DanaStore module, then refactor this method to use it
         List<DenaObject> denaObjects = denaDataStore.findAll(applicationDatabaseName, applicationInfoTableName, new DenaPager());
@@ -95,7 +119,21 @@ public class DenaApplicationManagementImpl implements DenaApplicationManagement 
 
     }
 
-    // todo: use a better approach to generateJWTToken unique id
+    @Override
+    public String getSecretId(String appId) throws ApplicationManagementException {
+        // todo: when we implement search capability in DanaStore module, then refactor this method to use it
+        Optional<DenaObject> application = findApplicationById(appId);
+
+        if (application.isPresent()) {
+            return application.get().getField(DenaApplication.SECRET_KEY_FIELD, String.class);
+        } else {
+            throw new ApplicationManagementException(String.format("Application [%s] is not found", appId),
+                    ErrorCode.APPLICATION_NOT_EXIST);
+        }
+
+
+    }
+
     private String generateApplicationId() {
         UUID appId = UUID.randomUUID();
         return appId.toString();

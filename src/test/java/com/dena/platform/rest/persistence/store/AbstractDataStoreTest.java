@@ -1,4 +1,4 @@
-package com.dena.platform.rest.persistence;
+package com.dena.platform.rest.persistence.store;
 
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.service.DenaUserManagement;
@@ -28,11 +28,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import static com.dena.platform.utils.CommonConfig.DENA_APPLICATION_INFO_COLLECTION_NAME;
 import static com.dena.platform.utils.JSONMapper.createObjectFromJSON;
 
 /**
@@ -58,6 +56,8 @@ public class AbstractDataStoreTest {
     protected final String randomObjectId = ObjectId.get().toHexString();
 
     protected User user = ObjectModelHelper.getSampleUser();
+
+    protected final String SECRET_KEY = UUID.randomUUID().toString();
 
 
     // for parametrize test runner
@@ -160,6 +160,19 @@ public class AbstractDataStoreTest {
         ));
 
 
+        // register main application
+        Document denaApplication = createDocument(objectId11, MapUtils.putAll(new HashMap<>(), new Map.Entry[]{
+                        new DefaultMapEntry<>("creator_id", this.user.getEmail()),
+                        new DefaultMapEntry<>("application_name", CommonConfig.APP_ID),
+                        new DefaultMapEntry<>("application_id", "app_id_for_denaTestDB"),
+                        new DefaultMapEntry<>("secret_key", SECRET_KEY)
+                }
+        ));
+
+        mongoClient.getDatabase(CommonConfig.DENA_APPLICATION)
+                .getCollection(DENA_APPLICATION_INFO_COLLECTION_NAME)
+                .insertOne(denaApplication);
+
         mongoClient.getDatabase(CommonConfig.APP_ID)
                 .getCollection(CommonConfig.COLLECTION_NAME)
                 .insertMany(Arrays.asList(document1, document2, document3, document4,
@@ -168,6 +181,8 @@ public class AbstractDataStoreTest {
                 ));
 
         userManagement.registerUser(CommonConfig.APP_ID, this.user);
+
+
     }
 
     /////////////////////////////////////////////

@@ -1,0 +1,9 @@
+{
+  "_id": {
+    "$oid": "5ab557484611681f7c07a6dd"
+  },
+  "secret_key": "78ae41b2-babc-482a-8a32-7a606944e679",
+  "application_name": "DENA",
+  "creator_id": "admin@dena-platform.com",
+  "application_id": "app_id_for_dena"
+}

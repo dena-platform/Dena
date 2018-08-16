@@ -13,37 +13,37 @@ import java.util.List;
 public class MockDataStore implements DenaDataStore {
 
     @Override
-    public List<DenaObject> store(String appName, String tableName, DenaObject... denaObjects) {
+    public List<DenaObject> store(String appId, String tableName, DenaObject... denaObjects) {
         return null;
     }
 
     @Override
-    public List<DenaObject> mergeUpdate(String appName, String tableName, DenaObject... denaObjects) {
+    public List<DenaObject> mergeUpdate(String appId, String tableName, DenaObject... denaObjects) {
         return null;
     }
 
     @Override
-    public List<DenaObject> replaceUpdate(String appName, String tableName, DenaObject... denaObjects) {
+    public List<DenaObject> replaceUpdate(String appId, String tableName, DenaObject... denaObjects) {
         return null;
     }
 
     @Override
-    public long delete(String appName, String tableName, String... objectIds) {
+    public long delete(String appId, String tableName, String... objectIds) {
         return 0;
     }
 
     @Override
-    public long deleteRelation(String appName, String parentTableName, String parentObjectId, String childTableName, String childObjectId) {
+    public long deleteRelation(String appId, String parentTableName, String parentObjectId, String childTableName, String childObjectId) {
         return 0;
     }
 
     @Override
-    public long deleteRelation(String appName, String parentTableName, String parentObjectId, String relationName) {
+    public long deleteRelation(String appId, String parentTableName, String parentObjectId, String relationName) {
         return 0;
     }
 
     @Override
-    public List<DenaObject> find(String appName, String tableName, String... objectId) {
+    public List<DenaObject> find(String appId, String tableName, String... objectId) {
         List<DenaObject> results = new ArrayList<>(objectId.length);
         for (String id : objectId) {
             DenaObject object = new DenaObject();
@@ -55,12 +55,12 @@ public class MockDataStore implements DenaDataStore {
     }
 
     @Override
-    public List<DenaObject> findAll(String appName, String tableName, DenaPager denaPager) {
+    public List<DenaObject> findAll(String appId, String tableName, DenaPager denaPager) {
         return null;
     }
 
     @Override
-    public List<DenaObject> findRelatedObject(String appName, String parentTableName, String parentObjectId, String relationName, DenaPager denaPager) {
+    public List<DenaObject> findRelatedObject(String appId, String parentTableName, String parentObjectId, String relationName, DenaPager denaPager) {
         return null;
     }
 }
