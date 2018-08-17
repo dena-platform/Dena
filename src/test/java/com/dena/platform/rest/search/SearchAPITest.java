@@ -25,7 +25,7 @@ public class SearchAPITest extends AbstractDataStoreTest {
 
     @Before
     public void setUp() throws Exception {
-        userManagement.registerUser(CommonConfig.APP_ID, this.user);
+        userManagement.registerUser(CommonConfig.APP_NAME, this.user);
     }
 
 //    @Test

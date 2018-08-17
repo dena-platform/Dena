@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import javax.annotation.Resource;
 import java.time.Instant;
 import java.util.Collections;
+import java.util.HashMap;
 
 import static com.dena.platform.utils.JSONMapper.createJSONFromObject;
 import static com.dena.platform.utils.JSONMapper.createObjectFromJSON;
@@ -44,7 +45,7 @@ public class UserManagementTest extends AbstractDataStoreTest {
         //           Send Register New User Request
         /////////////////////////////////////////////
         TestRequestObject requestObject = new TestRequestObject();
-        requestObject.addProperty("email", "user1@dena-platform.com");
+        requestObject.addProperty("email", "user2@dena-platform.com");
         requestObject.addProperty("password", "123456");
         requestObject.addProperty("name", "alex");
         requestObject.addProperty("family", "smith");

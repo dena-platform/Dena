@@ -36,8 +36,8 @@ public class DenaSecurityServiceImpl implements DenaSecurityService {
 
 
     @Override
-    public DenaObject authenticateUser(String appName, String userName, String password) {
-        User retrievedUser = denaUserManagement.findUserById(appName, userName);
+    public DenaObject authenticateUser(String appId, String userName, String password) {
+        User retrievedUser = denaUserManagement.findUserById(appId, userName);
 
         boolean isUserPasswordValid = (retrievedUser != null &&
                 SecurityUtil.matchesPassword(password, retrievedUser.getPassword()));
@@ -50,15 +50,15 @@ public class DenaSecurityServiceImpl implements DenaSecurityService {
                 throw new DenaSecurityException("User is not active", ErrorCode.USER_IS_NOT_ACTIVE);
             }
 
-            String secretId = denaApplicationManagement.getSecretId(appName);
+            String secretId = denaApplicationManagement.getSecretId(appId);
 
             // is existing token valid?
             if (!jwtService.isTokenValid(retrievedUser.getToken(), secretId)) {
                 log.debug("Stored token for user [{}] is invalid", userName);
-                log.debug("Generate new token for user [{}], app [{}]", userName, appName);
-                String jwtToken = jwtService.generateJWTToken(appName, userName, secretId);
+                log.debug("Generate new token for user [{}], app [{}]", userName, appId);
+                String jwtToken = jwtService.generateJWTToken(appId, userName, secretId);
                 retrievedUser.setToken(jwtToken);
-                denaUserManagement.updateUser(appName, retrievedUser);
+                denaUserManagement.updateUser(appId, retrievedUser);
             }
 
             retrievedUser.removeField(User.PASSWORD_FIELD_NAME);

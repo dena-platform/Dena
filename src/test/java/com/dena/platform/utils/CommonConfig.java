@@ -7,7 +7,9 @@ package com.dena.platform.utils;
 public interface CommonConfig {
     String ROOT_URL = "/v1/";
 
-    String APP_ID = "denaTestDB";
+    String APP_NAME = "denaTestDB";
+
+    String APP_ID = "4584-9652-9623-9863";
 
     String DENA_APPLICATION = "DENA_APPLICATIONS";
 

@@ -10,7 +10,7 @@ import com.dena.platform.core.feature.user.exception.UserManagementException;
 public interface DenaUserManagement {
 
     /**
-     * Register an user in app.<br>
+     * Register a user in app.<br>
      * If user exist then throw {@link UserManagementException} exception.
      *
      * @param appId Name of app for registering new user

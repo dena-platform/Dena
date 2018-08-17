@@ -163,8 +163,8 @@ public class AbstractDataStoreTest {
         // register main application
         Document denaApplication = createDocument(objectId11, MapUtils.putAll(new HashMap<>(), new Map.Entry[]{
                         new DefaultMapEntry<>("creator_id", this.user.getEmail()),
-                        new DefaultMapEntry<>("application_name", CommonConfig.APP_ID),
-                        new DefaultMapEntry<>("application_id", "app_id_for_denaTestDB"),
+                        new DefaultMapEntry<>("application_name", CommonConfig.APP_NAME),
+                        new DefaultMapEntry<>("application_id", CommonConfig.APP_ID),
                         new DefaultMapEntry<>("secret_key", SECRET_KEY)
                 }
         ));
