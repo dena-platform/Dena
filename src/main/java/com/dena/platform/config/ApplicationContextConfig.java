@@ -1,5 +1,6 @@
 package com.dena.platform.config;
 
+import com.dena.platform.common.config.DenaConfigReader;
 import com.dena.platform.core.feature.persistence.DenaDataStore;
 import com.dena.platform.core.feature.search.Search;
 import com.dena.platform.core.feature.search.lucene.LuceneSearch;
@@ -13,6 +14,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
+import javax.annotation.Resource;
+
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
@@ -24,6 +27,10 @@ public class ApplicationContextConfig {
 
     @Value("${messages.use_code_as_default_message}")
     private boolean useCodeAsDefaultMessage;
+
+    @Resource
+    private DenaConfigReader denaConfigReader;
+
 
 
     @Bean("denaMessageSource")
