@@ -4,7 +4,7 @@ import com.dena.platform.core.dto.DenaObject;
 import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.search.lucene.LuceneSearch;
 import com.dena.platform.core.feature.user.domain.User;
-import com.dena.platform.rest.dto.ObjectModelHelper;
+import com.dena.platform.utils.ObjectModelHelper;
 import com.dena.platform.utils.CommonConfig;
 import org.junit.*;
 

@@ -30,7 +30,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
     private String userInfoTableName;
 
     @Resource
-    private DenaDataStore denaDataStore;
+    protected DenaDataStore denaDataStore;
 
     @PostConstruct
     public void init() {
@@ -128,4 +128,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
         denaDataStore.mergeUpdate(appId, userInfoTableName, denaObject).get(0);
     }
 
+    public void setUserInfoTableName(String userInfoTableName) {
+        this.userInfoTableName = userInfoTableName;
+    }
 }
