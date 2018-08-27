@@ -12,6 +12,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.validator.GenericValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -28,6 +29,9 @@ public class DenaUserManagementImpl implements DenaUserManagement {
     private final static Logger log = LoggerFactory.getLogger(DenaUserManagementImpl.class);
 
     private String userInfoTableName;
+
+    @Value("#{dena.UserManagement.register.default_status}")
+    private boolean isActive;
 
     @Resource
     protected DenaDataStore denaDataStore;
@@ -56,7 +60,6 @@ public class DenaUserManagementImpl implements DenaUserManagement {
         String encodedPassword = SecurityUtil.encodePassword(user.getUnencodedPassword());
 
         if (BooleanUtils.isTrue(user.getActive())) {
-            boolean isActive = DenaConfigReader.readBooleanProperty("dena.UserManagement.register.default_status", true);
             user.setActive(isActive);
         }
 
