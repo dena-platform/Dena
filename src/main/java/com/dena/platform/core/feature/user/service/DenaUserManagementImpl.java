@@ -12,7 +12,6 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.validator.GenericValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -30,7 +29,6 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
     private String userInfoTableName;
 
-    @Value("#{dena.UserManagement.register.default_status}")
     private boolean isActive;
 
     @Resource
@@ -39,6 +37,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
     @PostConstruct
     public void init() {
         userInfoTableName = DenaConfigReader.readProperty("dena.UserManagement.user.table");
+        isActive = DenaConfigReader.readBooleanProperty("dena.UserManagement.register.default_status", true);
     }
 
     @Override
@@ -134,4 +133,9 @@ public class DenaUserManagementImpl implements DenaUserManagement {
     public void setUserInfoTableName(String userInfoTableName) {
         this.userInfoTableName = userInfoTableName;
     }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
 }

@@ -11,12 +11,14 @@ import org.junit.Test;
 
 public class DenaUserManagementImplTest {
 
-    private DenaUserManagement denaUserManagement;
+    private DenaUserManagementImpl denaUserManagement;
 
 
     @Before
     public void setUp() throws Exception {
         denaUserManagement = new DenaUserManagementImpl();
+        denaUserManagement.setActive(true);
+        denaUserManagement.setUserInfoTableName("table-information");
     }
 
     @Test
@@ -25,8 +27,6 @@ public class DenaUserManagementImplTest {
         final User user = ObjectModelHelper.getSampleUser();
 
         denaUserManagement.registerUser(appId, user);
-
-
     }
 
     @Test
