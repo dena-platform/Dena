@@ -23,7 +23,7 @@ public interface DenaUserManagement {
     /**
      * Check if user is registered in dena platform before
      *
-     * @param appId
+     * @param appId app id
      * @param user
      * @return true if user registered in app.
      */
