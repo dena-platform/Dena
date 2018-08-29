@@ -1,5 +1,7 @@
 package com.dena.platform.core.feature.persistence;
 
+import java.util.Objects;
+
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
@@ -70,5 +72,19 @@ public class DenaPager {
         public DenaPager build() {
             return denaPager;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DenaPager denaPager = (DenaPager) o;
+        return Objects.equals(startIndex, denaPager.startIndex) &&
+                Objects.equals(pageSize, denaPager.pageSize);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(startIndex, pageSize);
     }
 }

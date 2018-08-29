@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import java.time.Instant;
 import java.util.Arrays;
 
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -83,7 +84,7 @@ public class DenaUserManagementImplTest {
         try {
             user.setUnencodedPassword("");
             denaUserManagement.registerUser(APP_ID, user);
-            Assert.fail(String.format("Empty password is not ok"));
+            fail(String.format("Empty password is not ok"));
         } catch (UserManagementException e) {
 
         }
@@ -91,7 +92,7 @@ public class DenaUserManagementImplTest {
         try {
             user.setUnencodedPassword(null);
             denaUserManagement.registerUser(APP_ID, user);
-            Assert.fail(String.format("Null password is not ok"));
+            fail(String.format("Null password is not ok"));
         } catch (UserManagementException e) {
 
         }
@@ -101,7 +102,7 @@ public class DenaUserManagementImplTest {
         try {
             user.setEmail(null);
             denaUserManagement.registerUser(APP_ID, user);
-            Assert.fail(String.format("Null password is not ok"));
+            fail(String.format("Null password is not ok"));
         } catch (UserManagementException e) {
 
         }
@@ -109,7 +110,7 @@ public class DenaUserManagementImplTest {
         try {
             user.setEmail("sdfdf");
             denaUserManagement.registerUser(APP_ID, user);
-            Assert.fail(String.format("Null password is not ok"));
+            fail(String.format("Null password is not ok"));
         } catch (UserManagementException e) {
 
         }
@@ -126,9 +127,8 @@ public class DenaUserManagementImplTest {
 
         user = ObjectModelHelper.getSampleUser();
         try {
-            user.setUnencodedPassword("");
             denaUserManagement.registerUser(APP_ID, user);
-            Assert.fail(String.format("Existing user is not ok"));
+            fail(String.format("Existing user is not ok"));
         } catch (UserManagementException e) {
 
         }
