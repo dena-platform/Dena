@@ -24,10 +24,10 @@ public interface DenaUserManagement {
      * Check if user is registered in dena platform before
      *
      * @param appId app id
-     * @param user
+     * @param emailAddress
      * @return true if user registered in app.
      */
-    boolean isUserExist(String appId, User user);
+    boolean isUserExist(String appId, String emailAddress);
 
     /**
      * get user by email

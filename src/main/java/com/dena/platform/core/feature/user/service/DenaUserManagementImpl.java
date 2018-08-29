@@ -56,7 +56,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
             throw new UserManagementException(String.format("Password [%s] is not in correct format", user.getUnencodedPassword()), ErrorCode.PASSWORD_FIELD_IS_INVALID);
         }
 
-        if (isUserExist(appId, user)) {
+        if (isUserExist(appId, user.getEmail())) {
             throw new UserManagementException(String.format("User with this identity [%s] already exist", user.getEmail()), ErrorCode.USER_ALREADY_EXIST_EXCEPTION);
         }
 
@@ -78,24 +78,24 @@ public class DenaUserManagementImpl implements DenaUserManagement {
     }
 
     @Override
-    public boolean isUserExist(String appId, User user) {
+    public boolean isUserExist(final String appId, final String emailAddress) {
         // todo: when we implement search capability in DanaStore module, then refactor this method to use that
         List<DenaObject> denaObjects = denaDataStore.findAll(appId, userInfoTableName, new DenaPager(0, pageSize));
         Optional<DenaObject> foundUser = denaObjects.stream()
-                .filter(denaObject -> denaObject.hasProperty(User.EMAIL_FIELD_NAME, user.getEmail()))
+                .filter(denaObject -> denaObject.hasProperty(User.EMAIL_FIELD_NAME, emailAddress))
                 .findAny();
 
         return foundUser.isPresent();
     }
 
     @Override
-    public User findUserById(String appId, String email) {
+    public User findUserById(final String appId, final String emailAddress) {
         // todo: when we implement search capability in DanaStore module, then refactor this method to use that
 
         List<DenaObject> denaObjects = denaDataStore.findAll(appId, userInfoTableName, new DenaPager(0, pageSize));
 
         Optional<DenaObject> foundDenaObject = denaObjects.stream()
-                .filter(denaObject -> denaObject.hasProperty(User.EMAIL_FIELD_NAME, email))
+                .filter(denaObject -> denaObject.hasProperty(User.EMAIL_FIELD_NAME, emailAddress))
                 .findAny();
 
         User foundUser = new User();
