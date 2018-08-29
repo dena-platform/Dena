@@ -113,6 +113,25 @@ public class DenaObject {
     public void setActorUsername(String actorUsername) {
         this.actorUsername = actorUsername;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DenaObject that = (DenaObject) o;
+        return Objects.equals(otherFields, that.otherFields) &&
+                Objects.equals(objectId, that.objectId) &&
+                Objects.equals(updateTime, that.updateTime) &&
+                Objects.equals(createTime, that.createTime) &&
+                Objects.equals(objectURI, that.objectURI) &&
+                Objects.equals(actorUsername, that.actorUsername) &&
+                Objects.equals(denaRelations, that.denaRelations);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(otherFields, objectId, updateTime, createTime, objectURI, actorUsername, denaRelations);
+    }
 }
 
 

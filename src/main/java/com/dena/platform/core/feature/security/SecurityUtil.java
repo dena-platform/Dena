@@ -16,4 +16,8 @@ public abstract class SecurityUtil {
     public static boolean matchesPassword(String claimedRawPassword, String encodedPassword) {
         return passwordEncoder.matches(claimedRawPassword, encodedPassword);
     }
+
+    public static void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        SecurityUtil.passwordEncoder = passwordEncoder;
+    }
 }
