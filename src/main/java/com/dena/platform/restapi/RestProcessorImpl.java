@@ -85,7 +85,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
             List<DenaObject> returnObject = denaDataStore.store(appId, tableName, denaObjects.toArray(new DenaObject[0]));
 
             String userName = denaObjects.get(0).getActorUsername();//TODO
-            User user = denaUserManagement.findUserById(appId, userName);
+            User user = denaUserManagement.findUserByEmailAddress(appId, userName);
 
             //search.index(appName, appTypeName, user, returnObject.toArray(new DenaObject[0]));
 
@@ -112,7 +112,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
 
         List<DenaObject> denaObjects = JSONMapper.createListObjectsFromJSON(requestBody, DenaObject.class);
         String userName = denaObjects.get(0).getActorUsername();//TODO
-        User user = denaUserManagement.findUserById(appName, userName);
+        User user = denaUserManagement.findUserByEmailAddress(appName, userName);
 
         try {
             List<DenaObject> returnObject;
@@ -178,7 +178,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         String[] objectIds = denaRequestContext.getPathVariable(OBJECT_ID).split(",");
 //        String userName = denaRequestContext.getPathVariable(USER_NAME);
 
-//        User user = denaUserManagement.findUserById(appId, userName);
+//        User user = denaUserManagement.findUserByEmailAddress(appId, userName);
 
 
         try {
@@ -430,7 +430,7 @@ public class RestProcessorImpl implements DenaRestProcessor {
         DenaResponse denaResponse;
 
         try {
-            User user = denaUserManagement.findUserById(appId, userId);
+            User user = denaUserManagement.findUserByEmailAddress(appId, userId);
             foundDenaObject = search.query(appId, appTypeName, user, queryString, constructPager());
 
             if (CollectionUtils.isNotEmpty(foundDenaObject)) {

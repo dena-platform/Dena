@@ -10,15 +10,15 @@ public class DenaPager {
 
     public final static String START_INDEX_PARAMETER = "startIndex";
 
-    private Integer startIndex = 0;
+    private int startIndex = 0;
 
-    private Integer pageSize = 50;
+    private int pageSize = 50;
 
 
     public DenaPager() {
     }
 
-    public DenaPager(Integer startIndex, Integer pageSize) {
+    public DenaPager(int startIndex, int pageSize) {
         this.startIndex = startIndex;
         this.pageSize = pageSize;
     }
@@ -28,22 +28,22 @@ public class DenaPager {
      *
      * @return
      */
-    public Integer getStartIndex() {
+    public int getStartIndex() {
         return startIndex;
     }
 
-    public void setStartIndex(Integer startIndex) {
+    public void setStartIndex(int startIndex) {
         this.startIndex = startIndex;
     }
 
     /**
      * The number of records to retrieve in a single page. If null, defaults to the "dena.pager.max.results" property value.
      */
-    public Integer getPageSize() {
+    public int getPageSize() {
         return pageSize;
     }
 
-    public void setPageSize(Integer pageSize) {
+    public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
 
@@ -59,12 +59,12 @@ public class DenaPager {
             return new DenaPagerBuilder();
         }
 
-        public DenaPagerBuilder withStartIndex(Integer startIndex) {
+        public DenaPagerBuilder withStartIndex(int startIndex) {
             denaPager.setStartIndex(startIndex);
             return this;
         }
 
-        public DenaPagerBuilder withPageSize(Integer pageSize) {
+        public DenaPagerBuilder withPageSize(int pageSize) {
             denaPager.setPageSize(pageSize);
             return this;
         }

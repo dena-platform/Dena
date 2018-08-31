@@ -37,7 +37,7 @@ public class DenaSecurityServiceImpl implements DenaSecurityService {
 
     @Override
     public DenaObject authenticateUser(String appId, String userName, String password) {
-        User retrievedUser = denaUserManagement.findUserById(appId, userName);
+        User retrievedUser = denaUserManagement.findUserByEmailAddress(appId, userName);
 
         boolean isUserPasswordValid = (retrievedUser != null &&
                 SecurityUtil.matchesPassword(password, retrievedUser.getPassword()));
@@ -78,7 +78,7 @@ public class DenaSecurityServiceImpl implements DenaSecurityService {
         String secretId = denaApplicationManagement.getSecretId(appName);
 
         if (jwtService.isTokenValid(token, secretId)) {
-            User retrievedUser = denaUserManagement.findUserById(appName, userName);
+            User retrievedUser = denaUserManagement.findUserByEmailAddress(appName, userName);
             retrievedUser.setToken(StringUtils.EMPTY);
             denaUserManagement.updateUser(appName, retrievedUser);
             DenaObject result = new DenaObject();

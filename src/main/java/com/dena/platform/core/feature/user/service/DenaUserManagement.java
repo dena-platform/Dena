@@ -36,7 +36,7 @@ public interface DenaUserManagement {
      * @param email
      * @return User object if exists or null
      */
-    User findUserById(String appId, String email);
+    User findUserByEmailAddress(String appId, String email);
 
 
     /**

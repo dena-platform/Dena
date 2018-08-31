@@ -31,8 +31,6 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
     private boolean isActive = true;
 
-    private int pageSize = 50;
-
     @Resource
     protected DenaDataStore denaDataStore;
 
@@ -40,9 +38,6 @@ public class DenaUserManagementImpl implements DenaUserManagement {
     public void init() {
         userInfoTableName = DenaConfigReader.readProperty("dena.UserManagement.user.table");
         isActive = DenaConfigReader.readBooleanProperty("dena.UserManagement.register.default_status", true);
-        pageSize = DenaConfigReader.readIntProperty("dena.pager.max.results", 50);
-
-
     }
 
     @Override
@@ -80,7 +75,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
     @Override
     public boolean isUserExist(final String appId, final String emailAddress) {
         // todo: when we implement search capability in DanaStore module, then refactor this method to use that
-        List<DenaObject> denaObjects = denaDataStore.findAll(appId, userInfoTableName, new DenaPager(0, pageSize));
+        List<DenaObject> denaObjects = denaDataStore.findAll(appId, userInfoTableName, new DenaPager());
         Optional<DenaObject> foundUser = denaObjects.stream()
                 .filter(denaObject -> denaObject.hasProperty(User.EMAIL_FIELD_NAME, emailAddress))
                 .findAny();
@@ -89,10 +84,14 @@ public class DenaUserManagementImpl implements DenaUserManagement {
     }
 
     @Override
-    public User findUserById(final String appId, final String emailAddress) {
+    public User findUserByEmailAddress(final String appId, final String emailAddress) {
         // todo: when we implement search capability in DanaStore module, then refactor this method to use that
 
-        List<DenaObject> denaObjects = denaDataStore.findAll(appId, userInfoTableName, new DenaPager(0, pageSize));
+        if (!isUserExist(appId, emailAddress)) {
+            return null;
+        }
+
+        List<DenaObject> denaObjects = denaDataStore.findAll(appId, userInfoTableName, new DenaPager());
 
         Optional<DenaObject> foundDenaObject = denaObjects.stream()
                 .filter(denaObject -> denaObject.hasProperty(User.EMAIL_FIELD_NAME, emailAddress))
@@ -115,24 +114,23 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
     @Override
     public void updateUser(String appId, User user) {
-        List<DenaObject> denaObjects = denaDataStore.findAll(appId, userInfoTableName, new DenaPager(0, pageSize));
+        List<DenaObject> denaObjects = denaDataStore.findAll(appId, userInfoTableName, new DenaPager());
 
         Optional<DenaObject> foundUser = denaObjects.stream()
                 .filter(denaObject -> denaObject.hasProperty(User.EMAIL_FIELD_NAME, user.getEmail()))
                 .findAny();
 
         if (!foundUser.isPresent())
-            throw new UserManagementException(String.format("no user with email %s found for mergeUpdate ", user.getEmail()),
+            throw new UserManagementException(String.format("No user with email [%s] found for MergeUpdate ", user.getEmail()),
                     ErrorCode.NO_USER_WITH_THIS_EMAIL_FOUND);
 
         DenaObject denaObject = foundUser.get();
 
-        denaObject.addField(User.EMAIL_FIELD_NAME, user.getEmail());
         denaObject.addField(User.IS_ACTIVE_FIELD_NAME, user.getActive());
         denaObject.addField(User.TOKEN_FIELD_NAME, user.getToken());
         denaObject.addFields(user.getOtherFields());
 
-        denaDataStore.mergeUpdate(appId, userInfoTableName, denaObject).get(0);
+        denaDataStore.mergeUpdate(appId, userInfoTableName, denaObject);
     }
 
     public void setUserInfoTableName(String userInfoTableName) {
@@ -143,7 +141,4 @@ public class DenaUserManagementImpl implements DenaUserManagement {
         isActive = active;
     }
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
 }
