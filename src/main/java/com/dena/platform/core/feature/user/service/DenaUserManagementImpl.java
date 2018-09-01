@@ -29,7 +29,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
 
     private String userInfoTableName;
 
-    private boolean isActive = true;
+    private boolean isNewUserActiveByDefault = true;
 
     @Resource
     protected DenaDataStore denaDataStore;
@@ -37,7 +37,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
     @PostConstruct
     public void init() {
         userInfoTableName = DenaConfigReader.readProperty("dena.UserManagement.user.table");
-        isActive = DenaConfigReader.readBooleanProperty("dena.UserManagement.register.default_status", true);
+        isNewUserActiveByDefault = DenaConfigReader.readBooleanProperty("dena.UserManagement.register.default_status", true);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class DenaUserManagementImpl implements DenaUserManagement {
         String encodedPassword = SecurityUtil.encodePassword(user.getUnencodedPassword());
 
         if (BooleanUtils.isTrue(user.getActive())) {
-            user.setActive(isActive);
+            user.setActive(isNewUserActiveByDefault);
         }
 
         log.debug("Registering new user identifier [{}] in Dena Platform", user.getEmail());
@@ -137,8 +137,8 @@ public class DenaUserManagementImpl implements DenaUserManagement {
         this.userInfoTableName = userInfoTableName;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setNewUserActiveByDefault(boolean newUserActiveByDefault) {
+        isNewUserActiveByDefault = newUserActiveByDefault;
     }
 
 }
