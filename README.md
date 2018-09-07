@@ -43,7 +43,7 @@ By default database is configured with:
 email:admin@dena-platform.com 
 password:123456  
  ```
-After calling login API you get an jwt token that you can use for calling other web service.
+After calling login API you get an JWT token that you can use for calling other web service.
 For more information please see 
 <a href="https://github.com/dena-platform/Dena/wiki/REST-API">REST-API</a> documentation.
 

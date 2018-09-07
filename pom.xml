@@ -59,7 +59,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <apache-commons-lang>3.4</apache-commons-lang>
+        <apache-commons-lang>3.8</apache-commons-lang>
         <apache-commons-collection>4.1</apache-commons-collection>
         <apache-common-validator>1.6</apache-common-validator>
         <apache-commons-io>2.5</apache-commons-io>
