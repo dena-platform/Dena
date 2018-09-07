@@ -74,7 +74,7 @@ public class DenaUserManagementImplTest {
 
 
     @Test
-    public void test_registerUser_With_Bad_Input() {
+    public void test_registerUser_with_bad_input() {
 
         User user = ObjectModelHelper.getSampleUser();
 
