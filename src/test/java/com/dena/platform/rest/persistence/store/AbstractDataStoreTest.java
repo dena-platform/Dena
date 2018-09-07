@@ -106,7 +106,7 @@ public class AbstractDataStoreTest {
         ));
 
         Document relatedDocument = new Document("relation_type", "ONE-TO-ONE")
-                .append("target_name", CommonConfig.COLLECTION_NAME)
+                .append("target_name", CommonConfig.TABLE_NAME)
                 .append("ids", Arrays.asList(new ObjectId(objectId1), new ObjectId(objectId2)));
 
         document3.put(CommonConfig.RELATION_NAME, relatedDocument);
@@ -174,7 +174,7 @@ public class AbstractDataStoreTest {
                 .insertOne(denaApplication);
 
         mongoClient.getDatabase(CommonConfig.APP_ID)
-                .getCollection(CommonConfig.COLLECTION_NAME)
+                .getCollection(CommonConfig.TABLE_NAME)
                 .insertMany(Arrays.asList(document1, document2, document3, document4,
                         document5, document6, document7, document8,
                         document9, document10, document11
@@ -353,7 +353,7 @@ public class AbstractDataStoreTest {
         Document document = new Document();
         document.put("_id", new ObjectId(objectId));
         document.putAll(parameters);
-        document.put("object_uri", "/" + CommonConfig.COLLECTION_NAME + "/" + objectId);
+        document.put("object_uri", "/" + CommonConfig.TABLE_NAME + "/" + objectId);
 
         return document;
 

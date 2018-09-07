@@ -41,7 +41,7 @@ public class FindObjectTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////   
         TestObjectResponse testObjectResponse = new TestObjectResponse();
         testObjectResponse.objectId = objectId3;
-        testObjectResponse.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId3;
+        testObjectResponse.objectURI = "/" + CommonConfig.TABLE_NAME + "/" + objectId3;
         testObjectResponse.addProperty("name", "javad");
         testObjectResponse.addProperty("job", "developer");
         expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
@@ -57,8 +57,8 @@ public class FindObjectTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         //            Send Find Object Request
         /////////////////////////////////////////////
-        DenaResponse actualReturnObject1 = performFindRequestInTable(CommonConfig.COLLECTION_NAME, 0, 2, DenaResponse.class);
-        DenaResponse actualReturnObject2 = performFindRequestInTable(CommonConfig.COLLECTION_NAME, 4, 5, DenaResponse.class);
+        DenaResponse actualReturnObject1 = performFindRequestInTable(CommonConfig.TABLE_NAME, 0, 2, DenaResponse.class);
+        DenaResponse actualReturnObject2 = performFindRequestInTable(CommonConfig.TABLE_NAME, 4, 5, DenaResponse.class);
 
         TestDenaResponse expectedReturnObject1 = new TestDenaResponse();
         expectedReturnObject1.httpStatusCode = 200;
@@ -78,13 +78,13 @@ public class FindObjectTest extends AbstractDataStoreTest {
         // Expected result for request 1
         TestObjectResponse testObjectResponse1 = new TestObjectResponse();
         testObjectResponse1.objectId = objectId1;
-        testObjectResponse1.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId1;
+        testObjectResponse1.objectURI = "/" + CommonConfig.TABLE_NAME + "/" + objectId1;
         testObjectResponse1.addProperty("name", "javad");
         testObjectResponse1.addProperty("job", "developer");
 
         TestObjectResponse testObjectResponse2 = new TestObjectResponse();
         testObjectResponse2.objectId = objectId2;
-        testObjectResponse2.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId2;
+        testObjectResponse2.objectURI = "/" + CommonConfig.TABLE_NAME + "/" + objectId2;
         testObjectResponse2.addProperty("name", "javad");
         testObjectResponse2.addProperty("job", "developer");
 
@@ -93,31 +93,31 @@ public class FindObjectTest extends AbstractDataStoreTest {
         // Expected result for request 2
         TestObjectResponse testObjectResponse3 = new TestObjectResponse();
         testObjectResponse3.objectId = objectId5;
-        testObjectResponse3.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId5;
+        testObjectResponse3.objectURI = "/" + CommonConfig.TABLE_NAME + "/" + objectId5;
         testObjectResponse3.addProperty("name", "javad");
         testObjectResponse3.addProperty("job", "developer");
 
         TestObjectResponse testObjectResponse4 = new TestObjectResponse();
         testObjectResponse4.objectId = objectId6;
-        testObjectResponse4.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId6;
+        testObjectResponse4.objectURI = "/" + CommonConfig.TABLE_NAME + "/" + objectId6;
         testObjectResponse4.addProperty("name", "javad");
         testObjectResponse4.addProperty("job", "developer");
 
         TestObjectResponse testObjectResponse5 = new TestObjectResponse();
         testObjectResponse5.objectId = objectId7;
-        testObjectResponse5.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId7;
+        testObjectResponse5.objectURI = "/" + CommonConfig.TABLE_NAME + "/" + objectId7;
         testObjectResponse5.addProperty("name", "javad");
         testObjectResponse5.addProperty("job", "developer");
 
         TestObjectResponse testObjectResponse6 = new TestObjectResponse();
         testObjectResponse6.objectId = objectId8;
-        testObjectResponse6.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId8;
+        testObjectResponse6.objectURI = "/" + CommonConfig.TABLE_NAME + "/" + objectId8;
         testObjectResponse6.addProperty("name", "javad");
         testObjectResponse6.addProperty("job", "developer");
 
         TestObjectResponse testObjectResponse7 = new TestObjectResponse();
         testObjectResponse7.objectId = objectId9;
-        testObjectResponse7.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId9;
+        testObjectResponse7.objectURI = "/" + CommonConfig.TABLE_NAME + "/" + objectId9;
         testObjectResponse7.addProperty("name", "javad");
         testObjectResponse7.addProperty("job", "developer");
 
@@ -155,13 +155,13 @@ public class FindObjectTest extends AbstractDataStoreTest {
 
         TestObjectResponse testObjectResponse1 = new TestObjectResponse();
         testObjectResponse1.objectId = objectId1;
-        testObjectResponse1.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId1;
+        testObjectResponse1.objectURI = "/" + CommonConfig.TABLE_NAME + "/" + objectId1;
         testObjectResponse1.addProperty("name", "javad");
         testObjectResponse1.addProperty("job", "developer");
 
         TestObjectResponse testObjectResponse2 = new TestObjectResponse();
         testObjectResponse2.objectId = objectId2;
-        testObjectResponse2.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId2;
+        testObjectResponse2.objectURI = "/" + CommonConfig.TABLE_NAME + "/" + objectId2;
         testObjectResponse2.addProperty("name", "javad");
         testObjectResponse2.addProperty("job", "developer");
 

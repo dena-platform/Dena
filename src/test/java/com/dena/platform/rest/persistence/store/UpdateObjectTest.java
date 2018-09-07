@@ -38,7 +38,7 @@ public class UpdateObjectTest extends AbstractDataStoreTest {
         TestDenaRelation testDenaRelation = TestDenaRelation.TestDenaRelationDTOBuilder.aTestDenaRelationDTO()
                 .withRelationName("test_relation")
                 .withRelationType("ONE-TO-ONE")
-                .withTargetName(CommonConfig.COLLECTION_NAME)
+                .withTargetName(CommonConfig.TABLE_NAME)
                 .withIds(objectId2)
                 .build();
 
@@ -51,7 +51,7 @@ public class UpdateObjectTest extends AbstractDataStoreTest {
         /////////////////////////////////////////////
         TestObjectResponse testObjectResponse = new TestObjectResponse();
         testObjectResponse.objectId = objectId1;
-        testObjectResponse.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + testObjectResponse.objectId;
+        testObjectResponse.objectURI = "/" + CommonConfig.TABLE_NAME + "/" + testObjectResponse.objectId;
         testObjectResponse.updateTime = actualReturnObject.getDenaObjectResponseList().get(0).getUpdateTime();
         testObjectResponse.addProperty("job", "new job");
         testObjectResponse.addProperty("new field", "new value");
@@ -85,7 +85,7 @@ public class UpdateObjectTest extends AbstractDataStoreTest {
         TestDenaRelation testDenaRelation = TestDenaRelation.TestDenaRelationDTOBuilder.aTestDenaRelationDTO()
                 .withRelationName("test_relation")
                 .withRelationType("ONE-TO-ONE")
-                .withTargetName(CommonConfig.COLLECTION_NAME)
+                .withTargetName(CommonConfig.TABLE_NAME)
                 .withIds(objectId2)
                 .build();
 
@@ -112,7 +112,7 @@ public class UpdateObjectTest extends AbstractDataStoreTest {
         if (actualReturnObject.getDenaObjectResponseList().get(0).getObjectId().equals(objectId1)) {
             testObjectResponse1 = new TestObjectResponse();
             testObjectResponse1.objectId = objectId1;
-            testObjectResponse1.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + testObjectResponse1.objectId;
+            testObjectResponse1.objectURI = "/" + CommonConfig.TABLE_NAME + "/" + testObjectResponse1.objectId;
             testObjectResponse1.updateTime = actualReturnObject.getDenaObjectResponseList().get(0).getUpdateTime();
             testObjectResponse1.addProperty("job", "new job");
             testObjectResponse1.addProperty("new field", "new value");
@@ -122,7 +122,7 @@ public class UpdateObjectTest extends AbstractDataStoreTest {
         if (actualReturnObject.getDenaObjectResponseList().get(1).getObjectId().equals(objectId1)) {
             testObjectResponse1 = new TestObjectResponse();
             testObjectResponse1.objectId = objectId1;
-            testObjectResponse1.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + testObjectResponse1.objectId;
+            testObjectResponse1.objectURI = "/" + CommonConfig.TABLE_NAME + "/" + testObjectResponse1.objectId;
             testObjectResponse1.updateTime = actualReturnObject.getDenaObjectResponseList().get(1).getUpdateTime();
             testObjectResponse1.addProperty("job", "new job");
             testObjectResponse1.addProperty("new field", "new value");
@@ -132,7 +132,7 @@ public class UpdateObjectTest extends AbstractDataStoreTest {
         if (actualReturnObject.getDenaObjectResponseList().get(0).getObjectId().equals(objectId2)) {
             testObjectResponse2 = new TestObjectResponse();
             testObjectResponse2.objectId = objectId2;
-            testObjectResponse2.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + testObjectResponse2.objectId;
+            testObjectResponse2.objectURI = "/" + CommonConfig.TABLE_NAME + "/" + testObjectResponse2.objectId;
             testObjectResponse2.updateTime = actualReturnObject.getDenaObjectResponseList().get(0).getUpdateTime();
             testObjectResponse2.addProperty("job", "new job 2");
             testObjectResponse2.addProperty("new field", "new value");
@@ -142,7 +142,7 @@ public class UpdateObjectTest extends AbstractDataStoreTest {
         if (actualReturnObject.getDenaObjectResponseList().get(1).getObjectId().equals(objectId2)) {
             testObjectResponse2 = new TestObjectResponse();
             testObjectResponse2.objectId = objectId2;
-            testObjectResponse2.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + testObjectResponse2.objectId;
+            testObjectResponse2.objectURI = "/" + CommonConfig.TABLE_NAME + "/" + testObjectResponse2.objectId;
             testObjectResponse2.updateTime = actualReturnObject.getDenaObjectResponseList().get(1).getUpdateTime();
             testObjectResponse2.addProperty("job", "new job 2");
             testObjectResponse2.addProperty("new field", "new value");
@@ -176,7 +176,7 @@ public class UpdateObjectTest extends AbstractDataStoreTest {
         TestDenaRelation testDenaRelation = TestDenaRelation.TestDenaRelationDTOBuilder.aTestDenaRelationDTO()
                 .withRelationName("test_relation")
                 .withRelationType("ONE-TO-ONE")
-                .withTargetName(CommonConfig.COLLECTION_NAME)
+                .withTargetName(CommonConfig.TABLE_NAME)
                 .withIds(objectId2)
                 .build();
 
@@ -210,7 +210,7 @@ public class UpdateObjectTest extends AbstractDataStoreTest {
         TestDenaRelation testDenaRelation = TestDenaRelation.TestDenaRelationDTOBuilder.aTestDenaRelationDTO()
                 .withRelationName("test_relation")
                 .withRelationType("ONE-TO-ONE")
-                .withTargetName(CommonConfig.COLLECTION_NAME)
+                .withTargetName(CommonConfig.TABLE_NAME)
                 .withIds(objectId2)
                 .build();
 
@@ -242,7 +242,7 @@ public class UpdateObjectTest extends AbstractDataStoreTest {
         TestDenaRelation testDenaRelation = TestDenaRelation.TestDenaRelationDTOBuilder.aTestDenaRelationDTO()
                 .withRelationName("test_relation")
                 .withRelationType("ONE-TO-ONE")
-                .withTargetName(CommonConfig.COLLECTION_NAME)
+                .withTargetName(CommonConfig.TABLE_NAME)
                 .withIds("invalid id")
                 .build();
 

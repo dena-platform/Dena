@@ -38,7 +38,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         testDenaRelation.setRelationType(RelationType.RELATION_1_TO_1.value);
         testDenaRelation.setRelationName("new_relation");
         testDenaRelation.setIds(Collections.singletonList(objectId1));
-        testDenaRelation.setTargetName(CommonConfig.COLLECTION_NAME);
+        testDenaRelation.setTargetName(CommonConfig.TABLE_NAME);
 
         requestObject.addRelatedObject(testDenaRelation);
 
@@ -51,7 +51,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         expectedObjectResponse.objectId = actualReturnObject.getDenaObjectResponseList().get(0).getObjectId();
         expectedObjectResponse.createTime = actualReturnObject.getDenaObjectResponseList().get(0).getCreateTime();
         expectedObjectResponse.updateTime = actualReturnObject.getDenaObjectResponseList().get(0).getUpdateTime();
-        expectedObjectResponse.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + expectedObjectResponse.objectId;
+        expectedObjectResponse.objectURI = "/" + CommonConfig.TABLE_NAME + "/" + expectedObjectResponse.objectId;
         expectedObjectResponse.addProperty("name", "javad");
         expectedObjectResponse.addProperty("job", "developer");
 
@@ -85,7 +85,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         testDenaRelation.setRelationType(RelationType.RELATION_1_TO_1.value);
         testDenaRelation.setRelationName("new_relation");
         testDenaRelation.setIds(Collections.singletonList(objectId1));
-        testDenaRelation.setTargetName(CommonConfig.COLLECTION_NAME);
+        testDenaRelation.setTargetName(CommonConfig.TABLE_NAME);
 
         requestObject1.addRelatedObject(testDenaRelation);
 
@@ -102,7 +102,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         expectedObjectResponse1.objectId = actualReturnObject.getDenaObjectResponseList().get(0).getObjectId();
         expectedObjectResponse1.createTime = actualReturnObject.getDenaObjectResponseList().get(0).getCreateTime();
         expectedObjectResponse1.updateTime = actualReturnObject.getDenaObjectResponseList().get(0).getUpdateTime();
-        expectedObjectResponse1.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + expectedObjectResponse1.objectId;
+        expectedObjectResponse1.objectURI = "/" + CommonConfig.TABLE_NAME + "/" + expectedObjectResponse1.objectId;
         expectedObjectResponse1.addProperty("name", "javad");
         expectedObjectResponse1.addProperty("job", "developer");
 
@@ -110,7 +110,7 @@ public class CreateObjectTest extends AbstractDataStoreTest {
         expectedObjectResponse2.objectId = actualReturnObject.getDenaObjectResponseList().get(1).getObjectId();
         expectedObjectResponse2.createTime = actualReturnObject.getDenaObjectResponseList().get(1).getCreateTime();
         expectedObjectResponse2.updateTime = actualReturnObject.getDenaObjectResponseList().get(1).getUpdateTime();
-        expectedObjectResponse2.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + expectedObjectResponse2.objectId;
+        expectedObjectResponse2.objectURI = "/" + CommonConfig.TABLE_NAME + "/" + expectedObjectResponse2.objectId;
         expectedObjectResponse2.addProperty("name", "abdolah");
         expectedObjectResponse2.addProperty("job", "developer");
 

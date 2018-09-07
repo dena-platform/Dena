@@ -15,11 +15,11 @@ public interface CommonConfig {
 
     String DENA_APPLICATION_INFO_COLLECTION_NAME = "DENA_APPLICATION_INFO";
 
-    String COLLECTION_NAME = "denaTestCollection";
+    String TABLE_NAME = "denaTestCollection";
 
     String RELATION_NAME = "test_relation_name";
 
-    String BASE_URL = ROOT_URL + APP_ID + "/" + COLLECTION_NAME;
+    String BASE_URL = ROOT_URL + APP_ID + "/" + TABLE_NAME;
 
     String REGISTER_USER_URL = ROOT_URL + APP_ID + "/users/register";
 

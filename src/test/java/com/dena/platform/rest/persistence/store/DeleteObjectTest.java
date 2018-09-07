@@ -134,7 +134,7 @@ public class DeleteObjectTest extends AbstractDataStoreTest {
 
         TestObjectResponse testObjectResponse = new TestObjectResponse();
         testObjectResponse.objectId = objectId2;
-        testObjectResponse.objectURI = "/" + CommonConfig.COLLECTION_NAME + "/" + objectId2;
+        testObjectResponse.objectURI = "/" + CommonConfig.TABLE_NAME + "/" + objectId2;
         testObjectResponse.addProperty("name", "javad");
         testObjectResponse.addProperty("job", "developer");
         expectedReturnObject.setTestObjectResponseList(Collections.singletonList(testObjectResponse));
@@ -150,7 +150,7 @@ public class DeleteObjectTest extends AbstractDataStoreTest {
         //            Send Delete Relation - Invalid object id format
         /////////////////////////////////////////////////////////////////////////
         String invalidObjectId = "5a1bd6176f";
-        TestErrorResponse actualReturnObject = performDeleteRelationWithObject(invalidObjectId, CommonConfig.COLLECTION_NAME, 400, objectId1, TestErrorResponse.class);
+        TestErrorResponse actualReturnObject = performDeleteRelationWithObject(invalidObjectId, CommonConfig.TABLE_NAME, 400, objectId1, TestErrorResponse.class);
 
         TestErrorResponse expectedReturnObject = new TestErrorResponse();
         expectedReturnObject.status = 400;
