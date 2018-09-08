@@ -16,6 +16,13 @@ public interface DenaDataStore {
 
     List<DenaObject> replaceUpdate(String appId, String tableName, DenaObject... denaObjects);
 
+    /**
+     * Delete objects with provided object id in data store.
+     * @param appId name of app
+     * @param tableName table name
+     * @param objectIds id of object that should be deleted
+     * @return Number of deleted object
+     */
     long delete(String appId, String tableName, String... objectIds);
 
     long deleteRelation(String appId, String parentTableName, String parentObjectId, String childTableName, String childObjectId);

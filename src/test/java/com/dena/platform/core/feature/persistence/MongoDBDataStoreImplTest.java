@@ -60,26 +60,84 @@ public class MongoDBDataStoreImplTest {
 
     }
 
-//    @Test
-//    public void test_store_with_bad_input() {
-//        // given
-//        DenaObject denaObject = new DenaObject();
-//        denaObject.addField("name", "alex");
-//        denaObject.addField("family", "smith");
-//
-//        // when
-//        List<DenaObject> storedObject = mongoDBDataStore.store("app1", "table1", denaObject);
-//        final String storedObjectId = storedObject.get(0).getObjectId();
-//        DenaObject foundObject = mongoDBDataStore.find("app1", "table1", storedObjectId).get(0);
-//
-//        // then
-//        Assertions.assertThat(foundObject.getObjectId()).isNotBlank();
-//        Assert.assertNotNull("Creation time should not be null", foundObject.getCreateTime());
-//        Assert.assertNull("Update time should be null", foundObject.getUpdateTime());
-//        Assert.assertEquals("alex", foundObject.getField("name", String.class));
-//        Assert.assertEquals("smith", foundObject.getField("family", String.class));
-//
-//    }
+    @Test
+    public void test_mergeUpdate() {
+        // given
+        DenaObject denaObject = new DenaObject();
+        denaObject.addField("name", "alex");
+        denaObject.addField("family", "smith");
+
+        // when
+        DenaObject storedObject = mongoDBDataStore.store(CommonConfig.APP_NAME, "table1", denaObject).get(0);
+        storedObject.addField("car_number", 1234);
+        storedObject.addField("car_name", "Peugeot 206");
+        storedObject.addField("family", "Williams");
+
+        DenaObject mergedObject = mongoDBDataStore.mergeUpdate(CommonConfig.APP_NAME, "table1", storedObject).get(0);
+
+        // then
+        Assertions.assertThat(mergedObject.getObjectId()).isNotBlank();
+        Assert.assertNotNull("Creation time should not be null", mergedObject.getCreateTime());
+        Assert.assertNotNull("Update time should not be null", mergedObject.getUpdateTime());
+        Assert.assertEquals("alex", mergedObject.getField("name", String.class));
+        Assert.assertEquals("Williams", mergedObject.getField("family", String.class));
+        Assert.assertEquals(1234, (int) mergedObject.getField("car_number", Integer.class));
+        Assert.assertEquals("Peugeot 206", mergedObject.getField("car_name", String.class));
+
+    }
+
+    @Test
+    public void test_replaceUpdate() {
+        // given
+        DenaObject denaObject = new DenaObject();
+        denaObject.addField("name", "alex");
+        denaObject.addField("family", "smith");
+
+        // when
+        DenaObject storedObject = mongoDBDataStore.store(CommonConfig.APP_NAME, "table1", denaObject).get(0);
+
+        DenaObject newDenaObject = new DenaObject();
+        newDenaObject.setObjectId(storedObject.getObjectId());
+        newDenaObject.addField("car_number", 1234);
+        newDenaObject.addField("car_name", "Peugeot 206");
+        newDenaObject.addField("family", "Williams");
+
+        DenaObject replacedObject = mongoDBDataStore.replaceUpdate(CommonConfig.APP_NAME, "table1", newDenaObject).get(0);
+
+        // then
+        Assertions.assertThat(replacedObject.getObjectId()).isNotBlank();
+        Assert.assertNotNull("Creation time should not be null", replacedObject.getCreateTime());
+        Assert.assertNotNull("Update time should not be null", replacedObject.getUpdateTime());
+        Assert.assertNull("'name' field should be deleted in replace update.",
+                replacedObject.getField("name", String.class));
+        Assert.assertEquals("Williams", replacedObject.getField("family", String.class));
+        Assert.assertEquals(1234, (int) replacedObject.getField("car_number", Integer.class));
+        Assert.assertEquals("Peugeot 206", replacedObject.getField("car_name", String.class));
+
+    }
+
+    @Test
+    public void test_delete() {
+        // given
+        DenaObject denaObject = new DenaObject();
+        denaObject.addField("name", "alex");
+        denaObject.addField("family", "smith");
+
+        // when
+        DenaObject storedObject = mongoDBDataStore.store(CommonConfig.APP_NAME, "table1", denaObject).get(0);
+        String storedObjectId = storedObject.getObjectId();
+
+        Long numberOfDeleteObject = mongoDBDataStore.delete(CommonConfig.APP_NAME, "table1", storedObjectId);
+
+        // Delete not available object id
+        Long shouldBeZeroDeletedCount = mongoDBDataStore.delete(CommonConfig.APP_NAME, "table1",
+                "5a316b1b4e5f450104c31909");
 
 
+        // then
+        Assertions.assertThat(numberOfDeleteObject).isEqualTo(1);
+        Assertions.assertThat(shouldBeZeroDeletedCount).isEqualTo(0);
+
+
+    }
 }

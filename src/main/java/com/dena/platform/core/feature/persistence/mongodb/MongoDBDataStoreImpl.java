@@ -12,6 +12,7 @@ import com.mongodb.client.MongoDatabase;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.*;
 import org.bson.types.ObjectId;
@@ -181,6 +182,9 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 ObjectId objectId = new ObjectId(denaObject.getObjectId());
                 BsonDocument bsonDocument = new BsonDocument();
                 bsonDocument.put(MongoDBUtils.ID, new BsonObjectId(objectId));
+                bsonDocument.put(MongoDBUtils.CREATE_TIME_FIELD,
+                        new BsonDateTime(ObjectUtils.defaultIfNull(denaObject.getCreateTime(),
+                                DenaObjectUtils.timeStamp())));
                 bsonDocument.put(MongoDBUtils.UPDATE_TIME_FIELD, new BsonDateTime(DenaObjectUtils.timeStamp()));
 
                 addFieldsToBsonDocument(bsonDocument, denaObject.getOtherFields());
@@ -369,6 +373,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                     }
                 } catch (IllegalArgumentException ex) {
                     isParameterValid = false;
+                    break;
                 }
             }
 
