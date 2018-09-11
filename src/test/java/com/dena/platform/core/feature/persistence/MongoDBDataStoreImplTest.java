@@ -1,6 +1,7 @@
 package com.dena.platform.core.feature.persistence;
 
 import com.dena.platform.core.dto.DenaObject;
+import com.dena.platform.core.dto.DenaRelation;
 import com.dena.platform.core.feature.persistence.mongodb.MongoDBDataStoreImpl;
 import com.dena.platform.utils.CommonConfig;
 import com.mongodb.MongoClient;
@@ -13,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,6 +32,8 @@ public class MongoDBDataStoreImplTest {
     @Resource
     protected MongoClient mongoClient;
 
+    private final String SAMPLE_TABLE_NAME = "table1";
+
 
     @Before
     public void setUp() throws Exception {
@@ -43,9 +48,9 @@ public class MongoDBDataStoreImplTest {
         denaObject.addField("family", "smith");
 
         // when
-        List<DenaObject> storedObject = mongoDBDataStore.store(CommonConfig.APP_NAME, "table1", denaObject);
+        List<DenaObject> storedObject = mongoDBDataStore.store(CommonConfig.APP_NAME, SAMPLE_TABLE_NAME, denaObject);
         final String storedObjectId = storedObject.get(0).getObjectId();
-        DenaObject foundObject = mongoDBDataStore.find(CommonConfig.APP_NAME, "table1", storedObjectId).get(0);
+        DenaObject foundObject = mongoDBDataStore.find(CommonConfig.APP_NAME, SAMPLE_TABLE_NAME, storedObjectId).get(0);
 
         // then
         Assertions.assertThat(foundObject.getObjectId()).isNotBlank();
@@ -55,7 +60,7 @@ public class MongoDBDataStoreImplTest {
         Assert.assertEquals("smith", foundObject.getField("family", String.class));
 
 
-        List<DenaObject> emptyObject = mongoDBDataStore.store(CommonConfig.APP_NAME, "table1");
+        List<DenaObject> emptyObject = mongoDBDataStore.store(CommonConfig.APP_NAME, SAMPLE_TABLE_NAME);
         Assert.assertEquals("Should return empty collection when we did not send any object.", 0, emptyObject.size());
 
     }
@@ -68,12 +73,12 @@ public class MongoDBDataStoreImplTest {
         denaObject.addField("family", "smith");
 
         // when
-        DenaObject storedObject = mongoDBDataStore.store(CommonConfig.APP_NAME, "table1", denaObject).get(0);
+        DenaObject storedObject = mongoDBDataStore.store(CommonConfig.APP_NAME, SAMPLE_TABLE_NAME, denaObject).get(0);
         storedObject.addField("car_number", 1234);
         storedObject.addField("car_name", "Peugeot 206");
         storedObject.addField("family", "Williams");
 
-        DenaObject mergedObject = mongoDBDataStore.mergeUpdate(CommonConfig.APP_NAME, "table1", storedObject).get(0);
+        DenaObject mergedObject = mongoDBDataStore.mergeUpdate(CommonConfig.APP_NAME, SAMPLE_TABLE_NAME, storedObject).get(0);
 
         // then
         Assertions.assertThat(mergedObject.getObjectId()).isNotBlank();
@@ -94,7 +99,7 @@ public class MongoDBDataStoreImplTest {
         denaObject.addField("family", "smith");
 
         // when
-        DenaObject storedObject = mongoDBDataStore.store(CommonConfig.APP_NAME, "table1", denaObject).get(0);
+        DenaObject storedObject = mongoDBDataStore.store(CommonConfig.APP_NAME, SAMPLE_TABLE_NAME, denaObject).get(0);
 
         DenaObject newDenaObject = new DenaObject();
         newDenaObject.setObjectId(storedObject.getObjectId());
@@ -102,7 +107,7 @@ public class MongoDBDataStoreImplTest {
         newDenaObject.addField("car_name", "Peugeot 206");
         newDenaObject.addField("family", "Williams");
 
-        DenaObject replacedObject = mongoDBDataStore.replaceUpdate(CommonConfig.APP_NAME, "table1", newDenaObject).get(0);
+        DenaObject replacedObject = mongoDBDataStore.replaceUpdate(CommonConfig.APP_NAME, SAMPLE_TABLE_NAME, newDenaObject).get(0);
 
         // then
         Assertions.assertThat(replacedObject.getObjectId()).isNotBlank();
@@ -124,13 +129,13 @@ public class MongoDBDataStoreImplTest {
         denaObject.addField("family", "smith");
 
         // when
-        DenaObject storedObject = mongoDBDataStore.store(CommonConfig.APP_NAME, "table1", denaObject).get(0);
+        DenaObject storedObject = mongoDBDataStore.store(CommonConfig.APP_NAME, SAMPLE_TABLE_NAME, denaObject).get(0);
         String storedObjectId = storedObject.getObjectId();
 
-        Long numberOfDeleteObject = mongoDBDataStore.delete(CommonConfig.APP_NAME, "table1", storedObjectId);
+        Long numberOfDeleteObject = mongoDBDataStore.delete(CommonConfig.APP_NAME, SAMPLE_TABLE_NAME, storedObjectId);
 
         // Delete not available object id
-        Long shouldBeZeroDeletedCount = mongoDBDataStore.delete(CommonConfig.APP_NAME, "table1",
+        Long shouldBeZeroDeletedCount = mongoDBDataStore.delete(CommonConfig.APP_NAME, SAMPLE_TABLE_NAME,
                 "5a316b1b4e5f450104c31909");
 
 
@@ -140,4 +145,42 @@ public class MongoDBDataStoreImplTest {
 
 
     }
+
+    @Test
+    public void test_delete_relation() {
+        // given
+        final String SAMPLE_RELATION_NAME = "rel1";
+        final String SAMPLE_TARGET_NAME = "rel1";
+
+        DenaObject denaObject = new DenaObject();
+        denaObject.addField("name", "alex");
+        denaObject.addField("family", "smith");
+
+        DenaRelation denaRelation = new DenaRelation();
+        denaRelation.setTargetTableName(SAMPLE_TARGET_NAME);
+        denaRelation.setRelationName(SAMPLE_RELATION_NAME);
+        denaRelation.setIds(
+                Arrays.asList("5a316b1b4e5f450104c31909",
+                        "5a316b1b4e5f450104c31100",
+                        "5a316b1b4e5f450104c31911")
+        );
+        denaObject.setDenaRelations(Collections.singletonList(denaRelation));
+
+
+        // when
+        DenaObject storedObject = mongoDBDataStore
+                .store(CommonConfig.APP_NAME, SAMPLE_TABLE_NAME, denaObject)
+                .get(0);
+
+
+        final String storedObjectId = storedObject.getObjectId();
+
+        Long numberOfDeleteRelation = mongoDBDataStore.deleteRelation(CommonConfig.APP_NAME,
+                SAMPLE_TABLE_NAME, storedObjectId,
+                SAMPLE_RELATION_NAME);
+
+        // then
+        Assertions.assertThat(numberOfDeleteRelation).isEqualTo(1);
+    }
+
 }

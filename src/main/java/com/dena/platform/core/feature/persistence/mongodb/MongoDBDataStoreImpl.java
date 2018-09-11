@@ -228,7 +228,8 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
     }
 
     @Override
-    public long deleteRelation(String appId, String parentTableName, String parentObjectId, String childTableName, String childObjectId) {
+    public long deleteRelation(String appId, String parentTableName, String parentObjectId,
+                               String childTableName, String childObjectId) {
         checkObjectIdValidity(parentObjectId, childObjectId);
         try {
             MongoDatabase mongoDatabase = MongoDBUtils.getDataBase(appId);
@@ -308,7 +309,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                 relationList.forEach(denaRelation -> {
                     int indexOfRelation = parentObject.getDenaRelations().indexOf(denaRelation);
                     if (indexOfRelation > -1) {
-                        if (!parentObject.getDenaRelations().get(indexOfRelation).getTargetName().equals(denaRelation.getTargetName())) {
+                        if (!parentObject.getDenaRelations().get(indexOfRelation).getTargetTableName().equals(denaRelation.getTargetTableName())) {
                             log.debug("Target name [{}] not compatible with [{}]", denaRelation, parentObject.getDenaRelations().indexOf(denaRelation));
                             throw new DataStoreException("Relation(s) is invalid", ErrorCode.RELATION_INVALID_EXCEPTION);
                         }
@@ -322,18 +323,18 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                         .stream()
                         .allMatch(denaRelation -> {
                             // check if target type is exist
-                            boolean isCollectionExist = MongoDBUtils.isSchemaExist(mongoDatabase, denaRelation.getTargetName());
+                            boolean isCollectionExist = MongoDBUtils.isSchemaExist(mongoDatabase, denaRelation.getTargetTableName());
                             String[] ids = denaRelation.getIds().toArray(new String[0]);
                             boolean isIdsExist = ids.length > 0 &&
-                                    (MongoDBUtils.findDocumentById(mongoDatabase, denaRelation.getTargetName(), ids)
+                                    (MongoDBUtils.findDocumentById(mongoDatabase, denaRelation.getTargetTableName(), ids)
                                             .size() == denaRelation.getIds().size());
 
                             if (!isCollectionExist) {
-                                log.debug("Type [{}] dose not exist", denaRelation.getTargetName());
+                                log.warn("Type [{}] dose not exist", denaRelation.getTargetTableName());
                             }
 
                             if (!isIdsExist) {
-                                log.debug("Relation ids [{}] dose not exist", (Object[]) ids);
+                                log.warn("Relation ids [{}] dose not exist", (Object[]) ids);
                             }
                             return isCollectionExist && isIdsExist;
                         });
@@ -390,7 +391,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
         denaObject.getDenaRelations()
                 .forEach(denaRelation -> {
                     BsonDocument relation = new BsonDocument();
-                    relation.put(MongoDBUtils.RELATION_TARGET_NAME, new BsonString(denaRelation.getTargetName()));
+                    relation.put(MongoDBUtils.RELATION_TARGET_NAME, new BsonString(denaRelation.getTargetTableName()));
 
                     List<ObjectId> objectIds = denaRelation.getIds()
                             .stream()
@@ -436,7 +437,7 @@ public class MongoDBDataStoreImpl implements DenaDataStore {
                     DenaRelation denaRelation = new DenaRelation();
                     denaRelation.setIds(idStringArray);
                     denaRelation.setRelationType(relationTypeName);
-                    denaRelation.setTargetName(relationTargetName);
+                    denaRelation.setTargetTableName(relationTargetName);
                     denaRelation.setRelationName(fieldName);
                     denaObject.addRelatedObjects(denaRelation);
 
