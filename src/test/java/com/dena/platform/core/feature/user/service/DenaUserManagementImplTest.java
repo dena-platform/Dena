@@ -6,7 +6,7 @@ import com.dena.platform.core.feature.persistence.DenaPager;
 import com.dena.platform.core.feature.security.SecurityUtil;
 import com.dena.platform.core.feature.user.domain.User;
 import com.dena.platform.core.feature.user.exception.UserManagementException;
-import com.dena.platform.utils.ObjectModelHelper;
+import com.dena.platform.test.ObjectModelHelper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

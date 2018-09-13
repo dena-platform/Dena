@@ -151,7 +151,7 @@ public class MongoDBUtils {
                     .getCollection(parentTypeName)
                     .updateOne(searchDocument, new Document("$unset", update));
 
-            log.info("Updates: [{}] document(s)", deleteCount);
+            log.info("Delete: [{}] relation(s)", deleteCount);
         }
 
         return deleteCount;

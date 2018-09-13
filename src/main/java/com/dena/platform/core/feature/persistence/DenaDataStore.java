@@ -18,6 +18,7 @@ public interface DenaDataStore {
 
     /**
      * Delete objects with provided object id in data store.
+     * <b>Note:</b>
      * @param appId name of app
      * @param tableName table name
      * @param objectIds id of object that should be deleted
