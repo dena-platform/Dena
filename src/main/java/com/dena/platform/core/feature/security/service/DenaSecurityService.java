@@ -3,7 +3,7 @@ package com.dena.platform.core.feature.security.service;
 import com.dena.platform.core.dto.DenaObject;
 
 /**
- * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
+ * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 
 public interface DenaSecurityService {

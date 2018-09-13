@@ -19,7 +19,7 @@ import java.io.IOException;
 /**
  * Perform login operation based on JWT token in request.
  *
- * @author Javad Alimohammadi<bs.alimohammadi@yahoo.com>
+ * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
