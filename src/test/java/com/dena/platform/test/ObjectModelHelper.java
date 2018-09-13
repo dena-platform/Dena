@@ -19,9 +19,9 @@ public class ObjectModelHelper {
     public static DenaObject getSampleDenaObject() {
         DenaObject object = new DenaObject();
         object.setObjectId("6b316b1b4e5f450104c31909");
-        object.addField("name", "رضا");
+        object.addField("name", "alex");
+        object.addField("family", "smith");
         object.addField("age", "30");
-        object.addField("job_title", "برنامه");
 
         return object;
     }
