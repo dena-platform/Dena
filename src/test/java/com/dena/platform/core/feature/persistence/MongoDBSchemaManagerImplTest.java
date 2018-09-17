@@ -23,8 +23,6 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 public class MongoDBSchemaManagerImplTest {
 
-    private final String SAMPLE_TABLE_NAME = "table1";
-
     @Resource
     protected MongoClient mongoClient;
 

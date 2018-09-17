@@ -17,8 +17,6 @@ public class DenaApplication {
 
     private String applicationName;
 
-    private String appId;
-
     private String secretKey;
 
     public String getApplicationName() {
@@ -27,14 +25,6 @@ public class DenaApplication {
 
     public void setApplicationName(String applicationName) {
         this.applicationName = applicationName.trim();
-    }
-
-    public String getAppId() {
-        return appId;
-    }
-
-    public void setAppId(String appId) {
-        this.appId = appId;
     }
 
     public String getSecretKey() {
@@ -69,13 +59,13 @@ public class DenaApplication {
             return this;
         }
 
-        public DenaAPPBuilder withApplicationId(String appId) {
-            denaApplication.setAppId(appId);
+        public DenaAPPBuilder withSecretKey(String secretKey) {
+            denaApplication.setSecretKey(secretKey);
             return this;
         }
 
-        public DenaAPPBuilder withSecretKey(String secretKey) {
-            denaApplication.setSecretKey(secretKey);
+        public DenaAPPBuilder withCreatorId(String creatorId) {
+            denaApplication.creatorId = creatorId;
             return this;
         }
 
