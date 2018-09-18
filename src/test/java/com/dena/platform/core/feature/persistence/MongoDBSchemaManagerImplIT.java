@@ -21,7 +21,7 @@ import java.util.List;
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class MongoDBSchemaManagerImplTest {
+public class MongoDBSchemaManagerImplIT {
 
     @Resource
     protected MongoClient mongoClient;

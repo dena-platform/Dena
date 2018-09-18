@@ -27,7 +27,7 @@ import java.util.List;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class MongoDBDataStoreImplTest {
+public class MongoDBDataStoreImplIT {
 
     @Resource
     private MongoDBDataStoreImpl mongoDBDataStore;

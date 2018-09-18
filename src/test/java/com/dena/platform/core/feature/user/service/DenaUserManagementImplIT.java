@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 
-public class DenaUserManagementImplTest {
+public class DenaUserManagementImplIT {
 
     private DenaUserManagementImpl denaUserManagement;
 
